@@ -1,0 +1,32 @@
+.Pay_band {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(245, 245, 245, 1);
+  .Pay_band_zhnwei{
+    width: 100%;
+    height:5px;/*px*/
+  }
+  .Pay_band_home {
+    width: 95%;
+    margin: auto;
+    margin-top: 20px; /*px*/
+    border-radius: 20px; /*px*/
+    overflow: hidden;
+    background-color: white;
+    padding-bottom: 122px; /*px*/
+
+  }
+  .Pay_band_btn {
+    width: 100%;
+    border: none;
+    position: fixed;
+    bottom: 0;
+    height: 102px; /*px*/
+    background: rgba(215, 48, 45, 1);
+    border: 1px solid rgba(151, 151, 151, 1);
+    font-size: 36px; /*px*/
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+  }
+}

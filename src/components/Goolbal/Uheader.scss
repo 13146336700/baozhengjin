@@ -1,0 +1,111 @@
+.Uheaders {
+  width: 100%;
+  background: white;
+  ul {
+    width: 95%;
+    height: 88px;
+    /*px*/
+    margin: auto;
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 40px;
+      /*px*/
+    }
+
+    li {
+      width: 33.3%;
+    }
+
+    li:nth-child(1) {
+      text-align: left;
+    }
+
+    li:nth-child(2) {
+      text-align: center;
+      flex: 1;
+      font-size: 34px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 600;
+      color: rgba(51, 51, 51, 1);
+    }
+
+    li:nth-child(3) {
+      text-align: right;
+      font-size: 30px;
+      /*px*/
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: rgba(109, 114, 120, 1);
+    }
+  }
+}
+.Lift {
+  width: 100%;
+  padding-top: 16px; /*px*/
+  background-color: white;
+  div {
+    background: url("../assets/cf_backgrand_02.png") no-repeat;
+    background-size: 100%;
+    width: 95%;
+    margin: auto;
+    height: 192px; /*px*/
+    p {
+      font-size: 32px; /*px*/
+      font-family: PingFangSC-Medium, PingFang SC;
+      font-weight: 600;
+      color: rgba(165, 100, 20, 1);
+      margin-left: 20px; /*px*/
+    }
+    p:nth-child(1) {
+      padding-top: 48px; /*px*/
+      margin-bottom: 32px; /*px*/
+    }
+    p:nth-child(2) {
+      display: flex;
+      align-items: center;
+      font-size: 28px; /*px*/
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: rgba(51, 51, 51, 1);
+      img {
+        width: 29px; /*px*/
+        margin-right: 8px; /*px*/
+      }
+      span {
+        display: inline;
+        padding: 3px 5px; /*px*/
+        margin: 0 5px; /*px*/
+        height: 34px; /*px*/
+        line-height: 34px; /*px*/
+        color: #ffffff;
+        background: rgba(0, 0, 0, 0.85);
+        border-radius: 8px;
+      }
+    }
+    .p_two{
+      font-size: 32px !important; /*px*/
+      font-family: PingFangSC-Medium, PingFang SC;
+      font-weight: 600 !important;
+      color: rgba(165, 100, 20, 1) !important;
+      margin-left: 20px; /*px*/
+    }
+  }
+}
+.Customer {
+  text-align: center;
+  position: fixed;
+  bottom: 150px;/*px*/
+  width: 141px; /*px*/
+  height: 52px; /*px*/
+  right: 0;
+  line-height: 52px; /*px*/
+  background: rgba(242, 242, 242, 1);
+  box-shadow: 0px 5px 12px 0px rgba(0, 0, 0, 0.22);
+  border-radius: 26px 0px 0px 26px; /*px*/
+  font-size: 24px; /*px*/
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(102, 102, 102, 1);
+}

@@ -1,0 +1,23 @@
+.am-toast-notice-content .am-toast-text.am-toast-text-icon{
+	padding: 0.8rem !important;
+
+	.am-icon-lg{
+
+	}
+}
+.App123{
+	font-size: 50px;/*px*/
+}
+.active{
+	color: red;
+}
+.ul_tab{
+	display: flex;
+	justify-content: space-around;
+	text-align: center;
+	li{
+		height: 2rem;
+		line-height: 2rem;
+		background: saddlebrown;
+	}
+}

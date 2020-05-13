@@ -1,0 +1,43 @@
+.Punishment_home {
+  width: 100%;
+  height: 100%;
+  background: rgba(245, 245, 245, 1);
+  .Punishment_home_zhanwei{
+    width:100%;
+    height: 10px;/*px*/
+  }
+  .Amount {
+    width: 100%;
+    margin-top: 20px; /*px*/
+    .Amount_img {
+        width: 95%;
+        margin: auto;
+      
+      background: url("../../assets/cf_backgrand_01.png") no-repeat;
+      background-size: 100%;
+      height: 180px; /*px*/
+      position: relative;
+      .Amount_img_right {
+        position: absolute;
+        left: 230px; /*px*/
+        top: 51px; /*px*/
+        p:nth-child(1) {
+          font-size: 30px; /*px*/
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          color: rgba(180, 116, 37, 1);
+        }
+        p:nth-child(2) {
+          margin-top: 20px; /*px*/
+          font-size: 32px; /*px*/
+          font-family: PingFangSC-Medium, PingFang SC;
+          font-weight: 600;
+          color: rgba(180, 116, 37, 1);
+          span {
+            color: #d7302d;
+          }
+        }
+      }
+    }
+  }
+}
