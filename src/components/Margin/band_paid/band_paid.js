@@ -57,9 +57,9 @@ class band_paid extends React.Component {
           });
           var str = "";
           response.data.resultObject.limitFunction.map(item => {
-            str += _this.limit(item);
+            str += _this.limit(item)+",";
             _this.setState({
-              limitFunctionStr: str
+              limitFunctionStr: str.substr(0,str.length-1)
             });
           });
         } else {
@@ -83,7 +83,7 @@ class band_paid extends React.Component {
       <div className="band_paid">
         <div className="band_paid_zhanwei"></div>
         <div className="band_paid_home">
-          <Not_available available="已到限制时间，解除限制" history={history} />
+          <Not_available  Unable={`无法使用${this.state.limitFunctionStr}功能`} available="已到限制时间，解除限制" history={history} />
           <Uname
             utitles="违规原因"
             ucontent={this.state.resultObject.punishReason}

@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import 'antd-mobile/dist/antd-mobile.css';//antd-mobile UI库（移动端）
+import 'lib-flexible';//rem转换
+// import "node_modules/video-react/dist/video-react.css";
+
 
 ReactDOM.render(
   <React.StrictMode>

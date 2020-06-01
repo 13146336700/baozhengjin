@@ -1,0 +1,104 @@
+.advisory {
+  width: 100%;
+.wenzitishi{
+  margin: 20px 0; /*px*/
+  font-size: 26px;/*px*/
+  color: red;
+  span{
+    font-size: 30px;/*px*/
+    color: blue;
+    display: inline-block;
+    margin-top: 10px;/*px*/
+  }
+}
+  .zhanwei {
+    width: 100%;
+    height: 19px; /*px*/
+    background: rgba(245, 245, 245, 1);
+  }
+  .advisoryHome {
+    width: 90%;
+    margin: auto;
+    height: 100%;
+    .rule {
+      margin-top: 22px; /*px*/
+      background: url("../assets/avisory.png") no-repeat;
+      background-size: 100%;
+      height: 195px; /*px*/
+      width: 100%;
+      ul {
+        font-size: 26px; /*px*/
+        font-family: PingFangSC-Regular, PingFang SC;
+        padding: 24px 23px 23px 19px; /*px*/
+        li {
+          width: 90%;
+          margin: auto;
+          font-weight: 400;
+          color: rgba(136, 75, 0, 1);
+          line-height: 37px;
+          display: flex;
+          //   align-items: baseline;
+
+          span {
+            display: block;
+            width: 11px; /*px*/
+            height: 9px; /*px*/
+            border-radius: 50%;
+            overflow: hidden;
+            background: rgba(250, 100, 0, 1);
+            margin-right: 10px; /*px*/
+            margin-top: 15px; /*px*/
+          }
+        }
+      }
+    }
+    h1 {
+      padding: 0;
+      margin: 0;
+      margin-top: 17px; /*px*/
+      margin-bottom: 14px; /*px*/
+      font-size: 36px; /*px*/
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 500;
+      color: rgba(51, 51, 51, 1);
+      line-height: 50px; /*px*/
+    }
+    footer {
+      width: 100%;
+      ul {
+        width: 100%;
+        li {
+          font-size: 28px; /*px*/
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          color: rgba(102, 102, 102, 1);
+          line-height: 45px;/*px*/
+        }
+      }
+      .ul_last{
+          margin-top: 15px;/*px*/
+      }
+    }
+    .video{
+        margin-top: 34px;/*px*/
+       img{
+           width: 100%;
+       }
+        
+        .videoItme{
+            width: 100%;
+            display: none;
+            height: 391px;/*px*/
+        }
+    }
+  }
+  .a1a1a1a1{
+      width: 100%;
+      height: 100px;
+      background-color: red;
+  }
+  .kongbai{
+      width: 100%;
+      height: 50px;
+  }
+}

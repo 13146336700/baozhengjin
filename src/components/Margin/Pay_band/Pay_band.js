@@ -11,9 +11,9 @@ class Pay_band extends React.Component {
   state = {
     resultObject: {},
     isLoaded: false,
-    limitFunctionStr: ""
+    limitFunctionStr: "",
   };
-  limit = item => {
+  limit = (item) => {
     console.log(item);
     //  proxy/代理人，publish/发布，deal/交易，activity/活动，login/登录，,all/全部
     switch (item) {
@@ -47,58 +47,46 @@ class Pay_band extends React.Component {
   };
 
   componentDidMount() {
+    console.log(123456);
     /* 
 		 生命周期请求接口
 		 */
     const _this = this; //先存一下this，以防使用箭头函数this会指向我们不希望它所指向的对象。
     // axios.get('https://5b5e71c98e9f160014b88cc9.mockapi.io/api/v1/lists')
-    axios
-      .post("user/json/getPersonalBond", {
-        userId:_this.props.match.params.userId
+    debugger;
+    axios.post("user/json/getPersonalBond", {
+        userId: _this.props.match.params.userId,
       })
-      .then(function(response) {
-        console.log(response.data.resultObject);
+      .then(function (response) {
         if (response.data.code == 10000) {
           _this.setState({
             resultObject: response.data.resultObject,
-            isLoaded: true
+            isLoaded: true,
           });
           var str = "";
-          response.data.resultObject.limitFunction.map(item => {
-            str += _this.limit(item);
-            _this.setState({
-              limitFunctionStr: str
-            });
+          response.data.resultObject.limitFunction.map((item) => {
+            str += _this.limit(item)+",";
+            
           });
-
-        
-
-
-
-
-
-
-
-
-
+          _this.setState({
+            limitFunctionStr: str.substr(0,str.length-1),
+          });
         } else {
           _this.setState({
-            isLoaded: false
+            isLoaded: false,
           });
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
         _this.setState({
           isLoaded: false,
-          error: error
+          error: error,
         });
       });
-
-    console.log("我汇之星");
   }
   render() {
-    const { history,match } = this.props;
+    const { history, match } = this.props;
     console.log(this.props);
     return (
       <div className="Pay_band">
@@ -106,7 +94,7 @@ class Pay_band extends React.Component {
         {/* <Umargin already="40" Remaining="2345" payment="10" /> */}
         <Umargin
           already={this.state.resultObject.totalPunishBalance}
-          Remaining={this.state.resultObject.bondBalance}
+          Remaining={`${this.state.resultObject.bondBalance} `}
           payment={this.state.resultObject.punishBalance}
         />
         <div className="Pay_band_home">
@@ -115,8 +103,8 @@ class Pay_band extends React.Component {
             Unable={`无法使用${this.state.limitFunctionStr}功能`}
             surplusTime={this.state.resultObject.surplusTime}
             userId={this.props.match.params.userId}
-            history = {history}
-            match = {match}
+            history={history}
+            match={match}
           />
           <Uname
             utitles="违规原因"
