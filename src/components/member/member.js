@@ -105,6 +105,7 @@ class member extends React.Component {
     tab: "", //选中颜色高亮
     Mymember: true, //是否是会员
     resultObject: {}, //接口信息哦
+    userimgUrl:null
   };
   Discoloration = (item, key) => {
     console.log(item, key);
@@ -225,7 +226,6 @@ class member extends React.Component {
   onClose = () => {};
   componentWillMount() {
     // Toast.loading('正在加载，请稍后...', 0);
-    console.log("我是错误的");
     // Toast.loading('正在加载，请稍后...', 0,this.onClose,false);
   }
   componentDidMount() {
@@ -239,9 +239,9 @@ class member extends React.Component {
       })
       .then(function (response) {
         if (response.data.code == 10000) {
-          // userType 2- 已经认证,未开通会员     1-注册 3-白银4-黄金5-钻石
+          // userType 2- 已经认证,未开通会员     1-注册 3-白银4-黄金5-钻石6-皇冠
 
-          let userType;
+          let userType,userimgUrl;
           if (
             response.data.resultObject.userType == "1" ||
             response.data.resultObject.userType == "2"
@@ -249,7 +249,28 @@ class member extends React.Component {
             userType = false; //不是会员
           } else {
             userType = true; //会员
+            
+
+            // this.state.resultObject.userType == 3?
+            // <img src={require("../assets/silver.png")} alt="" />:
+            //  this.state.resultObject.userType == 4?
+            //  <img src={require("../assets/gold.png")} alt="" /> :
+            //  this.state.resultObject.userType == 5?
+            //  <img src={require("../assets/diamond.png")} alt="" /> :
+            //  this.state.resultObject.userType == 6?
+            //  <img src={require("../assets/Crown.png")} alt="" /> :null
+
+            if(response.data.resultObject.userType == 3){
+              userimgUrl =  require("../assets/silver.png");
+            }else if(response.data.resultObject.userType == 4){
+              userimgUrl =  require("../assets/gold.png");
+            }else if(response.data.resultObject.userType == 5){
+              userimgUrl =  require("../assets/diamond.png");
+            }else if(response.data.resultObject.userType == 6){
+              userimgUrl =  require("../assets/Crown.png");
+            }
           }
+
 
           _this.setState({
             resultObject: response.data.resultObject,
@@ -269,6 +290,7 @@ class member extends React.Component {
               },
             ],
             Mymember: userType,
+            userimgUrl:userimgUrl
           });
         } else {
           _this.setState({
@@ -298,8 +320,9 @@ class member extends React.Component {
                 <li>
                   <h1>
                     {this.state.resultObject.nickName}
-                    {this.state.Mymember ? (
-                      <img src={require("../assets/medal.png")} alt="" />
+                    {this.state.Mymember ? 
+                    (
+                       <img src={this.state.userimgUrl} alt="" />
                     ) : null}
                   </h1>
                   {this.state.Mymember ? (
