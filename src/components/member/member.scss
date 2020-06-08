@@ -59,8 +59,9 @@
             }
             img {
               margin-left: 10px; /*px*/
-              width: 21px; /*px*/
+              width: 26px; /*px*/
               height: 30px; /*px*/
+              vertical-align: middle;
             }
             .Grand {
               font-size: 22px; /*px*/
@@ -217,8 +218,9 @@
             display: flex;
             flex: 3;
             img {
-              width: 80px;
-              height: 80px;
+              width: 80px; /*px*/
+              height: auto;
+              min-width: 80px; /*px*/
               margin-right: 15px; /*px*/
             }
             div {
@@ -323,11 +325,15 @@
     footer {
       width: 100%;
       margin-top: 40px; /*px*/
+      border-bottom: 1px solid rgba(221, 209, 186, 1); /*px*/
+      border-bottom-left-radius: 8px; /*px*/
+       border-bottom-right-radius: 8px; /*px*/
+      overflow: hidden;
       ul {
         width: 100%;
         border-bottom-left-radius: 8px; /*px*/
         border-bottom-right-radius: 8px; /*px*/
-        overflow: hidden;
+        // overflow: hidden;
         border-bottom: 1px solid rgba(221, 209, 186, 1); /*px*/
         li {
           width: 100%;

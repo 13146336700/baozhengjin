@@ -1,6 +1,28 @@
 import React, { Component } from "react";
 import "./releasecontent.scss";
+var u = navigator.userAgent;
+var isAndroid = u.indexOf("Android") > -1;
+var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
 export default class withdraw extends React.Component {
+  determine = () => {
+    if (isiOS) {
+      try {
+        window.webkit.messageHandlers.IOSNativenAlertConfirm.postMessage("");
+      } catch (e) {
+       
+        console.log(e);
+      }
+    } else {
+      try {
+        window.app.androidClickAction();
+      } catch (e) {
+        //TODO handle the exception
+        console.log(e);
+  
+      }
+    }
+  };
   state = {
     rule: [
       {
@@ -18,7 +40,7 @@ export default class withdraw extends React.Component {
       {
         name: "单次提现金额最高：",
         value: "￥ 50,000",
-      }
+      },
     ],
   };
   render() {
@@ -28,15 +50,17 @@ export default class withdraw extends React.Component {
 
         <ul className="withdrawHome">
           {this.state.rule.map((item, key) => (
-            <li ke={key+10}>
+            <li ke={key + 10}>
               <p>{item.name}</p>
               <p>{item.value}</p>
             </li>
           ))}
-          <li key="14">注：手续费系微信,支付宝官方收取,邮宝不收取任何相关费用</li>
+          <li key="14">
+            注：手续费系微信,支付宝官方收取,邮宝不收取任何相关费用
+          </li>
         </ul>
 
-        <button>确定</button>
+        <button onClick={() => this.determine()}>确定</button>
       </div>
     );
   }
