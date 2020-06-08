@@ -17,46 +17,39 @@ class member extends React.Component {
       {
         time: "1个月",
         code: "1",
-        newQuantity: "12",
+        newQuantity: "16",
         unit: "元",
         oldQuantity: "16",
       },
       {
-        time: "3个月",
-        code: "3",
-        newQuantity: "30",
-        unit: "元",
-        oldQuantity: "68",
-        word: "推荐",
-      },
-      {
         time: "6个月",
         code: "6",
-        newQuantity: "66",
+        newQuantity: "88.8",
         unit: "元",
-        oldQuantity: "76",
-        word: "超值优惠",
+        oldQuantity: "96",
+        word: "推荐",
       },
       {
         time: "12个月",
         code: "12",
-        newQuantity: "112",
+        newQuantity: "158.8",
         unit: "元",
-        oldQuantity: "118",
+        oldQuantity: "192",
+        word: "超值优惠",
       },
     ],
     privilege: [
       {
         time: "1个月",
-        content: "匿名1次、标题变色1次、闪买1次、闪卖1次、置顶1次",
+        content: "匿名、标题变色、闪买、闪卖、置顶，各1次",
       },
       {
         time: "6个月",
-        content: "匿名1次、标题变色1次、闪买1次",
+        content: "匿名、标题变色、闪买，闪卖、置顶，各6次",
       },
       {
         time: "1年",
-        content: "匿名券 标题变色 闪买  闪卖各1次",
+        content: "匿名、标题变色、闪买，闪卖、置顶，各15次",
       },
     ],
     footList: [
@@ -66,24 +59,24 @@ class member extends React.Component {
         discount:"金豆购买折扣"
       },
       {
-        Amount:"0~299元",
+        Amount:"0~665元",
         grade:"白银",
         discount:"9.8折"
       },
       {
-        Amount:"300~499元",
+        Amount:"666~1687元",
         grade:"黄金",
-        discount:"9.8折"
+        discount:"9.5折"
       },
       {
-        Amount:"500~999元",
+        Amount:"1688~5188元",
         grade:"钻石",
-        discount:"9.8折"
+        discount:"9.2折"
       },
       {
-        Amount:"1000元以上",
+        Amount:"5188元以上",
         grade:"皇冠",
-        discount:"9.8折"
+        discount:"8.8折"
       }
     ],
     assets: [
@@ -356,7 +349,7 @@ class member extends React.Component {
                     <span>{item.newQuantity}</span>
                     <span>{item.unit}</span>
                   </p>
-                  <p>
+                  <p className={key == 0 ?"Myhide":null}>
                     {item.oldQuantity}
                     {item.unit}
                   </p>
@@ -412,7 +405,7 @@ class member extends React.Component {
           <div className="privilege">
             <p className="privilege_title">会员特权</p>
             <p className="privilege_content">
-              充值会员即送海量功能券，购买金豆最高可享受：<span>6折</span>
+              充值会员即送海量功能券，购买金豆最高可享受：<span>8.8折</span>
             </p>
             <ul>
               {this.state.privilege.map((item, key) => (

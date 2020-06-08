@@ -13,7 +13,9 @@ import Pay_band from './components/Margin/Pay_band/Pay_band';
 import advisory from './components/advisory/advisory';
 import good from './components/Margin/good/good'; 
 import releasecontent from './components/releasecontent/releasecontent'; 
+import interests from './components/releasecontent/interests'; 
 import member from './components/member/member';
+import menberExplanation from './components/member/menberExplanation';
 // import logo from './logo.svg';
 
 import './App.css';
@@ -41,10 +43,13 @@ Page 总页面入口文件
  App会员信息
 
  member /跟用户id
+ menberExplanation  会员体系升级
+
  --------------------------
  releasecontent 发布动态文字弹框内容
-
- 
+ --------------------------
+ 会员权益说明
+ interests
  */
 function App() {
   return (
@@ -62,33 +67,11 @@ function App() {
          <Route path="/good" exact component={good}/>
          <Route path="/Pay_band/:userId" exact component={Pay_band}/>
          <Route path="/member/:userId" exact component={member}/>
-         <Route path="/releasecontent/:num" exact component={releasecontent}/>     
+         <Route path="/menberExplanation" exact component={menberExplanation}/>
+         <Route path="/interests" exact component={interests}/>
+         <Route path="/releasecontent/:num" exact component={releasecontent}/>    
       </Router>
   );
 }
 
-// import App from './components/ceshi';
-// import RouterConfig from './Router/index.js';
-// ReactDOM.render( < App / > , document.getElementById('root'));
-
 export default App;
-
-
-// import React, { Component } from 'react';
-// import './App.css';
-
-// class App extends Component {
-//   render() {
-//     return (
-//       <div className="App">
-//               <header className="App-header">
-//           <p>
-//             hello world
-//           </p>
-//         </header>
-//       </div>
-//     );
-//   }
-// }
-
-// export default App;

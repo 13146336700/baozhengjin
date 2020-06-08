@@ -1,6 +1,9 @@
 .am-toast-notice-content .am-toast-text.am-toast-text-icon .am-toast-text-info {
   font-size: 0.35rem !important;
 }
+.Myhide{
+  display: none;
+}
 .mymember {
   width: 100%;
   -webkit-overflow-scrolling: touch;
@@ -102,7 +105,7 @@
         li {
           text-align: center;
           position: relative;
-          width: 23.5%;
+          width: 30%;
           height: 188px; /*px*/
           background: rgba(255, 255, 255, 1);
           border-radius: 4px; /*px*/
@@ -325,36 +328,33 @@
         border-bottom-left-radius: 8px; /*px*/
         border-bottom-right-radius: 8px; /*px*/
         overflow: hidden;
-        border-bottom:  1px solid rgba(221, 209, 186, 1); /*px*/
+        border-bottom: 1px solid rgba(221, 209, 186, 1); /*px*/
         li {
           width: 100%;
           display: flex;
           flex-wrap: wrap;
           text-align: center;
           overflow: hidden;
-         
+
           p {
             height: 60px; /*px*/
             line-height: 60px; /*px*/
             font-size: 26px; /*px*/
             border: 1px solid rgba(221, 209, 186, 1); /*px*/
             flex: 1;
-          } 
+          }
           p:nth-child(1),
-          p:nth-child(2)
-        {
+          p:nth-child(2) {
             border-right: none !important;
-            
           }
           p:nth-child(1),
           p:nth-child(2),
-          p:nth-child(3){
+          p:nth-child(3) {
             border-bottom: none;
           }
-          
         }
-        .on_{
-          background:rgba(255,210,210,1);
+        .on_ {
+          background: rgba(255, 210, 210, 1);
         }
 
         li:nth-child(1) {
@@ -367,7 +367,6 @@
           color: rgba(255, 255, 255, 1);
         }
         li:last-child {
-      
         }
       }
     }
@@ -375,5 +374,55 @@
   .zhanwei {
     width: 100%;
     height: 50px;
+  }
+}
+.menberExplanationHome {
+  width: 100%;
+  header{
+    width: 100%;
+    img{
+      width: 100%;
+    }
+  }
+  .ExplanationHome {
+    width: 90%;
+    margin: auto;
+    margin-top: 40px; /*px*/
+    .content {
+      text-align: justify;
+      font-size: 28px; /*px*/
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: rgba(51, 51, 51, 1);
+      line-height: 40px; /*px*/
+    }
+
+    .userTitle {
+      font-size: 30px; /*px*/
+      font-family: PingFangSC-Medium, PingFang SC;
+      font-weight: 700;
+      color: rgba(51, 51, 51, 1);
+      margin: 20px 0; /*px*/
+    }
+    .jaige {
+      font-size: 34px; /*px*/
+      font-family: PingFangSC-Medium, PingFang SC;
+      font-weight: 700;
+      color: rgba(150, 82, 0, 1);
+      margin: 30px 0; /*px*/
+      margin-bottom: 0 !important;
+    }
+    .tabel_img{
+      width: 100%;
+      margin: 20px 0; /*px*/
+    }
+    .usertable {
+    
+   
+    }
+    .zhaiwei{
+      width: 100%;
+      height: 100px;/*px*/
+    }
   }
 }

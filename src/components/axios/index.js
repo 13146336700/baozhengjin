@@ -89,7 +89,7 @@ service.interceptors.request.use(
 		 );
 		 console.log(firdtEncryption);
 		 var Token = md5(
-		 `firdtEncryption=${firdtEncryption}&ybSecret=yb3f163effc5ed289808a3f699a4a04082`
+		 `firdtEncryption=${firdtEncryption}&ybSecret=h000631106ffd01678e09140608`
 		 );
 		
 		
@@ -99,6 +99,7 @@ service.interceptors.request.use(
 		defaults.sign = Token;
 		defaults.timestamp = ranstr;
 		defaults.token = "4028808361926f8a0161db4c492304e2";
+		defaults.sysInfo = "web";
 		config.data = Qs.stringify(defaults);
 		// console.log(str, "请求家吗");
 		// console.log(config.data, "请求家吗");
