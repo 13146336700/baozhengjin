@@ -3,6 +3,7 @@ import React,{Component} from 'react';
 import ceshi from './components/ceshi';
 import Page from './components/Page';
 import rule from './components/rule/rule';
+import help from './components/help/help';
 import Violation from './components/Violation/Violation';
 import Punishment from './components/Margin/Punishment/Punishment';
 import Already_paid from './components/Margin/Already_paid/Already_paid';
@@ -13,7 +14,6 @@ import Pay_band from './components/Margin/Pay_band/Pay_band';
 import advisory from './components/advisory/advisory';
 import good from './components/Margin/good/good'; 
 import releasecontent from './components/releasecontent/releasecontent'; 
-import interests from './components/releasecontent/interests'; 
 import member from './components/member/member';
 import menberExplanation from './components/member/menberExplanation';
 // import logo from './logo.svg';
@@ -47,9 +47,16 @@ Page 总页面入口文件
 
  --------------------------
  releasecontent 发布动态文字弹框内容
+ releasecontent/1?day=5 发布弹框 day为天数
+ releasecontent/2 担保弹框
+ releasecontent/3?state=5 会员弹框 state会员的等级
  --------------------------
- 会员权益说明
- interests
+
+ 帮助
+help/member 会员帮助
+help/promotion 推广帮助
+
+
  */
 function App() {
   return (
@@ -57,6 +64,7 @@ function App() {
          <Route path="/ceshi" exact component={ceshi}/>
          <Route path="/Page/:userId" exact component={Page}/>
          <Route path="/rule" exact component={rule}/>
+         <Route path="/help/:type" exact component={help}/>
          <Route path="/Violation/:userId" exact component={Violation}/>
          <Route path="/Punishment/:userId" exact component={Punishment}/>
          <Route path="/Already_paid/:userId" exact component={Already_paid}/>
@@ -68,7 +76,6 @@ function App() {
          <Route path="/Pay_band/:userId" exact component={Pay_band}/>
          <Route path="/member/:userId" exact component={member}/>
          <Route path="/menberExplanation" exact component={menberExplanation}/>
-         <Route path="/interests" exact component={interests}/>
          <Route path="/releasecontent/:num" exact component={releasecontent}/>    
       </Router>
   );

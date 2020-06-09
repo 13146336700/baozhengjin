@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "./static/css/main.d55fa226.chunk.css",
-    "main.js": "./static/js/main.ec19f457.chunk.js",
-    "main.js.map": "./static/js/main.ec19f457.chunk.js.map",
+    "main.css": "./static/css/main.15b8717c.chunk.css",
+    "main.js": "./static/js/main.7990c527.chunk.js",
+    "main.js.map": "./static/js/main.7990c527.chunk.js.map",
     "runtime-main.js": "./static/js/runtime-main.4f92633c.js",
     "runtime-main.js.map": "./static/js/runtime-main.4f92633c.js.map",
     "static/css/2.9a632cf4.chunk.css": "./static/css/2.9a632cf4.chunk.css",
-    "static/js/2.d9022bec.chunk.js": "./static/js/2.d9022bec.chunk.js",
-    "static/js/2.d9022bec.chunk.js.map": "./static/js/2.d9022bec.chunk.js.map",
+    "static/js/2.2a7ad483.chunk.js": "./static/js/2.2a7ad483.chunk.js",
+    "static/js/2.2a7ad483.chunk.js.map": "./static/js/2.2a7ad483.chunk.js.map",
     "index.html": "./index.html",
-    "precache-manifest.f03ce497b7f8fc918da7f9718b23f03b.js": "./precache-manifest.f03ce497b7f8fc918da7f9718b23f03b.js",
+    "precache-manifest.4cf98e340f1ab5fdacc56c7263c4c4af.js": "./precache-manifest.4cf98e340f1ab5fdacc56c7263c4c4af.js",
     "service-worker.js": "./service-worker.js",
     "static/css/2.9a632cf4.chunk.css.map": "./static/css/2.9a632cf4.chunk.css.map",
-    "static/css/main.d55fa226.chunk.css.map": "./static/css/main.d55fa226.chunk.css.map",
-    "static/js/2.d9022bec.chunk.js.LICENSE.txt": "./static/js/2.d9022bec.chunk.js.LICENSE.txt",
+    "static/css/main.15b8717c.chunk.css.map": "./static/css/main.15b8717c.chunk.css.map",
+    "static/js/2.2a7ad483.chunk.js.LICENSE.txt": "./static/js/2.2a7ad483.chunk.js.LICENSE.txt",
     "static/media/advisory.scss": "./static/media/avisory.c12ee124.png",
-    "static/media/releasecontent.scss": "./static/media/juxing.c947d225.png",
+    "static/media/background.png": "./static/media/background.2ea333d7.png",
     "static/media/member.scss": "./static/media/memberHeader.10551686.png",
     "static/media/bzj_ic_xinyonglianghao.png": "./static/media/bzj_ic_xinyonglianghao.26195768.png",
     "static/media/Punishment.scss": "./static/media/cf_backgrand_01.5ac85ed1.png",
@@ -23,13 +23,14 @@
     "static/media/cf_ic_bond.png": "./static/media/cf_ic_bond.6ecef0ed.png",
     "static/media/jindou.png": "./static/media/jindou.04c0fa60.png",
     "static/media/jnjl_image.png": "./static/media/jnjl_image.36632cd3.png",
+    "static/media/releasecontent.scss": "./static/media/juxing.c947d225.png",
     "static/media/title.png": "./static/media/title.d74959df.png"
   },
   "entrypoints": [
     "static/js/runtime-main.4f92633c.js",
     "static/css/2.9a632cf4.chunk.css",
-    "static/js/2.d9022bec.chunk.js",
-    "static/css/main.d55fa226.chunk.css",
-    "static/js/main.ec19f457.chunk.js"
+    "static/js/2.2a7ad483.chunk.js",
+    "static/css/main.15b8717c.chunk.css",
+    "static/js/main.7990c527.chunk.js"
   ]
 }

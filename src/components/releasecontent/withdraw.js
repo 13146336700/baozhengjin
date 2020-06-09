@@ -15,7 +15,7 @@ export default class withdraw extends React.Component {
       }
     } else {
       try {
-        window.app.androidClickAction();
+        window.app.androidCloseWithdrawalRule();
       } catch (e) {
         //TODO handle the exception
         console.log(e);

@@ -147,10 +147,11 @@
       }
 
       .concat {
-        margin-top: 30px; /*px*/
+       
         width: 85%;
         margin: auto;
-        font-size: 28px; /*px*/
+        margin-top: 30px; /*px*/
+        font-size: 30px; /*px*/
         text-align: center;
         text-align: justify;
         font-family: PingFangSC-Medium, PingFang SC;
@@ -193,7 +194,7 @@
       .away {
         display: flex;
         align-items: center;
-        font-size: 26px; /*px*/
+        font-size: 28px; /*px*/
         font-family: PingFangSC-Medium, PingFang SC;
         font-weight: 700;
         color: rgba(51, 51, 51, 1);
@@ -208,11 +209,11 @@
         }
       }
       .Marginaway {
-        margin-top: 25px; /*px*/
+        margin-top: 17px; /*px*/
       }
       .gongneng {
         margin-top: 10px; /*px*/
-        font-size: 22px; /*px*/
+        font-size: 24px; /*px*/
         font-family: PingFangSC-Regular, PingFang SC;
         font-weight: 400;
         color: rgba(92, 51, 1, 1);
@@ -224,7 +225,7 @@
         li {
           display: flex;
           align-items: center;
-          font-size: 22px; /*px*/
+          font-size: 24px; /*px*/
           font-family: PingFangSC-Regular, PingFang SC;
           font-weight: 400;
           color: rgba(92, 51, 1, 1);
@@ -260,53 +261,6 @@
       bottom: -120px; /*px*/
       width: 12%; /*px*/
       left: 44%;
-    }
-  }
-}
-.interests {
-  width: 90%;
-  margin: auto;
-  color: rgba(51, 51, 51, 1);
-  .zhanwei {
-    width: 100%;
-    height: 40px; /*px*/
-  }
-  header {
-    font-size: 28px; /*px*/
-    font-family: PingFangSC-Regular, PingFang SC;
-    font-weight: 400;
-    line-height: 35px; /*px*/
-  }
-  nav {
-    width: 100%;
-    margin-top: 40px; /*px*/
-    h2 {
-      font-size: 30px; /*px*/
-      font-family: PingFangSC-Regular, PingFang SC;
-      font-weight: 600;
-    }
-    ul {
-      display: flex;
-      flex-wrap: wrap;
-      li {
-        width: 100%;
-      // display: flex;
-        margin-top: 15px;/*px*/
-        font-size: 28px; /*px*/
-        line-height: 35px; /*px*/
-        .heidian {
-          width: 8px;
-          height: 8px;
-          display: inline-block;
-          border-radius: 50%;
-          margin-right: 8px;     /*px*/     
-          overflow: hidden;
-          background-color: black;
-        }
-        .redconcat {
-          color: red;
-        }
-      }
     }
   }
 }

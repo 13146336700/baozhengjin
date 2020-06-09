@@ -25,6 +25,9 @@ export default class memberupgrade extends React.Component {
       beans: "",
     },
   };
+  componentWillMount(){
+  document.title = "会员服务体系升级";
+  };
   componentDidMount() {
     console.log(this.props.mystate);
     let myData = {

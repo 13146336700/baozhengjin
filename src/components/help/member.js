@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./releasecontent.scss";
+import "./help.scss";
 export default class interests extends React.Component {
     componentWillMount(){
         document.title = "会员权益说明";
