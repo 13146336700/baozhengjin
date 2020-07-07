@@ -58,7 +58,7 @@ export default class menberExplanation extends React.Component {
           <div className="content">
             为了反馈已有老用户对邮宝平台的支持，对于2020年5月12(不含当天)以前注册会员，免费提升会员等级，具体如下：
           </div>
-          <img src="http://image.ybk008.com/21591446047774" alt="" className="tabel_img"/>
+          <img src="http://image.ybk008.com/4@2x1591759875527" alt="" className="tabel_img"/>
           <div className="userTitle">三、 新服务体系会员特权</div>
           <img src="http://image.ybk008.com/51591446102968" alt="" className="tabel_img"/>
           <div className="content">1.充值有礼</div>

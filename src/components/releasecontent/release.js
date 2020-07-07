@@ -76,23 +76,24 @@ export default class release extends React.Component {
     return (
       <div className="releasecontent iosView">
         <div style={{ display: this.state.showElem }}>
-          <div
-            className='releaseHome'>
-            <div
-              className="releaseccontent">
+          <div className="releaseHome">
+            <div className="releaseccontent">
               {this.state.day >= 1 ? (
-                <header>
-                  您发布的商品有效期是<span>{this.state.day}</span>天
-                </header>
+                <div>
+                  <header>
+                    您发布的商品有效期是<span>{this.state.day}</span>天
+                  </header>
+                  <img
+                    src={require("../assets/zhuangshi.png")}
+                    alt=""
+                    className="img_shili"
+                  />
+                </div>
               ) : (
                 <p className="zhanwei"></p>
               )}
               <ul></ul>
-              <img
-                src={require("../assets/zhuangshi.png")}
-                alt=""
-                className="img_shili"
-              />
+
               <div className="mycontent">
                 在设置的有效期内，若有成交、务必诚信交易，不可因价格涨跌原因取消订单。因此，请慎重设置有效期。若有违反，处罚措施如下：
                 <br />

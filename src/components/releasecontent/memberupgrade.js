@@ -23,6 +23,7 @@ export default class memberupgrade extends React.Component {
       rightDate: {},
       Features: [],
       beans: "",
+      mounyName:""
     },
   };
   componentWillMount(){
@@ -43,6 +44,7 @@ export default class memberupgrade extends React.Component {
         name: "白银会员",
       },
       Features: [],
+      mounyName:""
     };
 
     /*
@@ -69,6 +71,7 @@ export default class memberupgrade extends React.Component {
           "闪卖5次",
         ];
         myData.beans = "9.8";
+        myData.mounyName = "6个月";
         break;
       case "4":
         myData.left.img =
@@ -85,6 +88,7 @@ export default class memberupgrade extends React.Component {
           "闪卖15次",
         ];
         myData.beans = "9.5";
+        myData.mounyName = "1年";
         break;
       case "5":
         myData.left.img =
@@ -101,6 +105,7 @@ export default class memberupgrade extends React.Component {
           "闪卖30次",
         ];
         myData.beans = "9.3";
+        myData.mounyName = "1年";
         break;
       case "6":
         myData.left.img =
@@ -117,6 +122,7 @@ export default class memberupgrade extends React.Component {
           "闪卖不限次",
         ];
         myData.beans = "8.8";
+        myData.mounyName = "永久";
         break;
       default:
         myData.left.img =
@@ -133,6 +139,7 @@ export default class memberupgrade extends React.Component {
           "闪卖5次",
         ];
         myData.beans = "9.8";
+        myData.mounyName = "6个月";
         break;
     }
     const interests = [...this.state.interests]; //复制数组--浅拷贝
@@ -150,6 +157,7 @@ export default class memberupgrade extends React.Component {
           name: myData.right.name,
         },
         Features: myData.Features,
+        mounyName:myData.mounyName
       },
       interests: interests.map((item, key) =>
         key == 1 ? { ...item, name: `金豆购买${myData.beans}折` } : item
@@ -217,7 +225,7 @@ export default class memberupgrade extends React.Component {
            
             <div className="concat">
               恭喜您！邮宝 <span>免费</span> 为您升级为{this.state.myData.grade}
-              会员，6个月免费试用
+    会员，{this.state.myData.mounyName}免费试用
             </div>
             <div className="menmer">
               <div className="menmer_left">

@@ -4,6 +4,7 @@
 }
 .promotion {
     width: 100%;
+    min-height: 100%;
     background: rgba(242, 242, 242, 1);
     .zhanwei {
       width: 100%;
@@ -51,16 +52,19 @@
         }
       }
     }
+    .xingshi {
+       width: 90%;
+      margin: auto;
+      font-size: 32px; /*px*/
+      font-family: PingFangSC-Medium, PingFang SC;
+      font-weight: 600;
+      color: rgba(51, 51, 51, 1);
+      margin-top: 42px; /*px*/
+    }
     .userType {
       width: 90%;
       margin: auto;
-      .xingshi {
-        font-size: 32px; /*px*/
-        font-family: PingFangSC-Medium, PingFang SC;
-        font-weight: 600;
-        color: rgba(51, 51, 51, 1);
-        margin-top: 42px; /*px*/
-      }
+     
       .miaoshu {
         font-size: 28px; /*px*/
         font-family: PingFangSC-Regular, PingFang SC;
@@ -68,9 +72,10 @@
         color: rgba(51, 51, 51, 1);
         margin-top: 20px; /*px*/
       }
+ 
       .user_img{
           margin-top: 30px;/*px*/
-          width: 100%;
+          width: 80%;
       }
       .Claim{
           margin-top: 20px;/*px*/
@@ -139,4 +144,14 @@
       }
     }
   }
-    
+  .select-area{
+    position: relative;
+    overflow: hidden;
+  }
+  .select-area select{
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    width: 100%;
+  }

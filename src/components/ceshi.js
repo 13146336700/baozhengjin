@@ -46,6 +46,7 @@ class App1 extends React.Component {
       <div className="App123">
         <Uheader utitle="保证金缴纳详情" subtitle="" />
         <Link to="/rule">测试跳转</Link>
+        <Link to="/menberExplanation"></Link>
         <span>我来60秒倒计时{this.state.time}</span>
         <input type="text" onChange={ev => this.hanChange(ev)} />
         <ul className="ul_tab">

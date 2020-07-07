@@ -9,7 +9,7 @@ export default class help extends React.Component {
        {
        this.props.match.params.type == "member"||this.props.match.params.type == "1"?
        <Member/>:this.props.match.params.type == "promotion"||this.props.match.params.type == "2"?
-      <Promotion/>:null
+      <Promotion {...this.props}></Promotion>:null
     }
      </div>
 

@@ -1,7 +1,7 @@
 .am-toast-notice-content .am-toast-text.am-toast-text-icon .am-toast-text-info {
   font-size: 0.35rem !important;
 }
-.Myhide{
+.Myhide {
   display: none;
 }
 .mymember {
@@ -107,7 +107,7 @@
           text-align: center;
           position: relative;
           width: 30%;
-          height: 188px; /*px*/
+          height: 225px; /*px*/
           background: rgba(255, 255, 255, 1);
           border-radius: 4px; /*px*/
           border: 2px solid rgba(218, 221, 225, 1);
@@ -137,13 +137,24 @@
               color: rgba(102, 102, 102, 1);
             }
           }
-          p:nth-child(3) {
-            margin-top: 18px; /*px*/
-            text-decoration: line-through;
-            font-size: 22px; /*px*/
-            font-family: PingFangSC-Regular, PingFang SC;
-            font-weight: 400;
-            color: rgba(153, 153, 153, 1);
+
+          .price {
+            // display: flex;
+            p:nth-child(1) {
+              margin-top: 18px; /*px*/
+              font-size: 22px; /*px*/
+              font-family: PingFangSC-Regular, PingFang SC;
+              font-weight: 400;
+              color: rgba(153, 153, 153, 1);
+            }
+            p:nth-child(2) {
+              margin-top: 10px; /*px*/
+              text-decoration: line-through;
+              font-size: 22px; /*px*/
+              font-family: PingFangSC-Regular, PingFang SC;
+              font-weight: 400;
+              color: rgba(153, 153, 153, 1);
+            }
           }
           .beijing {
             position: absolute;
@@ -327,7 +338,7 @@
       margin-top: 40px; /*px*/
       border-bottom: 1px solid rgba(221, 209, 186, 1); /*px*/
       border-bottom-left-radius: 8px; /*px*/
-       border-bottom-right-radius: 8px; /*px*/
+      border-bottom-right-radius: 8px; /*px*/
       overflow: hidden;
       ul {
         width: 100%;
@@ -376,6 +387,12 @@
         }
       }
     }
+    .user_message{
+      // text-align: center;
+      margin-top: 20px;/*px*/
+      font-family: PingFangSC-Semibold, PingFang SC;
+      color: red;
+    }
   }
   .zhanwei {
     width: 100%;
@@ -384,9 +401,9 @@
 }
 .menberExplanationHome {
   width: 100%;
-  header{
+  header {
     width: 100%;
-    img{
+    img {
       width: 100%;
     }
   }
@@ -418,17 +435,15 @@
       margin: 30px 0; /*px*/
       margin-bottom: 0 !important;
     }
-    .tabel_img{
+    .tabel_img {
       width: 100%;
       margin: 20px 0; /*px*/
     }
     .usertable {
-    
-   
     }
-    .zhaiwei{
+    .zhaiwei {
       width: 100%;
-      height: 100px;/*px*/
+      height: 100px; /*px*/
     }
   }
 }

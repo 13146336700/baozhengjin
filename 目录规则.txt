@@ -1,3 +1,8 @@
 正式：app/web
 测试：app/webcs
 html：app/html
+
+eg:
+http://web.youbaoapp.com/app/ 为不变的
+http://web.youbaoapp.com/app/webcs/#/member/40288083722c216001722ca4af7c006c
+

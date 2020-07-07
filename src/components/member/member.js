@@ -17,6 +17,8 @@ class member extends React.Component {
       {
         time: "1个月",
         code: "1",
+        beans: "160",
+        beansunit: "金豆",
         newQuantity: "16",
         unit: "元",
         oldQuantity: "16",
@@ -24,6 +26,8 @@ class member extends React.Component {
       {
         time: "6个月",
         code: "6",
+        beans: "888",
+        beansunit: "金豆",
         newQuantity: "88.8",
         unit: "元",
         oldQuantity: "96",
@@ -32,6 +36,8 @@ class member extends React.Component {
       {
         time: "12个月",
         code: "12",
+        beans: "1588",
+        beansunit: "金豆",
         newQuantity: "158.8",
         unit: "元",
         oldQuantity: "192",
@@ -54,30 +60,30 @@ class member extends React.Component {
     ],
     footList: [
       {
-        Amount:"累计充值金额",
-        grade:"会员等级",
-        discount:"金豆购买折扣"
+        Amount: "累计充值积分",
+        grade: "会员等级",
+        discount: "金豆购买折扣",
       },
       {
-        Amount:"0~665元",
-        grade:"白银",
-        discount:"9.8折"
+        Amount: "0~665积分",
+        grade: "白银",
+        discount: "9.8折",
       },
       {
-        Amount:"666~1687元",
-        grade:"黄金",
-        discount:"9.5折"
+        Amount: "666~1687积分",
+        grade: "黄金",
+        discount: "9.5折",
       },
       {
-        Amount:"1688~5188元",
-        grade:"钻石",
-        discount:"9.2折"
+        Amount: "1688~5188积分",
+        grade: "钻石",
+        discount: "9.2折",
       },
       {
-        Amount:"5188元以上",
-        grade:"皇冠",
-        discount:"8.8折"
-      }
+        Amount: "5188积分以上",
+        grade: "皇冠",
+        discount: "8.8折",
+      },
     ],
     assets: [
       //资产
@@ -94,11 +100,20 @@ class member extends React.Component {
         btn: "我的功能券",
       },
     ],
-    MemberPackage: {},
-    tab: "", //选中颜色高亮
+    MemberPackage: {
+      time: "6个月",
+      code: "6",
+      beans: "888",
+      beansunit: "金豆",
+      newQuantity: "88.8",
+      unit: "元",
+      oldQuantity: "96",
+      word: "推荐",
+    },
+    tab: "tab-1", //选中颜色高亮
     Mymember: true, //是否是会员
     resultObject: {}, //接口信息哦
-    userimgUrl:null
+    userimgUrl: null,
   };
   Discoloration = (item, key) => {
     console.log(item, key);
@@ -116,7 +131,7 @@ class member extends React.Component {
       Toast.fail("请选择套餐内容", 2);
       return;
     }
-
+console.log(this.state.MemberPackage);
     if (this.state.Mymember == true) {
       console.log("会员");
       let obj = {
@@ -222,8 +237,6 @@ class member extends React.Component {
     // Toast.loading('正在加载，请稍后...', 0,this.onClose,false);
   }
   componentDidMount() {
-
-
     //DOM加载完执行 类似于mounted
     const _this = this;
     axios
@@ -234,7 +247,7 @@ class member extends React.Component {
         if (response.data.code == 10000) {
           // userType 2- 已经认证,未开通会员     1-注册 3-白银4-黄金5-钻石6-皇冠
 
-          let userType,userimgUrl;
+          let userType, userimgUrl;
           if (
             response.data.resultObject.userType == "1" ||
             response.data.resultObject.userType == "2"
@@ -242,7 +255,6 @@ class member extends React.Component {
             userType = false; //不是会员
           } else {
             userType = true; //会员
-            
 
             // this.state.resultObject.userType == 3?
             // <img src={require("../assets/silver.png")} alt="" />:
@@ -253,17 +265,16 @@ class member extends React.Component {
             //  this.state.resultObject.userType == 6?
             //  <img src={require("../assets/Crown.png")} alt="" /> :null
 
-            if(response.data.resultObject.userType == 3){
-              userimgUrl =  require("../assets/silver.png");
-            }else if(response.data.resultObject.userType == 4){
-              userimgUrl =  require("../assets/gold.png");
-            }else if(response.data.resultObject.userType == 5){
-              userimgUrl =  require("../assets/diamond.png");
-            }else if(response.data.resultObject.userType == 6){
-              userimgUrl =  require("../assets/Crown.png");
+            if (response.data.resultObject.userType == 3) {
+              userimgUrl = require("../assets/silver.png");
+            } else if (response.data.resultObject.userType == 4) {
+              userimgUrl = require("../assets/gold.png");
+            } else if (response.data.resultObject.userType == 5) {
+              userimgUrl = require("../assets/diamond.png");
+            } else if (response.data.resultObject.userType == 6) {
+              userimgUrl = require("../assets/Crown.png");
             }
           }
-
 
           _this.setState({
             resultObject: response.data.resultObject,
@@ -283,7 +294,7 @@ class member extends React.Component {
               },
             ],
             Mymember: userType,
-            userimgUrl:userimgUrl
+            userimgUrl: userimgUrl,
           });
         } else {
           _this.setState({
@@ -313,22 +324,19 @@ class member extends React.Component {
                 <li>
                   <h1>
                     {this.state.resultObject.nickName}
-                    {this.state.Mymember ? 
-                    (
-                       <img src={this.state.userimgUrl} alt="" />
+                    {this.state.Mymember ? (
+                      <img src={this.state.userimgUrl} alt="" />
                     ) : null}
                   </h1>
-                  {this.state.Mymember ? (
-                    <span className="Grand">累计充值金额</span>
-                  ) : null}
+
+                  <span className="Grand">累计充值积分</span>
                 </li>
                 <li>
                   <p>{this.state.resultObject.timeStr}</p>
-                  {this.state.Mymember ? (
-                    <p className="Amount">
-                      ￥<span>{this.state.resultObject.price}</span>
-                    </p>
-                  ) : null}
+
+                  <p className="Amount">
+                    ￥<span>{this.state.resultObject.price}</span>
+                  </p>
                 </li>
               </ul>
             </div>
@@ -346,13 +354,20 @@ class member extends React.Component {
                 >
                   <p>{item.time}</p>
                   <p>
-                    <span>{item.newQuantity}</span>
-                    <span>{item.unit}</span>
+                    <span>{item.beans}</span>
+                    <span>{item.beansunit}</span>
                   </p>
-                  <p className={key == 0 ?"Myhide":null}>
-                    {item.oldQuantity}
-                    {item.unit}
-                  </p>
+                  <div className="price">
+                    <p>
+                      <span>现价:{item.newQuantity}</span>
+                      <span>{item.unit}</span>
+                    </p>
+                    <p className={key == 0 ? "Myhide" : null}>
+                      原价:{item.oldQuantity}
+                      {item.unit}
+                    </p>
+                  </div>
+
                   {item.word ? (
                     <div className="beijing">{item.word}</div>
                   ) : null}
@@ -360,23 +375,33 @@ class member extends React.Component {
               ))}
             </ul>
             <button onClick={() => this.MymemberClick()}>
-              {this.state.Mymember ? "续费会员" : "开通会员"}
+              {this.state.Mymember ? "会员续费" : "开通会员"}
             </button>
           </div>
           {this.state.Mymember ? (
             <div className="grade">
               <p className="grade_title">会员等级</p>
               <footer>
-              <ul>
-                {this.state.footList.map((item, key) => (
-                    <li key={key + 1000} className={Number(this.state.resultObject.userType)>=3? (this.state.resultObject.userType== key+2?"on_":null):null}>
-                        <p>{item.Amount}</p>
-                        <p>{item.grade}</p>
-                        <p>{item.discount}</p>
-                      </li>  
-                ))}
-              </ul>
+                <ul>
+                  {this.state.footList.map((item, key) => (
+                    <li
+                      key={key + 1000}
+                      className={
+                        Number(this.state.resultObject.userType) >= 3
+                          ? this.state.resultObject.userType == key + 2
+                            ? "on_"
+                            : null
+                          : null
+                      }
+                    >
+                      <p>{item.Amount}</p>
+                      <p>{item.grade}</p>
+                      <p>{item.discount}</p>
+                    </li>
+                  ))}
+                </ul>
               </footer>
+              <p className="user_message">注: 1积分 等于 1元</p>  
             </div>
           ) : null}
           {this.state.Mymember ? (
@@ -417,16 +442,17 @@ class member extends React.Component {
             </ul>
           </div>
           <footer>
-          <ul>
-          {this.state.footList.map((item, key) => (
-                    <li key={key + 100010}>
-                        <p>{item.Amount}</p>
-                        <p>{item.grade}</p>
-                        <p>{item.discount}</p>
-                      </li>  
-                ))}
-                </ul>
+            <ul>
+              {this.state.footList.map((item, key) => (
+                <li key={key + 100010}>
+                  <p>{item.Amount}</p>
+                  <p>{item.grade}</p>
+                  <p>{item.discount}</p>
+                </li>
+              ))}
+            </ul>
           </footer>
+          <p className="user_message">注: 1积分 等于 1元</p>  
         </main>
         <div className="zhanwei"></div>
       </div>
