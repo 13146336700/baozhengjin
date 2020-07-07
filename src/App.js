@@ -17,6 +17,8 @@ import releasecontent from './components/releasecontent/releasecontent';
 import member from './components/member/member';
 import menberExplanation from './components/member/menberExplanation';
 // import logo from './logo.svg';
+// 配号功能部分
+import distribute from "./components/distribute/index/index"
 
 import './App.css';
 
@@ -77,6 +79,7 @@ function App() {
          <Route path="/member/:userId" exact component={member}/>
          <Route path="/menberExplanation" exact component={menberExplanation}/>
          <Route path="/releasecontent/:num" exact component={releasecontent}/>    
+         <Route path="/distribute" exact component={distribute}/>    
       </Router>
   );
 }
