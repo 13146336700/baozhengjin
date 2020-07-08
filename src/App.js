@@ -18,7 +18,11 @@ import member from './components/member/member';
 import menberExplanation from './components/member/menberExplanation';
 // import logo from './logo.svg';
 // 配号功能部分
-import distribute from "./components/distribute/index/index"
+import distribute from "./components/distribute/index/index";
+import MyDistribute from "./components/distribute/myDistribute/index"
+import Goods from "./components/distribute/goodsDistribute/index" 
+import MyStock from "./components/distribute/myStock/index" 
+import SearchNumber from "./components/distribute/search/search" 
 
 import './App.css';
 
@@ -80,6 +84,10 @@ function App() {
          <Route path="/menberExplanation" exact component={menberExplanation}/>
          <Route path="/releasecontent/:num" exact component={releasecontent}/>    
          <Route path="/distribute" exact component={distribute}/>    
+         <Route path="/myDistribute" exact component={MyDistribute}/>    
+         <Route path="/goodsDistribute" exact component={Goods}/>    
+         <Route path="/myStock" exact component={MyStock}/>    
+         <Route path="/searchNumber" exact component={SearchNumber}/>    
       </Router>
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Carousel, WingBlank } from 'antd-mobile';
+import { Carousel, WhiteSpace  } from 'antd-mobile';
 import "../index/index.scss";
 
 export default class Banner extends React.Component {
@@ -17,19 +17,18 @@ export default class Banner extends React.Component {
     }
     render() {
       return (
-        <WingBlank>
           <Carousel
-            autoplay
             infinite
+            autoplay
             beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
             afterChange={index => console.log('slide to', index)}
           >
             {this.state.data.map(val => (
                 <img
-                  src={`https://zos.alipayobjects.com/rmsportal/${val}.png`}
+                  src={`http://image.ybk008.com/pc-banner-weiguifenghao1589627583069`}
                   alt=""
                   key= {val}
-                  style={{ width: '100%', verticalAlign: 'top', height: '120px', margin: '0 0 20px 0' }}
+                  style={{ width: '100%', verticalAlign: 'top', height: '70px' }}
                   onLoad={() => {
                     // fire window resize event to change height
                     window.dispatchEvent(new Event('resize'));
@@ -38,7 +37,6 @@ export default class Banner extends React.Component {
                 />
             ))}
           </Carousel>
-        </WingBlank>
       );
     }
 }
