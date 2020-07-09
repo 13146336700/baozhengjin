@@ -23,6 +23,7 @@ import MyDistribute from "./components/distribute/myDistribute/index"
 import Goods from "./components/distribute/goodsDistribute/index" 
 import MyStock from "./components/distribute/myStock/index" 
 import SearchNumber from "./components/distribute/search/search" 
+import SearchResult from "./components/distribute/search/searchResult" 
 
 import './App.css';
 
@@ -88,6 +89,7 @@ function App() {
          <Route path="/goodsDistribute" exact component={Goods}/>    
          <Route path="/myStock" exact component={MyStock}/>    
          <Route path="/searchNumber" exact component={SearchNumber}/>    
+         <Route path="/searchResult" exact component={SearchResult}/>    
       </Router>
   );
 }

@@ -1,4 +1,4 @@
-import { PullToRefresh, Tabs,  Badge } from 'antd-mobile';
+import { PullToRefresh,  } from 'antd-mobile';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -126,7 +126,25 @@ export default class Demo extends React.Component {
                     <span className="number">1234 4568 45</span>
                     <span className="unit">张</span>
                     <span className="price"><b>46 </b>元</span>
-                    <span className="deal">和</span>
+                    <span className="deal">操作</span>
+                  </li>
+              ))}
+            </ul>
+          ):this.props.type === 'search'?(
+            <ul className="listBox goodslistBox" >
+              {this.state.data.map(i => (
+                  <li className="list" key= {i}>
+                      <img src={require("../../assets/goods.png")} alt="商品图片"/>
+                      <div className="goodsType">
+                        <div className="name">
+                          <p>1283924、豹子号1246备份</p><span>￥ 146192元</span>
+                        </div>
+                        <div className="number">
+                          <p>
+                            共：<span>100</span> 张
+                          </p>
+                        </div>
+                      </div>
                   </li>
               ))}
             </ul>
