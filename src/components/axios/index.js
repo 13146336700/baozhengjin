@@ -57,9 +57,9 @@ import md5 from "md5";
 const service = axios.create({
 	
 	// baseURL: "http://198.166.1.168:7080/YBSys/ybws/", // api的base_url 线下测试
-	// baseURL: "http://198.166.1.168:8080/YBAppDev/ybws/", // api的base_url 线下正式
+	baseURL: "http://198.166.1.168:8080/YBAppDev/ybws/", // api的base_url 线下正式
 	// baseURL: "http://api.ybk008.com:8080/YBApp/ybws/", // api的base_url  线上测试地址 不用
-	baseURL: "https://api.youbao360.com/YBApp/ybws/", // api的base_url 线上 正式地址
+	// baseURL: "https://api.youbao360.com/YBApp/ybws/", // api的base_url 线上 正式地址
 	timeout: 10000 // 请求超时时间 5秒
 });
 var dialogTimes = 1;
@@ -117,7 +117,7 @@ service.interceptors.response.use(
 		// 否则的话抛出错误
 		if (response.status === 200) {
 			// console.log(response)
-			if (response.data.code == 21001) {
+			if (response.data.code === 21001) {
 				if (dialogTimes < 2) {
 					//   Message({
 					//     type: "error",
@@ -140,7 +140,7 @@ service.interceptors.response.use(
 		}
 	},
 	error => {
-		console.log(error, "服务器挂了，哈哈哈哈哈");
+		// console.log(error, "服务器挂了，哈哈哈哈哈");
 		if (error.response.status) {
 			switch (error.response.status) {
 				// 401: 未登录
