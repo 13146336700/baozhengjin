@@ -9,12 +9,13 @@ export default class distribute extends React.Component {
     componentWillMount() {
         document.title = "币票配号";
     };
+
     
     render() {
         return (
             <div className="distribute" style={{padding:'10px 0 0 0'}}>
-                <Banner />
-                <Demo type="index" />
+                <Banner rpType="ybBanner"/>
+                <Demo page="index" />
                 <div className="pub">
                     <img src={require('../../assets/pub.png')} alt=""/>
                 </div>

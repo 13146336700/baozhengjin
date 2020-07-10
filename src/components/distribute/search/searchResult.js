@@ -44,11 +44,11 @@ export default class SearchResult extends React.Component {
                     >
                     <div style={{ height:'600px' }}>
                         <div style={{height:'10px', background: '#F2F2F2'}}></div>
-                        <Demo type="search"/>
+                        <Demo page="search" type="sell"/>
                     </div>
                     <div style={{ height:'600px' }}>
                         <div style={{height:'10px', background: '#F2F2F2'}}></div>
-                        <Demo type="search"/>
+                        <Demo page="search" type="buy"/>
                     </div>
                     </Tabs>
                 <div className="pub">

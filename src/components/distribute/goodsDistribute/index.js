@@ -22,7 +22,7 @@ export default class Goods extends React.Component {
           ];
         return (
             <div className="mydistribute" style={{background: '#ffffff'}}>
-                <Banner />
+                <Banner rpType="flBanner"/>
                 
                 <Tabs tabs={tabs}
                     initialPage={0}
@@ -32,16 +32,16 @@ export default class Goods extends React.Component {
                     onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
                     >
                     <div style={{ height:'600px' }}>
-                        <Demo type="goods"/>
+                        <Demo page="goods" type="sell"/>
                     </div>
                     <div style={{ height:'600px' }}>
-                        <Demo type="goods"/>
+                        <Demo page="goods" type="buy"/>
                     </div>
                     <div style={{ height:'600px' }}>
-                        <Demo type="goods"/>
+                        <Demo page="goods" type="all"/>
                     </div>
                     <div style={{ height:'600px' }}>
-                        <Demo type="goods"/>
+                        <Demo page="goods" type="sell"/>
                     </div>
                     </Tabs>
                 <div className="pub">

@@ -1,11 +1,16 @@
 import React from 'react';
-import { WhiteSpace, Button } from 'antd-mobile';
+import iconCheck from "../../assets/iconcheck.png"
+import iconCheckbox from "../../assets/iconcheckbox.png"
 
 export default class SearchNumber extends React.Component {
     
     componentWillMount() {
         document.title = "配号搜索";
     };
+    state = {
+        position: 'end',  //号码搜索位置参数,
+        numberType: ["豹子号(三连号)","狮子号(四连号)","生日号","老虎号(五连号)","大象号(六连号)","爱情号","恐龙号(七连号)","麒麟号(八连号)","顺号","叠号","一拖三","三拖一"],
+    }
 
     render() {
         return (
@@ -25,19 +30,19 @@ export default class SearchNumber extends React.Component {
                     <div className="radiogrup">
                         <dl>
                             <dd>
-                            ✔
+                                <img src={this.state.position === 'end'? iconCheck:iconCheckbox} alt=""/>
                             </dd>
                             <dt>尾号</dt>
                         </dl>
                         <dl>
                             <dd>
-                                <img src="" alt=""/>
+                                <img src={this.state.position === 'start'? iconCheck:iconCheckbox} alt=""/>
                             </dd>
                             <dt>起始号</dt>
                         </dl>
                         <dl>
                             <dd>
-                                <img src="" alt=""/>
+                                <img src={this.state.position === 'any'? iconCheck:iconCheckbox} alt=""/>
                             </dd>
                             <dt>任意</dt>
                         </dl>
@@ -48,12 +53,11 @@ export default class SearchNumber extends React.Component {
                     <div className="searchlist">
                         <div className="searchtitle">搜索类型</div>
                         <ul>
-                            <li className="list">豹子号(三连号)</li>
-                            <li className="list">豹子号(三连号)</li>
-                            <li className="list">生日号</li>
-                            <li className="list">豹子号(三连号)</li>
-                            <li className="list">生日号</li>
-                            <li className="list">豹子号(三连号)</li>
+                            {
+                                this.state.numberType.map(val => (
+                                    <li className="list">{val}</li>
+                                ))
+                            }
                         </ul>
                     </div>
                     <div className="searchlist">

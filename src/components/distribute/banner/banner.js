@@ -1,6 +1,7 @@
 import React from 'react';
-import { Carousel, WhiteSpace  } from 'antd-mobile';
+import { Carousel  } from 'antd-mobile';
 import "../index/index.scss";
+import axios from "../../axios/index";
 
 export default class Banner extends React.Component {
     state = {
@@ -14,7 +15,19 @@ export default class Banner extends React.Component {
           data: ['AiyWuByWklrrUDlFignR', 'TekJlZRVCjLFexlOCuWn', 'IJOtIlfsYdTyaDTRVrLI'],
         });
       }, 100);
+      this.getBannerList();
     }
+
+    getBannerList() {
+      axios.post("fbusiness/json/getSbuyLunBo", {
+        rpType: this.props.rpType
+      }).then( (res)=>{
+          console.log(res);
+      }).catch((err) =>{
+          console.log(err);
+      })
+    }
+
     render() {
       return (
           <Carousel

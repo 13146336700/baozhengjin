@@ -1,7 +1,7 @@
 import React from 'react';
 import "../index/index.scss";
 import Demo from "../pullRefresh/pullRefresh";
-import { Tabs,  Badge, SearchBar, Icon} from 'antd-mobile';
+import { Tabs,  Badge} from 'antd-mobile';
 
 export default class MyStock extends React.Component {
 
@@ -28,10 +28,10 @@ export default class MyStock extends React.Component {
                     onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
                     >
                     <div style={{ height:'600px' }}>
-                        <Demo type="stock"/>
+                        <Demo page="stock" type="sell"/>
                     </div>
                     <div style={{ height:'600px' }}>
-                        <Demo type="stock"/>
+                        <Demo page="stock" type="buy"/>
                     </div>
                 </Tabs>
                 

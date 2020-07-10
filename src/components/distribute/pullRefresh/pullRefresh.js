@@ -1,32 +1,105 @@
 import { PullToRefresh,  } from 'antd-mobile';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import axios from "../../axios/index";
 
-function genData() {
-  const dataArr = [];
-  for (let i = 0; i < 4; i++) {
-    dataArr.push(i);
-  }
-  return dataArr;
-}
 
 export default class Demo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      refreshing: false,
-      down: true,
+      refreshing: false,  //能否上拉的判断
       height: document.documentElement.clientHeight,
-      data: [],
+      data: [], //数据列表
+      pageIndex: 1, //页数
+      pageSize: "20", //页数
+      url:'', //接口请求地址
+      getData: {},  //接口请求数据
     };
+  }
+  componentWillMount() {
+    let type = this.props.type;
+    switch (type) {
+      case 'index':
+        this.setState({
+          url: 'subject/json/getMatchProductList',
+          getData: {
+            pageSize: this.state.pageSize,
+            pageIndex: this.state.pageIndex,
+          }
+        })
+        break;
+      case 'goods':
+        this.setState({
+          url: 'subject/json/getMatchProductList',
+          getData: {
+
+          }
+        })
+        break;
+      case 'my':
+        this.setState({
+          url: 'subject/json/myNumberList',
+          getData: {
+
+          }
+        })
+        break;
+      case 'stock':
+        this.setState({
+          url: 'subject/json/goodsNumber',
+          getData: {
+            userId:"",
+            name: this.props.goodsName,
+            type: this.props.type,
+          }
+        })
+        break;
+      case 'search':
+        this.setState({
+          url: 'subject/json/getMatchProductList',
+          getData: {
+
+          }
+        })
+        break;
+    
+      default:
+        break;
+    }
+  };
+  genData() {
+    const dataArr = this.state.data;
+    for (let i = 0; i < 4; i++) {
+      dataArr.push(i);
+    }
+    return dataArr;
   }
 
   componentDidMount() {
+    let _this = this;
     const hei = this.state.height - ReactDOM.findDOMNode(this.ptr).offsetTop;
     setTimeout(() => this.setState({
       height: hei,
-      data: genData(),
+      data: _this.genData(),
     }), 0);
+    this.getdataList();
+  }
+
+  getdataList() {
+    console.log('page类型',this.props.page);
+    axios.post("subject/json/getMatchProductList", {
+        sname: this.props.type?this.props.type:null,
+        pageSize: '10',
+        pageIndex: this.state.pageIndex,
+    }).then( (res)=>{
+        console.log(res);
+        this.setState({
+          pageIndex: this.state.pageIndex + 1
+        })
+    }).catch((err) =>{
+        console.log(err);
+    })
   }
 
   render() {
@@ -39,18 +112,19 @@ export default class Demo extends React.Component {
           height: this.state.height,
           overflow: 'auto',
         }}
-        indicator={this.state.down ? {} : { deactivate: '上拉可以刷新' }}
+        indicator={{ deactivate: '上拉可以刷新' }}
         direction='up'
         refreshing={this.state.refreshing}
         onRefresh={() => {
           this.setState({ refreshing: true });
+          this.getdataList();
           setTimeout(() => {
             this.setState({ refreshing: false });
           }, 1000);
         }}
       >
         {
-          this.props.type === 'index'?(
+          this.props.page === 'index'?(
             <ul className="listBox" >
                 {this.state.data.map(i => (
                     <li className="list" key= {i}>
@@ -71,7 +145,7 @@ export default class Demo extends React.Component {
                     </li>
                 ))}
             </ul>
-          ):this.props.type === 'my'?(
+          ):this.props.page === 'my'?(
             <ul className="listBox mylist" >
                 {this.state.data.map(i => (
                     <li className="list" key= {i}>
@@ -96,7 +170,7 @@ export default class Demo extends React.Component {
                     </li>
                 ))}
             </ul>
-          ):this.props.type === 'goods'?(
+          ):this.props.page === 'goods'?(
               <ul className="listBox goodslistBox" >
                 {this.state.data.map(i => (
                     <li className="list" key= {i}>
@@ -114,7 +188,7 @@ export default class Demo extends React.Component {
                     </li>
                 ))}
               </ul>
-          ):this.props.type === 'stock'?(
+          ):this.props.page === 'stock'?(
             <ul className="stocklistBox" >
               <li className="listTop">
                 <span className="number">号码</span>
@@ -130,7 +204,7 @@ export default class Demo extends React.Component {
                   </li>
               ))}
             </ul>
-          ):this.props.type === 'search'?(
+          ):this.props.page === 'search'?(
             <ul className="listBox goodslistBox" >
               {this.state.data.map(i => (
                   <li className="list" key= {i}>
