@@ -22,7 +22,7 @@ export default class Demo extends React.Component {
     switch (type) {
       case 'index':
         this.setState({
-          url: 'subject/json/getMatchProductList',
+          url: 'subject/json/getMatchProductList',  //币票配号列表
           getData: {
             pageSize: this.state.pageSize,
             pageIndex: this.state.pageIndex,
@@ -30,24 +30,40 @@ export default class Demo extends React.Component {
         })
         break;
       case 'goods':
-        this.setState({
-          url: 'subject/json/getMatchProductList',
-          getData: {
-
-          }
-        })
+        if (this.props.type === "transaction") {
+          this.setState({
+            url: 'subject/json/dealNumberList',  //某某商品配号列表
+            getData: {
+              name: "", //	String	是	类型	商品名称
+              pageSize: this.state.pageSize,  //	String	必填	每页数量	
+              pageIndex: this.state.pageIndex, //	String	必填	页码
+            }
+          })
+        }else {
+          this.setState({
+            url: 'subject/json/goodsNumberList',  //某某商品配号列表
+            getData: {
+              name: "", //	String	是	类型	商品名称
+              type: "", //	String	否	类型	购买类型
+              pageSize: this.state.pageSize, //	String	必填	每页数量	
+              pageIndex: this.state.pageIndex, //	String	必填	页码
+            }
+          })
+        }
         break;
       case 'my':
         this.setState({
-          url: 'subject/json/myNumberList',
+          url: 'subject/json/myNumberList', //我的配号
           getData: {
-
+            userId: "",
+            pageSize: this.state.pageSize,
+            pageIndex: this.state.pageIndex,
           }
         })
         break;
       case 'stock':
         this.setState({
-          url: 'subject/json/goodsNumber',
+          url: 'subject/json/goodsNumber',    //我的商品号码列表
           getData: {
             userId:"",
             name: this.props.goodsName,
@@ -57,9 +73,15 @@ export default class Demo extends React.Component {
         break;
       case 'search':
         this.setState({
-          url: 'subject/json/getMatchProductList',
+          url: 'subject/json/searchNum', //搜索号码
           getData: {
-
+            sname: "",  //	String	否	搜索关键字	
+            name: "",  //	String	必填		产品名称
+            type: "",  //	String	必填	品类交易类型
+            tag: "",  //	String	否	品类交易类型
+            position: "",  //	String	必填	位置
+            pageSize: this.state.pageSize,  //	String	必填	每页数量	
+            pageIndex: this.state.pageIndex,  //	String	必填	页码
           }
         })
         break;

@@ -289,12 +289,28 @@
             line-height:28px;
             dl{
                 display: inline-block;
+                margin-right: 40px;
+                height: 28px;
                 dd{
-                    display: inline-block;
-                    border: 1px solid #e2e2e2;
+                    float: left;
+                    height: 28px;
+                    width: 28px;
+                    margin-right: 20px;
+                    img{
+                        display: block;
+                        border: none;
+                        height: 100%;
+                        width: 100%;
+                    }
                 }
                 dt{
                     display: inline-block;
+                    height:28px;
+                    font-size:28px;
+                    font-family:PingFangSC-Regular,PingFang SC;
+                    font-weight:400;
+                    color:rgba(51,51,51,1);
+                    line-height:28px;
                 }   
             }
             label{

@@ -41,7 +41,7 @@ export default class Goods extends React.Component {
                         <Demo page="goods" type="all"/>
                     </div>
                     <div style={{ height:'600px' }}>
-                        <Demo page="goods" type="sell"/>
+                        <Demo page="goods" type="transaction"/>
                     </div>
                     </Tabs>
                 <div className="pub">
