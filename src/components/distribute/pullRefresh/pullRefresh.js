@@ -148,8 +148,8 @@ export default class Demo extends React.Component {
         {
           this.props.page === 'index'?(
             <ul className="listBox" >
-                {this.state.data.map(i => (
-                    <li className="list" key= {i}>
+                {this.state.data.map((item,index) => (
+                    <li className="list" key= {index} onClick={() => this.props.history.push(`/goodsDistribute/${item.name}}`)}>
                         <img src={require("../../assets/goods.png")} alt="商品图片"/>
                         <div className="goodsType">
                           <div className="name">
