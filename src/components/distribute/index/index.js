@@ -1,16 +1,24 @@
-import React, { component } from 'react';
+import React from 'react';
+import "./index.scss";
+import Demo from "../pullRefresh/pullRefresh";
+import Banner from "../banner/banner";
 
-export default class diatribute extends React.component {
-    state = {
-        dataList: [],
-    };
+
+export default class distribute extends React.Component {
+    
     componentWillMount() {
         document.title = "币票配号";
     };
+
+    
     render() {
         return (
-            <div>
-
+            <div className="distribute" style={{padding:'10px 0 0 0'}}>
+                <Banner rpType="ybBanner"/>
+                <Demo page="index" />
+                <div className="pub">
+                    <img src={require('../../assets/pub.png')} alt=""/>
+                </div>
             </div>
         );
     }

@@ -22,6 +22,14 @@ import BuyingRelease from './components/distribute/SaleRelease/BuyingRelease';
 import Increase from './components/distribute/SaleRelease/Increase';
 import SaleDetails from './components/distribute/SaleRelease/SaleDetails';
 // import logo from './logo.svg';
+// 配号功能部分
+import distribute from "./components/distribute/index/index";
+import MyDistribute from "./components/distribute/myDistribute/index"
+import Goods from "./components/distribute/goodsDistribute/index" 
+import MyStock from "./components/distribute/myStock/index" 
+import SearchNumber from "./components/distribute/search/search" 
+import SearchResult from "./components/distribute/search/searchResult" 
+import Preview from "./components/distribute/preview/preview" 
 
 import './App.css';
 
@@ -92,7 +100,14 @@ function App() {
          <Route path="/BuyingRelease" exact component={BuyingRelease}/>   
          <Route path="/Increase" exact component={Increase}/>   
          <Route path="/SaleDetails" exact component={SaleDetails}/>   
-         
+         <Route path="/distribute" exact component={distribute}/>    
+         <Route path="/myDistribute" exact component={MyDistribute}/>    
+         <Route path="/goodsDistribute" exact component={Goods}/>    
+         <Route path="/myStock" exact component={MyStock}/>    
+         <Route path="/searchNumber" exact component={SearchNumber}/>    
+         <Route path="/searchResult" exact component={SearchResult}/>    
+         <Route path="/preview" exact component={Preview}/>    
+
       </Router>
   );
 }

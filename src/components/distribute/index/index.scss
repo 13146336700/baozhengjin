@@ -1,0 +1,380 @@
+.am-tabs-default-bar-tab{
+    height: 80px!important;
+}
+.am-navbar{
+    height: 80px!important;
+    border-bottom: 1px solid #eeeedd;
+}
+.am-search{
+    height: 64px!important;
+    background-color: #ffffff!important;
+}
+.am-search-input{
+    height: 64px!important;
+    background-color: #f2f2f2!important;
+    border-radius: 11px!important;
+    .am-search-synthetic-ph-icon{
+        height: 64px!important;
+        width: 64px!important;
+        background-position-y: 14px!important;
+        background-size: 38px!important;
+    }
+    .am-search-value{
+        height: 64px!important;
+        line-height: 64px!important;
+        font-size: 28px!important;
+        padding-left: 80px!important;
+    }
+    .am-search-clear{
+        height: 60px!important;
+        width: 60px!important;
+    }
+}
+
+.am-icon{
+    height: 64px!important;
+    width: 64px!important;
+}
+
+.listBox{
+    padding-top: 20px;
+    
+    .list{
+        height: 134px;
+        box-sizing: border-box;
+        display: flex;
+        padding: 24px 0px 0px 30px;
+        img{
+            display: block;
+            border: none;
+            height: 86px;
+            width: 86px;
+            margin-right: 20px;
+        }
+        .goodsType{
+            flex: 1;
+            border-bottom: 1px solid #DADDE1;
+            .name{
+                height:46px;
+                font-size:34px;
+                font-family:PingFangSC-Regular,PingFang SC;
+                font-weight:400;
+                color:rgba(0,0,0,1);
+                line-height:46px;
+            }
+            .number{
+                p{
+                    display: inline-block;
+                    width: 240px;
+                    height:40px;
+                    font-size:24px;
+                    font-family:PingFangSC-Regular,PingFang SC;
+                    font-weight:400;
+                    color:rgba(102,102,102,1);
+                    line-height:40px;
+                    span{
+                        color:rgba(235,51,24,1);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.mylist {
+    .name {
+        p {
+            float: right;
+            margin-right: 30px;
+            display: flex;
+            padding-top: 7px;
+            .icon{
+                height:32px;
+                width: 32px;
+                margin-right: 8px;
+            }
+            span{
+                display: inline-block;
+                height:32px;
+                font-size:28px;
+                font-family:PingFangSC-Regular,PingFang SC;
+                font-weight:400;
+                color:rgba(51,51,51,1);
+                line-height:32px;
+            }
+        }
+    }
+}
+
+/*配号商品列表*/
+.goodslistBox{
+    .name{
+        display: flex;
+        p{
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: calc(100% - 282px);
+        }
+        span{
+            display: block;
+            width: 200px;
+            color: #eb3318;
+            margin-right: 30px;
+            margin-left: 10px;
+            font-size: 32px;
+        }
+    }
+}
+
+
+.stocklistBox{
+    background: #F2F2F2;
+    padding: 0px 30px;
+    .listTop{
+        height: 80px;
+    }
+    li{
+        height: 84px;
+        line-height: 80px;
+        padding: 0px 30px 0px 20px;
+        display: flex;
+        font-size:32px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(51,51,51,1);
+        .number{
+            width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .unit{
+            width: 120px;
+            text-align: center;
+        }
+        .price{
+            flex: 1;
+            b{
+                color: #EB3318;
+                font-weight: normal;
+            }
+        }
+        .deal{
+            margin-left: 16px;
+            width: 70px;
+            color: #D41F04;
+        }
+    }
+    .list{
+        background: #ffffff;
+        border-radius: 8px;
+        margin-bottom: 16px;
+    }
+}
+
+/*我的库存管理*/
+.mystock{
+    .goodsName{
+        height: 80px;
+        background-color: #ffffff;
+        padding-left: 30px;
+        font-size:32px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(102,102,102,1);
+        line-height:80px;
+        border-bottom: 2px solid #f2f2f2;
+    }
+    .addStock{
+        position: fixed;
+        width:690px;
+        height:96px;
+        background:rgba(215,48,45,1);
+        border-radius:26px;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-345px);
+        font-size:34px;
+        font-family:PingFangSC-Medium,PingFang SC;
+        font-weight:500;
+        color:rgba(255,255,255,1);
+        line-height:96px;
+        letter-spacing:2px;
+        text-align: center;
+    }
+}
+
+/*我的配号*/
+.mydistribute {
+    .Resultheader{
+        display: flex;
+        height: 76px;
+        padding-top: 12px;
+        .back{
+            width: 78px;
+            font-size: 32px;
+            line-height: 88px;
+        }
+        .title{
+            flex: 1;
+            margin-right: 44px;
+        }
+    }
+}
+
+/*发布按钮*/
+.pub{
+    position: fixed;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50px);
+    width: 110px;
+    height: 110px;
+    z-index: 2000;
+    img{
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+/*配号搜索结果*/
+.searchNumber{
+    .header{
+        border-bottom: 4px solid #f2f2f2;
+    }
+    .searchTop{
+        height: 126px;
+        box-sizing: border-box;
+        padding: 30px;
+        display: flex;
+        button{
+            width:120px;
+            height:56px;
+            border:1px solid rgba(151,151,151,1);
+            border-radius:11px;
+            box-sizing: border-box;
+            font-size:28px;
+            font-family:PingFangSC-Regular,PingFang SC;
+            font-weight:400;
+            color:rgba(51,51,51,1);
+            margin-left: 40px;
+            background-color: #ffffff;
+            transform: translateY(5px);
+        }
+        .activeBtn{
+            background:rgba(235,51,24,1);
+            border:1px solid rgba(235,51,24,1);
+            color: #ffffff;
+        }
+        input{
+            height:64px;
+            border-radius:7px;
+            border:1px solid rgba(151,151,151,1);
+            flex: 1;
+        }
+    }
+    
+    .mainCon{
+        padding: 34px 30px;
+        .radiogrup{
+            margin-bottom: 32px;
+            height:28px;
+            font-size:28px;
+            font-family:PingFangSC-Regular,PingFang SC;
+            font-weight:400;
+            color:rgba(51,51,51,1);
+            line-height:28px;
+            dl{
+                display: inline-block;
+                margin-right: 40px;
+                height: 28px;
+                dd{
+                    float: left;
+                    height: 28px;
+                    width: 28px;
+                    margin-right: 20px;
+                    img{
+                        display: block;
+                        border: none;
+                        height: 100%;
+                        width: 100%;
+                    }
+                }
+                dt{
+                    display: inline-block;
+                    height:28px;
+                    font-size:28px;
+                    font-family:PingFangSC-Regular,PingFang SC;
+                    font-weight:400;
+                    color:rgba(51,51,51,1);
+                    line-height:28px;
+                }   
+            }
+            label{
+                margin-right: 40px;
+            }
+        }
+        .searchBox{
+            display: flex;
+            margin-bottom: 18px;
+            input{
+                flex: 1;
+                height:70px;
+                background:rgba(242,242,242,1);
+                border-radius:11px;
+                border: none;
+                padding-left: 64px;
+                font-size: 30px;
+            }
+            button{
+                width: 112px;
+                height: 70px;
+                line-height: 70px;
+                font-size:36px;
+                font-family:PingFangSC-Medium,PingFang SC;
+                font-weight:500;
+                color:rgba(235,51,24,1);
+                border: none;
+                background: transparent;
+            }
+        }
+        .searchtitle{
+            height: 95px;
+            line-height: 95px;
+            font-size:32px;
+            font-family:PingFangSC-Regular,PingFang SC;
+            font-weight:400;
+            color:rgba(51,51,51,1);
+            span{
+                font-size: 24px;
+                line-height: 24px;
+                padding-left: 20px;
+            }
+            .deleteIcon{
+                border: none;
+                height: 27px;
+                width: 22px;
+                float: right;
+                transform: translateY(40px);
+            }
+        }
+        .list{
+            display: inline-block;
+            height: 70px;
+            box-sizing: border-box;
+            padding: 20px 25px;
+            font-size:28px;
+            line-height: 30px;
+            font-family:PingFangSC-Regular,PingFang SC;
+            font-weight:400;
+            color:rgba(51,51,51,1);
+            background:rgba(238,237,237,1);
+            border-radius:6px;
+            margin-right: 16px;
+            margin-bottom: 18px;
+        }
+    }
+}
