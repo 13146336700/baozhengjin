@@ -9,7 +9,6 @@ import axios from "../axios";
 var u = navigator.userAgent;
 var isAndroid = u.indexOf("Android") > -1;
 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-console.log(u);
 
 class member extends React.Component {
   state = {

@@ -1,48 +1,61 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
-import "./Uheader.scss";
+import React, { Component } from "react";
+var u = navigator.userAgent;
+var isAndroid = u.indexOf("Android") > -1;
+var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 
-function Uheaders(props) {
-	console.log(props)
-  return (
-    <div className="Uheaders">
-		 <ul>
-		   <li><img src={require('../assets/Goreturn.png')}/></li>
-           <li>{props.utitle}</li>
-           <li>{props.subtitle}</li>
-		 </ul>
-     
-    </div>
-  );
+export default class Uheaders extends React.Component {
+  constructor(props) {
+    super(props);
+    // this.state = {
+    //   selectValue:'startup'
+    // };
+    this.backClick = this.backClick.bind(this);
+  }
+  componentWillMount() {
+
+  };
+  static defaultProps = {
+    useach: false,
+  };
+  backClick = ()=>{
+    console.log(this.props)
+  
+    if(this.props.match.path == "/SaleRelease"){
+      if (isiOS) {
+        try {
+          window.webkit.messageHandlers.IOSNativeGotoBack.postMessage("");
+          // window.webkit.messageHandlers.IOSNativePayBond.postMessage(50);
+        } catch (e) {
+          console.log(e);
+        }
+      } else {
+        try {
+          window.app.androidNativeGotoBack ("");
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    }else{
+      this.props.history.go(-1);
+    }
+  };
+  render() {
+    return (
+      <div className="Uheaders">
+        <div className="Uheadershome">
+          <ul className={isiOS ? "iosHeader" : null}>
+            <li onClick={()=>this.backClick()}>
+              <img src={require("../assets/Goreturn.png")} />
+            </li>
+            <li>{this.props.utitle}</li>
+            <li>
+              {this.props.useach ? (
+                <img src={require("../assets/seach.png")} />
+              ) : null}
+            </li>
+          </ul>
+        </div>
+      </div>
+    );
+  }
 }
-export default Uheaders;
-
-// function App1123() {
-//   return (
-//     <div className="Uheaders">
-//          我是测试页面哟~~~666
-// 	   <ul className="menu">
-// 	    <li>123</li>
-// 		<li>我都是好孩子</li>
-// 	    <Link to='/Page1'>Page1跳转</Link>
-// 	  </ul>
-//     </div>
-//   );
-// }
-
-
-
-// class Uheaders extends Component {
-//   render() {
-//     return (
-//       <div className="Uheaders">
-//       		 <ul>
-//       		   <li><img src={require('../assets/Goreturn.png')}/></li>
-//                <li>12132</li>
-//               <li>规则</li>
-//        		 </ul>
-//        </div>
-//     )
-//   }
-// }
-// export default Uheaders;

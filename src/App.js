@@ -16,6 +16,11 @@ import good from './components/Margin/good/good';
 import releasecontent from './components/releasecontent/releasecontent'; 
 import member from './components/member/member';
 import menberExplanation from './components/member/menberExplanation';
+import SaleRelease from './components/distribute/SaleRelease/SaleRelease';
+import SaleReleaseSeach from './components/distribute/SaleRelease/SaleReleaseSeach';
+import BuyingRelease from './components/distribute/SaleRelease/BuyingRelease';
+import Increase from './components/distribute/SaleRelease/Increase';
+import SaleDetails from './components/distribute/SaleRelease/SaleDetails';
 // import logo from './logo.svg';
 
 import './App.css';
@@ -55,7 +60,12 @@ Page 总页面入口文件
  帮助
 help/member 会员帮助
 help/promotion 推广帮助
-
+--------------------------------------------
+配号码
+BuyingRelease 配号出售发布
+SaleRelease 配号求购发布
+Increase 增加库存
+SaleDetails 增加详情 上传图片
 
  */
 function App() {
@@ -77,6 +87,12 @@ function App() {
          <Route path="/member/:userId" exact component={member}/>
          <Route path="/menberExplanation" exact component={menberExplanation}/>
          <Route path="/releasecontent/:num" exact component={releasecontent}/>    
+         <Route path="/SaleRelease" exact component={SaleRelease}/>   
+         <Route path="/SaleReleaseSeach" exact component={SaleReleaseSeach}/>   
+         <Route path="/BuyingRelease" exact component={BuyingRelease}/>   
+         <Route path="/Increase" exact component={Increase}/>   
+         <Route path="/SaleDetails" exact component={SaleDetails}/>   
+         
       </Router>
   );
 }

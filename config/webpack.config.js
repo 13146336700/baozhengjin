@@ -113,6 +113,7 @@ module.exports = function (webpackEnv) {
             postcssNormalize(),
             px2rem({
               remUnit: 75,
+              // exclude: /node_modules|folder_name/i
             })
           ],
           sourceMap: isEnvProduction && shouldUseSourceMap,

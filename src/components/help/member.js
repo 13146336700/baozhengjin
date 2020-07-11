@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import Uheader from "../Goolbal/Uheader";
 import "./help.scss";
+
 export default class interests extends React.Component {
     componentWillMount(){
         document.title = "会员权益说明";
@@ -7,6 +9,8 @@ export default class interests extends React.Component {
   render() {
     return (
       <div className="interests">
+        {/* <Uheader utitle="123" subtitle="456"></Uheader> */}
+        
         <div className="zhanwei"></div>
         <header>
           会员是邮宝为了更好服务用户，推出的一项增值会员服务，包含众多会员专属权益，全面提升核心用户购物体验，成为会员后您将获得以下会员特权：

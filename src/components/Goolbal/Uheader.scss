@@ -1,8 +1,17 @@
 .Uheaders {
   width: 100%;
   background: white;
+
+  height: 88px; /*px*/
+  .Uheadershome{
+    width: 100%;
+    position: fixed;
+    top:0;
+    background-color: white;
+    z-index:500;
+  }
   ul {
-    width: 95%;
+    width: 93%;
     height: 88px;
     /*px*/
     margin: auto;
@@ -27,6 +36,10 @@
       flex: 1;
       font-size: 34px;
       font-family: PingFangSC-Regular, PingFang SC;
+      display: block;//块状显示
+      overflow: hidden;//隐藏文字
+      text-overflow: ellipsis;//显示...
+      white-space: nowrap; //不换行
       font-weight: 600;
       color: rgba(51, 51, 51, 1);
     }
@@ -38,8 +51,28 @@
       font-family: PingFangSC-Regular, PingFang SC;
       font-weight: 400;
       color: rgba(109, 114, 120, 1);
+      img{
+        width: 50px;  /*px*/
+      }
     }
   }
+  .iosHeader {
+ 
+      padding-top: constant(safe-area-inset-top);   //为导航栏+状态栏的高度 88px            
+      padding-left: constant(safe-area-inset-left);   //如果未竖屏时为0                
+      padding-right: constant(safe-area-inset-right); //如果未竖屏时为0                
+      padding-bottom: constant(safe-area-inset-bottom);//为底下圆弧的高度 34px       
+
+    // padding-top: 44px;
+		// /*px*/
+		// @media only screen and (device-width: 375px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
+		// 	padding-top: 88px;
+		// 	/*px*/
+		// 	// height: 176px;
+		// 	/*px*/
+		// }
+
+	}
 }
 .Lift {
   width: 100%;
