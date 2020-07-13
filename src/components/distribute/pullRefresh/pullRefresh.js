@@ -18,8 +18,9 @@ export default class Demo extends React.Component {
     };
   }
   componentWillMount() {
+    let page = this.props.page;
     let type = this.props.type;
-    switch (type) {
+    switch (page) {
       case 'index':
         this.setState({
           url: 'subject/json/getMatchProductList',  //币票配号列表
@@ -30,7 +31,7 @@ export default class Demo extends React.Component {
         })
         break;
       case 'goods':
-        if (this.props.type === "transaction") {
+        if (type === "transaction") {
           this.setState({
             url: 'subject/json/dealNumberList',  //某某商品配号列表
             getData: {
@@ -124,6 +125,10 @@ export default class Demo extends React.Component {
     })
   }
 
+  goodsDetail(id) {
+    console.log(id)
+  }
+
   render() {
     
     return (<div>
@@ -149,7 +154,7 @@ export default class Demo extends React.Component {
           this.props.page === 'index'?(
             <ul className="listBox" >
                 {this.state.data.map((item,index) => (
-                    <li className="list" key= {index} onClick={() => this.props.history.push(`/goodsDistribute/${item.name}}`)}>
+                    <li className="list" key= {index} onClick={() => this.props.history.push(`/goodsDistribute/${item.name}`)}>
                         <img src={require("../../assets/goods.png")} alt="商品图片"/>
                         <div className="goodsType">
                           <div className="name">
@@ -169,8 +174,8 @@ export default class Demo extends React.Component {
             </ul>
           ):this.props.page === 'my'?(
             <ul className="listBox mylist" >
-                {this.state.data.map(i => (
-                    <li className="list" key= {i}>
+                {this.state.data.map((item,index) => (
+                    <li className="list" key= {index} onClick={() => this.props.history.push(`/myStock/${item.name}`)}>
                         <img src={require("../../assets/goods.png")} alt="商品图片"/>
                         <div className="goodsType">
                           <div className="name">
@@ -194,8 +199,8 @@ export default class Demo extends React.Component {
             </ul>
           ):this.props.page === 'goods'?(
               <ul className="listBox goodslistBox" >
-                {this.state.data.map(i => (
-                    <li className="list" key= {i}>
+                {this.state.data.map((item,index) => (
+                    <li className="list" key= {index} onClick={() => this.goodsDetail(index)}>
                         <img src={require("../../assets/goods.png")} alt="商品图片"/>
                         <div className="goodsType">
                           <div className="name">
@@ -217,8 +222,8 @@ export default class Demo extends React.Component {
                 <span className="unit">单位</span>
                 <span className="price">价格</span>
               </li>
-              {this.state.data.map(i => (
-                  <li className="list" key= {i}>
+              {this.state.data.map((item,index) => (
+                  <li className="list" key= {index} >
                     <span className="number">1234 4568 45</span>
                     <span className="unit">张</span>
                     <span className="price"><b>46 </b>元</span>
@@ -228,8 +233,8 @@ export default class Demo extends React.Component {
             </ul>
           ):this.props.page === 'search'?(
             <ul className="listBox goodslistBox" >
-              {this.state.data.map(i => (
-                  <li className="list" key= {i}>
+              {this.state.data.map((item,index) => (
+                  <li className="list" key= {index}>
                       <img src={require("../../assets/goods.png")} alt="商品图片"/>
                       <div className="goodsType">
                         <div className="name">

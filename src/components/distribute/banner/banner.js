@@ -69,10 +69,15 @@ export default class Banner extends React.Component {
 
     render() {
       return (
+        <div>
+
+        {
+          this.state.bannerData.length > 0?
           <Carousel
             infinite
             autoplay={this.state.homeFlag}
             speed={2000}
+
           >
             {this.state.bannerData.map((val,index) => (
                 <img
@@ -83,7 +88,9 @@ export default class Banner extends React.Component {
                   onClick={() => this.appNative(index)}
                 />
             ))}
-          </Carousel>
+          </Carousel>:null
+          }
+        </div>
       );
     }
 }

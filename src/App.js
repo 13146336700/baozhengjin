@@ -24,9 +24,9 @@ import SaleDetails from './components/distribute/SaleRelease/SaleDetails';
 // import logo from './logo.svg';
 // 配号功能部分
 import distribute from "./components/distribute/index/index";
-import MyDistribute from "./components/distribute/myDistribute/index"
-import Goods from "./components/distribute/goodsDistribute/index" 
-import MyStock from "./components/distribute/myStock/index" 
+import MyDistribute from "./components/distribute/myDistribute/mydistribute"
+import Goods from "./components/distribute/goodsDistribute/goodsdistribute" 
+import MyStock from "./components/distribute/myStock/mystock" 
 import SearchNumber from "./components/distribute/search/search" 
 import SearchResult from "./components/distribute/search/searchResult" 
 import Preview from "./components/distribute/preview/preview" 
@@ -118,7 +118,7 @@ function App() {
          <Route path="/searchNumber" exact component={SearchNumber}/>    
          <Route path="/searchResult" exact component={SearchResult}/>    
          <Route path="/preview" exact component={Preview}/>    
-         <Route path="/publish" exact component={Publish}/>    
+         <Route path="/publish/:goodsname" exact component={Publish}/>    
 
       </Router>
   );

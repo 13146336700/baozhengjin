@@ -3,6 +3,8 @@ import { Tabs,  Badge } from 'antd-mobile';
 import "../index/index.scss";
 import Demo from "../pullRefresh/pullRefresh";
 import Banner from "../banner/banner";
+import Uheader from "../../Goolbal/Uheader";
+import PublishBtn from "../Global/publishBtn";
 
 export default class Goods extends React.Component {
 
@@ -22,8 +24,8 @@ export default class Goods extends React.Component {
           ];
         return (
             <div className="mydistribute" style={{background: '#ffffff'}}>
-                <Banner rpType="flBanner"/>
-                
+                <Uheader {...this.props} utitle="配号分类" useach="true"></Uheader>
+                <Banner {...this.props} rpType="flBanner"/>
                 <Tabs tabs={tabs}
                     initialPage={0}
                     tabBarActiveTextColor="#eb3318"
@@ -32,21 +34,19 @@ export default class Goods extends React.Component {
                     onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
                     >
                     <div style={{ height:'600px' }}>
-                        <Demo page="goods" type="sell"/>
+                        <Demo {...this.props} page="goods" type="sell"/>
                     </div>
                     <div style={{ height:'600px' }}>
-                        <Demo page="goods" type="buy"/>
+                        <Demo {...this.props} page="goods" type="buy"/>
                     </div>
                     <div style={{ height:'600px' }}>
-                        <Demo page="goods" type="all"/>
+                        <Demo {...this.props} page="goods" type="all"/>
                     </div>
                     <div style={{ height:'600px' }}>
-                        <Demo page="goods" type="transaction"/>
+                        <Demo {...this.props} page="goods" type="transaction"/>
                     </div>
-                    </Tabs>
-                <div className="pub">
-                    <img src={require('../../assets/pub.png')} alt=""/>
-                </div>
+                </Tabs>
+                <PublishBtn {...this.props}></PublishBtn>
             </div>
         );
     }

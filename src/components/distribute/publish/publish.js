@@ -1,6 +1,7 @@
 import React from 'react';
 import "../index/index.scss";
 import Banner from "../banner/banner";
+import Uheader from "../../Goolbal/Uheader";
 
 export default class Publish extends React.Component {
 
@@ -11,18 +12,38 @@ export default class Publish extends React.Component {
         checked: true
     };
 
+    goRelease(type) {
+        if (type === 'sale') {
+            this.props.history.push("/SaleRelease")
+        } else {
+            this.props.history.push("/BuyingRelease")
+        }
+    }
+
     render() {
         return (
-            <div className="publish" style={{background: '#F2F2F2'}}>
+            <div className="publish" style={{background: '#FFFFFF',minHeight:'100%'}}>
+                <Uheader {...this.props} utitle="发布" ></Uheader>
                 <div className="top">
                     <img src={require("../../assets/publishTop.png")} alt=""/>
                 </div>
-                {/* <Banner rpType="flBanner"/> */}
-                <div style={{ height:'400px' }}>
-                    
-                </div>
-                <div className="close">
-                    <img src={require("../../assets/closePub.png")} alt=""/>
+                <Banner {...this.props} rpType="flBanner"/>
+                <div className="btnBox" >
+                    <dl onClick={() => this.goRelease('sale')}>
+                        <dd>
+                            <img src={require('../../assets/buyCar.png')} alt="买盘图标"/>
+                        </dd>
+                        <dt>买盘</dt>
+                    </dl>
+                    <dl onClick={() => this.goRelease('buy')}>
+                        <dd>
+                            <img src={require('../../assets/sellCar.png')} alt="卖盘图标"/>
+                        </dd>
+                        <dt>卖盘</dt>
+                    </dl>
+                    <div className="close" onClick={() =>this.props.history.go(-1)}>
+                        <img src={require("../../assets/closePub.png")} alt=""/>
+                    </div>
                 </div>
             </div>
         );
