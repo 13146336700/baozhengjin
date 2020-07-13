@@ -31,9 +31,9 @@ export default class MyStock extends React.Component {
 
     goodsAdd() {
         if (this.state.publishType === 'sale') {
-            this.props.history.push("/SaleRelease")
+            this.props.history.push("/SaleRelease?category=编年套票&name=四轮狗套票&unitName=套")
         } else {
-            this.props.history.push("/BuyingRelease")
+            this.props.history.push("/BuyingRelease?category=编年套票&name=四轮狗套票&unitName=套")
         }
     }
 
@@ -62,6 +62,20 @@ export default class MyStock extends React.Component {
                 
                 <div className="addStock" onClick={() => this.goodsAdd()}>
                     增加库存
+                </div>
+                <div className="shade">
+                  <div className="cont">
+                    <p>
+                      <label htmlFor="">号码</label>
+                      <input type="text" disabled value="1234567896"/>
+                    </p>
+                    <p>
+                      <label htmlFor="">价格</label>
+                      <input type="text"/>
+                    </p>
+                    <button>标为售出</button>
+                    {/* <button>确认修改</button> */}
+                  </div>
                 </div>
             </div>
         );

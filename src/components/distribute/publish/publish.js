@@ -14,9 +14,9 @@ export default class Publish extends React.Component {
 
     goRelease(type) {
         if (type === 'sale') {
-            this.props.history.push("/SaleRelease")
+            this.props.history.push("/SaleRelease?category=编年套票&name=四轮狗套票&unitName=套")
         } else {
-            this.props.history.push("/BuyingRelease")
+            this.props.history.push("/BuyingRelease?category=编年套票&name=四轮狗套票&unitName=套")
         }
     }
 
