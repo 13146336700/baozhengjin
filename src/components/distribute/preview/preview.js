@@ -1,4 +1,5 @@
 import React from 'react';
+import "../index/index.scss";
 
 
 export default class Preview extends React.Component {
@@ -14,7 +15,7 @@ export default class Preview extends React.Component {
 
   render() {
     
-    return (<div>
+    return (<div className="mystock">
       <ul className="stocklistBox" >
         <li className="listTop">
           <span className="number">号码</span>
@@ -30,6 +31,20 @@ export default class Preview extends React.Component {
             </li>
         ))}
       </ul>
+      <div className="shade">
+        <div className="cont">
+          <p>
+            <label htmlFor="">号码</label>
+            <input type="text" disabled value="1234567896"/>
+          </p>
+          <p>
+            <label htmlFor="">价格</label>
+            <input type="text"/>
+          </p>
+          <button>标为售出</button>
+          {/* <button>确认修改</button> */}
+        </div>
+      </div>
     </div>);
   }
 }
