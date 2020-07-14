@@ -21,6 +21,16 @@ export default class Demo extends React.Component {
     let page = this.props.page;
     let type = this.props.type;
     switch (page) {
+      // case 'search':
+      //   this.setState({
+      //     url: 'subject/json/searchNumProduct', //搜索号码
+      //     getData: {
+      //       sname: this.props.searchName,	//String	否	类型	搜索关键字
+      //       pageSize: this.state.pageSize,  //	String	必填	每页数量	
+      //       pageIndex: this.state.pageIndex,  //	String	必填	页码
+      //     }
+      //   });
+      //   break;
       case 'index':
         this.setState({
           url: 'subject/json/getMatchProductList',  //币票配号列表
@@ -28,7 +38,7 @@ export default class Demo extends React.Component {
             pageSize: this.state.pageSize,
             pageIndex: this.state.pageIndex,
           }
-        })
+        });
         break;
       case 'goods':
         if (type === "transaction") {
@@ -60,7 +70,7 @@ export default class Demo extends React.Component {
             pageSize: this.state.pageSize,
             pageIndex: this.state.pageIndex,
           }
-        })
+        });
         break;
       case 'stock':
         this.setState({
@@ -70,21 +80,21 @@ export default class Demo extends React.Component {
             name: this.props.goodsName,
             type: this.props.type,
           }
-        })
+        });
         break;
-      case 'search':
+      case 'searchResult':
         this.setState({
           url: 'subject/json/searchNum', //搜索号码
           getData: {
-            sname: "",  //	String	否	搜索关键字	
-            name: "",  //	String	必填		产品名称
-            type: "",  //	String	必填	品类交易类型
-            tag: "",  //	String	否	品类交易类型
-            position: "",  //	String	必填	位置
+            sname: this.props.sname,  //	String	否	搜索关键字	
+            name: this.props.name,  //	String	必填		产品名称
+            type: this.props.type,  //	String	必填	品类交易类型
+            tag: this.props.tag,  //	String	否	品类交易类型
+            position: this.props.position,  //	String	必填	位置
             pageSize: this.state.pageSize,  //	String	必填	每页数量	
             pageIndex: this.state.pageIndex,  //	String	必填	页码
           }
-        })
+        });
         break;
     
       default:
@@ -154,7 +164,7 @@ export default class Demo extends React.Component {
           this.props.page === 'index'?(
             <ul className="listBox" >
                 {this.state.data.map((item,index) => (
-                    <li className="list" key= {index} onClick={() => this.props.history.push(`/goodsDistribute/${item.name}`)}>
+                    <li className="list" key= {index} onClick={() => this.props.history.push(`/goodsDistribute`)}>
                         <img src={require("../../assets/goods.png")} alt="商品图片"/>
                         <div className="goodsType">
                           <div className="name">
@@ -175,7 +185,7 @@ export default class Demo extends React.Component {
           ):this.props.page === 'my'?(
             <ul className="listBox mylist" >
                 {this.state.data.map((item,index) => (
-                    <li className="list" key= {index} onClick={() => this.props.history.push(`/myStock/${item.name}`)}>
+                    <li className="list" key= {index} onClick={() => this.props.history.push(`/myStock`)}>
                         <img src={require("../../assets/goods.png")} alt="商品图片"/>
                         <div className="goodsType">
                           <div className="name">
@@ -231,7 +241,7 @@ export default class Demo extends React.Component {
                   </li>
               ))}
             </ul>
-          ):this.props.page === 'search'?(
+          ):this.props.page === 'searchResult'?(
             <ul className="listBox goodslistBox" >
               {this.state.data.map((item,index) => (
                   <li className="list" key= {index}>
@@ -250,6 +260,17 @@ export default class Demo extends React.Component {
               ))}
             </ul>
           ):null
+          // ):this.props.page === 'search'?(
+          //   <ul className="listBox searchListBox" >
+          //     {this.state.data.map((item,index) => (
+          //         <li className="list" key= {index}>
+          //             <div className="">
+          //                 <p>抗疫邮票大版</p>
+          //             </div>
+          //         </li>
+          //     ))}
+          //   </ul>
+          // ):null
         }
 
       </PullToRefresh>

@@ -313,6 +313,7 @@
         box-sizing: border-box;
         padding: 30px;
         display: flex;
+        padding-left: -10px;
         button{
             width:120px;
             height:56px;
@@ -337,11 +338,15 @@
             border-radius:7px;
             border:1px solid rgba(151,151,151,1);
             flex: 1;
+            padding-left: 20px;
+            font-size: 28px;
         }
     }
     
     .mainCon{
+        position: relative;
         padding: 34px 30px;
+        flex: 1;
         .radiogrup{
             margin-bottom: 32px;
             height:28px;
@@ -424,7 +429,7 @@
                 transform: translateY(40px);
             }
         }
-        .list{
+        .typelist{
             display: inline-block;
             height: 70px;
             box-sizing: border-box;
@@ -438,6 +443,30 @@
             border-radius:6px;
             margin-right: 16px;
             margin-bottom: 18px;
+        }
+        .activeBtn{
+            background:rgba(235,51,24,1);
+            color: #ffffff;
+        }
+    }
+    .searchNum{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        background-color: #F2F2F2;
+        z-index: 1000;
+        .list{
+            height:84px;
+            border-radius:8px;
+            font-size:32px;
+            font-family:PingFangSC-Regular,PingFang SC;
+            font-weight:400;
+            color:rgba(51,51,51,1);
+            line-height:84px;
+            border-bottom: 1px solid #dddddd;
+            padding-left: 30px;
         }
     }
 }
