@@ -133,6 +133,7 @@
             font-size: 32px;
         }
     }
+    
 }
 
 
@@ -303,6 +304,23 @@
         .title{
             flex: 1;
             margin-right: 44px;
+        }
+    }
+    .tabBar{
+        height: 90px;
+        line-height: 90px;
+        display: flex;
+        border-bottom: 20px solid #F2F2F2;
+        .tab{
+            display: block;
+            flex: 1;
+            text-align: center;
+            line-height: 90px;
+            font-size: 32px;
+        }
+        .active{
+            box-sizing: border-box;
+            border-bottom: 1px solid #EB3318;
         }
     }
 }
