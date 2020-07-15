@@ -1,7 +1,9 @@
 import React from 'react';
 import "../index/index.scss";
 import axios from "../../axios/index";
-
+var u = navigator.userAgent;
+// var isAndroid = u.indexOf("Android") > -1;
+var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 
 export default class PublishBtn extends React.Component {
 
@@ -9,7 +11,7 @@ export default class PublishBtn extends React.Component {
         document.title = "发布按钮";
     };
     state = {
-        checked: true
+
     };
 
     checkgoodstatus() {
@@ -30,38 +32,55 @@ export default class PublishBtn extends React.Component {
     }
 
     goRelease(type) {
-        if (this.state.publishType === 'sale') {
-            this.props.history.push("/SaleRelease?category=编年套票&name=四轮狗套票&unitName=套&url=goodsDistribute")
-        } else {
-            this.props.history.push("/BuyingRelease?category=编年套票&name=四轮狗套票&unitName=套&url=goodsDistribute")
+        let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+        if (userInfo.userId === '') {
+            if (isiOS) {
+                window.webkit.messageHandlers.IOSNativeLogin.postMessage('');
+            } else {
+                window.app.login()
+            }
+        }else if(Number(userInfo.userType) > 1){
+            if (this.state.publishType === 'sale') {
+                this.props.history.push(`/SaleRelease?category=${this.props.category}&name=${this.props.name}&unitName=${this.props.unitName}&url=${this.props.url}`)
+            } else {
+                this.props.history.push(`/BuyingRelease?category=${this.props.category}&name=${this.props.name}&unitName=${this.props.unitName}&url=${this.props.url}`)
+            }
+        }else {
+            if (isiOS) {
+                window.webkit.messageHandlers.IOSNativeCertification.postMessage('');
+            } else {
+                window.app.Authentication()
+            }
+        
         }
+        
     }
 
     render() {
         return (
             <div className="publishBtn" >
-                <div className="pub" onClick={() =>this.checkgoodstatus()}>
+                <div className="pub" onClick={() =>this.goRelease('buy')}>
                     <img src={require('../../assets/pub.png')} alt=""/>
                 </div>
-                <div className='mask'>
+                {/* <div className='mask'>
                     <div className="btnBox" >
-                        <dl onClick={() => this.goRelease('sale')}>
+                        <dl onClick={() => this.checkgoodstatus('1')}>
                             <dd>
                                 <img src={require('../../assets/buyCar.png')} alt="买盘图标"/>
                             </dd>
                             <dt>求购</dt>
                         </dl>
-                        <dl onClick={() => this.goRelease('buy')}>
+                        <dl onClick={() => this.checkgoodstatus('2')}>
                             <dd>
                                 <img src={require('../../assets/sellCar.png')} alt="卖盘图标"/>
                             </dd>
                             <dt>出售</dt>
                         </dl>
-                        <div className="close" onClick={() =>this.props.history.go(-1)}>
+                        <div className="close" onClick={() =>{}}>
                             取消
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
         );
     }

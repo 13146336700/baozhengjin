@@ -15,7 +15,7 @@ export default class Preview extends React.Component {
 
   render() {
     
-    return (<div className="mystock">
+    return (<div className="mystock" style={{background:'#ffffff'}}>
       <ul className="listBox stocklistBox" >
         {this.state.data.map((item,index) => (
             <li className="list" key= {index} >
@@ -28,7 +28,7 @@ export default class Preview extends React.Component {
             </li>
         ))}
       </ul>
-      <div className="shade">
+      {/* <div className="shade">
         <div className="cont">
           <p>
             <label htmlFor="">号码</label>
@@ -39,9 +39,8 @@ export default class Preview extends React.Component {
             <input type="text"/>
           </p>
           <button>标为售出</button>
-          {/* <button>确认修改</button> */}
         </div>
-      </div>
+      </div> */}
     </div>);
   }
 }
