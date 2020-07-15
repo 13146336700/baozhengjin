@@ -24,12 +24,13 @@ import SaleDetails from './components/distribute/SaleRelease/SaleDetails';
 // import logo from './logo.svg';
 // 配号功能部分
 import distribute from "./components/distribute/index/index";
-import MyDistribute from "./components/distribute/myDistribute/index"
-import Goods from "./components/distribute/goodsDistribute/index" 
-import MyStock from "./components/distribute/myStock/index" 
+import MyDistribute from "./components/distribute/myDistribute/mydistribute"
+import Goods from "./components/distribute/goodsDistribute/goodsdistribute" 
+import MyStock from "./components/distribute/myStock/mystock" 
 import SearchNumber from "./components/distribute/search/search" 
 import SearchResult from "./components/distribute/search/searchResult" 
 import Preview from "./components/distribute/preview/preview" 
+import Publish from "./components/distribute/publish/publish" 
 
 import './App.css';
 
@@ -70,10 +71,20 @@ help/member 会员帮助
 help/promotion 推广帮助
 --------------------------------------------
 配号码
-BuyingRelease 配号出售发布
-SaleRelease 配号求购发布
-Increase 增加库存
-SaleDetails 增加详情 上传图片
+BuyingRelease     配号出售发布
+SaleRelease       配号求购发布
+Increase          增加库存
+SaleDetails       增加详情 上传图片
+distribute        币票配号，配号功能首页
+myDistribute      我的配号
+goodsDistribute   商品分类列表
+myStock           我的库存
+preview           发布预览
+searchNumber      配号搜索页
+searchResult      配号搜索结果页
+publish           发布弹窗页，选择发布类型
+
+
 
  */
 function App() {
@@ -101,12 +112,13 @@ function App() {
          <Route path="/Increase" exact component={Increase}/>   
          <Route path="/SaleDetails" exact component={SaleDetails}/>   
          <Route path="/distribute" exact component={distribute}/>    
-         <Route path="/myDistribute" exact component={MyDistribute}/>    
-         <Route path="/goodsDistribute" exact component={Goods}/>    
-         <Route path="/myStock" exact component={MyStock}/>    
+         <Route path="/myDistribute/" exact component={MyDistribute}/>    
+         <Route path="/goodsDistribute/" exact component={Goods}/>    
+         <Route path="/myStock/" exact component={MyStock}/>    
          <Route path="/searchNumber" exact component={SearchNumber}/>    
          <Route path="/searchResult" exact component={SearchResult}/>    
          <Route path="/preview" exact component={Preview}/>    
+         <Route path="/publish/" exact component={Publish}/>    
 
       </Router>
   );

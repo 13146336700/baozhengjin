@@ -204,6 +204,69 @@
         letter-spacing:2px;
         text-align: center;
     }
+    .shade{
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 2000;
+        background: rgba(0,0,0,0.5);
+        .cont{
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            width: 480px;
+            height: 376px;
+            background-color: #ffffff;
+            border-radius: 24px;
+            transform: translateY(0px);
+            transform: translateX(-240px);
+            p{
+                padding-left: 44px;
+                height:100px;
+                background:rgba(255,255,255,1);
+                border-bottom:1px solid rgba(207,207,207,1);
+                font-size:34px;
+                font-family:PingFangSC-Regular,PingFang SC;
+                font-weight:400;
+                color:rgba(51,51,51,1);
+                line-height:100px;
+                label{
+                    display: inline-block;
+                    width:70px ;
+                    margin-right: 56px;
+                }
+                input{
+                    display: inline-block;
+                    box-sizing: border-box;
+                    border: none;
+                    height: 100px;
+                    line-height: 100px;
+                    width: calc(100% - 130px);
+                }
+            }
+            p:first-child{
+                border-top-left-radius: 24px;
+                border-top-right-radius: 24px;
+            }
+            button{
+                width:324px;
+                height:96px;
+                background:rgba(215,48,45,1);
+                border-radius:26px;
+                font-size:34px;
+                font-family:PingFangSC-Medium,PingFang SC;
+                font-weight:500;
+                color:rgba(255,255,255,1);
+                line-height:96px;
+                letter-spacing:2px;
+                text-align: center;
+                border: transparent;
+                margin: 40px 78px 0px;
+            }
+        }
+    }
 }
 
 /*我的配号*/
@@ -250,6 +313,7 @@
         box-sizing: border-box;
         padding: 30px;
         display: flex;
+        padding-left: -10px;
         button{
             width:120px;
             height:56px;
@@ -274,11 +338,15 @@
             border-radius:7px;
             border:1px solid rgba(151,151,151,1);
             flex: 1;
+            padding-left: 20px;
+            font-size: 28px;
         }
     }
     
     .mainCon{
+        position: relative;
         padding: 34px 30px;
+        flex: 1;
         .radiogrup{
             margin-bottom: 32px;
             height:28px;
@@ -361,7 +429,7 @@
                 transform: translateY(40px);
             }
         }
-        .list{
+        .typelist{
             display: inline-block;
             height: 70px;
             box-sizing: border-box;
@@ -375,6 +443,85 @@
             border-radius:6px;
             margin-right: 16px;
             margin-bottom: 18px;
+        }
+        .activeBtn{
+            background:rgba(235,51,24,1);
+            color: #ffffff;
+        }
+    }
+    .searchNum{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        background-color: #F2F2F2;
+        z-index: 1000;
+        .list{
+            height:84px;
+            border-radius:8px;
+            font-size:32px;
+            font-family:PingFangSC-Regular,PingFang SC;
+            font-weight:400;
+            color:rgba(51,51,51,1);
+            line-height:84px;
+            border-bottom: 1px solid #dddddd;
+            padding-left: 30px;
+        }
+    }
+}
+
+/*发布弹窗页面*/
+.publish{
+    .top{
+        width: 100%;
+        height: auto;
+        margin-bottom: 80px;
+        padding-top: 60px;
+        img{
+            display: block;
+            width: 372px;
+            height: auto;
+            margin: 0 auto;
+        }
+    }
+    .btnBox{
+        position: fixed;
+        bottom: 0px;
+        padding: 0 120px;
+        box-sizing: border-box;
+        width: 100%;
+        dl{
+            display: inline-block;
+            width: 50%;
+            dd{
+                img{
+                    display: block;
+                    width: 125px;
+                    height: 125px;
+                    margin: 0 auto;
+                }
+                margin-bottom: 40px;
+            }
+            dt{
+                height:24px;
+                font-size:24px;
+                font-family:PingFang SC;
+                font-weight:500;
+                color:rgba(51,51,51,1);
+                line-height:24px;
+                text-align: center;
+            }
+        }
+    }
+    .close{
+        height: 36px;
+        padding: 94px 0px 56px;
+        img{
+            display: block;
+            height: 36px;
+            width: 36px;
+            margin: 0 auto;
         }
     }
 }
