@@ -33,7 +33,7 @@ export default class distribute extends React.Component {
             <div className="distribute" style={{padding:'10px 0 0 0'}}>
                 <Uheader {...this.props} utitle="币票配号" useach="true"></Uheader>
                 <Banner {...this.props} rpType="ybBanner"/>
-                <Demo {...this.props} page="index" />
+                <Demo {...this.props} page="index" onRef={(ref) => { this.child = ref; }}/>
                 <PublishBtn {...this.props} url='distribute' category='' name='' unitName=''></PublishBtn>
             </div>
         );

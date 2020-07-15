@@ -34,7 +34,7 @@ export default class MyDistribute extends React.Component {
         return (
             <div className="mydistribute" style={{padding:'10px 0 0 0'}}>
                 <Uheader {...this.props} utitle="我的配号"></Uheader>
-                <Demo {...this.props} page="my"/>
+                <Demo {...this.props} page="my" onRef={(ref) => { this.child = ref; }}/>
             </div>
         );
     }
