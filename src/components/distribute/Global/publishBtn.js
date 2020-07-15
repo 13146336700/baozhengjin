@@ -29,11 +29,38 @@ export default class PublishBtn extends React.Component {
         })
     }
 
+    goRelease(type) {
+        if (this.state.publishType === 'sale') {
+            this.props.history.push("/SaleRelease?category=编年套票&name=四轮狗套票&unitName=套&url=goodsDistribute")
+        } else {
+            this.props.history.push("/BuyingRelease?category=编年套票&name=四轮狗套票&unitName=套&url=goodsDistribute")
+        }
+    }
+
     render() {
         return (
             <div className="publishBtn" >
                 <div className="pub" onClick={() =>this.checkgoodstatus()}>
                     <img src={require('../../assets/pub.png')} alt=""/>
+                </div>
+                <div className='mask'>
+                    <div className="btnBox" >
+                        <dl onClick={() => this.goRelease('sale')}>
+                            <dd>
+                                <img src={require('../../assets/buyCar.png')} alt="买盘图标"/>
+                            </dd>
+                            <dt>求购</dt>
+                        </dl>
+                        <dl onClick={() => this.goRelease('buy')}>
+                            <dd>
+                                <img src={require('../../assets/sellCar.png')} alt="卖盘图标"/>
+                            </dd>
+                            <dt>出售</dt>
+                        </dl>
+                        <div className="close" onClick={() =>this.props.history.go(-1)}>
+                            取消
+                        </div>
+                    </div>
                 </div>
             </div>
         );

@@ -16,17 +16,14 @@ export default class Preview extends React.Component {
   render() {
     
     return (<div className="mystock">
-      <ul className="stocklistBox" >
-        <li className="listTop">
-          <span className="number">号码</span>
-          <span className="unit">单位</span>
-          <span className="price">价格</span>
-        </li>
-        {this.state.data.map(i => (
-            <li className="list" key= {i}>
-              <span className="number">1234 4568 45</span>
-              <span className="unit">张</span>
-              <span className="price"><b>46 </b>元</span>
+      <ul className="listBox stocklistBox" >
+        {this.state.data.map((item,index) => (
+            <li className="list" key= {index} >
+              <div className="nameBox">
+                <p className="number">J146450422</p>
+                <p  className="unit">散连&nbsp;&nbsp;共<span>10</span>张</p>
+              </div>
+              <span className="price">￥46元</span>
               <span className="deal">操作</span>
             </li>
         ))}
