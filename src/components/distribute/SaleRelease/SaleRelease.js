@@ -258,6 +258,12 @@ export default class SaleRelease extends React.Component {
           if (response.data.code == "10000") {
             //成功到库存页面
             // this.props.history.push("/");
+            this.props.history.push({
+              pathname: "/myStock",
+              search: `userId=4028808361926f8a0161db4c492304e2&name=${this.getUrlParam(
+                "name"
+              )}&type=1`,
+            });
           } else {
             Toast.info(response.data.message, 1);
           }

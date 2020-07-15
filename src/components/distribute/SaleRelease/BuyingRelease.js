@@ -296,27 +296,39 @@ export default class BuyingRelease extends React.Component {
       personName: "",
     });
 
-
-
-
     if (this.getUrlParam("goodsId")) {
       axios
         .post("subject/json/addNumberFormat", {
           goodsId: this.getUrlParam("goodsId"),
-          scatteredJson: Numbers.A == "3" ? JSON.stringify([]) : JSON.stringify(scatteredJson),
-          standardConsecutiveJson: Numbers.B == "3" ? JSON.stringify([]) : JSON.stringify(standardConsecutiveJson),
-          otherConsecutiveJson: Numbers.C == "3" ? JSON.stringify([]) : JSON.stringify(otherConsecutiveJson),
+          scatteredJson:
+            Numbers.A == "3"
+              ? JSON.stringify([])
+              : JSON.stringify(scatteredJson),
+          standardConsecutiveJson:
+            Numbers.B == "3"
+              ? JSON.stringify([])
+              : JSON.stringify(standardConsecutiveJson),
+          otherConsecutiveJson:
+            Numbers.C == "3"
+              ? JSON.stringify([])
+              : JSON.stringify(otherConsecutiveJson),
         })
         .then((response) => {
           if (response.data.code == "10000") {
             //成功到库存页面
             // this.props.history.push("/");
+            this.props.history.push({
+              pathname: "/myStock",
+              search: `userId=4028808361926f8a0161db4c492304e2&name=${this.getUrlParam(
+                "name"
+              )}&type=2`,
+            });
           } else {
             Toast.info(response.data.message, 1);
           }
         })
         .catch((error) => {});
-    }else{
+    } else {
       this.props.history.push({
         pathname: "/SaleDetails",
         state: {
@@ -328,7 +340,9 @@ export default class BuyingRelease extends React.Component {
           dealPattern: dealPattern, //担保 2，线下 3
           isPostage: isPostage, //默认N 不包邮，Y 包邮。买没有包邮，固定填N
           scatteredJson:
-            Numbers.A == "3" ? JSON.stringify([]) : JSON.stringify(scatteredJson),
+            Numbers.A == "3"
+              ? JSON.stringify([])
+              : JSON.stringify(scatteredJson),
           standardConsecutiveJson:
             Numbers.B == "3"
               ? JSON.stringify([])
@@ -343,8 +357,7 @@ export default class BuyingRelease extends React.Component {
           personName: "",
         },
       });
-    } 
-   
+    }
   }
   render() {
     return (

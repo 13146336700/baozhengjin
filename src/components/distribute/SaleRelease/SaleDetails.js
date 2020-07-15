@@ -95,8 +95,6 @@ export default class SaleDetails extends React.Component {
     // })
 // console.log(str);
 // this.state.imageArray.join(',')
-console.log(this.state.imageArray.join(','));
-
     let myArray = this.props.history.location.state;
     if (this.isRealNum(this.state.ExpirationValue)) {
       if (this.state.ExpirationValue < 1) {
