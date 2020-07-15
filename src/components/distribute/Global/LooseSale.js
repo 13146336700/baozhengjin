@@ -7,146 +7,54 @@ export default class LooseSale extends React.Component {
     // this.state = {
     //   selectValue:'startup'
     // };
-    this.selectChange = this.selectChange.bind(this);
   }
   state = {
     LooseArr: [
       {
-        todoList: [
-          {
-            code: "startup",
-            title: "标十",
-          },
-          {
-            code: "ordersDetail",
-            title: "标百",
-          },
-          {
-            code: "ordersDetail",
-            title: "标千",
-          },
-          {
-            code: "ordersDetail",
-            title: "标五千",
-          },
-        ],
-        number: "",
-        price: "",
-        selectValue: "请选择类型",
-        selectCode: "",
+        number: "", //号码
+        dealPrice: "", //单价
       },
     ],
-    todoList: [
-      {
-        code: "startup",
-        title: "开屏广告",
-      },
-      {
-        code: "ordersDetail",
-        title: "成交详情页-广告栏",
-      },
-    ],
-    selectValue: "请选择类型",
-    selectCode: "",
   };
   componentDidMount() {
     // funcitonName 是原生回调使用的方法名
-    window["ActivityVerificationDownload"] = this.ActivityVerificationDownload;
+    // window["ActivityVerificationDownload"] = this.ActivityVerificationDownload;
+    console.log(this.getUrlParam("name"));
   }
-  selectChange = (ev) => {
-    var obj = this.state.todoList.find(function (key) {
-      return key.code === ev.target.value;
-    });
-    this.changeDOM(obj.code);
-    console.log(obj);
-
-    this.setState({
-      selectValue: obj.title,
-      selectCode: obj.code,
-    });
+  getUrlParam = (name) => {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = this.props.location.search.substr(1).match(reg);
+    if (r != null) {
+      return decodeURI(r[2]);
+    }
+    return ""; //如果此处只写return;则返回的是undefined
   };
+
   add = () => {
-    console.log(this.state.LooseArr);
-    try {
-      window.webkit.messageHandlers.VerificationDownload.postMessage("");
-    } catch (error) {
-      console.log(error);
+    let LooseObj = this.state.LooseArr[this.state.LooseArr.length - 1];
+    for (let key in LooseObj) {
+      if (!LooseObj[key]) {
+        Toast.info("请输入散张值", 1);
+        return;
+      }
     }
 
     let LooseArr = this.state.LooseArr;
     LooseArr.push({
-      todoList: [
-        {
-          code: "startup",
-          title: "开屏广告",
-        },
-        {
-          code: "ordersDetail",
-          title: "成交详情页-广告栏",
-        },
-      ],
       number: "",
-      price: "",
-      selectValue: "请选择类型",
-      selectCode: "",
+      dealPrice: "",
     });
     this.setState({
       LooseArr: LooseArr,
     });
   };
-  ActivityVerificationDownload = (val) => {
-    Toast.success(`${val}`, 1);
-    console.log(val);
-  };
-  changeDOM = (value = "startup") => {
-    //DOM改变
-    let [Claim, size, name] = ["需提供资料及要求", "图片大小:不超过1M", "图片"];
-    let todoform = [];
-    switch (value) {
-      case "publish":
-        todoform = [
-          {
-            name: name,
-            img: "http://image.ybk008.com/121591688093072",
-            Claim: Claim,
-            sizeimg: "图片尺寸608*110像素",
-            size: size,
-          },
-          {
-            name: "文字",
-            img: "http://image.ybk008.com/131591688106537",
-          },
-        ];
-        break;
-      default:
-        todoform = [
-          {
-            name: name,
-            img: "http://image.ybk008.com/11591687917416",
-            Claim: Claim,
-            sizeimg: "图片尺寸750*1334像素",
-            size: size,
-          },
-        ];
-        break;
-    }
 
-    var obj = this.state.todoList.find(function (key) {
-      return key.code === value;
-    });
-
-    this.setState({
-      todoform: todoform,
-      selectValue: obj.title,
-      selectCode: obj.code,
-    });
-  };
   hanChange = (ev, index) => {
     console.log(ev.target.value);
     const LooseArr = [...this.state.LooseArr]; //浅拷贝一下
     this.setState({
       LooseArr: LooseArr.map((item, key) =>
-        key == index ? { ...item, price: ev.target.value } : item
+        key == index ? { ...item, dealPrice: ev.target.value } : item
       ),
     });
   };
@@ -160,14 +68,6 @@ export default class LooseSale extends React.Component {
     });
   };
   delte = (item, key) => {
-    console.log(key);
-    // const LooseArr = [...this.state.LooseArr]; //浅拷贝一下
-
-    // LooseArr.splice(key,1);
-
-    // this.setState({
-    //   LooseArr: LooseArr,
-    // });
     var LooseArr = [...this.state.LooseArr];
     //删除元素
     LooseArr.splice(key, 1);
@@ -195,7 +95,7 @@ export default class LooseSale extends React.Component {
                   </div>
                 ) : null}
               </div>
-           
+
               <li>
                 <div>出售号码</div>
                 <input
@@ -209,7 +109,7 @@ export default class LooseSale extends React.Component {
                 <div>单价（元/张）</div>
                 <input
                   type="text"
-                  value={item.price}
+                  value={item.dealPrice}
                   onChange={(ev) => this.hanChange(ev, key)}
                   placeholder="请输入价格"
                 />

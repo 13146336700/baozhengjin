@@ -20,7 +20,7 @@ export default class Uheaders extends React.Component {
   backClick = ()=>{
     console.log(this.props)
   
-    if(this.props.match.path == "/SaleRelease"){
+    if(this.props.match.path == "/distribute"){
       if (isiOS) {
         try {
           window.webkit.messageHandlers.IOSNativeGotoBack.postMessage("");
@@ -30,7 +30,7 @@ export default class Uheaders extends React.Component {
         }
       } else {
         try {
-          window.app.androidNativeGotoBack ("");
+          window.app.androidNativeGotoBack();
         } catch (e) {
           console.log(e);
         }

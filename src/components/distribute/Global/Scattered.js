@@ -1,106 +1,58 @@
 import React, { Component } from "react";
 import "./index.scss";
+import { Toast, WhiteSpace, WingBlank, Button } from "antd-mobile";
+const log = console.log;
 export default class Serial extends React.Component {
   constructor(props) {
     super(props);
     // this.state = {
     //   selectValue:'startup'
     // };
-    this.selectChange = this.selectChange.bind(this);
-  };
+    // this.selectChange = this.selectChange.bind(this);
+  }
   state = {
     StatusName: "求购",
     LooseArr: [
       {
-        todoList: [
-          {
-            code: "startup",
-            title: "开屏广告",
-          },
-          {
-            code: "ordersDetail",
-            title: "成交详情页-广告栏",
-          },
-        ],
-        number: "",//数量
-        price: "",//单价
-        priceShow:false,//单价 显示
-        AllpriceShow:false,//连号总价格 显示
-        AllpriceValue:"",//连号总价格 值
-        sheets: "",
+        number: "", //数量
+        dealPrice: "", //单价
+        priceShow: false, //单价 显示
+        AllpriceShow: false, //连号总价格 显示
+        signlePrice: "", //连号总价格 值
+        dealCnt: "",
         selectValue: "请选择类型",
-        selectCode: "",
       },
     ],
-    selectValue: "请选择类型",
-    selectCode: "",
   };
   componentWillMount() {
     console.log(this.props);
+
     let StatusName = "求购";
+    let newLooseArr = [...this.state.LooseArr];
     if (this.props.ustatus == "1") {
       StatusName = "求购";
+      newLooseArr.map((item, key) => {
+        item.priceShow = false; //单价 显示
+        item.AllpriceShow = true; //连号总价格 显示
+      });
     } else if (this.props.ustatus == "2") {
       StatusName = "出售";
+      newLooseArr.map((item, key) => {
+        item.priceShow = false; //单价 显示
+        item.AllpriceShow = false; //连号总价格 显示
+      });
     }
     this.setState({
       StatusName: StatusName,
+      LooseArr: newLooseArr,
     });
   }
-  selectChange = (ev) => {
-    var obj = this.state.todoList.find(function (key) {
-      return key.code === ev.target.value;
+  changeDOM = (value, arr) => {
+    var obj = arr.todoList.find(function (key) {
+      return key.title === value;
     });
-    this.changeDOM(obj.code);
     console.log(obj);
-
-    this.setState({
-      selectValue: obj.title,
-      selectCode: obj.code,
-    });
-  };
-  changeDOM = (value = "startup") => {
-    //DOM改变
-    let [Claim, size, name] = ["需提供资料及要求", "图片大小:不超过1M", "图片"];
-    let todoform = [];
-    switch (value) {
-      case "publish":
-        todoform = [
-          {
-            name: name,
-            img: "http://image.ybk008.com/121591688093072",
-            Claim: Claim,
-            sizeimg: "图片尺寸608*110像素",
-            size: size,
-          },
-          {
-            name: "文字",
-            img: "http://image.ybk008.com/131591688106537",
-          },
-        ];
-        break;
-      default:
-        todoform = [
-          {
-            name: name,
-            img: "http://image.ybk008.com/11591687917416",
-            Claim: Claim,
-            sizeimg: "图片尺寸750*1334像素",
-            size: size,
-          },
-        ];
-        break;
-    }
-
-    var obj = this.state.todoList.find(function (key) {
-      return key.code === value;
-    });
-
-    this.setState({
-      todoform: todoform,
-      selectValue: obj.title,
-      selectCode: obj.code,
-    });
+    return obj.num;
   };
   delte = (item, key) => {
     console.log(key);
@@ -125,7 +77,7 @@ export default class Serial extends React.Component {
     const LooseArr = [...this.state.LooseArr]; //浅拷贝一下
     this.setState({
       LooseArr: LooseArr.map((item, key) =>
-        key == index ? { ...item, sheets: ev.target.value } : item
+        key == index ? { ...item, dealCnt: ev.target.value } : item
       ),
     });
   };
@@ -134,7 +86,7 @@ export default class Serial extends React.Component {
     const LooseArr = [...this.state.LooseArr]; //浅拷贝一下
     this.setState({
       LooseArr: LooseArr.map((item, key) =>
-        key == index ? { ...item, price: ev.target.value } : item
+        key == index ? { ...item, dealPrice: ev.target.value } : item
       ),
     });
   };
@@ -143,37 +95,60 @@ export default class Serial extends React.Component {
     const LooseArr = [...this.state.LooseArr]; //浅拷贝一下
     this.setState({
       LooseArr: LooseArr.map((item, key) =>
-        key == index ? { ...item, AllpriceValue: ev.target.value } : item
+        key == index ? { ...item, signlePrice: ev.target.value } : item
       ),
     });
   };
   add = () => {
-    console.log(this.state.LooseArr);
-    try {
-      window.webkit.messageHandlers.VerificationDownload.postMessage("");
-    } catch (error) {
-      console.log(error);
-    }
+    //添加
+    let LooseObj = this.state.LooseArr[this.state.LooseArr.length - 1];
+    let MyBoole = "";
+    if (this.props.ustatus == "1") {
+      // 求购
+      let obj = {};
+      obj.dealCnt = LooseObj.dealCnt;
+      obj.number = LooseObj.number;
+      obj.signlePrice = LooseObj.signlePrice;
+      for (let key in obj) {
+        if (!obj[key]) {
+          Toast.info("散连请输入有效数值", 2);
+          return;
+        }
+      }
+      MyBoole = true;
+    } else if (this.props.ustatus == "2") {
+      //出售
+      let obj = {};
+      obj.dealCnt = LooseObj.dealCnt;
+      obj.number = LooseObj.number;
+      if (LooseObj.priceShow == false && LooseObj.AllpriceShow == false) {
+        Toast.info("请选择整售或者单售", 2);
+        return;
+      }
+      if (LooseObj.priceShow) {
+        obj.dealPrice = LooseObj.dealPrice;
+      }
+      if (LooseObj.AllpriceShow) {
+        obj.signlePrice = LooseObj.signlePrice;
+      }
 
+      for (let key in obj) {
+        if (!obj[key]) {
+          Toast.info("请输入散连值", 1);
+          return;
+        }
+      }
+      MyBoole = false; 
+    }
     let LooseArr = this.state.LooseArr;
     LooseArr.push({
-      todoList: [
-        {
-          code: "startup",
-          title: "开屏广告",
-        },
-        {
-          code: "ordersDetail",
-          title: "成交详情页-广告栏",
-        },
-      ],
-      number: "",
-      price: "",
-      AllpriceShow:false,//连号总价格 是否显示
-      AllpriceValue:"",//连号总价格 值
-      sheets: "",
+      number: "", //数量
+      dealPrice: "", //单价
+      priceShow: false, //单价 显示
+      AllpriceShow: MyBoole, //连号总价格 显示
+      signlePrice: "", //连号总价格 值
+      dealCnt: "",
       selectValue: "请选择类型",
-      selectCode: "",
     });
     this.setState({
       LooseArr: LooseArr,
@@ -186,7 +161,7 @@ export default class Serial extends React.Component {
           <p>散连{this.state.StatusName}</p>
         </div>
         <div className="Loose_body">
-          {this.state.LooseArr.map((item, key) => (
+          {this.state.LooseArr.map((item, key, array) => (
             <ul key={key}>
               <div className="title_num_del">
                 <div className="sanlain">
@@ -194,18 +169,56 @@ export default class Serial extends React.Component {
                   <span>散连{key + 1}</span>
                   {this.props.ustatus == "2" ? (
                     <div className="chushou">
-                      <div>
-                        <img
-                          src={require("../../assets/Unselected.png")}
-                          alt=""
-                        />
+                      <div
+                        onClick={() => {
+                          const LooseArr = [...array]; //浅拷贝一下
+                          this.setState({
+                            LooseArr: LooseArr.map((item1, index) =>
+                              index == key
+                                ? { ...item1, AllpriceShow: !item.AllpriceShow }
+                                : item1
+                            ),
+                          });
+                        }}
+                      >
+                        {item.AllpriceShow ? (
+                          <img
+                            src={require("../../assets/Selected.png")}
+                            alt="勾选中图片"
+                          />
+                        ) : (
+                          <img
+                            src={require("../../assets/Unselected.png")}
+                            alt="未勾选图片"
+                          />
+                        )}
+
                         <span>整售</span>
                       </div>
-                      <div>
-                        <img
-                          src={require("../../assets/Unselected.png")}
-                          alt=""
-                        />
+                      <div
+                        onClick={() => {
+                          const LooseArr = [...array]; //浅拷贝一下
+                          this.setState({
+                            LooseArr: LooseArr.map((item1, index) =>
+                              index == key
+                                ? { ...item1, priceShow: !item.priceShow }
+                                : item1
+                            ),
+                          });
+                        }}
+                      >
+                        {item.priceShow ? (
+                          <img
+                            src={require("../../assets/Selected.png")}
+                            alt="勾选中图片"
+                          />
+                        ) : (
+                          <img
+                            src={require("../../assets/Unselected.png")}
+                            alt="未勾选图片"
+                          />
+                        )}
+
                         <span>单售</span>
                       </div>
                       <div>·可多选</div>
@@ -222,11 +235,12 @@ export default class Serial extends React.Component {
                 <div>{this.state.StatusName}数量</div>
                 <input
                   type="text"
-                  value={item.sheets}
+                  value={item.dealCnt}
                   onChange={(ev) => this.hansheetsChange(ev, key)}
                   placeholder="请输入连张数"
                 />
               </li>
+
               <li>
                 <div>{this.state.StatusName}号码</div>
                 <input
@@ -236,24 +250,29 @@ export default class Serial extends React.Component {
                   placeholder="请输入要包含的号码"
                 />
               </li>
-              <li>
-                <div>连号总价格</div>
-                <input
-                  type="text"
-                  value={item.AllpriceValue}
-                  onChange={(ev) => this.hanAllpriceValueChange(ev, key)}
-                  placeholder="请输入价格"
-                />
-              </li>
-              <li>
-                <div>单价（元/张）</div>
-                <input
-                  type="text"
-                  value={item.price}
-                  onChange={(ev) => this.hanpriceChange(ev, key)}
-                  placeholder="请输入价格"
-                />
-              </li>
+              {item.AllpriceShow ? (
+                <li>
+                  <div>连号总价格</div>
+                  <input
+                    type="text"
+                    value={item.signlePrice}
+                    onChange={(ev) => this.hanAllpriceValueChange(ev, key)}
+                    placeholder="请输入价格"
+                  />
+                </li>
+              ) : null}
+
+              {item.priceShow ? (
+                <li>
+                  <div>单价（元/张）</div>
+                  <input
+                    type="text"
+                    value={item.dealPrice}
+                    onChange={(ev) => this.hanpriceChange(ev, key)}
+                    placeholder="请输入价格"
+                  />
+                </li>
+              ) : null}
             </ul>
           ))}
           <button className="add" onClick={() => this.add()}>

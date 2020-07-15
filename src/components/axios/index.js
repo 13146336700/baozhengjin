@@ -93,9 +93,7 @@ service.interceptors.request.use(
 		 );
 		
 		
-		console.log(Token);
 		let defaults = Qs.parse(Oristr);
-		console.log(defaults);
 		defaults.sign = Token;
 		defaults.timestamp = ranstr;
 		defaults.token = "4028808361926f8a0161db4c492304e2";

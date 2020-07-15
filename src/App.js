@@ -96,7 +96,7 @@ function App() {
          <Route path="/menberExplanation" exact component={menberExplanation}/>
          <Route path="/releasecontent/:num" exact component={releasecontent}/>    
          <Route path="/SaleRelease" exact component={SaleRelease}/>   
-         <Route path="/SaleReleaseSeach" exact component={SaleReleaseSeach}/>   
+         <Route path="/SaleReleaseSeach/:ustate" exact component={SaleReleaseSeach}/>   
          <Route path="/BuyingRelease" exact component={BuyingRelease}/>   
          <Route path="/Increase" exact component={Increase}/>   
          <Route path="/SaleDetails" exact component={SaleDetails}/>   

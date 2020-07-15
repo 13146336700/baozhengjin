@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Toast, WhiteSpace, WingBlank, Button } from "antd-mobile";
 import "./index.scss";
+const log = console.log;
 export default class Loose extends React.Component {
   constructor(props) {
     super(props);
@@ -14,73 +15,182 @@ export default class Loose extends React.Component {
       {
         todoList: [
           {
-            code: "startup",
-            title: "开屏广告",
+            code: "任意",
+            title: "任意",
           },
           {
-            code: "ordersDetail",
-            title: "成交详情页-广告栏",
+            code: "起始号",
+            title: "起始号",
+          },
+          {
+            code: "尾号",
+            title: "尾号",
+          },
+          {
+            code: "豹子号（三连号）",
+            title: "豹子号（三连号）",
+          },
+          {
+            code: "狮子号（四连号）",
+            title: "狮子号（四连号）",
+          },
+          {
+            code: "老虎号（五连号）",
+            title: "老虎号（五连号）",
+          },
+          {
+            code: "大象号（六连号）",
+            title: "大象号（六连号）",
+          },
+          {
+            code: "恐龙号（七连号）",
+            title: "恐龙号（七连号）",
+          },
+          {
+            code: "麒麟号（八连号）",
+            title: "麒麟号（八连号）",
+          },
+          {
+            code: "生日号",
+            title: "生日号",
+          },
+          {
+            code: "顺号",
+            title: "顺号",
+          },
+          {
+            code: "爱情号",
+            title: "爱情号",
+          },
+          {
+            code: "叠号",
+            title: "叠号",
+          },
+          {
+            code: " 一拖三",
+            title: " 一拖三",
+          },
+          {
+            code: "三拖一",
+            title: "三拖一",
           },
         ],
         number: "",
-        price: "",
+        dealPrice: "",
         selectValue: "请选择类型",
-        selectCode: "",
       },
     ],
-    todoList: [
-      {
-        code: "startup",
-        title: "开屏广告",
-      },
-      {
-        code: "ordersDetail",
-        title: "成交详情页-广告栏",
-      },
-    ],
-    selectValue: "请选择类型",
-    selectCode: "",
   };
   componentDidMount() {
     // funcitonName 是原生回调使用的方法名
     window["ActivityVerificationDownload"] = this.ActivityVerificationDownload;
   }
-  selectChange = (ev) => {
-    var obj = this.state.todoList.find(function (key) {
-      return key.code === ev.target.value;
-    });
-    this.changeDOM(obj.code);
-    console.log(obj);
-
+  selectChange = (ev, key) => {
+    let LooseArr = [...this.state.LooseArr];
     this.setState({
-      selectValue: obj.title,
-      selectCode: obj.code,
+      LooseArr: LooseArr.map((item, index) =>
+        key == index
+          ? {
+              ...item,
+              selectValue: ev.target.value,
+            }
+          : item
+      ),
     });
+    console.log(this.state.LooseArr);
   };
   add = () => {
-    console.log(this.state.LooseArr);
-    try {
-      window.webkit.messageHandlers.VerificationDownload.postMessage("");
-    } catch (error) {
-      console.log(error);
+    let [Loose, LooseObj, tag] = [
+      this.state.LooseArr[this.state.LooseArr.length - 1],
+      {},
+      "",
+    ];
+    log(Loose);
+
+    LooseObj.number = Loose.number;
+    LooseObj.dealPrice = Loose.dealPrice;
+    if (Loose.selectValue == "请选择类型") {
+      tag = "";
+    } else {
+      tag = Loose.selectValue;
     }
+    LooseObj.tag = tag;
+
+    log(LooseObj);
+    for (var key in LooseObj) {
+      if (!LooseObj[key]) {
+        Toast.info("散张请输入有效数字", 2);
+        return;
+      }
+    };
 
     let LooseArr = this.state.LooseArr;
     LooseArr.push({
       todoList: [
         {
-          code: "startup",
-          title: "开屏广告",
+          code: "任意",
+          title: "任意",
         },
         {
-          code: "ordersDetail",
-          title: "成交详情页-广告栏",
+          code: "起始号",
+          title: "起始号",
+        },
+        {
+          code: "尾号",
+          title: "尾号",
+        },
+        {
+          code: "豹子号（三连号）",
+          title: "豹子号（三连号）",
+        },
+        {
+          code: "狮子号（四连号）",
+          title: "狮子号（四连号）",
+        },
+        {
+          code: "老虎号（五连号）",
+          title: "老虎号（五连号）",
+        },
+        {
+          code: "大象号（六连号）",
+          title: "大象号（六连号）",
+        },
+        {
+          code: "恐龙号（七连号）",
+          title: "恐龙号（七连号）",
+        },
+        {
+          code: "麒麟号（八连号）",
+          title: "麒麟号（八连号）",
+        },
+        {
+          code: "生日号",
+          title: "生日号",
+        },
+        {
+          code: "顺号",
+          title: "顺号",
+        },
+        {
+          code: "爱情号",
+          title: "爱情号",
+        },
+        {
+          code: "叠号",
+          title: "叠号",
+        },
+        {
+          code: " 一拖三",
+          title: " 一拖三",
+        },
+        {
+          code: "三拖一",
+          title: "三拖一",
         },
       ],
       number: "",
-      price: "",
+      dealPrice: "",
       selectValue: "请选择类型",
-      selectCode: "",
     });
     this.setState({
       LooseArr: LooseArr,
@@ -90,60 +200,22 @@ export default class Loose extends React.Component {
     Toast.success(`${val}`, 1);
     console.log(val);
   };
-  changeDOM = (value = "startup") => {
-    //DOM改变
-    let [Claim, size, name] = ["需提供资料及要求", "图片大小:不超过1M", "图片"];
-    let todoform = [];
-    switch (value) {
-      case "publish":
-        todoform = [
-          {
-            name: name,
-            img: "http://image.ybk008.com/121591688093072",
-            Claim: Claim,
-            sizeimg: "图片尺寸608*110像素",
-            size: size,
-          },
-          {
-            name: "文字",
-            img: "http://image.ybk008.com/131591688106537",
-          },
-        ];
-        break;
-      default:
-        todoform = [
-          {
-            name: name,
-            img: "http://image.ybk008.com/11591687917416",
-            Claim: Claim,
-            sizeimg: "图片尺寸750*1334像素",
-            size: size,
-          },
-        ];
-        break;
-    }
-
-    var obj = this.state.todoList.find(function (key) {
-      return key.code === value;
+  changeDOM = (value, arr) => {
+    var obj = arr.todoList.find(function (key) {
+      return key.title === value;
     });
-
-    this.setState({
-      todoform: todoform,
-      selectValue: obj.title,
-      selectCode: obj.code,
-    });
+    console.log(obj);
+    return obj.num;
   };
   hanChange = (ev, index) => {
-    console.log(ev.target.value);
     const LooseArr = [...this.state.LooseArr]; //浅拷贝一下
     this.setState({
       LooseArr: LooseArr.map((item, key) =>
-        key == index ? { ...item, price: ev.target.value } : item
+        key == index ? { ...item, dealPrice: ev.target.value } : item
       ),
     });
   };
   hanNumChange = (ev, index) => {
-    console.log(ev.target.value);
     const LooseArr = [...this.state.LooseArr]; //浅拷贝一下
     this.setState({
       LooseArr: LooseArr.map((item, key) =>
@@ -193,8 +265,8 @@ export default class Loose extends React.Component {
                   <span>{item.selectValue}</span>
                   <img src={require("../../assets/right.png")} alt="" />
                   <select
-                    onChange={(e) => this.selectChange(e)}
-                    value={item.selectCode}
+                    onChange={(e) => this.selectChange(e, key)}
+                    value={item.selectValue}
                   >
                     {item.todoList.map((item, key) => (
                       <option value={item.code} key={key}>
@@ -217,7 +289,7 @@ export default class Loose extends React.Component {
                 <div>连号总价格</div>
                 <input
                   type="text"
-                  value={item.price}
+                  value={item.dealPrice}
                   onChange={(ev) => this.hanChange(ev, key)}
                   placeholder="请输入连号总价格"
                 />

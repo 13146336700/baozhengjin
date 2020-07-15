@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Uheader from "../../Goolbal/Uheader";
+import axios from "../../axios/index";
 // import ImageBig from "../Global/ImageBig";
 import {
   Toast,
@@ -18,34 +19,35 @@ export default class SaleDetails extends React.Component {
     super(props);
     this.state = {
       ExpirationValue: "30",
-      imageArray: [
-        "https://dss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1529929594,4168177509&fm=26&gp=0.jpg",
-        "https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1510174840,773107927&fm=26&gp=0.jpg",
-        "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=572610946,3578590089&fm=26&gp=0.jpg",
-      ], //图片
+      desc:'',//文本框
+      imageArray: [//图片
+        "http://image.ybk008.com/bie1594724614369",
+        "http://image.ybk008.com/bie1594724614369"
+      ], 
     };
-    this.IOSPhotoImageUpload = this.IOSPhotoImageUpload.bind(this);
   }
-  state = {
-   
-  };
+  state = {};
   componentDidMount() {
     // funcitonName 是原生回调使用的方法名
     window["IOSPhotoImageUpload"] = this.IOSPhotoImageUpload.bind(this);
-   
   }
-
   IOSPhotoImageUpload = (val) => {
-    Toast.success(`${val}`, 3);
     const imageArray1 = [...this.state.imageArray]; //浅拷贝一下
     // imageArray1.push
-    JSON.parse(val).map((item, key) => {
-      imageArray1.push(item);
-    });
+    if (isiOS) {
+      JSON.parse(val).map((item, key) => {
+        imageArray1.push(item);
+      });
+    } else {
+      val.split(",").map((item, key) => {
+        imageArray1.push(item);
+      });
+    }
     this.setState({
       imageArray: imageArray1,
     });
   };
+
   haninpiychange = (ev) => {
     this.setState({
       ExpirationValue: ev.target.value,
@@ -63,7 +65,7 @@ export default class SaleDetails extends React.Component {
         }
       } else {
         try {
-          window.app.androidNativePhotoImage("");
+          window.app.androidNativePhotoImage();
         } catch (e) {
           console.log(e);
         }
@@ -80,10 +82,22 @@ export default class SaleDetails extends React.Component {
       return false;
     }
   };
+  hanTextTare = (ev)=>{
+    this.setState({
+      desc:ev.target.value
+    })
+  };
   release = () => {
     //发布
-    console.log(this.state.ExpirationValue);
-    console.log(this.isRealNum(this.state.ExpirationValue));
+    // let str = "";
+    // this.state.imageArray.map((item,key)=>{
+    //   str +=item;
+    // })
+// console.log(str);
+// this.state.imageArray.join(',')
+console.log(this.state.imageArray.join(','));
+
+    let myArray = this.props.history.location.state;
     if (this.isRealNum(this.state.ExpirationValue)) {
       if (this.state.ExpirationValue < 1) {
         Toast.info("最小是1", 1);
@@ -95,6 +109,27 @@ export default class SaleDetails extends React.Component {
     } else {
       Toast.info("请输入有效的数字", 1);
     }
+    axios
+      .post("subject/json/saveGoods",{
+        pubUserid:myArray.pubUserid,
+        type:myArray.type,
+        categoryName:myArray.categoryName,
+        name:myArray.name,
+        isPostage:myArray.isPostage,
+        scatteredJson:myArray.scatteredJson,
+        standardConsecutiveJson:myArray.standardConsecutiveJson,
+        otherConsecutiveJson:myArray.otherConsecutiveJson,
+        desc:this.state.desc,
+        picUrls:this.state.imageArray.join(','),
+        validDay:this.state.ExpirationValue,
+        address:myArray.address,
+        dealWay:myArray.dealWay,
+        personPhone:myArray.phone,
+        personName:myArray.personName,
+
+      })
+      .then((response) => {})
+      .catch((error) => {});
   };
   imageDelte = (item, key) => {
     const imageArray = [...this.state.imageArray]; //浅拷贝一下
@@ -107,16 +142,16 @@ export default class SaleDetails extends React.Component {
     return (
       <div className="SaleDetails">
         <Uheader {...this.props} utitle="增加配号出售详情"></Uheader>
-        <div className="zhanwei zhanwei_yanse"></div>
+        <div className="zhanwei zhanwei_yanse"> </div>
         {/* <ImageBig imageArray={this.state.imageArray} {...this.props} imageArrayKey='1'></ImageBig> */}
-        <div className="SaleDetails_title">抗疫邮票大版</div>
-        <div className="zhanwei"></div>
-     
-      
+        <div className="SaleDetails_title"> 抗疫邮票大版 </div>
+        <div className="zhanwei"> </div>
         <div className="Collection">
-          <p className="Collection_miaoshu">藏品描述</p>
+          <p className="Collection_miaoshu"> 藏品描述 </p>
           <textarea
             name="DIVCSS5"
+            value={this.state.desc}
+            onChange={(ev)=>this.hanTextTare(ev)}
             placeholder="请输入藏品详细描述（100字以内）…"
           ></textarea>
           <div className="upimage">
@@ -131,19 +166,19 @@ export default class SaleDetails extends React.Component {
                   />
                 </div>
               ))}
+              <img
+                src={require("../../assets/imagepicker.png")}
+                alt="添加"
+                className="add_upimage"
+                onClick={() => this.APPUpload()}
+              />
             </div>
-            <img
-              src={require("../../assets/imagepicker.png")}
-              alt="添加"
-              className="add_upimage"
-              onClick={() => this.APPUpload()}
-            />
           </div>
         </div>
-        <div className="zhanwei zhanwei_yanse"></div>
+        <div className="zhanwei zhanwei_yanse"> </div>
         <div className="Expiration">
           <div>
-            <span className="zhonyao">*</span> 有效期（最多30天）：
+            <span className="zhonyao"> * </span> 有效期（最多30天）：
           </div>
           <div>
             <input
@@ -155,12 +190,11 @@ export default class SaleDetails extends React.Component {
             天
           </div>
         </div>
-        <div className="zhanwei"></div>
-        <div className="zhanwei"></div>
+        <div className="zhanwei"> </div> <div className="zhanwei"> </div>
         <button className="adddelte dinbu" onClick={() => this.release()}>
           点击发布
         </button>
-        <div className="zhanwei"></div>
+        <div className="zhanwei"> </div>
       </div>
     );
   }

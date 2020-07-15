@@ -88,13 +88,16 @@
     }
     .upimage {
       margin-top: 15px; /*px*/
-      display: flex;
+      // display: flex;
+      width: 100%;
       margin-bottom: 24px; /*px*/
       .upimage_arr {
         display: flex;
+        flex-wrap: wrap;
+        width: 100%;
         div {
           position: relative;
-          margin-left: 15px; /*px*/
+          margin: 10px 10px; /*px*/
           img:nth-child(1) {
             width: 158px; /*px*/
             height: 158px; /*px*/
@@ -104,16 +107,15 @@
             right: -10px; /*px*/
             top: -10px; /*px*/
             width: 32px; /*px*/
-            margin-left: 15px; /*px*/
+            // margin-left: 15px; /*px*/
           }
         }
-        div:nth-child(1){
-          margin-left: 0; /*px*/
+        .add_upimage {
+          width: 158px; /*px*/
+          height: 158px; /*px*/
+          margin-top: 10px;/*px*/
+          margin-left: 15px; /*px*/
         }
-      }
-      .add_upimage {
-        width: 158px; /*px*/
-        margin-left: 15px; /*px*/
       }
     }
   }
@@ -149,6 +151,7 @@
   width: 100%;
   background-color: #f5f5f5;
   min-height: 100%;
+  overflow: hidden;
   .Useach {
     padding-top: 30px; /*px*/
     width: 100%;
@@ -240,6 +243,7 @@
     ul {
       margin: auto;
       display: flex;
+      flex-wrap: wrap;
       li {
         border-radius: 7px; /*px*/
         width: auto;
