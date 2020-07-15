@@ -24,7 +24,7 @@ export default class Goods extends React.Component {
           ];
         return (
             <div className="mydistribute" style={{background: '#ffffff'}}>
-                <Uheader {...this.props} utitle="配号分类" useach="true"></Uheader>
+                <Uheader {...this.props} utitle="抗疫大版" useach="true"></Uheader>
                 <Banner {...this.props} rpType="flBanner"/>
                 <Tabs tabs={tabs}
                     initialPage={0}

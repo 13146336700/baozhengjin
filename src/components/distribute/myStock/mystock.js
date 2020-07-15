@@ -31,9 +31,9 @@ export default class MyStock extends React.Component {
 
     goodsAdd() {
         if (this.state.publishType === 'sale') {
-            this.props.history.push("/SaleRelease?category=编年套票&name=四轮狗套票&unitName=套")
+            this.props.history.push("/SaleRelease?goodsId=123456789&category=编年套票&name=四轮狗套票&unitName=套&url=mystock")
         } else {
-            this.props.history.push("/BuyingRelease?category=编年套票&name=四轮狗套票&unitName=套")
+            this.props.history.push("/BuyingRelease?goodsId=123456789&category=编年套票&name=四轮狗套票&unitName=套&url=mystock")
         }
     }
 
@@ -52,18 +52,14 @@ export default class MyStock extends React.Component {
                     tabBarUnderlineStyle={{border:'1px solid #eb3318'}}
                     onChange={(tab,index) => this.changeType(index)}
                     >
-                    <div style={{ height:'600px' }}>
                         <Demo {...this.props} page="stock" type="sell"/>
-                    </div>
-                    <div style={{ height:'600px' }}>
                         <Demo {...this.props} page="stock" type="buy"/>
-                    </div>
                 </Tabs>
                 
                 <div className="addStock" onClick={() => this.goodsAdd()}>
                     增加库存
                 </div>
-                <div className="shade">
+                {/* <div className="shade">
                   <div className="cont">
                     <p>
                       <label htmlFor="">号码</label>
@@ -74,9 +70,8 @@ export default class MyStock extends React.Component {
                       <input type="text"/>
                     </p>
                     <button>标为售出</button>
-                    {/* <button>确认修改</button> */}
                   </div>
-                </div>
+                </div> */}
             </div>
         );
     }

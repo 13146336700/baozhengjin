@@ -69,7 +69,7 @@ export default class Banner extends React.Component {
 
     render() {
       return (
-        <div>
+        <div className="banner">
 
         {
           this.state.bannerData.length > 0?
@@ -84,7 +84,7 @@ export default class Banner extends React.Component {
                   src={val.advtPicUrl}
                   alt=""
                   key= {index}
-                  style={{ width: '100%', verticalAlign: 'top', height: '100px' }}
+                  style={{ width: '100%', verticalAlign: 'top', height: '100%' }}
                   onClick={() => this.appNative(index)}
                 />
             ))}

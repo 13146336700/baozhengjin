@@ -25,21 +25,21 @@ export default class Publish extends React.Component {
             <div className="publish" style={{background: '#FFFFFF',minHeight:'100%'}}>
                 <Uheader {...this.props} utitle="发布" ></Uheader>
                 <div className="top">
-                    <img src={require("../../assets/publishTop.png")} alt=""/>
+                    {/* <img src={require("../../assets/publishTop.png")} alt=""/> */}
                 </div>
-                <Banner {...this.props} rpType="flBanner"/>
+                <Banner {...this.props} rpType="ybBanner"/>
                 <div className="btnBox" >
                     <dl onClick={() => this.goRelease('sale')}>
                         <dd>
                             <img src={require('../../assets/buyCar.png')} alt="买盘图标"/>
                         </dd>
-                        <dt>买盘</dt>
+                        <dt>求购</dt>
                     </dl>
                     <dl onClick={() => this.goRelease('buy')}>
                         <dd>
                             <img src={require('../../assets/sellCar.png')} alt="卖盘图标"/>
                         </dd>
-                        <dt>卖盘</dt>
+                        <dt>出售</dt>
                     </dl>
                     <div className="close" onClick={() =>this.props.history.go(-1)}>
                         <img src={require("../../assets/closePub.png")} alt=""/>
