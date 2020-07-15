@@ -38,7 +38,7 @@ export default class Demo extends React.Component {
           this.setState({
             url: 'subject/json/dealNumberList',  //某某商品配号列表
             getData: {
-              name: "", //	String	是	类型	商品名称
+              name: this.getUrlParam('name'), //	String	是	类型	商品名称
               pageSize: this.state.pageSize,  //	String	必填	每页数量	
               pageIndex: this.state.pageIndex, //	String	必填	页码
             }
@@ -140,7 +140,20 @@ export default class Demo extends React.Component {
     } else {
       window.app.purchaseGoods(id)
     }
-  
+  }
+
+  /**获取网址参数 */
+  getUrlParam = (name) => {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = this.props.location.search.substr(1).match(reg);
+    if (r != null) {
+      return decodeURI(r[2]);
+    }
+    return ""; //如果此处只写return;则返回的是undefined
+  };
+
+  goodsDistribute(name) {
+    this.props.history.push(`/goodsDistribute?name=${name}`)
   }
 
   render() {
@@ -168,7 +181,7 @@ export default class Demo extends React.Component {
             this.props.page === 'index'?(
               <ul className="listBox" >
                   {this.state.data.map((item,index) => (
-                      <li className="list" key= {index} onClick={() => this.props.history.push(`/goodsDistribute`)}>
+                      <li className="list" key= {index} onClick={() => this.goodsDistribute(item.name)}>
                           <img src={item.showImg} alt="商品图片"/>
                           <div className="goodsType">
                             <div className="name">{item.name}</div>
@@ -229,11 +242,6 @@ export default class Demo extends React.Component {
                 </ul>
             ):this.props.page === 'stock'?(
               <ul className="listBox stocklistBox" >
-                {/* <li className="listTop">
-                  <span className="number">号码</span>
-                  <span className="unit">单位</span>
-                  <span className="price">价格</span>
-                </li> */}
                 {this.state.data.map((item,index) => (
                     <li className="list" key= {index} >
                       <div className="nameBox">

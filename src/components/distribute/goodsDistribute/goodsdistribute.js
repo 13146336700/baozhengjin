@@ -7,12 +7,21 @@ import Uheader from "../../Goolbal/Uheader";
 import PublishBtn from "../Global/publishBtn";
 
 export default class Goods extends React.Component {
-
     componentWillMount() {
         document.title = "配号分类";
+        console.log(this.getUrlParam('name'))
     };
     state = {
         checked: true
+    };
+
+    getUrlParam = (name) => {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = this.props.location.search.substr(1).match(reg);
+        if (r != null) {
+          return decodeURI(r[2]);
+        }
+        return ""; //如果此处只写return;则返回的是undefined
     };
 
     render() {

@@ -19,9 +19,6 @@ export default class distribute extends React.Component {
                 <Uheader {...this.props} utitle="币票配号" useach="true"></Uheader>
                 <Banner {...this.props} rpType="ybBanner"/>
                 <Demo {...this.props} page="index" />
-                {/* <div className="pub">
-                    <img src={require('../../assets/pub.png')} alt=""/>
-                </div> */}
                 <PublishBtn {...this.props}></PublishBtn>
             </div>
         );

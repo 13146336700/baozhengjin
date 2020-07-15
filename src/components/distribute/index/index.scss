@@ -137,15 +137,15 @@
 
 
 .stocklistBox{
-    height: 136px;
-    border-bottom: 1px solid #DADDE1;
     padding-left: 30px;
     padding-top: 0px;
     box-sizing: border-box;
     background-color: #ffffff;
     .list{
+        height: 136px;
         display: flex;
         padding: 32px 44px 32px 0px;
+        border-bottom: 1px solid #DADDE1;
         .nameBox{
             flex: 1;
             .number{
@@ -194,6 +194,7 @@
 
 /*我的库存管理*/
 .mystock{
+    min-height: 100%;
     .goodsName{
         height: 80px;
         background-color: #ffffff;
@@ -308,16 +309,16 @@
 
 /*发布按钮*/
 .publishBtn{
-
+    position: fixed;
+    bottom: 0px;
+    z-index: 100;
+    min-width: 110px;
+    min-height: 110px;
+    left: 50%;
+    transform: translateX(-55px);
     .pub{
-        position: fixed;
-        bottom: 6px;
-        left: 50%;
-        transform: translateX(-50px);
         width: 110px;
         height: 110px;
-        z-index: 2000;
-        display: none;
         img{
             display: block;
             width: 100%;

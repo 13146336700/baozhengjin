@@ -9,8 +9,13 @@ export default class PublishBtn extends React.Component {
         document.title = "发布按钮";
     };
     state = {
-        checked: true
+        checked: true,
+
     };
+
+    checkPerson() {
+        let userId = localStorage.getItem('userInfo');
+    }
 
     checkgoodstatus() {
         axios.post('market/json/getGoodsParam',{
@@ -40,10 +45,10 @@ export default class PublishBtn extends React.Component {
     render() {
         return (
             <div className="publishBtn" >
-                <div className="pub" onClick={() =>this.checkgoodstatus()}>
+                <div className="pub" onClick={() =>this.goRelease('buy')}>
                     <img src={require('../../assets/pub.png')} alt=""/>
                 </div>
-                <div className='mask'>
+                {/* <div className='mask'>
                     <div className="btnBox" >
                         <dl onClick={() => this.goRelease('sale')}>
                             <dd>
@@ -61,7 +66,7 @@ export default class PublishBtn extends React.Component {
                             取消
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
         );
     }
