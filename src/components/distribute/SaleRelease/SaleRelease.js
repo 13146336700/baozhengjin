@@ -35,12 +35,18 @@ export default class SaleRelease extends React.Component {
     return ""; //如果此处只写return;则返回的是undefined
   };
   PhotoImageUpload = () => {
+    let Name = this.getUrlParam("name");
+    if (!Name) {
+      Toast.info("请输入名称", 1);
+      return;
+    }
 
-    // let uName = this.getUrlParam("name");
-    // if (!uName) {
-    //   Toast.info("请输入名称", 1);
-    //   return;
-    // }
+    let Numbers = {
+      A: "3",
+      B: "3",
+      C: "3",
+    };
+
     // this.props.history.push("/SaleDetails");
     //地址 ---------------------------------------
     let MyuserAddress_ = this.userAddress_.current.state;
@@ -79,24 +85,38 @@ export default class SaleRelease extends React.Component {
     }
     LooseObj.tag = tag;
 
-    for (var key in LooseObj) {
-      if (!LooseObj[key]) {
-        Toast.info("散张请输入有效数字", 2);
-        return;
-      }
-    }
+    // for (var key in LooseObj) {
+    //   if (!LooseObj[key]) {
+    //     Toast.info("散张请输入有效数字", 2);
+    //     return;
+    //   }
+    // }
 
     let scatteredJson = [];
     My_Loose_.map((item, key) => {
+      let Mytag = item.selectValue;
+      if (Mytag == "请选择类型") {
+        tag = "";
+      } else {
+        tag = Mytag;
+      };
+      if (item.number && item.dealPrice && tag) {
+        Numbers.A = "1";
+      } else if (item.number || item.dealPrice || tag) {
+        Numbers.A = "2";
+      } else if (!item.number && !item.dealPrice &&!tag) {
+        Numbers.A = "3";
+      };
       let obj = {
         unitName: unitName,
         dealPrice: item.dealPrice,
         number: item.number,
         dealCnt: 1,
-        tag: "散张",
+        tag: item.selectValue,
       };
       scatteredJson.push(obj);
     });
+
     log(scatteredJson);
 
     //标连-------------------------------------------------------!!
@@ -107,6 +127,20 @@ export default class SaleRelease extends React.Component {
 
     for (let i = 0; i < mySerial_.length; i++) {
       let mySerial_Item = mySerial_[i];
+      let Mytag = mySerial_Item.tag;
+      if (Mytag == "请选择类型") {
+        tag = "";
+      } else {
+        tag = Mytag;
+      };
+      if (mySerial_Item.number && mySerial_Item.dealPrice && tag) {
+        Numbers.B = "1";
+      } else if (mySerial_Item.number || mySerial_Item.dealPrice || tag) {
+        Numbers.B = "2";
+      } else if (!mySerial_Item.number && !mySerial_Item.dealPrice &&!tag) {
+        Numbers.B = "3";
+      };
+
       let obj = {
         tag: mySerial_Item.tag,
         dealCnt: mySerial_Item.dealCnt,
@@ -116,13 +150,13 @@ export default class SaleRelease extends React.Component {
       };
 
       standardConsecutiveJson.push(obj);
-      for (let key1 in mySerial_Item) {
-        if (!mySerial_Item[key1]) {
-          console.log(mySerial_Item[key1]);
-          Toast.info("标连请输入有效值", 1);
-          return;
-        }
-      }
+      // for (let key1 in mySerial_Item) {
+      //   if (!mySerial_Item[key1]) {
+      //     console.log(mySerial_Item[key1]);
+      //     Toast.info("标连请输入有效值", 1);
+      //     return;
+      //   }
+      // }
     }
 
     log(standardConsecutiveJson);
@@ -145,24 +179,55 @@ export default class SaleRelease extends React.Component {
     myScattered_obj.dealCnt = myScattered__Length.dealCnt;
     myScattered_obj.number = myScattered__Length.number;
     myScattered_obj.signlePrice = myScattered__Length.signlePrice;
-    for (let key in myScattered_obj) {
-      if (!myScattered_obj[key]) {
-        Toast.info("散连请输入有效数值", 2);
-        return;
-      }
-    }
+    // for (let key in myScattered_obj) {
+    //   if (!myScattered_obj[key]) {
+    //     Toast.info("散连请输入有效数值", 2);
+    //     return;
+    //   }
+    // }
+    log(myScattered__);
 
     for (let i = 0; i < myScattered__.length; i++) {
       let myScattered__Item = myScattered__[i];
+      if (myScattered__Item.number && myScattered__Item.signlePrice && myScattered__Item.dealCnt) {
+        Numbers.C = "1";
+      } else if (myScattered__Item.number || myScattered__Item.signlePrice || myScattered__Item.dealCnt) {
+        Numbers.C = "2";
+      } else if (!myScattered__Item.number && !myScattered__Item.signlePrice &&!myScattered__Item.dealCnt) {
+        Numbers.C = "3";
+      };
+
       let obj = {};
       obj.tag = "散连";
       obj.dealCnt = myScattered__Item.dealCnt;
       obj.number = myScattered__Item.number;
-      obj.signlePrice = myScattered__Item.signlePrice;
+      obj.dealPrice = myScattered__Item.signlePrice;
       obj.unitName = unitName;
       otherConsecutiveJson.push(obj);
     }
     log(otherConsecutiveJson);
+    
+    log(Numbers);
+    let NumbersB = 0;
+    let NumbersC = 0;
+
+    for (let key in Numbers) {
+      log(Numbers[key]);
+      if (Numbers[key] == "3") {
+        NumbersB++;
+      } else if (Numbers[key] == "2") {
+        NumbersC++;
+      }
+    };
+    if (NumbersB == 3) {
+      Toast.info("请输入值", 1);
+      return;
+    }
+    if (NumbersC > 0) {
+      Toast.info("请输入有效值", 1);
+      return;
+    }
+
 
     //检查预览
     log({
@@ -180,24 +245,24 @@ export default class SaleRelease extends React.Component {
       personPhone: MyuserAddress_.phone,
       personName: MyuserAddress_.personName,
     });
+
     if (this.getUrlParam("goodsId")) {
       axios
-      .post("subject/json/addNumberFormat",{
-        goodsId:this.getUrlParam('goodsId'),
-        scatteredJson:JSON.stringify(scatteredJson),
-        standardConsecutiveJson:JSON.stringify(standardConsecutiveJson),
-        otherConsecutiveJson:JSON.stringify(otherConsecutiveJson),
-
-      })
-      .then((response) => {
-        if (response.data.code == "10000") {
-          //成功到库存页面
-          // this.props.history.push("/");
-        } else {
-          Toast.info(response.data.message, 1);
-        }
-      })
-      .catch((error) => {});
+        .post("subject/json/addNumberFormat", {
+          goodsId: this.getUrlParam("goodsId"),
+          scatteredJson: Numbers.A == "3" ? JSON.stringify([]) : JSON.stringify(scatteredJson),
+          standardConsecutiveJson: Numbers.B == "3" ? JSON.stringify([]) : JSON.stringify(standardConsecutiveJson),
+          otherConsecutiveJson: Numbers.C == "3" ? JSON.stringify([]) : JSON.stringify(otherConsecutiveJson),
+        })
+        .then((response) => {
+          if (response.data.code == "10000") {
+            //成功到库存页面
+            // this.props.history.push("/");
+          } else {
+            Toast.info(response.data.message, 1);
+          }
+        })
+        .catch((error) => {});
     } else {
       this.props.history.push({
         pathname: "/SaleDetails",
@@ -208,9 +273,9 @@ export default class SaleRelease extends React.Component {
           name: this.getUrlParam("name"), //搜索框的名字
           dealPattern: dealPattern, //担保 2，线下 3
           isPostage: "N", //默认N 不包邮，Y 包邮。买没有包邮，固定填N
-          scatteredJson: JSON.stringify(scatteredJson),
-          standardConsecutiveJson: JSON.stringify(standardConsecutiveJson),
-          otherConsecutiveJson: JSON.stringify(otherConsecutiveJson),
+          scatteredJson: Numbers.A == "3" ? JSON.stringify([]) : JSON.stringify(scatteredJson),
+          standardConsecutiveJson: Numbers.B == "3" ? JSON.stringify([]) : JSON.stringify(standardConsecutiveJson),
+          otherConsecutiveJson: Numbers.C == "3" ? JSON.stringify([]) : JSON.stringify(otherConsecutiveJson),
           address: MyuserAddress_.address,
           dealWay: MyuserAddress_.dealWay,
           personPhone: MyuserAddress_.phone,
@@ -222,7 +287,10 @@ export default class SaleRelease extends React.Component {
   render() {
     return (
       <div className="SaleRelease">
-        <Uheader {...this.props} utitle={this.getUrlParam('goodsId')?'增加求购需求':'配号求购发布'}></Uheader>
+        <Uheader
+          {...this.props}
+          utitle={this.getUrlParam("goodsId") ? "增加求购需求" : "配号求购发布"}
+        ></Uheader>
         <p className="header_border_bottom"></p>
 
         <div

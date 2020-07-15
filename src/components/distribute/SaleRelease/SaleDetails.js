@@ -125,13 +125,17 @@ console.log(this.state.imageArray.join(','));
         address:myArray.address,
         dealWay:myArray.dealWay,
         personPhone:myArray.phone,
-        personName:myArray.personName,
+        personName:myArray.personName
 
       })
       .then((response) => {
         if (response.data.code == "10000") {
           //成功到库存页面
-          // this.props.history.push("/");
+          // http://198.166.1.196:3000/#/myStock?userId=xx&name=**&type=**   配号编辑   参数必传
+          this.props.history.push({
+            pathname:'/myStock',
+            search: `userId=${myArray.pubUserid}&name=${myArray.name}&type=${myArray.type}`,
+          });
         } else {
           Toast.info(response.data.message, 1);
         }
