@@ -1,12 +1,12 @@
-import { PullToRefresh, Toast } from 'antd-mobile';
+import { PullToRefresh, Toast, Button,Modal } from 'antd-mobile';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from "../../axios/index";
 var u = navigator.userAgent;
 // var isAndroid = u.indexOf("Android") > -1;
 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-
 var url:'',  getData: {};  //接口请求地址 //接口请求数据
+
 
 export default class Demo extends React.Component {
   constructor(props) {
@@ -22,7 +22,7 @@ export default class Demo extends React.Component {
     };
   }
   componentWillMount() {
-    
+    this.props.onRef(this);
   };
   genData() {
     const dataArr = this.state.data;
@@ -85,8 +85,11 @@ export default class Demo extends React.Component {
         getData= {
           userId:"",
           name: this.props.goodsName,
-          type: this.props.type,
+          type: goodsType || this.getUrlParam('type'),
         }
+        this.setState({
+          goodsType: goodsType || this.getUrlParam('type')
+        });
         break;
       case 'searchResult':
         url= 'subject/json/searchNum'; //搜索号码
@@ -196,8 +199,13 @@ export default class Demo extends React.Component {
     
   }
 
+  /**调用父组件，标为售出 */
+  showShades(item,type) {
+    this.props.showShade(item,type);
+  }
+
   render() {
-    
+    const operation = Modal.operation;
     return (<div>
       {/* { 
         // this.state.data.length>0?*/}
@@ -302,7 +310,11 @@ export default class Demo extends React.Component {
                         <p  className="unit">散连&nbsp;&nbsp;共<span>10</span>张</p>
                       </div>
                       <span className="price">￥46元</span>
-                      <span className="deal">操作</span>
+                      <Button className="deal" onClick={() => operation([
+                        { text: '标为售出', onPress: () => this.showShades(item,'sign') },
+                        { text: '修改价格', onPress: () => this.showShades(item,'change') },
+                      ])}
+                      >操作</Button>
                     </li>
                 ))}
               </ul>

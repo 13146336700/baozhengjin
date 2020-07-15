@@ -12,6 +12,39 @@ export default class Preview extends React.Component {
       data: [1,1,1,1],
     };
   }
+  state= {
+    showShadeFlag: false,    //修改弹窗显示
+    changeNum:'',
+    changePrice:'',
+  }
+
+  changeNum(en) {
+    this.setState({
+      changeNum: en.target.value
+    })
+  }
+
+  changePrice(en) {
+    this.setState({
+      changePrice: en.target.value
+    })
+  }
+
+  changeData(item) {
+    this.setState({
+      showShadeFlag: true,
+      changePrice: item.price,
+      changeNum: item.Num
+    })
+  }
+
+  changeList() {
+    this.setState({
+      showShadeFlag: false,
+      changePrice: '',
+      changeNum: ''
+    })
+  }
 
   render() {
     
@@ -24,23 +57,27 @@ export default class Preview extends React.Component {
                 <p  className="unit">散连&nbsp;&nbsp;共<span>10</span>张</p>
               </div>
               <span className="price">￥46元</span>
-              <span className="deal">操作</span>
+              <span className="deal" onClick={() =>this.changeData('1')}>操作</span>
             </li>
         ))}
       </ul>
-      {/* <div className="shade">
-        <div className="cont">
-          <p>
-            <label htmlFor="">号码</label>
-            <input type="text" disabled value="1234567896"/>
-          </p>
-          <p>
-            <label htmlFor="">价格</label>
-            <input type="text"/>
-          </p>
-          <button>标为售出</button>
-        </div>
-      </div> */}
+      {
+        this.state.showShadeFlag?(
+          <div className="shade">
+            <div className="cont">
+              <p>
+                <label htmlFor="">号码</label>
+                <input type="text" value={this.state.changeNum} onChange={() => this.changeNum.bind(this)}/>
+              </p>
+              <p>
+                <label htmlFor="">价格</label>
+                <input type="text"  value={this.state.changePrice} onChange={() => this.changePrice.bind(this)}/>
+              </p>
+              <button onClick={this.changeList.bind(this)}>确认修改</button>
+            </div>
+          </div>
+        ):null
+      }
     </div>);
   }
 }
