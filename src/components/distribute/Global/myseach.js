@@ -38,8 +38,18 @@ export default class myseach extends React.Component {
     console.log(ev.targe.value);
   };
   Jump = () => {
+    let goodsId = "";
+    if (this.getUrlParam("goodsId")) {
+      goodsId = this.getUrlParam("goodsId");
+    } else {
+      goodsId = "";
+    }
     // _this.props.history.push("/good");
-    this.props.history.push(`/SaleReleaseSeach/${this.props.ustate}`);
+    // this.props.history.push(`/SaleReleaseSeach/${this.props.ustate}/${this.getUrlParam('url')}`);
+    this.props.history.push({
+      pathname:`/SaleReleaseSeach/${this.props.ustate}`,
+      search: `url=${this.getUrlParam('url')}&goodsId=${goodsId}`,
+    });
   };
   render() {
     // const { getFieldProps } = this.props.form;

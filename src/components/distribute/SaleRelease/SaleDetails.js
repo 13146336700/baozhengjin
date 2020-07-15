@@ -128,7 +128,14 @@ console.log(this.state.imageArray.join(','));
         personName:myArray.personName,
 
       })
-      .then((response) => {})
+      .then((response) => {
+        if (response.data.code == "10000") {
+          //成功到库存页面
+          // this.props.history.push("/");
+        } else {
+          Toast.info(response.data.message, 1);
+        }
+      })
       .catch((error) => {});
   };
   imageDelte = (item, key) => {

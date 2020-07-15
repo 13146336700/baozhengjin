@@ -35,6 +35,12 @@ export default class SaleRelease extends React.Component {
     return ""; //如果此处只写return;则返回的是undefined
   };
   PhotoImageUpload = () => {
+
+    // let uName = this.getUrlParam("name");
+    // if (!uName) {
+    //   Toast.info("请输入名称", 1);
+    //   return;
+    // }
     // this.props.history.push("/SaleDetails");
     //地址 ---------------------------------------
     let MyuserAddress_ = this.userAddress_.current.state;
@@ -63,7 +69,7 @@ export default class SaleRelease extends React.Component {
       {},
       "",
     ];
-log(My_Loose_);
+    log(My_Loose_);
     LooseObj.number = Loose_Last.number;
     LooseObj.dealPrice = Loose_Last.dealPrice;
     if (Loose_Last.selectValue == "请选择类型") {
@@ -83,11 +89,11 @@ log(My_Loose_);
     let scatteredJson = [];
     My_Loose_.map((item, key) => {
       let obj = {
-        unitName:unitName,
-        dealPrice:item.dealPrice,
-        number:item.number,
-        dealCnt:1,
-        tag:"散张",
+        unitName: unitName,
+        dealPrice: item.dealPrice,
+        number: item.number,
+        dealCnt: 1,
+        tag: "散张",
       };
       scatteredJson.push(obj);
     });
@@ -174,36 +180,67 @@ log(My_Loose_);
       personPhone: MyuserAddress_.phone,
       personName: MyuserAddress_.personName,
     });
-    this.props.history.push({
-      pathname:"/SaleDetails",
-      state:{
-      pubUserid: "4028808361926f8a0161db4c492304e2", //用户id
-      type: "1", //1 求购，2 出售
-      categoryName: this.getUrlParam("category"), //商品分类
-      name: this.getUrlParam("name"), //搜索框的名字
-      dealPattern: dealPattern, //担保 2，线下 3
-      isPostage: "N", //默认N 不包邮，Y 包邮。买没有包邮，固定填N
-      scatteredJson: JSON.stringify(scatteredJson),
-      standardConsecutiveJson: JSON.stringify(standardConsecutiveJson),
-      otherConsecutiveJson: JSON.stringify(otherConsecutiveJson),
-    address:MyuserAddress_.address,
-    dealWay:MyuserAddress_.dealWay,
-    personPhone:MyuserAddress_.phone,
-    personName:MyuserAddress_.personName,
-      }
-    });
+    if (this.getUrlParam("goodsId")) {
+      axios
+      .post("subject/json/addNumberFormat",{
+        goodsId:this.getUrlParam('goodsId'),
+        scatteredJson:JSON.stringify(scatteredJson),
+        standardConsecutiveJson:JSON.stringify(standardConsecutiveJson),
+        otherConsecutiveJson:JSON.stringify(otherConsecutiveJson),
+
+      })
+      .then((response) => {
+        if (response.data.code == "10000") {
+          //成功到库存页面
+          // this.props.history.push("/");
+        } else {
+          Toast.info(response.data.message, 1);
+        }
+      })
+      .catch((error) => {});
+    } else {
+      this.props.history.push({
+        pathname: "/SaleDetails",
+        state: {
+          pubUserid: "4028808361926f8a0161db4c492304e2", //用户id
+          type: "1", //1 求购，2 出售
+          categoryName: this.getUrlParam("category"), //商品分类
+          name: this.getUrlParam("name"), //搜索框的名字
+          dealPattern: dealPattern, //担保 2，线下 3
+          isPostage: "N", //默认N 不包邮，Y 包邮。买没有包邮，固定填N
+          scatteredJson: JSON.stringify(scatteredJson),
+          standardConsecutiveJson: JSON.stringify(standardConsecutiveJson),
+          otherConsecutiveJson: JSON.stringify(otherConsecutiveJson),
+          address: MyuserAddress_.address,
+          dealWay: MyuserAddress_.dealWay,
+          personPhone: MyuserAddress_.phone,
+          personName: MyuserAddress_.personName,
+        },
+      });
+    }
   };
   render() {
     return (
       <div className="SaleRelease">
-        <Uheader {...this.props} utitle="配号求购发布"></Uheader>
+        <Uheader {...this.props} utitle={this.getUrlParam('goodsId')?'增加求购需求':'配号求购发布'}></Uheader>
         <p className="header_border_bottom"></p>
-        <Myseach
-          {...this.props}
-          ustate="SaleRelease"
-          ref={this.userseach_}
-        ></Myseach>
-        <Address {...this.props} type="1" ref={this.userAddress_}></Address>
+
+        <div
+          className="Increase_title"
+          style={{ display: this.getUrlParam("goodsId") ? "block" : "none" }}
+        >
+          <span>{this.getUrlParam("name")}</span>{" "}
+        </div>
+        <div
+          style={{ display: this.getUrlParam("goodsId") ? "none" : "block" }}
+        >
+          <Myseach
+            {...this.props}
+            ustate="SaleRelease"
+            ref={this.userseach_}
+          ></Myseach>
+          <Address {...this.props} type="1" ref={this.userAddress_}></Address>
+        </div>
         <div className="zhanwei"></div>
         <Loose {...this.props} uname="散张求购" ref={this.userLoose_}></Loose>
         <div className="zhanwei"></div>
@@ -217,7 +254,7 @@ log(My_Loose_);
         <div className="zhanwei"></div>
         <div className="zhanwei"></div>
         <button className="adddelte" onClick={() => this.PhotoImageUpload()}>
-          增加详情
+          {this.getUrlParam("goodsId") ? "发布" : "增加详情"}
         </button>
         <div className="zhanwei"></div>
       </div>

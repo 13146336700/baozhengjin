@@ -25,12 +25,11 @@ export default class BuyingRelease extends React.Component {
     return ""; //如果此处只写return;则返回的是undefined
   };
   setexamination() {
-
-    let unitName = this.getUrlParam("unitName");
-      if(!unitName){
-        Toast.info("请输入名称", 1);
-        return;
-      }
+    let unitName = this.getUrlParam("name");
+    if (!unitName) {
+      Toast.info("请输入名称", 1);
+      return;
+    }
     //搜索框的数据
     let [My_seach, dealPattern, isPostage] = [
       this.userseach_.current.state,
@@ -208,13 +207,24 @@ export default class BuyingRelease extends React.Component {
   render() {
     return (
       <div className="SaleRelease">
-        <Uheader {...this.props} utitle="配号出售发布" useach="true"></Uheader>
+        <Uheader {...this.props} utitle="配号出售发布"></Uheader>
         <p className="header_border_bottom"></p>
-        <Myseach
-          {...this.props}
-          ustate="BuyingRelease"
-          ref={this.userseach_}
-        ></Myseach>
+        <div
+          className="Increase_title"
+          style={{ display: this.getUrlParam("goodsId") ? "block" : "none" }}
+        >
+          <span>{this.getUrlParam("name")}</span>{" "}
+        </div>
+        <div
+          style={{ display: this.getUrlParam("goodsId") ? "none" : "block" }}
+        >
+          <Myseach
+            {...this.props}
+            ustate="BuyingRelease"
+            ref={this.userseach_}
+          ></Myseach>
+        </div>
+
         <div className="zhanwei"></div>
         <LooseSale
           {...this.props}

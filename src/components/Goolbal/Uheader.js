@@ -1,4 +1,6 @@
-import React, { Component } from "react";
+import React, {
+  Component
+} from "react";
 var u = navigator.userAgent;
 var isAndroid = u.indexOf("Android") > -1;
 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
@@ -17,10 +19,18 @@ export default class Uheaders extends React.Component {
   static defaultProps = {
     useach: false,
   };
-  backClick = ()=>{
+  getUrlParam = (name) => {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = this.props.location.search.substr(1).match(reg);
+    if (r != null) {
+      return decodeURI(r[2]);
+    }
+    return ""; //如果此处只写return;则返回的是undefined
+  };
+  backClick = () => {
     console.log(this.props)
-  
-    if(this.props.match.path == "/distribute"){
+
+    if (this.props.match.path == "/distribute") {
       if (isiOS) {
         try {
           window.webkit.messageHandlers.IOSNativeGotoBack.postMessage("");
@@ -35,27 +45,49 @@ export default class Uheaders extends React.Component {
           console.log(e);
         }
       }
-    }else{
+    } else if (this.props.match.path == "/SaleRelease" || this.props.match.path == "/BuyingRelease") {
+      //因为有搜索 返回会回到搜索页面 所以单独处理
+      if (this.getUrlParam('url')) {
+        this.props.history.push(this.getUrlParam('url'));
+      }
+    } else {
       this.props.history.go(-1);
     }
   };
   render() {
-    return (
-      <div className="Uheaders">
-        <div className="Uheadershome">
-          <ul className={isiOS ? "iosHeader" : null}>
-            <li onClick={()=>this.backClick()}>
-              <img src={require("../assets/Goreturn.png")} />
-            </li>
-            <li>{this.props.utitle}</li>
-            <li>
-              {this.props.useach ? (
-                <img src={require("../assets/seach.png")} />
-              ) : null}
-            </li>
-          </ul>
-        </div>
-      </div>
+    return ( <
+      div className = "Uheaders" >
+      <
+      div className = "Uheadershome" >
+      <
+      ul className = {
+        isiOS ? "iosHeader" : null
+      } >
+      <
+      li onClick = {
+        () => this.backClick()
+      } >
+      <
+      img src = {
+        require("../assets/Goreturn.png")
+      }
+      /> < /
+      li > <
+      li > {
+        this.props.utitle
+      } < /li> <
+      li > {
+        this.props.useach ? ( <
+          img src = {
+            require("../assets/seach.png")
+          }
+          />
+        ) : null
+      } <
+      /li> < /
+      ul > <
+      /div> < /
+      div >
     );
   }
 }
