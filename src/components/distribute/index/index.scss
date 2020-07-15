@@ -177,6 +177,7 @@
             margin: 0px 80px 0px 40px;
         }
         .deal{
+            display: block;
             width:123px;
             height:46px;
             background:rgba(255,255,255,1);
@@ -207,7 +208,23 @@
         line-height:80px;
         border-bottom: 2px solid #f2f2f2;
     }
-    
+    .tabBar{
+        height: 90px;
+        line-height: 90px;
+        display: flex;
+        background-color: #f2f2f2;
+        .tab{
+            display: block;
+            flex: 1;
+            text-align: center;
+            line-height: 90px;
+            font-size: 32px;
+        }
+        .active{
+            box-sizing: border-box;
+            border-bottom: 1px solid #EB3318;
+        }
+    }
     .addStock{
         position: fixed;
         width:690px;

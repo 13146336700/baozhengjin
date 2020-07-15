@@ -43,10 +43,10 @@ export default class MyStock extends React.Component {
             { title: <Badge >求购</Badge> },
         ];
         return (
-            <div className="mystock" style={{background: '#F2F2F2'}}>
+            <div className="mystock" style={{background: '#FFFFFF',height:'100%'}}>
                 <Uheader {...this.props} utitle="库存管理" useach="true"></Uheader>
                 <div className="goodsName">抗疫邮票红方联</div>
-                <Tabs tabs={tabs}
+                {/* <Tabs tabs={tabs}
                     initialPage={0}
                     tabBarActiveTextColor="#eb3318"
                     tabBarUnderlineStyle={{border:'1px solid #eb3318'}}
@@ -54,8 +54,8 @@ export default class MyStock extends React.Component {
                     >
                         <Demo {...this.props} page="stock" type="sell"/>
                         <Demo {...this.props} page="stock" type="buy"/>
-                </Tabs>
-                
+                </Tabs> */}
+                <Demo {...this.props} page="stock" type="buy"/>
                 <div className="addStock" onClick={() => this.goodsAdd()}>
                     增加库存
                 </div>

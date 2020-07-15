@@ -7,9 +7,27 @@ export default class MyDistribute extends React.Component {
 
     componentWillMount() {
         document.title = "我的配号";
+        let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+        if (userInfo.userId === '') {
+            let userInfo = {
+                userId: this.getUrlParam('userId'),
+                userType: this.getUrlParam('userType')
+            };
+            localStorage.setItem("userInfo",JSON.stringify(userInfo));
+        }
     };
     state = {
-        checked: true
+        
+    };
+
+    /**获取网址参数 */
+    getUrlParam = (name) => {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = this.props.location.search.substr(1).match(reg);
+        if (r != null) {
+        return decodeURI(r[2]);
+        }
+        return ""; //如果此处只写return;则返回的是undefined
     };
 
     render() {

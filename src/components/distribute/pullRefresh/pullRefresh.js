@@ -106,6 +106,14 @@ export default class Demo extends React.Component {
     }
     axios.post(url, getData).then( (res)=>{
         if (res.data.resultObject.pageCount > this.state.pageIndex) {
+          if (page === 'stock') {
+            this.setState({
+              pageIndex:Number(this.state.pageIndex) + 1,
+              data: res.data.resultList,
+              refreshing: false
+            });
+            return false;
+          }
           this.setState({
             pageIndex:Number(this.state.pageIndex) + 1,
             data: res.data.resultObject.dataList,
@@ -177,7 +185,7 @@ export default class Demo extends React.Component {
           break;
     };
     this.getdataList(index);
-}
+  }
 
   goodsDistribute(item) {
     if (item.sellCnt === '0' && item.buyCnt === '0') {
@@ -281,8 +289,13 @@ export default class Demo extends React.Component {
                 </ul>
               </nav>
             ):this.props.page === 'stock'?(
-              <ul className="listBox stocklistBox" >
-                {this.state.data.map((item,index) => (
+              <nav>
+                <div className="tabBar">
+                    <span className={this.state.goodsType==='2'?'active tab':'tab'} onClick={() => this.tabChange('2')}>出售</span>
+                    <span className={this.state.goodsType==='1'?'active tab':'tab'} onClick={() => this.tabChange('1')}>求购</span>
+                </div>
+                <ul className="listBox stocklistBox" >
+                  {this.state.data.map((item,index) => (
                     <li className="list" key= {index} >
                       <div className="nameBox">
                         <p className="number">J146450422</p>
@@ -293,6 +306,7 @@ export default class Demo extends React.Component {
                     </li>
                 ))}
               </ul>
+              </nav>
             ):this.props.page === 'searchResult'?(
               <ul className="listBox goodslistBox" >
                 {this.state.data.map((item,index) => (
