@@ -2,6 +2,9 @@ import { PullToRefresh,  } from 'antd-mobile';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from "../../axios/index";
+var u = navigator.userAgent;
+// var isAndroid = u.indexOf("Android") > -1;
+var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 
 
 export default class Demo extends React.Component {
@@ -120,23 +123,33 @@ export default class Demo extends React.Component {
   }
 
   getdataList() {
-    console.log('page类型',this.props.page);
-    axios.post("subject/json/getMatchProductList", {
-        sname: this.props.type?this.props.type:null,
-        pageSize: '10',
-        pageIndex: this.state.pageIndex,
-    }).then( (res)=>{
-        console.log(res);
-        this.setState({
-          pageIndex: this.state.pageIndex + 1
-        })
+    axios.post(this.state.url, this.state.getData).then( (res)=>{
+        if (res.data.resultObject.pageCount > this.state.pageIndex) {
+          this.setState({
+            pageIndex: this.state.pageIndex + 1,
+            data: res.data.resultObject.dataList,
+            refreshing: false
+          });
+        }else {
+          this.setState({
+            refreshing: false,
+            data: res.data.resultObject.dataList
+          });
+        }
     }).catch((err) =>{
         console.log(err);
     })
   }
 
   goodsDetail(id) {
-    console.log(id)
+    if (isiOS) {
+      window.webkit.messageHandlers.IOSNativeCollectionDetails.postMessage({
+        'oid': id
+      });
+    } else {
+      window.app.purchaseGoods(id)
+    }
+  
   }
 
   render() {
@@ -155,9 +168,7 @@ export default class Demo extends React.Component {
         onRefresh={() => {
           this.setState({ refreshing: true });
           this.getdataList();
-          setTimeout(() => {
-            this.setState({ refreshing: false });
-          }, 1000);
+          
         }}
       >
         {
@@ -165,17 +176,15 @@ export default class Demo extends React.Component {
             <ul className="listBox" >
                 {this.state.data.map((item,index) => (
                     <li className="list" key= {index} onClick={() => this.props.history.push(`/goodsDistribute`)}>
-                        <img src={require("../../assets/goods.png")} alt="商品图片"/>
+                        <img src={item.showImg} alt="商品图片"/>
                         <div className="goodsType">
-                          <div className="name">
-                            抗疫邮票大版
-                          </div>
+                          <div className="name">{item.name}</div>
                           <div className="number">
                             <p>
-                              出售：<span>100</span>个需求
+                              出售：<span>{item.sellCnt}</span>个需求
                             </p>
                             <p>
-                              收购：<span>100</span>个需求
+                              收购：<span>{item.buyCnt}</span>个需求
                             </p>
                           </div>
                         </div>

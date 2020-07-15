@@ -20,9 +20,9 @@ export default class PublishBtn extends React.Component {
         }).then(res => {
             console.log(res);
             if (res.data.resultObject.isPublish === 'Y') {
-                this.props.history.push('/myStock/抗疫大版');
+                this.props.history.push('/myStock');
             } else {
-                this.props.history.push('/publish/抗疫大版');
+                this.props.history.push('/publish');
             }
         }).catch(err => {
             console.log(err)

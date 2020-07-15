@@ -1,5 +1,8 @@
 .am-tabs-default-bar-tab{
     height: 80px!important;
+    .am-badge{
+        font-size: 32px!important;
+    }
 }
 .am-navbar{
     height: 80px!important;
@@ -483,6 +486,21 @@
             width: 372px;
             height: auto;
             margin: 0 auto;
+        }
+    }
+    .banner{
+        width: 80%;
+        height: 111px;
+        margin: 0 auto;
+        border-radius: 10px;
+        .slider-slide{
+            height: 100%!important;
+            width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        img{
+            display: block;
         }
     }
     .btnBox{
