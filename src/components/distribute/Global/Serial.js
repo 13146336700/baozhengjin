@@ -133,7 +133,13 @@ export default class Standard extends React.Component {
     // });
     this.setState({
       LooseArr: LooseArr.map((item, key) =>
-        key == index ? { ...item, number: ev.target.value,endnumber:this.SETNUmber(ev.target.value,item.dealCnt)} : item
+        key == index
+          ? {
+              ...item,
+              number: ev.target.value,
+              endnumber: this.SETNUmber(ev.target.value, item.dealCnt),
+            }
+          : item
       ),
     });
   };
@@ -157,7 +163,6 @@ export default class Standard extends React.Component {
         return;
       }
     }
-
 
     let LooseArr = this.state.LooseArr;
     LooseArr.push({
@@ -222,6 +227,9 @@ export default class Standard extends React.Component {
                     onChange={(e) => this.selectChange(e, item, key)}
                     value={item.tag}
                   >
+                    <option style={{ display: "none" }} >
+                      请选择
+                    </option>
                     {item.todoList.map((item1, key1) => (
                       <option
                         onClick={() => this.Myoption(item1)}

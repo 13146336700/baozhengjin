@@ -398,7 +398,7 @@ export default class BuyingRelease extends React.Component {
   render() {
     return (
       <div className="SaleRelease">
-        <Uheader {...this.props} utitle="配号出售发布"></Uheader>
+        <Uheader {...this.props} utitle="配号出售发布1111"></Uheader>
         <p className="header_border_bottom"></p>
         <div
           className="Increase_title"

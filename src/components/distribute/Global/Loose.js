@@ -268,6 +268,9 @@ export default class Loose extends React.Component {
                     onChange={(e) => this.selectChange(e, key)}
                     value={item.selectValue}
                   >
+                    <option style={{ display: "none" }} >
+                      请选择
+                    </option>
                     {item.todoList.map((item, key) => (
                       <option value={item.code} key={key}>
                         {item.title}

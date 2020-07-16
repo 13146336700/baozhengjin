@@ -38,14 +38,32 @@ export default class myseach extends React.Component {
     this.props.setKeyWorld(item.name);
     console.log(this.props);
 
-    const newlist = [...this.state.list]; //浅拷贝一下
-    this.setState({
-      list: newlist.map((item1, index) =>
-        index == key
-          ? { ...item1, isCheck: !item.isCheck }
-          : { ...item1, isCheck: false }
-      ),
-    });
+    let newlist = [...this.state.list]; //浅拷贝一下
+    // this.setState({
+    //   list: newlist.map((item1, index) =>{
+    //     console.log(item1)
+    //     if(item1.isCheck == true){
+    //       item1.isCheck = true;
+    //     }else{
+    //       item1.isCheck = false;
+    //     }
+    //   }),
+    // });
+    newlist.map((item1,index)=>{
+     if(item1.isCheck == true){
+          item1.isCheck = false;
+        }else{
+          item1.isCheck = true;
+        }
+    })
+    this.setState({ list: newlist});
+    // this.setState({
+    //   list: newlist.map((item1, index) =>
+    //     index == key
+    //       ? { ...item1, isCheck: !item.isCheck }
+    //       : { ...item1, isCheck: false }
+    //   ),
+    // });
   };
   hanInput = (ev) => {
     console.log(ev);

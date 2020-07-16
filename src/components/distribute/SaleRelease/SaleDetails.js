@@ -54,7 +54,7 @@ export default class SaleDetails extends React.Component {
     });
   };
   APPUpload = () => {
-    if (this.state.imageArray.length > 10) {
+    if (this.state.imageArray.length > 9) {
       Toast.info("最多10张", 1);
     } else {
       if (isiOS) {
@@ -107,6 +107,7 @@ export default class SaleDetails extends React.Component {
     } else {
       Toast.info("请输入有效的数字", 1);
     }
+    
     axios
       .post("subject/json/saveGoods",{
         pubUserid:myArray.pubUserid,
