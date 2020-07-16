@@ -153,7 +153,7 @@ export default class SaleDetails extends React.Component {
         <Uheader {...this.props} utitle="增加配号出售详情"></Uheader>
         <div className="zhanwei zhanwei_yanse"> </div>
         {/* <ImageBig imageArray={this.state.imageArray} {...this.props} imageArrayKey='1'></ImageBig> */}
-        <div className="SaleDetails_title"> 抗疫邮票大版 </div>
+        <div className="SaleDetails_title"> {this.props.history.location.state.name} </div>
         <div className="zhanwei"> </div>
         <div className="Collection">
           <p className="Collection_miaoshu"> 藏品描述 </p>
