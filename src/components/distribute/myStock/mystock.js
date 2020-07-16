@@ -25,13 +25,15 @@ export default class MyStock extends React.Component {
         showShadeFlag: false,    //修改弹窗显示
         changeItem: {}, //要修改的数据
         changePrice:'', //修改的价格
+        addShow: true,  //增加库存按钮是否显示
     };
 
     goodsAdd() {
-        if (this.state.publishType === 'sale') {
-            this.props.history.push("/SaleRelease?goodsId=123456789&category=编年套票&name=四轮狗套票&unitName=套&url=mystock")
+        // console.log(this.demo.state.goodsType);
+        if (this.demo.state.goodsType === '2') {
+            this.props.history.push(`/SaleRelease?goodsId=${this.demo.state.data[0].goodsId}&name=${this.getUrlParam('name')}&url=mystock`)
         } else {
-            this.props.history.push("/BuyingRelease?goodsId=123456789&category=编年套票&name=四轮狗套票&unitName=套&url=mystock")
+            this.props.history.push(`/BuyingRelease?goodsId=${this.demo.state.data[0].goodsId}&name=${this.getUrlParam('name')}&url=mystock`)
         }
     }
 
@@ -41,25 +43,48 @@ export default class MyStock extends React.Component {
                 showShadeFlag: true,
                 dealType: 'soldOut',
                 changeItem: item,
-                changePrice: item.price
+                changePrice: item.dealPrice
             });
         } else {
             this.setState({
                 showShadeFlag: true,
                 dealType: 'change',
                 changeItem: item,
-                changePrice: item.price
+                changePrice: item.dealPrice
             });
         }
     }
 
+
+    checkAddShow(item) {
+        if (item.length > 0) {
+            this.setState({
+                addShow: true
+            })
+        } else {
+            this.setState({
+                addShow: false
+            })
+        }
+    }
+
     /**价格修改 */
-    changePrice(en) {
+    changePriceFn = (en) => {
         this.setState({
             changePrice: en.target.value
         })
     }
-    
+
+    /**获取网址参数 */
+    getUrlParam = (name) => {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = this.props.location.search.substr(1).match(reg);
+        if (r != null) {
+        return decodeURI(r[2]);
+        }
+        return ""; //如果此处只写return;则返回的是undefined
+    };
+        
     
     /**商品下架 */
     updateFormat(type) {
@@ -68,7 +93,7 @@ export default class MyStock extends React.Component {
             status:type,
             price: this.state.changePrice
         }).then(res => {
-            if (res.data.resultObject) {
+            if (res.data.message === '成功') {
                 this.setState({
                     showShadeFlag: false,
                     dealType: '',
@@ -87,11 +112,16 @@ export default class MyStock extends React.Component {
         return (
             <div className="mystock" style={{background: '#FFFFFF',height:'100%'}}>
                 <Uheader {...this.props} utitle="库存管理" useach="true"></Uheader>
-                <div className="goodsName">{this.props.name}</div>
-                <Demo {...this.props} page="stock" showShade={this.showShade.bind(this)} onRef={(ref) => { this.child = ref; }}></Demo>
-                <div className="addStock" onClick={() => this.goodsAdd()}>
-                    增加库存
-                </div>
+                <div className="goodsName">{this.getUrlParam('name')}</div>
+                <Demo {...this.props} page="stock" showShade={this.showShade.bind(this)} showAdd={this.checkAddShow.bind(this)} onRef={(ref) => { this.demo = ref; }}></Demo>
+                {
+                    this.state.addShow?(
+                        <div className="addStock" onClick={() => this.goodsAdd()}>
+                            增加库存
+                        </div>
+                    ):null
+                }
+                
                 {
                     this.state.showShadeFlag?(
                         <div className="shade">
@@ -100,25 +130,25 @@ export default class MyStock extends React.Component {
                                     <div className="cont">
                                         <p>
                                             <label htmlFor="">号码</label>
-                                            <input type="text" disabled value={this.state.changeItem.value}/>
+                                            <input type="text" disabled value={this.state.changeItem.format}/>
                                         </p>
                                         <p>
                                             <label htmlFor="">价格</label>
-                                            <input type="text" disabled value={this.state.changeItem.price}/>
+                                            <input type="text" disabled value={this.state.changeItem.dealPrice}/>
                                         </p>
-                                        <button onClick={this.updateFormat(2)}>标为售出</button>
+                                        <button onClick={() =>this.updateFormat(2)}>标为售出</button>
                                     </div>
                                 ):(
                                     <div className="cont">
                                         <p>
                                             <label htmlFor="">号码</label>
-                                            <input type="text" disabled value={this.state.changeItem.value}/>
+                                            <input type="text" disabled value={this.state.changeItem.format}/>
                                         </p>
                                         <p>
                                             <label htmlFor="">价格</label>
-                                            <input type="text" value={this.state.changePrice} onChange={this.changePrice.bind(this)}/>
+                                            <input type="text" value={this.state.changePrice} onChange={this.changePriceFn.bind(this)}/>
                                         </p>
-                                        <button onClick={this.updateFormat(0)}>确认修改</button>
+                                        <button onClick={() =>this.updateFormat(0)}>确认修改</button>
                                     </div>
                                 )
                             }

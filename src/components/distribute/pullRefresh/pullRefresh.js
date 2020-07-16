@@ -75,7 +75,7 @@ export default class Demo extends React.Component {
       case 'my':
         url= 'subject/json/myNumberList'; //我的配号
         getData= {
-          userId: "",
+          userId: this.getUrlParam('userId'),
           pageSize: this.state.pageSize,
           pageIndex: this.state.pageIndex,
         }
@@ -83,8 +83,8 @@ export default class Demo extends React.Component {
       case 'stock':
         url= 'subject/json/goodsNumber';    //我的商品号码列表
         getData= {
-          userId:"",
-          name: this.props.goodsName,
+          userId:this.getUrlParam('userId'),
+          name: this.getUrlParam('name'),
           type: goodsType || this.getUrlParam('type'),
         }
         this.setState({
@@ -108,8 +108,15 @@ export default class Demo extends React.Component {
         break;
     }
     axios.post(url, getData).then( (res)=>{
+        if (this.props.page === 'stock') {
+          this.setState({
+            data: res.data.resultList,
+            refreshing: false
+          });
+          return false;
+        }
         if (res.data.resultObject.pageCount > this.state.pageIndex) {
-          if (page === 'stock') {
+          if (this.props.page === 'stock') {
             this.setState({
               pageIndex:Number(this.state.pageIndex) + 1,
               data: res.data.resultList,
@@ -123,9 +130,17 @@ export default class Demo extends React.Component {
             refreshing: false
           });
         }else {
+          alert("else");
+          if (this.props.page === 'stock') {
+            this.setState({
+              data: res.data.resultList,
+              refreshing: false
+            });
+            return false;
+          }
           this.setState({
-            refreshing: false,
-            data: res.data.resultObject.dataList
+            data: res.data.resultObject.dataList,
+            refreshing: false
           });
         }
     }).catch((err) =>{
@@ -248,22 +263,20 @@ export default class Demo extends React.Component {
             ):this.props.page === 'my'?(
               <ul className="listBox mylist" >
                   {this.state.data.map((item,index) => (
-                      <li className="list" key= {index} onClick={() => this.props.history.push(`/myStock`)}>
-                          <img src={require("../../assets/goods.png")} alt="商品图片"/>
+                      <li className="list" key= {index} onClick={() => this.props.history.push(`/myStock?userId=${this.getUrlParam('userId')}&type=2&name=${item.name}`)}>
+                          <img src={item.showImg} alt="商品图片"/>
                           <div className="goodsType">
-                            <div className="name">
-                              抗疫邮票大版
-                              <p>
+                            <div className="name">{item.name}<p>
                                 <img src={require("../../assets/guanli.png")} alt="icon" className="icon"/>
                                 <span>库存管理</span>
                               </p>
                             </div>
                             <div className="number">
                               <p>
-                                出售：<span>100</span>个需求
+                                出售：<span>{item.sellCnt?item.sellCnt:0}</span>个需求
                               </p>
                               <p>
-                                收购：<span>100</span>个需求
+                                收购：<span>{item.buyCnt?item.buyCnt:0}</span>个需求
                               </p>
                             </div>
                           </div>
@@ -280,15 +293,15 @@ export default class Demo extends React.Component {
                 </div>
                 <ul className="listBox goodslistBox" >
                   {this.state.data.map((item,index) => (
-                      <li className="list" key= {index} onClick={() => this.goodsDetail(index)}>
+                      <li className="list" key= {index} onClick={() => this.goodsDetail(item.goodsId)}>
                           <img src={require("../../assets/goods.png")} alt="商品图片"/>
                           <div className="goodsType">
                             <div className="name">
-                              <p>1283924、豹子号1246备份</p><span>￥ 146192元</span>
+                              <p>{item.numStr}</p><span>￥ {item.dealPrice}元</span>
                             </div>
                             <div className="number">
                               <p>
-                                共：<span>100</span> 张
+                                共：<span>{item.dealCnt}</span> 张
                               </p>
                             </div>
                           </div>
@@ -306,18 +319,18 @@ export default class Demo extends React.Component {
                   {this.state.data.map((item,index) => (
                     <li className="list" key= {index} >
                       <div className="nameBox">
-                        <p className="number">J146450422</p>
-                        <p  className="unit">散连&nbsp;&nbsp;共<span>10</span>张</p>
+                        <p className="number">{item.format}</p>
+                        <p  className="unit">{item.tag}&nbsp;&nbsp;共<span>{item.dealCnt}</span>{item.unitName}</p>
                       </div>
-                      <span className="price">￥46元</span>
+                      <span className="price">￥{item.dealPrice}元</span>
                       <Button className="deal" onClick={() => operation([
                         { text: '标为售出', onPress: () => this.showShades(item,'sign') },
                         { text: '修改价格', onPress: () => this.showShades(item,'change') },
                       ])}
                       >操作</Button>
                     </li>
-                ))}
-              </ul>
+                  ))}
+                </ul>
               </nav>
             ):this.props.page === 'searchResult'?(
               <ul className="listBox goodslistBox" >
@@ -339,10 +352,7 @@ export default class Demo extends React.Component {
               </ul>
             ):null
           }
-
         </PullToRefresh>
-        {/* : <p>暂无数据</p> */}
-      {/* } */}
 
     </div>);
   }
