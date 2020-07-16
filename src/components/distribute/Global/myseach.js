@@ -7,12 +7,12 @@ export default class myseach extends React.Component {
       {
         isCheck: true,
         name: "担保交易",
-        dealPattern:'2',
+        dealPattern: "2",
       },
       {
         isCheck: false,
         name: "线下交易",
-        dealPattern:'3',
+        dealPattern: "3",
       },
     ],
     checked: false,
@@ -33,6 +33,20 @@ export default class myseach extends React.Component {
     }
     return ""; //如果此处只写return;则返回的是undefined
   };
+  setParent = (item,key) => {
+    //点击查询按钮，将值传给父组件
+    this.props.setKeyWorld(item.name);
+    console.log(this.props);
+
+    const newlist = [...this.state.list]; //浅拷贝一下
+    this.setState({
+      list: newlist.map((item1, index) =>
+        index == key
+          ? { ...item1, isCheck: !item.isCheck }
+          : { ...item1, isCheck: false }
+      ),
+    });
+  };
   hanInput = (ev) => {
     console.log(ev);
     console.log(ev.targe.value);
@@ -47,8 +61,8 @@ export default class myseach extends React.Component {
     // _this.props.history.push("/good");
     // this.props.history.push(`/SaleReleaseSeach/${this.props.ustate}/${this.getUrlParam('url')}`);
     this.props.history.push({
-      pathname:`/SaleReleaseSeach/${this.props.ustate}`,
-      search: `url=${this.getUrlParam('url')}&goodsId=${goodsId}`,
+      pathname: `/SaleReleaseSeach/${this.props.ustate}`,
+      search: `url=${this.getUrlParam("url")}&goodsId=${goodsId}`,
     });
   };
   render() {
@@ -69,16 +83,7 @@ export default class myseach extends React.Component {
             <div
               className="way"
               key={key + 10}
-              onClick={() => {
-                const newlist = [...arr]; //浅拷贝一下
-                this.setState({
-                  list: newlist.map((item1, index) =>
-                    index == key
-                      ? { ...item1, isCheck: !item.isCheck }
-                      : { ...item1, isCheck: false }
-                  ),
-                });
-              }}
+              onClick={() => this.setParent(item,key)}
             >
               {item.isCheck ? (
                 <img src={require("../../assets/Selected.png")} alt="" />

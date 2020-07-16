@@ -12,6 +12,8 @@ export default class address extends React.Component {
     this.state = {
       // selectValue:'startup'
       dealWay: "北京交割",
+      dealWayCode: "beijing",
+      MykeyWordValue:'担保交易',
       todolist: [
         { dealWay: "北京交割", code: "beijing" },
         { dealWay: "上海交割", code: "shanghai" },
@@ -29,7 +31,16 @@ export default class address extends React.Component {
     // funcitonName 是原生回调使用的方法名
     window["IOSSelectAddressUpload"] = this.IOSSelectAddressUpload;
     this.getDealPattern();
-  }
+  };
+  //props将要被改变前执行
+  componentWillReceiveProps(props){
+    console.log(props);
+    const key=props.keyWordValue;
+    this.setState({
+      MykeyWordValue:key
+    });
+};
+
   getDealPattern = () => {
     axios
       .post("payment/json/getDealPattern", {
@@ -68,10 +79,15 @@ export default class address extends React.Component {
   };
   selectChange = (ev) => {
     //选择 交割地点
-    console.log(ev.target.value);
+    // console.log(ev.target.value);
+    // dealWayCode
 
+     var obj = this.state.todolist.find(function (key) {
+      return key.dealWay === ev.target.value;
+    });
     this.setState({
       dealWay: ev.target.value,
+      dealWayCode: obj.code
     });
   };
   APPios = () => {
@@ -93,7 +109,7 @@ export default class address extends React.Component {
   render() {
     return (
       <div className="address">
-        <div className="addressHome">
+        <div className="addressHome" style={{display:this.state.MykeyWordValue =='线下交易' ?'block':'none'}}>
           <div className="userDelivery select-area">
             <div>
               <span>交割地点：</span>

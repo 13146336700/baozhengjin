@@ -22,6 +22,9 @@ export default class SaleRelease extends React.Component {
     this.userSerial_ = React.createRef(); //标连的
     this.userScattered_ = React.createRef(); //散连的
     this.userAddress_ = React.createRef(); //地址的
+    this.state = {
+      keyWord: "",
+    };
   }
   componentWillMount() {
     console.log(this.getUrlParam("name"));
@@ -33,6 +36,12 @@ export default class SaleRelease extends React.Component {
       return decodeURI(r[2]);
     }
     return ""; //如果此处只写return;则返回的是undefined
+  };
+  setKeyWorld = (keyWord) => {
+    log(keyWord);
+    this.setState({
+      keyWord:keyWord
+    });
   };
   PhotoImageUpload = () => {
     let Name = this.getUrlParam("name");
@@ -65,7 +74,6 @@ export default class SaleRelease extends React.Component {
         dealPattern = item.dealPattern;
       }
     });
-
     //散张求购---------------------------------------
     let [My_Loose_, Loose_Last, LooseObj, tag] = [
       this.userLoose_.current.state.LooseArr,
@@ -79,11 +87,11 @@ export default class SaleRelease extends React.Component {
     LooseObj.number = Loose_Last.number;
     LooseObj.dealPrice = Loose_Last.dealPrice;
     if (Loose_Last.selectValue == "请选择类型") {
-      tag = "";
+      tag = "请选择类型";
     } else {
       tag = Loose_Last.selectValue;
     }
-    LooseObj.tag = tag;
+    LooseObj.tag = Loose_Last.selectValue;
 
     // for (var key in LooseObj) {
     //   if (!LooseObj[key]) {
@@ -99,14 +107,14 @@ export default class SaleRelease extends React.Component {
         tag = "";
       } else {
         tag = Mytag;
-      };
+      }
       if (item.number && item.dealPrice && tag) {
         Numbers.A = "1";
       } else if (item.number || item.dealPrice || tag) {
         Numbers.A = "2";
-      } else if (!item.number && !item.dealPrice &&!tag) {
+      } else if (!item.number && !item.dealPrice && !tag) {
         Numbers.A = "3";
-      };
+      }
       let obj = {
         unitName: unitName,
         dealPrice: item.dealPrice,
@@ -132,14 +140,14 @@ export default class SaleRelease extends React.Component {
         tag = "";
       } else {
         tag = Mytag;
-      };
+      }
       if (mySerial_Item.number && mySerial_Item.dealPrice && tag) {
         Numbers.B = "1";
       } else if (mySerial_Item.number || mySerial_Item.dealPrice || tag) {
         Numbers.B = "2";
-      } else if (!mySerial_Item.number && !mySerial_Item.dealPrice &&!tag) {
+      } else if (!mySerial_Item.number && !mySerial_Item.dealPrice && !tag) {
         Numbers.B = "3";
-      };
+      }
 
       let obj = {
         tag: mySerial_Item.tag,
@@ -189,13 +197,25 @@ export default class SaleRelease extends React.Component {
 
     for (let i = 0; i < myScattered__.length; i++) {
       let myScattered__Item = myScattered__[i];
-      if (myScattered__Item.number && myScattered__Item.signlePrice && myScattered__Item.dealCnt) {
+      if (
+        myScattered__Item.number &&
+        myScattered__Item.signlePrice &&
+        myScattered__Item.dealCnt
+      ) {
         Numbers.C = "1";
-      } else if (myScattered__Item.number || myScattered__Item.signlePrice || myScattered__Item.dealCnt) {
+      } else if (
+        myScattered__Item.number ||
+        myScattered__Item.signlePrice ||
+        myScattered__Item.dealCnt
+      ) {
         Numbers.C = "2";
-      } else if (!myScattered__Item.number && !myScattered__Item.signlePrice &&!myScattered__Item.dealCnt) {
+      } else if (
+        !myScattered__Item.number &&
+        !myScattered__Item.signlePrice &&
+        !myScattered__Item.dealCnt
+      ) {
         Numbers.C = "3";
-      };
+      }
 
       let obj = {};
       obj.tag = "散连";
@@ -206,7 +226,7 @@ export default class SaleRelease extends React.Component {
       otherConsecutiveJson.push(obj);
     }
     log(otherConsecutiveJson);
-    
+
     log(Numbers);
     let NumbersB = 0;
     let NumbersC = 0;
@@ -218,7 +238,7 @@ export default class SaleRelease extends React.Component {
       } else if (Numbers[key] == "2") {
         NumbersC++;
       }
-    };
+    }
     if (NumbersB == 3) {
       Toast.info("请输入值", 1);
       return;
@@ -227,7 +247,6 @@ export default class SaleRelease extends React.Component {
       Toast.info("请输入有效值", 1);
       return;
     }
-
 
     //检查预览
     log({
@@ -241,18 +260,30 @@ export default class SaleRelease extends React.Component {
       standardConsecutiveJson: JSON.stringify(standardConsecutiveJson),
       otherConsecutiveJson: JSON.stringify(otherConsecutiveJson),
       address: MyuserAddress_.address,
-      dealWay: MyuserAddress_.dealWay,
+      dealWay: MyuserAddress_.dealWayCode,
       personPhone: MyuserAddress_.phone,
       personName: MyuserAddress_.personName,
     });
-
+    if (!dealPattern) {
+      Toast.info("请选择交易方式", 1);
+      return;
+    };
     if (this.getUrlParam("goodsId")) {
       axios
         .post("subject/json/addNumberFormat", {
           goodsId: this.getUrlParam("goodsId"),
-          scatteredJson: Numbers.A == "3" ? JSON.stringify([]) : JSON.stringify(scatteredJson),
-          standardConsecutiveJson: Numbers.B == "3" ? JSON.stringify([]) : JSON.stringify(standardConsecutiveJson),
-          otherConsecutiveJson: Numbers.C == "3" ? JSON.stringify([]) : JSON.stringify(otherConsecutiveJson),
+          scatteredJson:
+            Numbers.A == "3"
+              ? JSON.stringify([])
+              : JSON.stringify(scatteredJson),
+          standardConsecutiveJson:
+            Numbers.B == "3"
+              ? JSON.stringify([])
+              : JSON.stringify(standardConsecutiveJson),
+          otherConsecutiveJson:
+            Numbers.C == "3"
+              ? JSON.stringify([])
+              : JSON.stringify(otherConsecutiveJson),
         })
         .then((response) => {
           if (response.data.code == "10000") {
@@ -279,11 +310,20 @@ export default class SaleRelease extends React.Component {
           name: this.getUrlParam("name"), //搜索框的名字
           dealPattern: dealPattern, //担保 2，线下 3
           isPostage: "N", //默认N 不包邮，Y 包邮。买没有包邮，固定填N
-          scatteredJson: Numbers.A == "3" ? JSON.stringify([]) : JSON.stringify(scatteredJson),
-          standardConsecutiveJson: Numbers.B == "3" ? JSON.stringify([]) : JSON.stringify(standardConsecutiveJson),
-          otherConsecutiveJson: Numbers.C == "3" ? JSON.stringify([]) : JSON.stringify(otherConsecutiveJson),
+          scatteredJson:
+            Numbers.A == "3"
+              ? JSON.stringify([])
+              : JSON.stringify(scatteredJson),
+          standardConsecutiveJson:
+            Numbers.B == "3"
+              ? JSON.stringify([])
+              : JSON.stringify(standardConsecutiveJson),
+          otherConsecutiveJson:
+            Numbers.C == "3"
+              ? JSON.stringify([])
+              : JSON.stringify(otherConsecutiveJson),
           address: MyuserAddress_.address,
-          dealWay: MyuserAddress_.dealWay,
+          dealWay: MyuserAddress_.dealWayCode,
           personPhone: MyuserAddress_.phone,
           personName: MyuserAddress_.personName,
         },
@@ -311,9 +351,15 @@ export default class SaleRelease extends React.Component {
           <Myseach
             {...this.props}
             ustate="SaleRelease"
+            setKeyWorld={this.setKeyWorld}
             ref={this.userseach_}
           ></Myseach>
-          <Address {...this.props} type="1" ref={this.userAddress_}></Address>
+          <Address
+            {...this.props}
+            keyWordValue={this.state.keyWord}
+            type="1"
+            ref={this.userAddress_}
+          ></Address>
         </div>
         <div className="zhanwei"></div>
         <Loose {...this.props} uname="散张求购" ref={this.userLoose_}></Loose>

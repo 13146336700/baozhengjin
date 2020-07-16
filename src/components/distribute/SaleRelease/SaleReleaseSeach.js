@@ -98,6 +98,8 @@ export default class SaleReleaseSeach extends React.Component {
     this.setState({
       sname: item.name,
     });
+
+    this.goSelete(item);
     this.inputOnBlur();
   };
 

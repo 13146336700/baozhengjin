@@ -16,6 +16,9 @@ export default class BuyingRelease extends React.Component {
     this.userLooseSale_ = React.createRef(); //散连的
     this.userSerial_ = React.createRef(); //标连的
     this.userScattered_ = React.createRef(); //散连的
+    this.state = {
+      keyWord: "",
+    };
   }
   getUrlParam = (name) => {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
@@ -24,6 +27,12 @@ export default class BuyingRelease extends React.Component {
       return decodeURI(r[2]);
     }
     return ""; //如果此处只写return;则返回的是undefined
+  };
+  setKeyWorld = (keyWord) => {
+    log(keyWord);
+    this.setState({
+      keyWord:keyWord
+    });
   };
   setexamination() {
     let unitName = this.getUrlParam("unitName");
@@ -296,40 +305,37 @@ export default class BuyingRelease extends React.Component {
       personName: "",
     });
 
-    if (this.getUrlParam("goodsId")) {
-      axios
-        .post("subject/json/addNumberFormat", {
-          goodsId: this.getUrlParam("goodsId"),
-          scatteredJson:
-            Numbers.A == "3"
-              ? JSON.stringify([])
-              : JSON.stringify(scatteredJson),
-          standardConsecutiveJson:
-            Numbers.B == "3"
-              ? JSON.stringify([])
-              : JSON.stringify(standardConsecutiveJson),
-          otherConsecutiveJson:
-            Numbers.C == "3"
-              ? JSON.stringify([])
-              : JSON.stringify(otherConsecutiveJson),
-        })
-        .then((response) => {
-          if (response.data.code == "10000") {
-            //成功到库存页面
-            // this.props.history.push("/");
-            this.props.history.push({
-              pathname: "/myStock",
-              search: `userId=4028808361926f8a0161db4c492304e2&name=${this.getUrlParam(
-                "name"
-              )}&type=2`,
-            });
-          } else {
-            Toast.info(response.data.message, 1);
-          }
-        })
-        .catch((error) => {});
-    } else {
-      // this.props.history.push("/preview");
+      // axios
+      //   .post("subject/json/addNumberFormat", {
+      //     goodsId: this.getUrlParam("goodsId"),
+      //     scatteredJson:
+      //       Numbers.A == "3"
+      //         ? JSON.stringify([])
+      //         : JSON.stringify(scatteredJson),
+      //     standardConsecutiveJson:
+      //       Numbers.B == "3"
+      //         ? JSON.stringify([])
+      //         : JSON.stringify(standardConsecutiveJson),
+      //     otherConsecutiveJson:
+      //       Numbers.C == "3"
+      //         ? JSON.stringify([])
+      //         : JSON.stringify(otherConsecutiveJson),
+      //   })
+      //   .then((response) => {
+      //     if (response.data.code == "10000") {
+      //       //成功到库存页面
+      //       // this.props.history.push("/");
+      //       this.props.history.push({
+      //         pathname: "/myStock",
+      //         search: `userId=4028808361926f8a0161db4c492304e2&name=${this.getUrlParam(
+      //           "name"
+      //         )}&type=2`,
+      //       });
+      //     } else {
+      //       Toast.info(response.data.message, 1);
+      //     }
+      //   })
+      //   .catch((error) => {});
       this.props.history.push({
         pathname: "/preview",
         state: {
@@ -388,7 +394,6 @@ export default class BuyingRelease extends React.Component {
       //     personName: "",
       //   },
       // });
-    }
   }
   render() {
     return (
@@ -407,6 +412,7 @@ export default class BuyingRelease extends React.Component {
           <Myseach
             {...this.props}
             ustate="BuyingRelease"
+            setKeyWorld={this.setKeyWorld}
             ref={this.userseach_}
           ></Myseach>
         </div>
@@ -428,7 +434,7 @@ export default class BuyingRelease extends React.Component {
         <div className="zhanwei"></div>
         <div className="zhanwei"></div>
         <button className="adddelte" onClick={() => this.setexamination()}>
-          {this.getUrlParam("goodsId") ? "确认增加" : "预览检查"}
+          预览检查
         </button>
         <div className="zhanwei"></div>
       </div>
