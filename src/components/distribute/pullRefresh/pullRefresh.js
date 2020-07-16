@@ -91,14 +91,14 @@ export default class Demo extends React.Component {
           goodsType: goodsType || this.getUrlParam('type')
         });
         break;
-      case 'searchResult':
+      case 'searchResult': //searchResult?name=JP246金丝猴&type=1&sname=365&position=any&tag=顺号
         url= 'subject/json/searchNum'; //搜索号码
         getData= {
-          sname: this.props.sname,  //	String	否	搜索关键字	
-          name: this.props.name,  //	String	必填		产品名称
-          type: this.props.type,  //	String	必填	品类交易类型
-          tag: this.props.tag,  //	String	否	品类交易类型
-          position: this.props.position,  //	String	必填	位置
+          sname: this.getUrlParam('sname'),  //	String	否	搜索关键字	
+          name: this.getUrlParam('name'),  //	String	必填		产品名称
+          type: this.getUrlParam('type'),  //	String	必填	品类交易类型
+          tag: this.getUrlParam('tag'),  //	String	否	品类交易类型
+          position: this.getUrlParam('position'),  //	String	必填	位置
           pageSize: this.state.pageSize,  //	String	必填	每页数量	
           pageIndex: this.state.pageIndex,  //	String	必填	页码
         }
@@ -109,6 +109,7 @@ export default class Demo extends React.Component {
     }
     axios.post(url, getData).then( (res)=>{
         if (this.props.page === 'stock') {
+          this.props.showAdd(res.data.resultList);
           this.setState({
             data: res.data.resultList,
             refreshing: false
@@ -130,7 +131,6 @@ export default class Demo extends React.Component {
             refreshing: false
           });
         }else {
-          alert("else");
           if (this.props.page === 'stock') {
             this.setState({
               data: res.data.resultList,
@@ -318,11 +318,11 @@ export default class Demo extends React.Component {
                 <ul className="listBox stocklistBox" >
                   {this.state.data.map((item,index) => (
                     <li className="list" key= {index} >
-                      <div className="nameBox">
-                        <p className="number">{item.format}</p>
-                        <p  className="unit">{item.tag}&nbsp;&nbsp;共<span>{item.dealCnt}</span>{item.unitName}</p>
-                      </div>
-                      <span className="price">￥{item.dealPrice}元</span>
+                        <div className="nameBox" onClick={() => this.goodsDetail(item.goodsId)}>
+                          <p className="number">{item.format}</p>
+                          <p  className="unit">{item.tag}&nbsp;&nbsp;共<span>{item.dealCnt}</span>{item.unitName}</p>
+                        </div>
+                        <span className="price" onClick={() => this.goodsDetail(item.goodsId)}>￥{item.dealPrice}元</span>
                       <Button className="deal" onClick={() => operation([
                         { text: '标为售出', onPress: () => this.showShades(item,'sign') },
                         { text: '修改价格', onPress: () => this.showShades(item,'change') },
@@ -333,23 +333,29 @@ export default class Demo extends React.Component {
                 </ul>
               </nav>
             ):this.props.page === 'searchResult'?(
-              <ul className="listBox goodslistBox" >
-                {this.state.data.map((item,index) => (
-                    <li className="list" key= {index}>
-                        <img src={require("../../assets/goods.png")} alt="商品图片"/>
-                        <div className="goodsType">
-                          <div className="name">
-                            <p>1283924、豹子号1246备份</p><span>￥ 146192元</span>
-                          </div>
-                          <div className="number">
-                            <p>
-                              共：<span>100</span> 张
-                            </p>
-                          </div>
+              <nav>
+                <div className="tabBar">
+                    <span className={this.state.goodsType==='2'?'active tab':'tab'} onClick={() => this.tabChange('2')}>出售</span>
+                    <span className={this.state.goodsType==='1'?'active tab':'tab'} onClick={() => this.tabChange('1')}>求购</span>
+                </div>
+                <ul className="listBox stocklistBox" >
+                  {this.state.data.map((item,index) => (
+                    <li className="list" key= {index} onClick={() => this.goodsDetail(item.goodsId)}>
+                      {/* <img src={require("../../assets/goods.png")} alt="商品图片"/> */}
+                      <div className="goodsType">
+                        <div className="name">
+                          <p>1283924、豹子号1246备份</p><span>￥ 146192元</span>
                         </div>
+                        <div className="number">
+                          <p>
+                            共：<span>100</span> 张
+                          </p>
+                        </div>
+                      </div>
                     </li>
-                ))}
-              </ul>
+                  ))}
+                </ul>
+              </nav>
             ):null
           }
         </PullToRefresh>

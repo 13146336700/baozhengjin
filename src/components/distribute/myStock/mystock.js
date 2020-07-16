@@ -8,7 +8,7 @@ export default class MyStock extends React.Component {
 
     componentWillMount() {
         document.title = "配号库存管理";
-        let userIn = JSON.parse(localStorage.getItem('userInfo'));
+        let userIn = JSON.parse(sessionStorage.getItem('userInfo'));
         if (userIn&&userIn.userId) {
             return false
         }
@@ -16,7 +16,7 @@ export default class MyStock extends React.Component {
             userId: this.getUrlParam('userId'),
             userType: this.getUrlParam('userType')
         };
-        localStorage.setItem("userInfo",JSON.stringify(userInfo));
+        sessionStorage.setItem("userInfo",JSON.stringify(userInfo));
     };
 
     state = {
@@ -29,7 +29,7 @@ export default class MyStock extends React.Component {
     };
 
     goodsAdd() {
-        // console.log(this.demo.state.goodsType);
+        // console.log(this.demo.state.data[0].goodsId);
         if (this.demo.state.goodsType === '2') {
             this.props.history.push(`/SaleRelease?goodsId=${this.demo.state.data[0].goodsId}&name=${this.getUrlParam('name')}&url=mystock`)
         } else {

@@ -26,7 +26,7 @@ export default class SearchNumber extends React.Component {
         document.title = "配号搜索";
         
         /**获取历史搜索内容 */
-        let arr = localStorage.getItem('searcthistory')?JSON.parse(localStorage.getItem('searcthistory')):[];
+        let arr = localStorage.getItem('searchistory')?JSON.parse(localStorage.getItem('searchistory')):[];
         this.setState({
             searchHistory: arr
         });
@@ -131,7 +131,7 @@ export default class SearchNumber extends React.Component {
         if (arr.length > 5) {
             arr = arr.splice(0,5)
         }
-        localStorage.setItem('searcthistory', JSON.stringify(arr));
+        localStorage.setItem('searchistory', JSON.stringify(arr));
 
         this.props.history.push(`/searchResult?name=${this.state.name}&type=${this.state.type}&sname=${this.state.sname}&position=${this.state.position}&tag=${this.state.tag}`);
     }
@@ -184,26 +184,21 @@ export default class SearchNumber extends React.Component {
                             }
                         </ul>
                     </div>
-                    <div className="searchlist">
-                        <div className="searchtitle">搜索历史<span>(长按可删除单个记录)</span><img className="deleteIcon" src={require("../../assets/delete.png")} alt=""/></div>
-                        <ul>
-                            {
-                                this.state.searchHistory.length>0?(
-                                    this.state.searchHistory.map((item,index) =>(
-                                    <li className="typelist" key={index}>{item.name}{item.sname?`•${item.position}`:''}{item.sname?`•${item.sname}`:''}{item.tag?`•${item.tag}`:''}</li>
-                                    ))
-                                ):(
-                                    <li className="typelist">暂无相关数据</li>
-                                )
-                            }
-                            {/* <li className="typelist">抗疫大版•尾号•666•豹子号(三连号)</li>
-                            <li className="typelist">抗疫大版•尾号•N85G5241368</li>
-                            <li className="typelist">抗疫大版•任意</li>
-                            <li className="typelist">豹子号(三连号)</li>
-                            <li className="typelist">生日号</li>
-                            <li className="typelist">豹子号(三连号)</li> */}
-                        </ul>
-                    </div>
+                    {
+                        this.state.searchHistory.length>0?(
+                            <div className="searchlist">
+                                <div className="searchtitle">搜索历史</div>
+                                {/* <div className="searchtitle">搜索历史<span>(长按可删除单个记录)</span><img className="deleteIcon" src={require("../../assets/delete.png")} alt=""/></div> */}
+                                <ul>
+                                    {
+                                        this.state.searchHistory.map((item,index) =>(
+                                        <li className="typelist" key={index}>{item.name}{item.sname?`•${item.position}`:''}{item.sname?`•${item.sname}`:''}{item.tag?`•${item.tag}`:''}</li>
+                                        ))
+                                    }
+                                </ul>
+                            </div>
+                        ):null
+                    }
                     {
                         this.state.searchData.length > 0 ? (
                             <div className="searchNum">

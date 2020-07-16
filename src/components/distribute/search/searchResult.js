@@ -2,6 +2,7 @@ import React from 'react';
 import { Tabs,  Badge, SearchBar, Icon} from 'antd-mobile';
 import "../index/index.scss";
 import Demo from "../pullRefresh/pullRefresh";
+import axios from "../../axios/index";
 
 export default class SearchResult extends React.Component {
 
@@ -12,18 +13,24 @@ export default class SearchResult extends React.Component {
         checked: true
     };
 
+    /**获取网址参数 */
+    getUrlParam = (name) => {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = this.props.location.search.substr(1).match(reg);
+        if (r != null) {
+        return decodeURI(r[2]);
+        }
+        return ""; //如果此处只写return;则返回的是undefined
+    };
+
     render() {
-        const tabs = [
-            { title: <Badge >出售</Badge> },
-            { title: <Badge >求购</Badge> },
-          ];
         return (
             <div className="mydistribute" style={{background: '#ffffff', minHeight:'100%'}}>
                 <div className="Resultheader">
                     <p className="back"> <Icon type="left" size="sm" /></p>
                     <p className="title">
                         <SearchBar
-                            value="抗疫大版"
+                            value={`${this.getUrlParam('name')}${this.getUrlParam('sname')?'•'+this.getUrlParam('sname'):''}${this.getUrlParam('position')==='any'?'•任意':this.getUrlParam('position')==='start'?'•起始号':'•尾号'}${this.getUrlParam('tag')?'•'+this.getUrlParam('tag'):''}`}
                             placeholder=""
                             cancelText=" "
                             onSubmit={value => console.log(value, 'onSubmit')}
@@ -35,22 +42,8 @@ export default class SearchResult extends React.Component {
                     </p>
                 </div>
 
-                <Tabs tabs={tabs}
-                    initialPage={0}
-                    tabBarActiveTextColor="#eb3318"
-                    tabBarUnderlineStyle={{border:'1px solid #eb3318'}}
-                    onChange={(tab, index) => { console.log('onChange', index, tab); }}
-                    onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
-                    >
-                    <div style={{ height:'600px' }}>
-                        <div style={{height:'10px', background: '#F2F2F2'}}></div>
-                        <Demo page="searchResult" type="sell"/>
-                    </div>
-                    <div style={{ height:'600px' }}>
-                        <div style={{height:'10px', background: '#F2F2F2'}}></div>
-                        <Demo page="searchResult" type="buy"/>
-                    </div>
-                    </Tabs>
+                <Demo page="searchResult" {...this.props} onRef={(ref) => { this.search = ref; }}/> 
+
                 <div className="pub">
                     <img src={require('../../assets/pub.png')} alt=""/>
                 </div>
