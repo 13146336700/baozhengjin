@@ -7,14 +7,15 @@ export default class MyDistribute extends React.Component {
 
     componentWillMount() {
         document.title = "我的配号";
-        let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-        if (userInfo.userId === '') {
-            let userInfo = {
-                userId: this.getUrlParam('userId'),
-                userType: this.getUrlParam('userType')
-            };
-            localStorage.setItem("userInfo",JSON.stringify(userInfo));
+        let userIn = JSON.parse(localStorage.getItem('userInfo'));
+        if (userIn&&userIn.userId) {
+            return false
         }
+        let userInfo = {
+            userId: this.getUrlParam('userId'),
+            userType: this.getUrlParam('userType')
+        };
+        localStorage.setItem("userInfo",JSON.stringify(userInfo));
     };
     state = {
         

@@ -8,6 +8,15 @@ export default class MyStock extends React.Component {
 
     componentWillMount() {
         document.title = "配号库存管理";
+        let userIn = JSON.parse(localStorage.getItem('userInfo'));
+        if (userIn&&userIn.userId) {
+            return false
+        }
+        let userInfo = {
+            userId: this.getUrlParam('userId'),
+            userType: this.getUrlParam('userType')
+        };
+        localStorage.setItem("userInfo",JSON.stringify(userInfo));
     };
 
     state = {

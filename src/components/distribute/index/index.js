@@ -4,14 +4,16 @@ import Demo from "../pullRefresh/pullRefresh";
 import Banner from "../banner/banner";
 import Uheader from "../../Goolbal/Uheader";
 import PublishBtn from "../Global/publishBtn";
+import { Toast } from 'antd-mobile';
 
 
 export default class distribute extends React.Component {
     
     componentWillMount() {
+        // Toast.info(this.getUrlParam('userId'), 100);
         document.title = "币票配号";
         let info = JSON.parse(localStorage.getItem("userInfo"));
-        if (info.userId) {
+        if (info&&info.userId) {
             return false
         }
         let userInfo = {
