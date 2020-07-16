@@ -10,6 +10,10 @@ export default class distribute extends React.Component {
     
     componentWillMount() {
         document.title = "币票配号";
+        let info = JSON.parse(localStorage.getItem("userInfo"));
+        if (info.userId) {
+            return false
+        }
         let userInfo = {
             userId: this.getUrlParam('userId'),
             userType: this.getUrlParam('userType')
