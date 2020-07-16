@@ -3,11 +3,18 @@ import "../index/index.scss";
 import Demo from "../pullRefresh/pullRefresh";
 import axios from "../../axios/index";
 import Uheader from "../../Goolbal/Uheader";
+import { Modal, Button, Toast} from 'antd-mobile';
 
 export default class MyStock extends React.Component {
 
     componentWillMount() {
         document.title = "配号库存管理";
+        this.getdataList();
+        if (this.getUrlParam('type')) {
+            this.setState({
+                goodsType: this.getUrlParam('type')
+            })
+        }
         let userIn = JSON.parse(sessionStorage.getItem('userInfo'));
         if (userIn&&userIn.userId) {
             return false
@@ -26,14 +33,16 @@ export default class MyStock extends React.Component {
         changeItem: {}, //要修改的数据
         changePrice:'', //修改的价格
         addShow: true,  //增加库存按钮是否显示
+        data:[],
+        goodsType: '2'
     };
 
     goodsAdd() {
         // console.log(this.demo.state.data[0].goodsId);
-        if (this.demo.state.goodsType === '2') {
-            this.props.history.push(`/SaleRelease?goodsId=${this.demo.state.data[0].goodsId}&name=${this.getUrlParam('name')}&url=mystock`)
+        if (this.state.goodsType === '1') {
+            this.props.history.push(`/SaleRelease?goodsId=${this.state.data[0].goodsId}&name=${this.getUrlParam('name')}&url=mystock`)
         } else {
-            this.props.history.push(`/BuyingRelease?goodsId=${this.demo.state.data[0].goodsId}&name=${this.getUrlParam('name')}&url=mystock`)
+            this.props.history.push(`/BuyingRelease?goodsId=${this.state.data[0].goodsId}&name=${this.getUrlParam('name')}&url=mystock`)
         }
     }
 
@@ -53,6 +62,46 @@ export default class MyStock extends React.Component {
                 changePrice: item.dealPrice
             });
         }
+    }
+
+    /**tab切换 */
+  tabChange(index) {
+    switch (index) {
+      case '2':
+          this.setState({
+              goodsType: '2',
+              pageIndex: 1
+          });
+          break;
+      case '1':
+          this.setState({
+              goodsType: '1',
+              pageIndex: 1
+          });
+          break;
+      default:
+          this.setState({
+              goodsType: '2'
+          });
+          break;
+    };
+    this.getdataList(index);
+  }
+
+    /**获取列表 */
+    getdataList(index) {
+        axios.post('subject/json/goodsNumber',{
+            userId:this.getUrlParam('userId'),
+            name: this.getUrlParam('name'),
+            type: index || this.getUrlParam('type'),
+        }).then(res =>{
+            this.setState({
+                data: res.data.resultList
+            });
+            this.checkAddShow(res.data.resultList);
+        }).catch(err => {
+            Toast.info(err.message, 2);
+        })
     }
 
 
@@ -100,6 +149,7 @@ export default class MyStock extends React.Component {
                     changeItem: {},
                     changePrice:''
                 });
+                this.getdataList(this.state.goodsType);
             }
         }).catch(err => {
             console.log(err);
@@ -108,12 +158,41 @@ export default class MyStock extends React.Component {
 
 
     render() {
-        
+        const operation = Modal.operation;
         return (
             <div className="mystock" style={{background: '#FFFFFF',height:'100%'}}>
                 <Uheader {...this.props} utitle="库存管理" useach="true"></Uheader>
                 <div className="goodsName">{this.getUrlParam('name')}</div>
-                <Demo {...this.props} page="stock" showShade={this.showShade.bind(this)} showAdd={this.checkAddShow.bind(this)} onRef={(ref) => { this.demo = ref; }}></Demo>
+                {/* <Demo {...this.props} page="stock" showShade={this.showShade.bind(this)} showAdd={this.checkAddShow.bind(this)} onRef={(ref) => { this.demo = ref; }}></Demo> */}
+                <div className="tabBar">
+                    <span className={this.state.goodsType==='2'?'active tab':'tab'} onClick={() => this.tabChange('2')}>出售</span>
+                    <span className={this.state.goodsType==='1'?'active tab':'tab'} onClick={() => this.tabChange('1')}>求购</span>
+                </div>
+                {
+                    this.state.data.length > 0 ? (
+                        <ul className="listBox stocklistBox" style={{paddingBottom:'70px'}}>
+                            {this.state.data.map((item,index) => (
+                                <li className="list" key= {index} >
+                                    <div className="nameBox" onClick={() => this.goodsDetail(item.goodsId)}>
+                                    <p className="number">{item.format}</p>
+                                    <p  className="unit">{item.tag}&nbsp;&nbsp;共<span>{item.dealCnt}</span>{item.unitName}</p>
+                                    </div>
+                                    <span className="price" onClick={() => this.goodsDetail(item.goodsId)}>￥{item.dealPrice}元</span>
+                                <Button className="deal" onClick={() => operation([
+                                    { text: '标为售出', onPress: () => this.showShade(item,'sign') },
+                                    { text: '修改价格', onPress: () => this.showShade(item,'change') },
+                                ])}
+                                >操作</Button>
+                                </li>
+                            ))}
+                        </ul>
+                    ):(
+                        <div className="empty" style={{lineHeight:'200px',textAlign:'center',fontSize:'16px'}}>
+                            暂无相关数据
+                        </div>
+                    )
+                }
+                
                 {
                     this.state.addShow?(
                         <div className="addStock" onClick={() => this.goodsAdd()}>

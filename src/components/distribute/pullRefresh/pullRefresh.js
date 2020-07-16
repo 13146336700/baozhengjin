@@ -23,14 +23,12 @@ export default class Demo extends React.Component {
   }
   componentWillMount() {
     this.props.onRef(this);
-  };
-  genData() {
-    const dataArr = this.state.data;
-    for (let i = 0; i < 4; i++) {
-      dataArr.push(i);
+    if (this.getUrlParam('type')) {
+      this.setState({
+          goodsType: this.getUrlParam('type')
+      })
     }
-    return dataArr;
-  }
+  };
 
   componentDidMount() {
     let _this = this;
@@ -38,7 +36,6 @@ export default class Demo extends React.Component {
     // const hei = '20';
     setTimeout(() => this.setState({
       height: hei,
-      data: _this.genData(),
     }), 0);
     this.getdataList();
   }
@@ -80,17 +77,6 @@ export default class Demo extends React.Component {
           pageIndex: this.state.pageIndex,
         }
         break;
-      case 'stock':
-        url= 'subject/json/goodsNumber';    //我的商品号码列表
-        getData= {
-          userId:this.getUrlParam('userId'),
-          name: this.getUrlParam('name'),
-          type: goodsType || this.getUrlParam('type'),
-        }
-        this.setState({
-          goodsType: goodsType || this.getUrlParam('type')
-        });
-        break;
       case 'searchResult': //searchResult?name=JP246金丝猴&type=1&sname=365&position=any&tag=顺号
         url= 'subject/json/searchNum'; //搜索号码
         getData= {
@@ -107,37 +93,18 @@ export default class Demo extends React.Component {
       default:
         break;
     }
+    let arrData = this.state.data;
+    // console.log(arrData,'请求数据');
     axios.post(url, getData).then( (res)=>{
-        if (this.props.page === 'stock') {
-          this.props.showAdd(res.data.resultList);
-          this.setState({
-            data: res.data.resultList,
-            refreshing: false
-          });
-          return false;
-        }
         if (res.data.resultObject.pageCount > this.state.pageIndex) {
-          if (this.props.page === 'stock') {
-            this.setState({
-              pageIndex:Number(this.state.pageIndex) + 1,
-              data: res.data.resultList,
-              refreshing: false
-            });
-            return false;
-          }
+          arrData.concat(res.data.resultObject.dataList);
           this.setState({
             pageIndex:Number(this.state.pageIndex) + 1,
             data: res.data.resultObject.dataList,
             refreshing: false
           });
         }else {
-          if (this.props.page === 'stock') {
-            this.setState({
-              data: res.data.resultList,
-              refreshing: false
-            });
-            return false;
-          }
+          arrData.concat(res.data.resultObject.dataList);
           this.setState({
             data: res.data.resultObject.dataList,
             refreshing: false
@@ -214,10 +181,6 @@ export default class Demo extends React.Component {
     
   }
 
-  /**调用父组件，标为售出 */
-  showShades(item,type) {
-    this.props.showShade(item,type);
-  }
 
   render() {
     const operation = Modal.operation;
@@ -309,29 +272,6 @@ export default class Demo extends React.Component {
                   ))}
                 </ul>
               </nav>
-            ):this.props.page === 'stock'?(
-              <nav>
-                <div className="tabBar">
-                    <span className={this.state.goodsType==='2'?'active tab':'tab'} onClick={() => this.tabChange('2')}>出售</span>
-                    <span className={this.state.goodsType==='1'?'active tab':'tab'} onClick={() => this.tabChange('1')}>求购</span>
-                </div>
-                <ul className="listBox stocklistBox" >
-                  {this.state.data.map((item,index) => (
-                    <li className="list" key= {index} >
-                        <div className="nameBox" onClick={() => this.goodsDetail(item.goodsId)}>
-                          <p className="number">{item.format}</p>
-                          <p  className="unit">{item.tag}&nbsp;&nbsp;共<span>{item.dealCnt}</span>{item.unitName}</p>
-                        </div>
-                        <span className="price" onClick={() => this.goodsDetail(item.goodsId)}>￥{item.dealPrice}元</span>
-                      <Button className="deal" onClick={() => operation([
-                        { text: '标为售出', onPress: () => this.showShades(item,'sign') },
-                        { text: '修改价格', onPress: () => this.showShades(item,'change') },
-                      ])}
-                      >操作</Button>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
             ):this.props.page === 'searchResult'?(
               <nav>
                 <div className="tabBar">
@@ -340,26 +280,21 @@ export default class Demo extends React.Component {
                 </div>
                 <ul className="listBox stocklistBox" >
                   {this.state.data.map((item,index) => (
-                    <li className="list" key= {index} onClick={() => this.goodsDetail(item.goodsId)}>
-                      {/* <img src={require("../../assets/goods.png")} alt="商品图片"/> */}
-                      <div className="goodsType">
-                        <div className="name">
-                          <p>1283924、豹子号1246备份</p><span>￥ 146192元</span>
+                      <li className="list " key= {index} onClick={() => this.goodsDetail(item.goodsId)}>
+                        <img src={require("../../assets/goods.png")} alt="商品图片"/>
+                        <div className="nameBox" >
+                        <p className="number">{item.format}</p>
+                        <p  className="unit">{item.tag}&nbsp;&nbsp;共<span>{item.dealCnt}</span>{item.unitName}</p>
                         </div>
-                        <div className="number">
-                          <p>
-                            共：<span>100</span> 张
-                          </p>
-                        </div>
-                      </div>
-                    </li>
-                  ))}
+                        <span className="price" >￥{item.dealPrice}元</span>
+                      </li>
+                    ))
+                  }
                 </ul>
               </nav>
             ):null
           }
         </PullToRefresh>
-
     </div>);
   }
 }

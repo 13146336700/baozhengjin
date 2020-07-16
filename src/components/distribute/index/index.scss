@@ -160,6 +160,9 @@
         border-bottom: 1px solid #DADDE1;
         .nameBox{
             flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
             .number{
                 height:34px;
                 font-size:34px;
