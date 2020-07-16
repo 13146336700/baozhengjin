@@ -30,7 +30,7 @@ export default class Goods extends React.Component {
             <div className="mydistribute" style={{background: '#ffffff'}}>
                 <Uheader {...this.props} utitle={this.getUrlParam('name')} useach="true"></Uheader>
                 <Banner {...this.props} rpType="flBanner"/>
-                <Demo {...this.props} page="goods" type={this.state.goodsType}/>
+                <Demo {...this.props} page="goods" type={this.state.goodsType} onRef={(ref) => { this.child = ref; }}/>
                 <PublishBtn {...this.props} url='goodsDistribute' category={this.props.category} name={this.props.name} unitName={this.props.unitName}></PublishBtn>
             </div>
         );

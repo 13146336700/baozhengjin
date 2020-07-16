@@ -23,7 +23,7 @@ export default class Preview extends React.Component {
           {this.props.history.location.state.scatteredJson.map((item, index) => (
             <li className="list" key={index}>
               <div className="nameBox">
-          <p className="number">123456</p>
+                <p className="number">J146450422</p>
                 <p className="unit">
           {item.tag}&nbsp;&nbsp;共<span>{item.dealCnt}</span>{item.unitName}
                 </p>

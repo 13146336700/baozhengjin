@@ -10,6 +10,10 @@ export default class distribute extends React.Component {
     
     componentWillMount() {
         document.title = "币票配号";
+        let info = JSON.parse(localStorage.getItem("userInfo"));
+        if (info.userId) {
+            return false
+        }
         let userInfo = {
             userId: this.getUrlParam('userId'),
             userType: this.getUrlParam('userType')
@@ -33,7 +37,7 @@ export default class distribute extends React.Component {
             <div className="distribute" style={{padding:'10px 0 0 0'}}>
                 <Uheader {...this.props} utitle="币票配号" useach="true"></Uheader>
                 <Banner {...this.props} rpType="ybBanner"/>
-                <Demo {...this.props} page="index" />
+                <Demo {...this.props} page="index" onRef={(ref) => { this.child = ref; }}/>
                 <PublishBtn {...this.props} url='distribute' category='' name='' unitName=''></PublishBtn>
             </div>
         );
