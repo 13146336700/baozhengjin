@@ -329,8 +329,9 @@ export default class BuyingRelease extends React.Component {
         })
         .catch((error) => {});
     } else {
+      // this.props.history.push("/preview");
       this.props.history.push({
-        pathname: "/SaleDetails",
+        pathname: "/preview",
         state: {
           goodsId: this.getUrlParam("goodsId"), //搜索框的名字
           pubUserid: "4028808361926f8a0161db4c492304e2", //用户id
@@ -341,22 +342,50 @@ export default class BuyingRelease extends React.Component {
           isPostage: isPostage, //默认N 不包邮，Y 包邮。买没有包邮，固定填N
           scatteredJson:
             Numbers.A == "3"
-              ? JSON.stringify([])
-              : JSON.stringify(scatteredJson),
+              ? []
+              : scatteredJson,
           standardConsecutiveJson:
             Numbers.B == "3"
-              ? JSON.stringify([])
-              : JSON.stringify(standardConsecutiveJson),
+              ? []
+              : standardConsecutiveJson,
           otherConsecutiveJson:
             Numbers.C == "3"
-              ? JSON.stringify([])
-              : JSON.stringify(otherConsecutiveJson),
+              ? []
+              : otherConsecutiveJson,
           address: "",
           dealWay: "",
           personPhone: "",
           personName: "",
         },
       });
+      // this.props.history.push({
+      //   pathname: "/SaleDetails",
+      //   state: {
+      //     goodsId: this.getUrlParam("goodsId"), //搜索框的名字
+      //     pubUserid: "4028808361926f8a0161db4c492304e2", //用户id
+      //     type: "2", //1 求购，2 出售
+      //     categoryName: this.getUrlParam("category"), //商品分类
+      //     name: this.getUrlParam("name"), //搜索框的名字
+      //     dealPattern: dealPattern, //担保 2，线下 3
+      //     isPostage: isPostage, //默认N 不包邮，Y 包邮。买没有包邮，固定填N
+      //     scatteredJson:
+      //       Numbers.A == "3"
+      //         ? JSON.stringify([])
+      //         : JSON.stringify(scatteredJson),
+      //     standardConsecutiveJson:
+      //       Numbers.B == "3"
+      //         ? JSON.stringify([])
+      //         : JSON.stringify(standardConsecutiveJson),
+      //     otherConsecutiveJson:
+      //       Numbers.C == "3"
+      //         ? JSON.stringify([])
+      //         : JSON.stringify(otherConsecutiveJson),
+      //     address: "",
+      //     dealWay: "",
+      //     personPhone: "",
+      //     personName: "",
+      //   },
+      // });
     }
   }
   render() {
