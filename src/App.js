@@ -30,7 +30,8 @@ import MyStock from "./components/distribute/myStock/mystock"
 import SearchNumber from "./components/distribute/search/search" 
 import SearchResult from "./components/distribute/search/searchResult" 
 import Preview from "./components/distribute/preview/preview" 
-// import Publish from "./components/distribute/publish/publish" 
+import Publish from "./components/distribute/publish/publish" 
+import Pulload from "./components/distribute/publish/pulload" 
 
 import './App.css';
 
@@ -119,7 +120,8 @@ function App() {
          <Route path="/searchNumber" exact component={SearchNumber}/>    
          <Route path="/searchResult" exact component={SearchResult}/>    
          <Route path="/preview" exact component={Preview}/>    
-         {/* <Route path="/publish/" exact component={Publish}/>     */}
+         <Route path="/publish" exact component={Publish}/>    
+         <Route path="/pulload" exact component={Pulload}/>    
 
       </Router>
   );

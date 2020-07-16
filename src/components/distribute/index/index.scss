@@ -211,6 +211,8 @@
 /*我的库存管理*/
 .mystock{
     min-height: 100%;
+    display: flex;
+    flex-direction: column;
     .goodsName{
         height: 80px;
         background-color: #ffffff;
@@ -245,7 +247,7 @@
         height:96px;
         background:rgba(215,48,45,1);
         border-radius:26px;
-        bottom: 20px;
+        bottom: 0px;
         left: 50%;
         transform: translateX(-345px);
         font-size:34px;
@@ -318,6 +320,10 @@
                 margin: 40px 78px 0px;
             }
         }
+    }
+    .stocklistBox{
+        flex: 1;
+        overflow-y: scroll;
     }
 }
 
@@ -622,6 +628,9 @@
             border-bottom: 1px solid #dddddd;
             padding-left: 30px;
         }
+    }
+    .nameBox{
+        
     }
 }
 
