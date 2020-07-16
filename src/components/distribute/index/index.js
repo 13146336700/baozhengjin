@@ -12,7 +12,7 @@ export default class distribute extends React.Component {
     componentWillMount() {
         // Toast.info(this.getUrlParam('userId'), 100);
         document.title = "币票配号";
-        let info = JSON.parse(localStorage.getItem("userInfo"));
+        let info = JSON.parse(sessionStorage.getItem("userInfo"));
         if (info&&info.userId) {
             return false
         }
@@ -20,7 +20,7 @@ export default class distribute extends React.Component {
             userId: this.getUrlParam('userId'),
             userType: this.getUrlParam('userType')
         };
-        localStorage.setItem("userInfo",JSON.stringify(userInfo));
+        sessionStorage.setItem("userInfo",JSON.stringify(userInfo));
     };
 
     /**获取网址参数 */
@@ -44,5 +44,4 @@ export default class distribute extends React.Component {
             </div>
         );
     }
-
 }

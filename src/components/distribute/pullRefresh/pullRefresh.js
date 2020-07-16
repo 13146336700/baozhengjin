@@ -318,11 +318,11 @@ export default class Demo extends React.Component {
                 <ul className="listBox stocklistBox" >
                   {this.state.data.map((item,index) => (
                     <li className="list" key= {index} >
-                      <div className="nameBox">
-                        <p className="number">{item.format}</p>
-                        <p  className="unit">{item.tag}&nbsp;&nbsp;共<span>{item.dealCnt}</span>{item.unitName}</p>
-                      </div>
-                      <span className="price">￥{item.dealPrice}元</span>
+                        <div className="nameBox" onClick={() => this.goodsDetail(item.goodsId)}>
+                          <p className="number">{item.format}</p>
+                          <p  className="unit">{item.tag}&nbsp;&nbsp;共<span>{item.dealCnt}</span>{item.unitName}</p>
+                        </div>
+                        <span className="price" onClick={() => this.goodsDetail(item.goodsId)}>￥{item.dealPrice}元</span>
                       <Button className="deal" onClick={() => operation([
                         { text: '标为售出', onPress: () => this.showShades(item,'sign') },
                         { text: '修改价格', onPress: () => this.showShades(item,'change') },
@@ -356,23 +356,6 @@ export default class Demo extends React.Component {
                   ))}
                 </ul>
               </nav>
-              // <ul className="listBox goodslistBox" >
-              //   {this.state.data.map((item,index) => (
-              //       <li className="list" key= {index} onClick>
-              //           <img src={require("../../assets/goods.png")} alt="商品图片"/>
-              //           <div className="goodsType">
-              //             <div className="name">
-              //               <p>1283924、豹子号1246备份</p><span>￥ 146192元</span>
-              //             </div>
-              //             <div className="number">
-              //               <p>
-              //                 共：<span>100</span> 张
-              //               </p>
-              //             </div>
-              //           </div>
-              //       </li>
-              //   ))}
-              // </ul>
             ):null
           }
         </PullToRefresh>

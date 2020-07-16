@@ -32,7 +32,7 @@ export default class PublishBtn extends React.Component {
     }
 
     goRelease(type) {
-        let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+        let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
         if (userInfo.userId === '') {
             if (isiOS) {
                 window.webkit.messageHandlers.IOSNativeLogin.postMessage('');
@@ -61,6 +61,7 @@ export default class PublishBtn extends React.Component {
             <div className="publishBtn" >
                 <div className="pub" onClick={() =>this.goRelease('buy')}>
                     <img src={require('../../assets/pub.png')} alt=""/>
+                    <p>发布</p>
                 </div>
                 {/* <div className='mask'>
                     <div className="btnBox" >
