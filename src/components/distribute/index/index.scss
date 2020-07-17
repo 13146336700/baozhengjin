@@ -128,6 +128,14 @@
 .goodslistBox{
     .name{
         display: flex;
+        .icon{
+            display: inline-block;
+            height: 36px;
+            width: 36px;
+            margin-right: 20px;
+            float: left;
+            margin-top: 5px;
+        }
         p{
             flex: 1;
             overflow: hidden;

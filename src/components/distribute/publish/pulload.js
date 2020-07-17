@@ -8,7 +8,7 @@ var u = navigator.userAgent;
 // var isAndroid = u.indexOf("Android") > -1;
 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 var url:'',  getData: {};  //接口请求地址 //接口请求数据
-var arr = [];
+
 
 const loadMoreLimitNum = 2;
 
@@ -36,6 +36,10 @@ export default class Pulload extends React.Component {
       if (this.getUrlParam('type')) {
         this.setState({
             goodsType: this.getUrlParam('type')
+        })
+      }else if(this.props.page === 'goods') {
+        this.setState({
+          goodsType: ''
         })
       }
     };
@@ -72,7 +76,7 @@ export default class Pulload extends React.Component {
 
     getdataList(goodsType) {
       let page = this.props.page;
-      arr = this.state.data;
+      let arr = this.state.data;
       switch (page) {
         case 'index':
           url= 'subject/json/getMatchProductList';  //币票配号列表
@@ -128,10 +132,10 @@ export default class Pulload extends React.Component {
           }
           break;
       }
-      let arrData = this.state.data;
-      // console.log(arrData,'请求数据');
+      console.log(arr,'请求数据');
       axios.post(url, getData).then( (res)=>{
         arr = arr.concat(res.data.resultObject.dataList);
+        console.log(arr,'合并数组');
         if (res.data.resultObject.pageCount > this.state.pageIndex) {
           this.setState({
             pageIndex:Number(this.state.pageIndex) + 1,
@@ -177,35 +181,43 @@ export default class Pulload extends React.Component {
         case '2':
             this.setState({
                 goodsType: '2',
-                pageIndex: 1
+                pageIndex: 1,
+                data: []
             });
             break;
         case '1':
             this.setState({
                 goodsType: '1',
-                pageIndex: 1
+                pageIndex: 1,
+                data: []
             });
             break;
         case '':
             this.setState({
                 goodsType: '',
-                pageIndex: 1
+                pageIndex: 1,
+                data: []
             });
             break;
         case 'transaction':
             this.setState({
                 goodsType: 'transaction',
-                pageIndex: 1
+                pageIndex: 1,
+                data: []
             });
             break;
-    
         default:
             this.setState({
-                goodsType: '2'
+                goodsType: '2',
+                pageIndex: 1,
+                data: []
             });
             break;
       };
-      this.getdataList(index);
+      // arr = [];
+      setTimeout(() =>{
+        this.getdataList(index);
+      },10)
     }
   
     goodsDistribute(item) {
@@ -264,8 +276,7 @@ export default class Pulload extends React.Component {
   
       return (
         <div style={{background:'white',margin:0,padding:0,overflow:'scroll'}}>
-          {
-            this.state.data.length > 0 ?(
+          
             <ReactPullLoad
               downEnough={500}
               ref="reactpullload"
@@ -322,28 +333,34 @@ export default class Pulload extends React.Component {
                   ):this.props.page === 'goods'?(
                     <nav>
                       <div className="tabBar">
-                          <span className={this.state.goodsType==='2'?'active tab':'tab'} onClick={() => this.tabChange('2')}>出售</span>
-                          <span className={this.state.goodsType==='1'?'active tab':'tab'} onClick={() => this.tabChange('1')}>求购</span>
-                          <span className={this.state.goodsType===''?'active tab':'tab'} onClick={() => this.tabChange('')}>全部</span>
-                          <span className={this.state.goodsType==='transaction'?'active tab':'tab'} onClick={() => this.tabChange('transaction')}>成交</span>
+                        <span className={this.state.goodsType===''?'active tab':'tab'} onClick={() => this.tabChange('')}>全部</span>
+                        <span className={this.state.goodsType==='2'?'active tab':'tab'} onClick={() => this.tabChange('2')}>出售</span>
+                        <span className={this.state.goodsType==='1'?'active tab':'tab'} onClick={() => this.tabChange('1')}>求购</span>
+                        <span className={this.state.goodsType==='transaction'?'active tab':'tab'} onClick={() => this.tabChange('transaction')}>成交</span>
                       </div>
-                      <ul className="listBox goodslistBox" >
-                        {this.state.data.map((item,index) => (
-                            <li className="list" key= {index} onClick={() => this.goodsDetail(item.goodsId)}>
-                                <img src={require("../../assets/goods.png")} alt="商品图片"/>
-                                <div className="goodsType">
-                                  <div className="name">
-                                    <p>{item.numStr}</p><span>￥ {item.dealPrice}元</span>
-                                  </div>
-                                  <div className="number">
-                                    <p>
-                                      共：<span>{item.dealCnt}</span> 张
-                                    </p>
-                                  </div>
-                                </div>
-                            </li>
-                        ))}
-                      </ul>
+                      {
+                        this.state.data.length > 0 ?(
+                          <ul className="listBox goodslistBox" >
+                            {this.state.data.map((item,index) => (
+                                <li className="list" key= {index} onClick={() => this.goodsDetail(item.goodsId)}>
+                                    {/* <img src={require("../../assets/goods.png")} alt="商品图片"/> */}
+                                    <div className="goodsType">
+                                      <div className="name">
+                                        <img className='icon' src={item.type === '2'? require("../../assets/Sell.png"):require('../../assets/mai.png')} alt=""/><p>{item.numStr}</p><span>￥ {item.dealPrice}元</span>
+                                      </div>
+                                      <div className="number">
+                                        <p>
+                                          共：<span>{item.dealCnt}</span> 张
+                                        </p>
+                                      </div>
+                                    </div>
+                                </li>
+                            ))}
+                          </ul>
+                        ):(
+                          <div style={{background: '#f5f5f9',lineHeight: '300px',textAlign: 'center',fontSize: '16px'}}>暂无相关数据</div>
+                        )
+                      }
                     </nav>
                   ):this.props.page === 'searchResult'?(
                     <nav>
@@ -351,27 +368,30 @@ export default class Pulload extends React.Component {
                           <span className={this.state.goodsType==='2'?'active tab':'tab'} onClick={() => this.tabChange('2')}>出售</span>
                           <span className={this.state.goodsType==='1'?'active tab':'tab'} onClick={() => this.tabChange('1')}>求购</span>
                       </div>
-                      <ul className="listBox stocklistBox" >
-                        {this.state.data.map((item,index) => (
-                            <li className="list " key= {index} onClick={() => this.goodsDetail(item.goodsId)}>
-                              <img src={require("../../assets/goods.png")} alt="商品图片"/>
-                              <div className="nameBox" >
-                              <p className="number">{item.format}</p>
-                              <p  className="unit">{item.tag}&nbsp;&nbsp;共<span>{item.dealCnt}</span>{item.unitName}</p>
-                              </div>
-                              <span className="price" >￥{item.dealPrice}元</span>
-                            </li>
-                          ))
-                        }
-                      </ul>
+                      {
+                        this.state.data.length > 0 ?(
+                          <ul className="listBox stocklistBox" >
+                            {this.state.data.map((item,index) => (
+                                <li className="list " key= {index} onClick={() => this.goodsDetail(item.goodsId)}>
+                                  <img src={require("../../assets/goods.png")} alt="商品图片"/>
+                                  <div className="nameBox" >
+                                  <p className="number">{item.format}</p>
+                                  <p  className="unit">{item.tag}&nbsp;&nbsp;共<span>{item.dealCnt}</span>{item.unitName}</p>
+                                  </div>
+                                  <span className="price" >￥{item.dealPrice}元</span>
+                                </li>
+                              ))
+                            }
+                          </ul>
+                        ):(
+                          <div style={{background: '#f5f5f9',lineHeight: '300px',textAlign: 'center',fontSize: '16px'}}>暂无相关数据</div>
+                        )
+                      }
                     </nav>
                   ):null
                 }
             </ReactPullLoad>
-           ):(
-             <div>暂无相关数据</div>
-           )
-          }
+           
         </div>
       )
     }
