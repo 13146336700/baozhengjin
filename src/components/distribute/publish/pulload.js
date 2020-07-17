@@ -149,7 +149,7 @@ export default class Pulload extends React.Component {
         }
          
       }).catch((err) =>{
-          console.log(err);
+        Toast.info(err.data.message, 2);
       })
     }
   
@@ -366,7 +366,7 @@ export default class Pulload extends React.Component {
                                     {/* <img src={require("../../assets/goods.png")} alt="商品图片"/> */}
                                     <div className="goodsType">
                                       <div className="name">
-                                        <img className='icon' src={item.type === '2'? require("../../assets/Sell.png"):require('../../assets/mai.png')} alt=""/><p>{item.numStr}</p><span>￥ {item.dealPrice}元</span>
+                                        <img className='icon' src={item.type === '2'? require("../../assets/mai.png"):require('../../assets/mai_.png')} alt=""/><p>{item.numStr}</p><span>￥ {item.dealPrice}元</span>
                                       </div>
                                       <div className="number">
                                         <p>
@@ -395,7 +395,7 @@ export default class Pulload extends React.Component {
                                 <li className="list " key= {index} onClick={() => this.goodsDetail(item.goodsId)}>
                                   {/* <img src={require("../../assets/goods.png")} alt="商品图片"/> */}
                                   <div className="nameBox" >
-                                  <div className="number"><img className='icon' src={item.type === '2'? require("../../assets/Sell.png"):require('../../assets/mai.png')} alt=""/>{item.format}</div>
+                                  <div className="number"><img className='icon' src={item.type === '2'? require("../../assets/mai.png"):require('../../assets/mai_.png')} alt=""/>{item.format}</div>
                                   <p  className="unit">{item.tag}&nbsp;&nbsp;共<span>{item.dealCnt}</span>{item.unitName}</p>
                                   </div>
                                   <span className="price" >￥{item.dealPrice}元</span>

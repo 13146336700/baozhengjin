@@ -24,6 +24,15 @@ export default class Uheaders extends React.Component {
     return ""; //如果此处只写return;则返回的是undefined
   };
   Jonp = () => {
+    let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    if (!userInfo || userInfo.userId === '') {
+        if (isiOS) {
+            window.webkit.messageHandlers.IOSNativeLogin.postMessage('');
+        } else {
+            window.app.login()
+        }
+        return false
+    }
     this.props.history.push("/searchNumber");
   };
   backClick = () => {
