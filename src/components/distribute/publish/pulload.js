@@ -393,9 +393,9 @@ export default class Pulload extends React.Component {
                           <ul className="listBox stocklistBox" >
                             {this.state.data.map((item,index) => (
                                 <li className="list " key= {index} onClick={() => this.goodsDetail(item.goodsId)}>
-                                  <img src={require("../../assets/goods.png")} alt="商品图片"/>
+                                  {/* <img src={require("../../assets/goods.png")} alt="商品图片"/> */}
                                   <div className="nameBox" >
-                                  <p className="number">{item.format}</p>
+                                  <div className="number"><img className='icon' src={item.type === '2'? require("../../assets/Sell.png"):require('../../assets/mai.png')} alt=""/>{item.format}</div>
                                   <p  className="unit">{item.tag}&nbsp;&nbsp;共<span>{item.dealCnt}</span>{item.unitName}</p>
                                   </div>
                                   <span className="price" >￥{item.dealPrice}元</span>

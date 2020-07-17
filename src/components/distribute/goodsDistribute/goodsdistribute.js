@@ -33,7 +33,7 @@ export default class Goods extends React.Component {
                 <Uheader {...this.props} utitle={this.getUrlParam('name')} useach="true"></Uheader>
                 <Banner {...this.props} rpType="flBanner"/>
                 <Pulload {...this.props} page="goods" type={this.state.goodsType} onRef={(ref) => { this.child = ref; }}/>
-                <PublishBtn {...this.props} url='goodsDistribute' category={this.getUrlParam('category') || goodsInfo.categoryName} name={this.getUrlParam('name') || goodsInfo.name} unitName={this.getUrlParam('unitName') || goodsInfo.unitName}></PublishBtn>
+                <PublishBtn {...this.props} url='goodsDistribute' category={this.getUrlParam('categoryName') || goodsInfo.categoryName} name={this.getUrlParam('name') || goodsInfo.name} unitName={this.getUrlParam('unitName') || goodsInfo.unitName}></PublishBtn>
             </div>
         );
     }
