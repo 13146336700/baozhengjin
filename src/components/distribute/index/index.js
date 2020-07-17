@@ -1,6 +1,7 @@
 import React from 'react';
 import "./index.scss";
-import Demo from "../pullRefresh/pullRefresh";
+// import Demo from "../pullRefresh/pullRefresh";
+import Pulload from "../publish/pulload";
 import Banner from "../banner/banner";
 import Uheader from "../../Goolbal/Uheader";
 import PublishBtn from "../Global/publishBtn";
@@ -12,6 +13,11 @@ export default class distribute extends React.Component {
     componentWillMount() {
         // Toast.info(this.getUrlParam('userId'), 100);
         document.title = "币票配号";
+         //删除缓存数据
+          sessionStorage.removeItem("SANZNANG_ARR");
+          sessionStorage.removeItem("BIAOLIAN_ARR");
+          sessionStorage.removeItem("SANLIAN_ARR");
+          sessionStorage.removeItem("SANZHANG_ARR");    
         let info = JSON.parse(sessionStorage.getItem("userInfo"));
         if (info&&info.userId) {
             return false
@@ -39,7 +45,7 @@ export default class distribute extends React.Component {
             <div className="distribute" style={{padding:'10px 0 0 0'}}>
                 <Uheader {...this.props} utitle="币票配号" useach="true"></Uheader>
                 <Banner {...this.props} rpType="ybBanner"/>
-                <Demo {...this.props} page="index" onRef={(ref) => { this.child = ref; }}/>
+                <Pulload {...this.props} page="index" onRef={(ref) => { this.child = ref; }}/>
                 <PublishBtn {...this.props} url='distribute' category='' name='' unitName=''></PublishBtn>
             </div>
         );

@@ -1,8 +1,10 @@
 import React from 'react';
 import { Tabs,  Badge, SearchBar, Icon} from 'antd-mobile';
 import "../index/index.scss";
-import Demo from "../pullRefresh/pullRefresh";
-import axios from "../../axios/index";
+// import Demo from "../pullRefresh/pullRefresh";
+import Pulload from "../publish/pulload";
+// import axios from "../../axios/index";
+import PublishBtn from "../Global/publishBtn";
 
 export default class SearchResult extends React.Component {
 
@@ -24,6 +26,7 @@ export default class SearchResult extends React.Component {
     };
 
     render() {
+        let searchInfo = JSON.parse(sessionStorage.getItem('searchInfo'));
         return (
             <div className="mydistribute" style={{background: '#ffffff', minHeight:'100%'}}>
                 <div className="Resultheader">
@@ -35,22 +38,22 @@ export default class SearchResult extends React.Component {
                             cancelText=" "
                             onSubmit={value => console.log(value, 'onSubmit')}
                             onClear={value => console.log(value, 'onClear')}
-                            onFocus={() => console.log('onFocus')}
+                            onFocus={() => this.props.history.go(-1)}
                             onBlur={() => console.log('onBlur')}
                             onChange={this.onChange}
                         />
                     </p>
                 </div>
 
-                <Demo page="searchResult" {...this.props} onRef={(ref) => { this.search = ref; }}/> 
+                <Pulload page="searchResult" {...this.props} onRef={(ref) => { this.search = ref; }}/> 
 
-                <div className="pub">
+                {/* <div className="pub">
                     <img src={require('../../assets/pub.png')} alt=""/>
-                </div>
+                </div> */}
+                <PublishBtn {...this.props} url='searchResult' category={this.getUrlParam('category') || searchInfo.categoryName} name={this.getUrlParam('name') || searchInfo.name} unitName={this.getUrlParam('unitName') || searchInfo.unitName}></PublishBtn>
             </div>
         );
-    }
-
+    } 
 }
 
 

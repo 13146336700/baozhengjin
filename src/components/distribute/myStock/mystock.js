@@ -9,6 +9,12 @@ export default class MyStock extends React.Component {
 
     componentWillMount() {
         document.title = "配号库存管理";
+        //删除缓存数据
+          sessionStorage.removeItem("SANZNANG_ARR");
+          sessionStorage.removeItem("BIAOLIAN_ARR");
+          sessionStorage.removeItem("SANLIAN_ARR");
+          sessionStorage.removeItem("SANZHANG_ARR");
+    
         this.getdataList();
         if (this.getUrlParam('type')) {
             this.setState({

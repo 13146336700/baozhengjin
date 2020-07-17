@@ -27,12 +27,13 @@ export default class PublishBtn extends React.Component {
     checkgoodstatus(type) {
         if (this.getUrlParam('name')) {
             axios.post('market/json/getGoodsParam',{
-                userId: JSON.parse(localStorage.getItem('userInfo')).userId,	//String	必填	用户id	产品名称
+                userId: JSON.parse(sessionStorage.getItem('userInfo')).userId,	//String	必填	用户id	产品名称
                 type: type,	//String	必填	品类交易类型	
-                name: this.getUrlParam('name')	//String	必填	品类交易类型	商品名称
+                name: this.getUrlParam('name'),	//String	必填	品类交易类型	商品名称
+                sysInfor: 'web'
             }).then(res => {
                 if (res.data.resultObject.isPublish === 'Y') {
-                    this.props.history.push(`/myStock?userId=${JSON.parse(localStorage.getItem('userInfo')).userId}&type=${type}&name=${this.getUrlParam('name')}`);
+                    this.props.history.push(`/myStock?userId=${JSON.parse(sessionStorage.getItem('userInfo')).userId}&type=${type}&name=${this.getUrlParam('name')}`);
                 } else {
                     if (type === '1') {
                         this.props.history.push(`/SaleRelease?category=${this.props.category}&name=${this.props.name}&unitName=${this.props.unitName}&url=${this.props.url}`)

@@ -3,6 +3,7 @@ import axios from "../../axios/index";
 import iconCheck from "../../assets/iconcheck.png"
 import iconCheckbox from "../../assets/iconcheckbox.png"
 import { Toast } from 'antd-mobile';
+import Uheader from "../../Goolbal/Uheader";
 
 export default class SearchNumber extends React.Component {
     constructor(props) {
@@ -13,12 +14,14 @@ export default class SearchNumber extends React.Component {
             searchName:'',  //搜索词
             searchData: [], //联想搜索数据
             searchHistory:[],   //搜索历史
-            position: 'end',    //搜索号码位置
-            positionName:'尾号',   //搜索号码位置
+            position: 'any',    //搜索号码位置
+            positionName:'任意号',   //搜索号码位置
             sname:'',	//String	否	搜索关键字	
             name:'',	//String	必填		产品名称
             type:'1',	//String	必填	品类交易类型
             tag:'',	    //String	否	品类交易类型
+            category: '', //商品分类
+            unitName: '',   //商品单位
         }
     }
 
@@ -26,7 +29,7 @@ export default class SearchNumber extends React.Component {
         document.title = "配号搜索";
         
         /**获取历史搜索内容 */
-        let arr = localStorage.getItem('searchistory')?JSON.parse(localStorage.getItem('searchistory')):[];
+        let arr = sessionStorage.getItem('searchistory')?JSON.parse(sessionStorage.getItem('searchistory')):[];
         this.setState({
             searchHistory: arr
         });
@@ -64,12 +67,20 @@ export default class SearchNumber extends React.Component {
     }
 
     /*选择查询商品名称 */
-    checkName(name) {
+    checkName(name, category, unit) {
         this.setState({
             searchName: name,
             name: name,
+            category: category,
+            unitName: unit,
             searchData:[]
-        })
+        });
+        let searchInfo = {
+            name: name,
+            unitName: unit,
+            categoryName: category
+          }
+          sessionStorage.setItem('searchInfo', JSON.stringify(searchInfo));
     }
 
     /**搜索位置切换 */
@@ -131,19 +142,15 @@ export default class SearchNumber extends React.Component {
         if (arr.length > 5) {
             arr = arr.splice(0,5)
         }
-        localStorage.setItem('searchistory', JSON.stringify(arr));
+        sessionStorage.setItem('searchistory', JSON.stringify(arr));
 
-        this.props.history.push(`/searchResult?name=${this.state.name}&type=${this.state.type}&sname=${this.state.sname}&position=${this.state.position}&tag=${this.state.tag}`);
+        this.props.history.push(`/searchResult?name=${this.state.name}&type=${this.state.type}&sname=${this.state.sname}&position=${this.state.position}&tag=${this.state.tag}&category=${this.state.category}&unitName=${this.state.unitName}`);
     }
 
     render() {
         return (
             <div className="searchNumber" style={{background:'#ffffff',minHeight:'100%',display:'flex',flexDirection:'column'}}>
-                <div className="header">
-                    <p> {'<'}</p>
-                    <p className="title">配号搜索</p>
-                    <p><img src="" alt=""/> <span>重置</span></p>
-                </div>
+                <Uheader {...this.props} utitle="配号搜索" ></Uheader>
                 <div className="searchTop">
                     <input type="text" name="name" placeholder="请输入要搜索的品种" value={this.state.searchName} onChange={this.searchNumProduct.bind(this)}/>
                     <button className={this.state.type === '1'?'activeBtn':''} onClick={() =>this.changeType('1')}>求购</button>
@@ -152,6 +159,12 @@ export default class SearchNumber extends React.Component {
                 <div style={{height:'10px',background:'rgba(242,242,242,1)'}}></div>
                 <div className="mainCon">
                     <div className="radiogrup">
+                        <dl onClick={ () =>this.changePosition('any')}>
+                            <dd>
+                                <img src={this.state.position === 'any'? iconCheck:iconCheckbox} alt=""/>
+                            </dd>
+                            <dt>任意号</dt>
+                        </dl>
                         <dl onClick={ () =>this.changePosition('end')}>
                             <dd>
                                 <img src={this.state.position === 'end'? iconCheck:iconCheckbox} alt=""/>
@@ -164,12 +177,7 @@ export default class SearchNumber extends React.Component {
                             </dd>
                             <dt>起始号</dt>
                         </dl>
-                        <dl onClick={ () =>this.changePosition('any')}>
-                            <dd>
-                                <img src={this.state.position === 'any'? iconCheck:iconCheckbox} alt=""/>
-                            </dd>
-                            <dt>任意</dt>
-                        </dl>
+                        
                     </div>
                     <div className="searchBox">
                         <input type="text" placeholder="请输入您要查找的特殊号码" value={this.state.sname} onChange={this.searchSname.bind(this)}/> <button onClick={() =>this.searchNum()}>搜索</button>
@@ -204,7 +212,7 @@ export default class SearchNumber extends React.Component {
                             <div className="searchNum">
                                 {
                                     this.state.searchData.map((item,index) =>(
-                                        <p key={index} className='list' onClick={() =>this.checkName(item.name)}>{item.name}</p>
+                                        <p key={index} className='list' onClick={() =>this.checkName(item.name, item.category, item.unitName)}>{item.name}</p>
                                     ))
                                 }
                             </div>

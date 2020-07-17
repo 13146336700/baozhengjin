@@ -127,19 +127,27 @@
 /*配号商品列表*/
 .goodslistBox{
     .name{
-        display: flex;
+        // display: flex;
+        .icon{
+            float: left;
+            height: 36px;
+            width: 36px;
+            margin-right: 20px;
+            margin-top: 5px;
+        }
         p{
-            flex: 1;
+            display: inline-block;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            max-width: calc(100% - 282px);
+            width: calc(100% - 270px);
+
         }
         span{
-            display: block;
+            float: right;
             width: 200px;
             color: #eb3318;
-            margin-right: 30px;
+            line-height: 46px;
             margin-left: 10px;
             font-size: 32px;
         }
@@ -171,6 +179,11 @@
                 color:rgba(51,51,51,1);
                 line-height:34px;
                 margin-bottom: 14px;
+                .icon{
+                    display: inline-block;
+                    height: 36px;
+                    width: 36px;
+                }
             }
             .unit{
                 height:24px;
@@ -358,6 +371,27 @@
         .active{
             box-sizing: border-box;
             border-bottom: 1px solid #EB3318;
+        }
+    }
+    .stocklistBox{
+        .list{
+            padding: 26px 44px 26px 0px;
+        }
+        .nameBox{
+            .number{
+                height: 36px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            .unit{
+                height: 32px;
+            }
+        }
+        .price{
+            display: block;
+            margin: 0;
+            width: 180px;
         }
     }
 }
@@ -629,9 +663,7 @@
             padding-left: 30px;
         }
     }
-    .nameBox{
-        
-    }
+    
 }
 
 /*发布弹窗页面*/
