@@ -1,6 +1,7 @@
 import React from 'react';
 import "../index/index.scss";
-import Demo from "../pullRefresh/pullRefresh";
+// import Demo from "../pullRefresh/pullRefresh";
+import Pulload from "../publish/pulload";
 import Uheader from "../../Goolbal/Uheader";
 
 export default class MyDistribute extends React.Component {
@@ -35,7 +36,7 @@ export default class MyDistribute extends React.Component {
         return (
             <div className="mydistribute" style={{padding:'10px 0 0 0'}}>
                 <Uheader {...this.props} utitle="我的配号"></Uheader>
-                <Demo {...this.props} page="my" onRef={(ref) => { this.child = ref; }}/>
+                <Pulload {...this.props} page="my" onRef={(ref) => { this.child = ref; }}/>
             </div>
         );
     }

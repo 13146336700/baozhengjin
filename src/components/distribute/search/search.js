@@ -19,6 +19,8 @@ export default class SearchNumber extends React.Component {
             name:'',	//String	必填		产品名称
             type:'1',	//String	必填	品类交易类型
             tag:'',	    //String	否	品类交易类型
+            category: '', //商品分类
+            unitName: '',   //商品单位
         }
     }
 
@@ -64,12 +66,14 @@ export default class SearchNumber extends React.Component {
     }
 
     /*选择查询商品名称 */
-    checkName(name) {
+    checkName(name, category, unit) {
         this.setState({
             searchName: name,
             name: name,
+            category: category,
+            unitName: unit,
             searchData:[]
-        })
+        });
     }
 
     /**搜索位置切换 */
@@ -133,7 +137,7 @@ export default class SearchNumber extends React.Component {
         }
         localStorage.setItem('searchistory', JSON.stringify(arr));
 
-        this.props.history.push(`/searchResult?name=${this.state.name}&type=${this.state.type}&sname=${this.state.sname}&position=${this.state.position}&tag=${this.state.tag}`);
+        this.props.history.push(`/searchResult?name=${this.state.name}&type=${this.state.type}&sname=${this.state.sname}&position=${this.state.position}&tag=${this.state.tag}&category=${this.state.category}&unitName=${this.state.unitName}`);
     }
 
     render() {
@@ -204,7 +208,7 @@ export default class SearchNumber extends React.Component {
                             <div className="searchNum">
                                 {
                                     this.state.searchData.map((item,index) =>(
-                                        <p key={index} className='list' onClick={() =>this.checkName(item.name)}>{item.name}</p>
+                                        <p key={index} className='list' onClick={() =>this.checkName(item.name, item.category, item.unitName)}>{item.name}</p>
                                     ))
                                 }
                             </div>

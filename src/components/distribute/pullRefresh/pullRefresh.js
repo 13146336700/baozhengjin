@@ -63,7 +63,7 @@ export default class Demo extends React.Component {
           url= 'subject/json/goodsNumberList';  //某某商品配号列表
           getData= {
             name: this.getUrlParam('name'), //	String	是	类型	商品名称
-            type: goodsType, //	String	否	类型	购买类型
+            type: goodsType || this.getUrlParam('type'), //	String	否	类型	购买类型
             pageSize: this.state.pageSize, //	String	必填	每页数量	
             pageIndex: this.state.pageIndex, //	String	必填	页码
           }
@@ -82,7 +82,7 @@ export default class Demo extends React.Component {
         getData= {
           sname: this.getUrlParam('sname'),  //	String	否	搜索关键字	
           name: this.getUrlParam('name'),  //	String	必填		产品名称
-          type: this.getUrlParam('type'),  //	String	必填	品类交易类型
+          type: goodsType || this.getUrlParam('type'),  //	String	必填	品类交易类型
           tag: this.getUrlParam('tag'),  //	String	否	品类交易类型
           position: this.getUrlParam('position'),  //	String	必填	位置
           pageSize: this.state.pageSize,  //	String	必填	每页数量	
@@ -173,12 +173,12 @@ export default class Demo extends React.Component {
   }
 
   goodsDistribute(item) {
-    if (item.sellCnt === '0' && item.buyCnt === '0') {
-      Toast.info('该产品暂无需求,您可点击下面的发布按钮发布该商品', 2);
-    } else {
-      this.props.history.push(`/goodsDistribute?name=${item.name}&unitName=${item.unitName}&categoryName=${item.categoryName}`)
-    }
-    
+    // if (item.sellCnt === '0' && item.buyCnt === '0') {
+    //   Toast.info('该产品暂无需求,您可点击下面的发布按钮发布该商品', 2);
+    // } else {
+    //   this.props.history.push(`/goodsDistribute?name=${item.name}&unitName=${item.unitName}&categoryName=${item.categoryName}`)
+    // }
+    this.props.history.push(`/pulload`)
   }
 
 

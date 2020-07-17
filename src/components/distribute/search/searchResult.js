@@ -1,8 +1,10 @@
 import React from 'react';
 import { Tabs,  Badge, SearchBar, Icon} from 'antd-mobile';
 import "../index/index.scss";
-import Demo from "../pullRefresh/pullRefresh";
-import axios from "../../axios/index";
+// import Demo from "../pullRefresh/pullRefresh";
+import Pulload from "../publish/pulload";
+// import axios from "../../axios/index";
+import PublishBtn from "../Global/publishBtn";
 
 export default class SearchResult extends React.Component {
 
@@ -42,11 +44,12 @@ export default class SearchResult extends React.Component {
                     </p>
                 </div>
 
-                <Demo page="searchResult" {...this.props} onRef={(ref) => { this.search = ref; }}/> 
+                <Pulload page="searchResult" {...this.props} onRef={(ref) => { this.search = ref; }}/> 
 
-                <div className="pub">
+                {/* <div className="pub">
                     <img src={require('../../assets/pub.png')} alt=""/>
-                </div>
+                </div> */}
+                <PublishBtn {...this.props} url='searchResult' category={this.getUrlParam('category')} name={this.getUrlParam('name')} unitName={this.getUrlParam('unitName')}></PublishBtn>
             </div>
         );
     }
