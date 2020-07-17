@@ -1,6 +1,6 @@
 import React from 'react';
 import "../index/index.scss";
-import Demo from "../pullRefresh/pullRefresh";
+// import Demo from "../pullRefresh/pullRefresh";
 import axios from "../../axios/index";
 import Uheader from "../../Goolbal/Uheader";
 import { Modal, Button, Toast} from 'antd-mobile';
@@ -199,7 +199,7 @@ export default class MyStock extends React.Component {
                                     </div>
                                     <span className="price" onClick={() => this.goodsDetail(item.goodsId)}>￥{item.dealPrice}元</span>
                                 <Button className="deal" onClick={() => operation([
-                                    { text: '标为售出', onPress: () => this.showShade(item,'sign') },
+                                    { text: '商品下架', onPress: () => this.showShade(item,'sign') },
                                     { text: '修改价格', onPress: () => this.showShade(item,'change') },
                                 ])}
                                 >操作</Button>
@@ -235,7 +235,7 @@ export default class MyStock extends React.Component {
                                             <label htmlFor="">价格</label>
                                             <input type="text" disabled value={this.state.changeItem.dealPrice}/>
                                         </p>
-                                        <button onClick={() =>this.updateFormat(2)}>标为售出</button>
+                                        <button onClick={() =>this.updateFormat('3')}>确认下架</button>
                                     </div>
                                 ):(
                                     <div className="cont">
@@ -247,7 +247,7 @@ export default class MyStock extends React.Component {
                                             <label htmlFor="">价格</label>
                                             <input type="text" value={this.state.changePrice} onChange={this.changePriceFn.bind(this)}/>
                                         </p>
-                                        <button onClick={() =>this.updateFormat(0)}>确认修改</button>
+                                        <button onClick={() =>this.updateFormat('0')}>确认修改</button>
                                     </div>
                                 )
                             }

@@ -33,7 +33,12 @@ export default class Uheaders extends React.Component {
         }
         return false
     }
-    this.props.history.push("/searchNumber");
+    if (this.props.match.path == "/goodsDistribute/") {
+      this.props.history.push(`/searchNumber?name=${this.getUrlParam('name')}&unitName=${this.getUrlParam('unitName')}&categoryName=${this.getUrlParam('categoryName')}`);
+    } else {
+      this.props.history.push(`/searchNumber`)
+    }
+    
   };
   backClick = () => {
     console.log(this.props);

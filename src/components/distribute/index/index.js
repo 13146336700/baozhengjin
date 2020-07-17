@@ -5,7 +5,6 @@ import Pulload from "../publish/pulload";
 import Banner from "../banner/banner";
 import Uheader from "../../Goolbal/Uheader";
 import PublishBtn from "../Global/publishBtn";
-import { Toast } from 'antd-mobile';
 
 
 export default class distribute extends React.Component {

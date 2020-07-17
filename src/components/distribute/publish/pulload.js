@@ -153,15 +153,6 @@ export default class Pulload extends React.Component {
       })
     }
   
-    goodsDetail(id) {
-      if (isiOS) {
-        window.webkit.messageHandlers.IOSNativeCollectionDetails.postMessage({
-          'oid': id
-        });
-      } else {
-        window.app.purchaseGoods(id)
-      }
-    }
   
     /**获取网址参数 */
     getUrlParam = (name) => {
@@ -216,6 +207,33 @@ export default class Pulload extends React.Component {
       setTimeout(() =>{
         this.getdataList(index);
       },10)
+    }
+
+    /**商品详情 */
+    goodsDetail(id) {
+      if (isiOS) {
+        window.webkit.messageHandlers.IOSNativeCollectionDetails.postMessage({'oid': id});
+      } else {
+        window.app.purchaseGoods(id);
+      }
+    }
+
+    /**市场行情 */
+    market(oid, code, tag) {
+      if (isiOS) {
+        window.webkit.messageHandlers.IOSNativeMarket.postMessage({'oid': oid,'code':code,'tag':tag});
+      } else {
+        window.app.androidNativeMarket(JSON.stringify({'oid': oid,'code':code,'tag':tag}));
+      }
+    }
+
+    /**成交详情 */
+    tradeDetail(oid, orderId) {
+      if (isiOS) {
+        window.webkit.messageHandlers.IOSNativeTradeDetails.postMessage({'oid': oid,'orderId':orderId});
+      } else {
+        window.app.androidNativeTradeDetails(JSON.stringify({'oid': oid,'orderId':orderId,'aa':'aaaaa'}));
+      }
     }
   
     goodsDistribute(item) {
@@ -298,24 +316,27 @@ export default class Pulload extends React.Component {
                         this.state.data.length > 0 ?(
                           <ul className="listBox" >
                             {this.state.data.map((item,index) => (
-                                <li className="list" key= {index} onClick={() => this.goodsDistribute(item)}>
+                                <li className="list" key= {index} >
                                     <img src={item.showImg} alt="商品图片"/>
                                     <div className="goodsType">
-                                      <div className="name">{item.name}</div>
-                                      <div className="number">
-                                        <p>
-                                          出售：<span>{item.sellCnt}</span>个需求
-                                        </p>
-                                        <p>
-                                          收购：<span>{item.buyCnt}</span>个需求
-                                        </p>
+                                      <div className="info" onClick={() => this.goodsDistribute(item)}>
+                                        <div className="name">{item.name}</div>
+                                        <div className="number">
+                                          <p>
+                                            出售：<span>{item.sellCnt}</span>个需求
+                                          </p>
+                                          <p>
+                                            收购：<span>{item.buyCnt}</span>个需求
+                                          </p>
+                                        </div>
                                       </div>
+                                      <div className='market' onClick={() => this.market(item.sid, item.code, item.tag)}>最新市场行情</div>
                                     </div>
                                 </li>
                             ))}
                         </ul>
                         ):(
-                          <div style={{background: '#ffffff',lineHeight: '300px',textAlign: 'center',fontSize: '16px'}}>暂无相关数据</div>
+                          <div style={{background: '#f5f5f9',lineHeight: '300px',textAlign: 'center',fontSize: '16px'}}>暂无相关数据</div>
                         )
                       }
                     </nav>
@@ -362,7 +383,7 @@ export default class Pulload extends React.Component {
                         this.state.data.length > 0 ?(
                           <ul className="listBox goodslistBox" >
                             {this.state.data.map((item,index) => (
-                                <li className="list" key= {index} onClick={() => this.goodsDetail(item.goodsId)}>
+                                <li className="list" key= {index} onClick={() => item.ordersId?this.tradeDetail(item.goodsId, item.ordersId):this.goodsDetail(item.goodsId)}>
                                     {/* <img src={require("../../assets/goods.png")} alt="商品图片"/> */}
                                     <div className="goodsType">
                                       <div className="name">
