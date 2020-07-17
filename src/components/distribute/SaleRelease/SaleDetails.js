@@ -20,11 +20,7 @@ export default class SaleDetails extends React.Component {
     this.state = {
       ExpirationValue: "30",
       desc: "", //文本框
-      imageArray: [
-        //图片
-        "http://image.ybk008.com/bie1594724614369",
-        "http://image.ybk008.com/bie1594724614369",
-      ],
+      imageArray: [],
     };
   }
   state = {};
@@ -116,7 +112,6 @@ export default class SaleDetails extends React.Component {
       Toast.info("请输入有效的数字", 1);
       return;
     }
-
     axios
       .post("subject/json/saveGoods", {
         pubUserid: myArray.pubUserid,
@@ -133,7 +128,7 @@ export default class SaleDetails extends React.Component {
         validDay: this.state.ExpirationValue,
         address: myArray.address,
         dealWay: myArray.dealWay,
-        personPhone: myArray.phone,
+        personPhone: myArray.personPhone,
         personName: myArray.personName,
       })
       .then((response) => {

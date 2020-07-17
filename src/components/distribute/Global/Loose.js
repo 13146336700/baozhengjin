@@ -229,6 +229,9 @@ export default class Loose extends React.Component {
     return obj.num;
   };
   hanChange = (ev, index) => {
+    var priceReg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;
+    console.log(priceReg.test(ev.target.value));
+
     const LooseArr = [...this.state.LooseArr]; //浅拷贝一下
     LooseArr.map((item, key) => {
       if (key == index) {

@@ -42,6 +42,11 @@ export default class SaleRelease extends React.Component {
     }
     return ""; //如果此处只写return;则返回的是undefined
   };
+  isPositiveInteger = (s) => {
+    //是否为正整数
+    var re = /^[0-9]+$/;
+    return re.test(s);
+  };
   setKeyWorld = (keyWord) => {
     log(keyWord);
     this.setState({
@@ -54,9 +59,17 @@ export default class SaleRelease extends React.Component {
       Ontable: `tab-${key}`,
     });
   };
-
+  setBuyingNumber = (ischeck) => {
+    if (ischeck.length < 3 || ischeck.length > 20) {
+      return false;
+    } else {
+      return true;
+    }
+  };
   PhotoImageUpload = () => {
+    let _this = this;
     let Name = this.getUrlParam("name");
+    var priceReg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;
     if (!Name) {
       Toast.info("请输入名称", 1);
       return;
@@ -140,6 +153,18 @@ export default class SaleRelease extends React.Component {
 
     log(scatteredJson);
 
+
+    for (let i = 0; i < scatteredJson.length; i++) {
+      if (!priceReg.test(scatteredJson[i].dealPrice)) {
+        Toast.info("请输入散张求购正确的单价:整数或者保留两位小数", 2);
+        return;
+      }
+      if (!_this.setBuyingNumber(scatteredJson[i].number)) {
+        Toast.info("请输入散张求购正确求购号码", 2);
+        return;
+      }
+    }
+
     //标连-------------------------------------------------------!!
     let [mySerial_, standardConsecutiveJson] = [
       this.userSerial_.current.state.LooseArr,
@@ -181,6 +206,16 @@ export default class SaleRelease extends React.Component {
     }
 
     log(standardConsecutiveJson);
+    for (let i = 0; i < standardConsecutiveJson.length; i++) {
+      if (!priceReg.test(standardConsecutiveJson[i].dealPrice)) {
+        Toast.info("请输入标连求购正确的价格:整数或者保留两位小数", 1);
+        return;
+      }
+      if (!_this.setBuyingNumber(standardConsecutiveJson[i].number)) {
+        Toast.info("请输入标连求购正确求购号码", 1);
+        return;
+      }
+    }
 
     //散连 ---------------------------------------
     let [
@@ -239,6 +274,20 @@ export default class SaleRelease extends React.Component {
       otherConsecutiveJson.push(obj);
     }
     log(otherConsecutiveJson);
+    for (let i = 0; i < otherConsecutiveJson.length; i++) {
+      if (!priceReg.test(otherConsecutiveJson[i].dealPrice)) {
+        Toast.info("请输入散连求购正确的连号总价格或者保留两位小数", 1);
+        return;
+      }
+      if (!_this.setBuyingNumber(otherConsecutiveJson[i].number)) {
+        Toast.info("请输入散连求购正确求购号码", 1);
+        return;
+      }
+      if (!_this.isPositiveInteger(otherConsecutiveJson[i].dealCnt)) {
+        Toast.info("请输入散连求购正确求购数量", 1);
+        return;
+      }
+    }
 
     log(Numbers);
     let NumbersB = 0;
@@ -316,7 +365,7 @@ export default class SaleRelease extends React.Component {
         })
         .catch((error) => {});
     } else {
-      sessionStorage.setItem("ReturnGo", '1');
+      sessionStorage.setItem("ReturnGo", "1");
       this.props.history.push({
         pathname: "/SaleDetails",
         state: {
@@ -342,7 +391,7 @@ export default class SaleRelease extends React.Component {
           address: MyuserAddress_.address,
           dealWay: MyuserAddress_.dealWayCode,
           personPhone: MyuserAddress_.phone,
-          personName: MyuserAddress_.personName,
+          personName: MyuserAddress_.name,
         },
       });
     }
@@ -392,18 +441,18 @@ export default class SaleRelease extends React.Component {
             ))}
           </ul>
         </div>
-      
+
         <div
           style={{ display: this.state.Ontable == "tab-0" ? "block" : "none" }}
         >
-            <div className="zhanwei"></div>
+          <div className="zhanwei"></div>
           <Loose {...this.props} uname="散张求购" ref={this.userLoose_}></Loose>
         </div>
-     
+
         <div
           style={{ display: this.state.Ontable == "tab-1" ? "block" : "none" }}
         >
-             <div className="zhanwei"></div>
+          <div className="zhanwei"></div>
           <Serial
             {...this.props}
             utitle="求购"
@@ -411,11 +460,11 @@ export default class SaleRelease extends React.Component {
             ref={this.userSerial_}
           ></Serial>
         </div>
-     
+
         <div
           style={{ display: this.state.Ontable == "tab-2" ? "block" : "none" }}
         >
-           <div className="zhanwei"></div>
+          <div className="zhanwei"></div>
           <Scattered
             ustatus="1"
             {...this.props}

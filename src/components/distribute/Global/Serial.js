@@ -4,53 +4,53 @@ import "./index.scss";
 export default class Standard extends React.Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    //   tag:'startup'
-    // };
+    this.state = {
+      LooseArr: [
+        {
+          todoList: [
+            {
+              code: "标十",
+              title: "标十",
+              num: 9,
+            },
+            {
+              code: "标百",
+              title: "标百",
+              num: 99,
+            },
+            {
+              code: "滚刀",
+              title: "滚刀",
+              num: 99,
+            },
+            {
+              code: "滚捆",
+              title: "滚捆",
+              num: 999,
+            },
+            {
+              code: "标千",
+              title: "标千",
+              num: 999,
+            },
+            {
+              code: "标五千",
+              title: "标五千",
+              num: 4999,
+            },
+          ],
+          dealCnt: "", //标号的
+          number: "",
+          endnumber: "",
+          dealPrice: "",
+          tag: "请选择类型",
+        },
+      ],
+    };
     this.selectChange = this.selectChange.bind(this);
   }
   state = {
-    LooseArr: [
-      {
-        todoList: [
-          {
-            code: "标十",
-            title: "标十",
-            num: 10,
-          },
-          {
-            code: "标百",
-            title: "标百",
-            num: 100,
-          },
-          {
-            code: "滚刀",
-            title: "滚刀",
-            num: 100,
-          },
-          {
-            code: "滚捆",
-            title: "滚捆",
-            num: 1000,
-          },
-          {
-            code: "标千",
-            title: "标千",
-            num: 1000,
-          },
-          {
-            code: "标五千",
-            title: "标五千",
-            num: 5000,
-          },
-        ],
-        dealCnt: "", //标号的
-        number: "",
-        endnumber: "",
-        dealPrice: "",
-        tag: "请选择类型",
-      },
-    ],
+    
   };
   componentDidMount() {
     if (sessionStorage.getItem("BIAOLIAN_ARR")) {
@@ -59,42 +59,28 @@ export default class Standard extends React.Component {
         LooseArr: JSON.parse(sessionStorage.getItem("BIAOLIAN_ARR")),
       });
     }
-  };
+  }
   selectChange = (ev, item1, key) => {
     console.log(ev.target.value);
     console.log(item1);
 
-    // var obj = this.state.todoList.find(function (key) {
-    //   return key.code === ev.target.value;
-    // });
-    // this.changeDOM(obj.code);
     let LooseArr = [...this.state.LooseArr];
     let _this = this;
     console.log(LooseArr[key]);
 
-    this.changeDOM(ev.target.value, LooseArr[key]);
+    // this.changeDOM(ev.target.value, LooseArr[key]);
 
-    LooseArr.map((item, index,arr) => {
+    LooseArr.map((item, index, arr) => {
       if (key == index) {
         item.tag = ev.target.value;
         item.dealCnt = _this.changeDOM(ev.target.value, arr[key]);
+        item.endnumber = Number(item.dealCnt) + Number(item.number);
       }
     });
 
     this.setState({
       LooseArr: LooseArr,
     });
-    // this.setState({
-    //   LooseArr: LooseArr.map((item, index) =>
-    //     key == index
-    //       ? {
-    //           ...item,
-    //           tag: ev.target.value,
-    //           dealCnt: this.changeDOM(ev.target.value, LooseArr[key]),
-    //         }
-    //       : item
-    //   ),
-    // });
 
     console.log(this.state.LooseArr);
 
@@ -104,7 +90,6 @@ export default class Standard extends React.Component {
     var obj = arr.todoList.find(function (key) {
       return key.title === value;
     });
-    console.log(obj);
     return obj.num;
   };
   delte = (item, key) => {
@@ -117,7 +102,7 @@ export default class Standard extends React.Component {
     });
     sessionStorage.setItem("BIAOLIAN_ARR", JSON.stringify(LooseArr));
   };
-  SETNUmber = (value, addNumber) => {
+  SETNUmber = (value, addNumber, num,obj) => {
     let newstr,
       ccccccc,
       bu0 = "";
@@ -130,7 +115,7 @@ export default class Standard extends React.Component {
       `${Number(setstr) + addNumber}`.length,
     ];
     if (value.indexOf(setstr) == -1) {
-      alert("不支持的号码");
+      Toast.info("不支持的号码", 2);
       return;
     }
     // log(value.indexOf(setstr))
@@ -145,8 +130,16 @@ export default class Standard extends React.Component {
     } else {
       newstr = `${AddSetstr}`;
     }
+    console.log(setstr, newstr);
+  
     ccccccc = value.replace(setstr, newstr);
-    return ccccccc;
+    if (num == 1) {
+      return ccccccc;
+    } else {
+      console.log("最后一位" + newstr.substr(newstr.length - 1, 1));
+      // console.log(obj);
+      // console.log("最后一位" + newstr.substr(newstr.length - 1, 1));
+    }
   };
   hanChange = (ev, index, item1) => {
     console.log(item1);
@@ -164,7 +157,7 @@ export default class Standard extends React.Component {
     LooseArr.map((item, key) => {
       if (key == index) {
         item.number = ev.target.value;
-        item.endnumber = _this.SETNUmber(ev.target.value, item.dealCnt);
+        item.endnumber = _this.SETNUmber(ev.target.value, item.dealCnt, "1",item);
       }
     });
 
@@ -173,18 +166,6 @@ export default class Standard extends React.Component {
     });
 
     sessionStorage.setItem("BIAOLIAN_ARR", JSON.stringify(LooseArr));
-
-    // this.setState({
-    //   LooseArr: LooseArr.map((item, key) =>
-    //     key == index
-    //       ? {
-    //           ...item,
-    //           number: ev.target.value,
-    //           endnumber: this.SETNUmber(ev.target.value, item.dealCnt),
-    //         }
-    //       : item
-    //   ),
-    // });
   };
   hanpriceChange = (ev, index) => {
     console.log(ev.target.value);
@@ -218,6 +199,11 @@ export default class Standard extends React.Component {
         return;
       }
     }
+console.log(LooseObj);
+if(this.SETNUmber(LooseObj.number,LooseObj.dealCnt,'2',LooseObj)){
+
+}
+    
 
     let LooseArr = this.state.LooseArr;
     LooseArr.push({
@@ -225,22 +211,33 @@ export default class Standard extends React.Component {
         {
           code: "标十",
           title: "标十",
-          num: 10,
+          num: 9,
         },
         {
           code: "标百",
           title: "标百",
-          num: 100,
+          num: 99,
+        },
+        {
+          code: "滚刀",
+          title: "滚刀",
+          num: 99,
         },
         {
           code: "标千",
           title: "标千",
-          num: 1000,
+          num: 999,
+        },
+
+        {
+          code: "滚捆",
+          title: "滚捆",
+          num: 999,
         },
         {
           code: "标五千",
           title: "标五千",
-          num: 5000,
+          num: 4999,
         },
       ],
       dealCnt: "", //标号的
@@ -275,16 +272,14 @@ export default class Standard extends React.Component {
               </div>
               <li>
                 <div>{this.props.userName}类型</div>
-                <div className="select-area">
+                <div className="select-area" data-tap-disabled="true">
                   <span>{item.tag}</span>
                   <img src={require("../../assets/right.png")} alt="" />
                   <select
                     onChange={(e) => this.selectChange(e, item, key)}
                     value={item.tag}
                   >
-                    <option style={{ display: "none" }} disabled>
-                      请选择
-                    </option>
+                    <option style={{ display: "none" }}>请选择</option>
                     {item.todoList.map((item1, key1) => (
                       <option
                         onClick={() => this.Myoption(item1)}
