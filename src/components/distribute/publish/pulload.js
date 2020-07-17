@@ -214,7 +214,7 @@ export default class Pulload extends React.Component {
       if (isiOS) {
         window.webkit.messageHandlers.IOSNativeCollectionDetails.postMessage({'oid': id});
       } else {
-        window.app.purchaseGoods(id)
+        window.app.purchaseGoods(id);
       }
     }
 
@@ -223,7 +223,7 @@ export default class Pulload extends React.Component {
       if (isiOS) {
         window.webkit.messageHandlers.IOSNativeMarket.postMessage({'oid': oid,'code':code,'tag':tag});
       } else {
-        window.app.androidNativeMarket(JSON.stringify({'oid': oid,'code':code,'tag':tag}))
+        window.app.androidNativeMarket(JSON.stringify({'oid': oid,'code':code,'tag':tag}));
       }
     }
 
@@ -232,7 +232,7 @@ export default class Pulload extends React.Component {
       if (isiOS) {
         window.webkit.messageHandlers.IOSNativeTradeDetails.postMessage({'oid': oid,'orderId':orderId});
       } else {
-        window.app.androidNativeTradeDetails(JSON.stringify({'oid': oid,'orderId':orderId,'aa':'aaaaa'}))
+        window.app.androidNativeTradeDetails(JSON.stringify({'oid': oid,'orderId':orderId,'aa':'aaaaa'}));
       }
     }
   
@@ -316,9 +316,10 @@ export default class Pulload extends React.Component {
                         this.state.data.length > 0 ?(
                           <ul className="listBox" >
                             {this.state.data.map((item,index) => (
-                                <li className="list" key= {index} onClick={() => this.goodsDistribute(item)}>
+                                <li className="list" key= {index} >
                                     <img src={item.showImg} alt="商品图片"/>
                                     <div className="goodsType">
+                                      <div className="info" onClick={() => this.goodsDistribute(item)}>
                                         <div className="name">{item.name}</div>
                                         <div className="number">
                                           <p>
@@ -328,8 +329,9 @@ export default class Pulload extends React.Component {
                                             收购：<span>{item.buyCnt}</span>个需求
                                           </p>
                                         </div>
+                                      </div>
+                                      <div className='market' onClick={() => this.market(item.sid, item.code, item.tag)}>最新市场行情</div>
                                     </div>
-                                    <div onClick={() => this.market(item.sid, item.code, item.tag)}>最新市场行情</div>
                                 </li>
                             ))}
                         </ul>
