@@ -17,6 +17,7 @@ export default class myseach extends React.Component {
     ],
     checked: false,
     name: "", //文本框输入值
+    dealPattern:'',// 2担保 3线下
   };
   componentWillMount() {
     if (this.getUrlParam("name")) {
@@ -24,7 +25,18 @@ export default class myseach extends React.Component {
         name: this.getUrlParam("name"),
       });
     }
-  }
+    if (this.getUrlParam("checked")) {
+      let checked;
+      if(this.getUrlParam("checked") == 'true'){
+        checked = true;
+      }else {
+        checked = false;
+      }
+      this.setState({
+        checked: checked,
+      });
+    }
+  };
   getUrlParam = (name) => {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = this.props.location.search.substr(1).match(reg);
@@ -56,6 +68,10 @@ export default class myseach extends React.Component {
           item1.isCheck = true;
         }
     })
+  //  var objes = newlist.find((item)=>{
+  //    return item.isCheck = true;
+  //  })
+
     this.setState({ list: newlist});
     // this.setState({
     //   list: newlist.map((item1, index) =>
@@ -80,7 +96,7 @@ export default class myseach extends React.Component {
     // this.props.history.push(`/SaleReleaseSeach/${this.props.ustate}/${this.getUrlParam('url')}`);
     this.props.history.push({
       pathname: `/SaleReleaseSeach/${this.props.ustate}`,
-      search: `url=${this.getUrlParam("url")}&goodsId=${goodsId}`,
+      search: `url=${this.getUrlParam("url")}&goodsId=${goodsId}&checked=${this.state.checked}`,
     });
   };
   render() {

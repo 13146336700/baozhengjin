@@ -122,6 +122,7 @@ export default class Preview extends React.Component {
           if (response.data.code == "10000") {
             //成功到库存页面
             // this.props.history.push("/");
+            Toast.info("成功", 1);
             this.props.history.push({
               pathname: "/myStock",
               search: `userId=4028808361926f8a0161db4c492304e2&name=${this.getUrlParam(
@@ -135,10 +136,11 @@ export default class Preview extends React.Component {
         .catch((error) => {});
     } else {
       let son = this.props.history.location.state;
+      console.log(this.props);
+      console.log(son);
       this.props.history.push({
         pathname: "/SaleDetails",
         state: {
-          goodsId: son.goodsId, //商品id
           pubUserid: son.pubUserid, //用户id
           type: son.type, //1 求购，2 出售
           categoryName: son.categoryName, //商品分类
@@ -155,7 +157,7 @@ export default class Preview extends React.Component {
           personPhone: son.personPhone,
           personName: son.personName,
         },
-        search: `goodsId=${this.getUrlParam("goodsId")}`,
+        // search: `goodsId=${this.getUrlParam("goodsId")}`,
       });
     }
   };

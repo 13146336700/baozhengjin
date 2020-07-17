@@ -44,7 +44,7 @@ export default class address extends React.Component {
   getDealPattern = () => {
     axios
       .post("payment/json/getDealPattern", {
-        userId: "4028808361926f8a0161db4c492304e2",
+        userId:JSON.parse(sessionStorage.getItem('userInfo')).userId, //用户id,
         type: this.props.type,
       })
       .then((response) => {

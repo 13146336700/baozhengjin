@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "0e992591ce5a4cd26415a1576c4d4da6",
+    "revision": "c64782cd4c2a3c2ad56bef593b621577",
     "url": "./index.html"
   },
   {
-    "revision": "0d19d2a5ff7f4cf6c501",
-    "url": "./static/css/2.3703a6fc.chunk.css"
+    "revision": "2a1abeb68cf012557cf3",
+    "url": "./static/css/2.045febc1.chunk.css"
   },
   {
-    "revision": "051f14ff2aa9c5cf045e",
-    "url": "./static/css/main.f924105c.chunk.css"
+    "revision": "6e609df530444d32f629",
+    "url": "./static/css/main.d81d6f18.chunk.css"
   },
   {
-    "revision": "0d19d2a5ff7f4cf6c501",
-    "url": "./static/js/2.d8b02fa5.chunk.js"
+    "revision": "2a1abeb68cf012557cf3",
+    "url": "./static/js/2.fae3c9e9.chunk.js"
   },
   {
     "revision": "3e22cdd869649cf3a0087ef5ce488bb8",
-    "url": "./static/js/2.d8b02fa5.chunk.js.LICENSE.txt"
+    "url": "./static/js/2.fae3c9e9.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "051f14ff2aa9c5cf045e",
-    "url": "./static/js/main.0add82de.chunk.js"
+    "revision": "6e609df530444d32f629",
+    "url": "./static/js/main.1fe05fd1.chunk.js"
   },
   {
     "revision": "7a833fefead15dc83aa8",
@@ -38,6 +38,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "327e109fbb3c977c04545d6b363ea08f",
     "url": "./static/media/button.327e109f.png"
+  },
+  {
+    "revision": "623c2a275a9022c3d19589869e55bbe4",
+    "url": "./static/media/buyCar.623c2a27.png"
   },
   {
     "revision": "26195768f7e0543c69d729ff77927997",
@@ -78,6 +82,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "ed019a5875715327d5879c2d51e19c1b",
     "url": "./static/media/pub.ed019a58.png"
+  },
+  {
+    "revision": "222a4a5012ee6725a9d7d930d57be5b6",
+    "url": "./static/media/sellCar.222a4a50.png"
   },
   {
     "revision": "d74959df4a062476ff6351473a33012e",

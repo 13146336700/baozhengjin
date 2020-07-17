@@ -30,7 +30,7 @@ export default class Uheaders extends React.Component {
     console.log(this.props);
     if (
       this.props.match.path == "/distribute" ||
-      this.props.match.path == "/distribute"
+      this.props.match.path == "/myDistribute/"
     ) {
       if (isiOS) {
         try {
@@ -51,10 +51,18 @@ export default class Uheaders extends React.Component {
       this.props.match.path == "/BuyingRelease"
     ) {
       //因为有搜索 返回会回到搜索页面 所以单独处理
+        if(this.getUrlParam("goodsId")){
+          //商品进入
+          this.props.history.go(-1);
+        }
       if (this.getUrlParam("url")) {
         this.props.history.push(this.getUrlParam("url"));
       }
-    } else {
+    } else if(this.props.match.path == "/myStock/"){
+      this.props.history.push(`/myDistribute?userId=${JSON.parse(sessionStorage.getItem('userInfo')).userId}`);
+    } else if(this.props.match.path == "/SaleDetails"){
+      this.props.history.go(-2);
+    }else {
       this.props.history.go(-1);
     }
   };

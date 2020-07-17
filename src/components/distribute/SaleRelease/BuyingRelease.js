@@ -340,7 +340,8 @@ export default class BuyingRelease extends React.Component {
         pathname: "/preview",
         state: {
           goodsId: this.getUrlParam("goodsId"), //商品id
-          pubUserid: "4028808361926f8a0161db4c492304e2", //用户id
+          // pubUserid: "4028808361926f8a0161db4c492304e2", //用户id
+          pubUserid: JSON.parse(sessionStorage.getItem('userInfo')).userId, //用户id
           type: "2", //1 求购，2 出售
           categoryName: this.getUrlParam("category"), //商品分类
           name: this.getUrlParam("name"), //搜索框的名字
@@ -363,7 +364,7 @@ export default class BuyingRelease extends React.Component {
           personPhone: "",
           personName: "",
         },
-        search:`goodsId=${this.getUrlParam("goodsId")}`
+        // search:`goodsId=${this.getUrlParam("goodsId")}&name=${this.getUrlParam("name")}`
       });
 
       // this.props.history.push({
@@ -398,7 +399,7 @@ export default class BuyingRelease extends React.Component {
   render() {
     return (
       <div className="SaleRelease">
-        <Uheader {...this.props} utitle="配号出售发布1111"></Uheader>
+        <Uheader {...this.props} utitle="配号出售发布"></Uheader>
         <p className="header_border_bottom"></p>
         <div
           className="Increase_title"

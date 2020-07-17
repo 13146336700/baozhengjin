@@ -304,7 +304,9 @@ export default class SaleRelease extends React.Component {
       this.props.history.push({
         pathname: "/SaleDetails",
         state: {
-          pubUserid: "4028808361926f8a0161db4c492304e2", //用户id
+          goodsId: this.getUrlParam("goodsId"),
+          // pubUserid: "4028808361926f8a0161db4c492304e2", //用户id
+          pubUserid: JSON.parse(sessionStorage.getItem('userInfo')).userId, //用户id
           type: "1", //1 求购，2 出售
           categoryName: this.getUrlParam("category"), //商品分类
           name: this.getUrlParam("name"), //搜索框的名字

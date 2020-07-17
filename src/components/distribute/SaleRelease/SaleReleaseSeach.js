@@ -159,7 +159,7 @@ export default class SaleReleaseSeach extends React.Component {
       pathname: `/${this.props.match.params.ustate}`,
       search: `category=${val.category}&name=${val.name}&unitName=${
         val.unitName
-      }&url=${this.getUrlParam("url")}&goodsId=${goodsId}`,
+      }&url=${this.getUrlParam("url")}&goodsId=${goodsId}&checked=${this.getUrlParam('checked')}`,
     });
   };
 
