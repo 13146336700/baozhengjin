@@ -13,6 +13,11 @@ export default class distribute extends React.Component {
     componentWillMount() {
         // Toast.info(this.getUrlParam('userId'), 100);
         document.title = "币票配号";
+         //删除缓存数据
+          sessionStorage.removeItem("SANZNANG_ARR");
+          sessionStorage.removeItem("BIAOLIAN_ARR");
+          sessionStorage.removeItem("SANLIAN_ARR");
+          sessionStorage.removeItem("SANZHANG_ARR");    
         let info = JSON.parse(sessionStorage.getItem("userInfo"));
         if (info&&info.userId) {
             return false
