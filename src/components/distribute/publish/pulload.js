@@ -132,10 +132,8 @@ export default class Pulload extends React.Component {
           }
           break;
       }
-      console.log(arr,'请求数据');
       axios.post(url, getData).then( (res)=>{
         arr = arr.concat(res.data.resultObject.dataList);
-        console.log(arr,'合并数组');
         if (res.data.resultObject.pageCount > this.state.pageIndex) {
           this.setState({
             pageIndex:Number(this.state.pageIndex) + 1,
@@ -224,7 +222,13 @@ export default class Pulload extends React.Component {
       if (item.sellCnt === '0' && item.buyCnt === '0') {
         Toast.info('该产品暂无需求,您可点击下面的发布按钮发布该商品', 2);
       } else {
-        this.props.history.push(`/goodsDistribute?name=${item.name}&unitName=${item.unitName}&categoryName=${item.categoryName}`)
+        this.props.history.push(`/goodsDistribute?name=${item.name}&unitName=${item.unitName}&categoryName=${item.categoryName}`);
+        let goodsInfo = {
+          name: item.name,
+          unitName: item.unitName,
+          categoryName: item.categoryName
+        }
+        sessionStorage.setItem('goodsInfo', JSON.stringify(goodsInfo));
       }
     }
   
@@ -289,47 +293,63 @@ export default class Pulload extends React.Component {
               distanceBottom={1000}>
                 {
                   this.props.page === 'index'?(
-                    <ul className="listBox" >
-                        {this.state.data.map((item,index) => (
-                            <li className="list" key= {index} onClick={() => this.goodsDistribute(item)}>
-                                <img src={item.showImg} alt="商品图片"/>
-                                <div className="goodsType">
-                                  <div className="name">{item.name}</div>
-                                  <div className="number">
-                                    <p>
-                                      出售：<span>{item.sellCnt}</span>个需求
-                                    </p>
-                                    <p>
-                                      收购：<span>{item.buyCnt}</span>个需求
-                                    </p>
-                                  </div>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
+                    <nav>
+                      {
+                        this.state.data.length > 0 ?(
+                          <ul className="listBox" >
+                            {this.state.data.map((item,index) => (
+                                <li className="list" key= {index} onClick={() => this.goodsDistribute(item)}>
+                                    <img src={item.showImg} alt="商品图片"/>
+                                    <div className="goodsType">
+                                      <div className="name">{item.name}</div>
+                                      <div className="number">
+                                        <p>
+                                          出售：<span>{item.sellCnt}</span>个需求
+                                        </p>
+                                        <p>
+                                          收购：<span>{item.buyCnt}</span>个需求
+                                        </p>
+                                      </div>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                        ):(
+                          <div style={{background: '#ffffff',lineHeight: '300px',textAlign: 'center',fontSize: '16px'}}>暂无相关数据</div>
+                        )
+                      }
+                    </nav>
                   ):this.props.page === 'my'?(
-                    <ul className="listBox mylist" >
-                        {this.state.data.map((item,index) => (
-                            <li className="list" key= {index} onClick={() => this.props.history.push(`/myStock?userId=${this.getUrlParam('userId')}&type=2&name=${item.name}`)}>
-                                <img src={item.showImg} alt="商品图片"/>
-                                <div className="goodsType">
-                                  <div className="name">{item.name}<p>
-                                      <img src={require("../../assets/guanli.png")} alt="icon" className="icon"/>
-                                      <span>库存管理</span>
-                                    </p>
-                                  </div>
-                                  <div className="number">
-                                    <p>
-                                      出售：<span>{item.sellCnt?item.sellCnt:0}</span>个需求
-                                    </p>
-                                    <p>
-                                      收购：<span>{item.buyCnt?item.buyCnt:0}</span>个需求
-                                    </p>
-                                  </div>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
+                    <nav>
+                      {
+                        this.state.data.length > 0 ?(
+                          <ul className="listBox mylist" >
+                            {this.state.data.map((item,index) => (
+                                <li className="list" key= {index} onClick={() => this.props.history.push(`/myStock?userId=${this.getUrlParam('userId')}&type=2&name=${item.name}`)}>
+                                    <img src={item.showImg} alt="商品图片"/>
+                                    <div className="goodsType">
+                                      <div className="name">{item.name}<p>
+                                          <img src={require("../../assets/guanli.png")} alt="icon" className="icon"/>
+                                          <span>库存管理</span>
+                                        </p>
+                                      </div>
+                                      <div className="number">
+                                        <p>
+                                          出售：<span>{item.sellCnt?item.sellCnt:0}</span>个需求
+                                        </p>
+                                        <p>
+                                          收购：<span>{item.buyCnt?item.buyCnt:0}</span>个需求
+                                        </p>
+                                      </div>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                        ):(
+                          <div style={{background: '#ffffff',lineHeight: '300px',textAlign: 'center',fontSize: '16px'}}>暂无相关数据</div>
+                        )
+                      }
+                    </nav>
                   ):this.props.page === 'goods'?(
                     <nav>
                       <div className="tabBar">
@@ -384,7 +404,7 @@ export default class Pulload extends React.Component {
                             }
                           </ul>
                         ):(
-                          <div style={{background: '#f5f5f9',lineHeight: '300px',textAlign: 'center',fontSize: '16px'}}>暂无相关数据</div>
+                          <div style={{background: '#ffffff',lineHeight: '300px',textAlign: 'center',fontSize: '16px'}}>暂无相关数据</div>
                         )
                       }
                     </nav>
