@@ -14,8 +14,8 @@ export default class SearchNumber extends React.Component {
             searchName:'',  //搜索词
             searchData: [], //联想搜索数据
             searchHistory:[],   //搜索历史
-            position: 'any',    //搜索号码位置
-            positionName:'任意号',   //搜索号码位置
+            position: 'end',    //搜索号码位置
+            positionName:'尾号',   //搜索号码位置
             sname:'',	//String	否	搜索关键字	
             name:'',	//String	必填		产品名称
             type:'1',	//String	必填	品类交易类型
@@ -159,17 +159,17 @@ export default class SearchNumber extends React.Component {
                 <div style={{height:'10px',background:'rgba(242,242,242,1)'}}></div>
                 <div className="mainCon">
                     <div className="radiogrup">
-                        <dl onClick={ () =>this.changePosition('any')}>
-                            <dd>
-                                <img src={this.state.position === 'any'? iconCheck:iconCheckbox} alt=""/>
-                            </dd>
-                            <dt>任意号</dt>
-                        </dl>
                         <dl onClick={ () =>this.changePosition('end')}>
                             <dd>
                                 <img src={this.state.position === 'end'? iconCheck:iconCheckbox} alt=""/>
                             </dd>
                             <dt>尾号</dt>
+                        </dl>
+                        <dl onClick={ () =>this.changePosition('any')}>
+                            <dd>
+                                <img src={this.state.position === 'any'? iconCheck:iconCheckbox} alt=""/>
+                            </dd>
+                            <dt>任意号</dt>
                         </dl>
                         <dl onClick={ () =>this.changePosition('start')}>
                             <dd>
