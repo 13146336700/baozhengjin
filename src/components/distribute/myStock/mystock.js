@@ -4,6 +4,9 @@ import Demo from "../pullRefresh/pullRefresh";
 import axios from "../../axios/index";
 import Uheader from "../../Goolbal/Uheader";
 import { Modal, Button, Toast} from 'antd-mobile';
+var u = navigator.userAgent;
+// var isAndroid = u.indexOf("Android") > -1;
+var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 
 export default class MyStock extends React.Component {
 
@@ -14,7 +17,7 @@ export default class MyStock extends React.Component {
           sessionStorage.removeItem("BIAOLIAN_ARR");
           sessionStorage.removeItem("SANLIAN_ARR");
           sessionStorage.removeItem("SANZHANG_ARR");
-    
+
         this.getdataList();
         if (this.getUrlParam('type')) {
             this.setState({
@@ -139,6 +142,17 @@ export default class MyStock extends React.Component {
         }
         return ""; //如果此处只写return;则返回的是undefined
     };
+
+    /**跳转商品详情 */
+    goodsDetail(id) {
+        if (isiOS) {
+          window.webkit.messageHandlers.IOSNativeCollectionDetails.postMessage({
+            'oid': id
+          });
+        } else {
+          window.app.purchaseGoods(id)
+        }
+      }
         
     
     /**商品下架 */
