@@ -8,7 +8,6 @@ import Address from "../Global/address";
 import axios from "../../axios/index";
 import { Toast, WhiteSpace, WingBlank, Button } from "antd-mobile";
 import "./SaleRelease.scss";
-
 var u = navigator.userAgent;
 var isAndroid = u.indexOf("Android") > -1;
 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
@@ -24,6 +23,12 @@ export default class SaleRelease extends React.Component {
     this.userAddress_ = React.createRef(); //地址的
     this.state = {
       keyWord: "",
+      tabBar: [
+        { name: "散张求购" },
+        { name: "标连求购" },
+        { name: "散连求购" },
+      ],
+      Ontable: "tab-0",
     };
   }
   componentWillMount() {
@@ -40,9 +45,16 @@ export default class SaleRelease extends React.Component {
   setKeyWorld = (keyWord) => {
     log(keyWord);
     this.setState({
-      keyWord:keyWord
+      keyWord: keyWord,
     });
   };
+  tabChange = (item, key) => {
+    log(item, key);
+    this.setState({
+      Ontable: `tab-${key}`,
+    });
+  };
+
   PhotoImageUpload = () => {
     let Name = this.getUrlParam("name");
     if (!Name) {
@@ -74,6 +86,7 @@ export default class SaleRelease extends React.Component {
         dealPattern = item.dealPattern;
       }
     });
+
     //散张求购---------------------------------------
     let [My_Loose_, Loose_Last, LooseObj, tag] = [
       this.userLoose_.current.state.LooseArr,
@@ -108,11 +121,11 @@ export default class SaleRelease extends React.Component {
       } else {
         tag = Mytag;
       }
-      if (item.number && item.dealPrice && tag) {
+      if (item.number && item.dealPrice) {
         Numbers.A = "1";
-      } else if (item.number || item.dealPrice || tag) {
+      } else if (item.number || item.dealPrice) {
         Numbers.A = "2";
-      } else if (!item.number && !item.dealPrice && !tag) {
+      } else if (!item.number && !item.dealPrice) {
         Numbers.A = "3";
       }
       let obj = {
@@ -267,7 +280,7 @@ export default class SaleRelease extends React.Component {
     if (!dealPattern) {
       Toast.info("请选择交易方式", 1);
       return;
-    };
+    }
     if (this.getUrlParam("goodsId")) {
       axios
         .post("subject/json/addNumberFormat", {
@@ -289,6 +302,8 @@ export default class SaleRelease extends React.Component {
           if (response.data.code == "10000") {
             //成功到库存页面
             // this.props.history.push("/");
+
+            Toast.info("发布成功", 1);
             this.props.history.push({
               pathname: "/myStock",
               search: `userId=4028808361926f8a0161db4c492304e2&name=${this.getUrlParam(
@@ -301,12 +316,12 @@ export default class SaleRelease extends React.Component {
         })
         .catch((error) => {});
     } else {
+      sessionStorage.setItem("ReturnGo", '1');
       this.props.history.push({
         pathname: "/SaleDetails",
         state: {
           goodsId: this.getUrlParam("goodsId"),
-          // pubUserid: "4028808361926f8a0161db4c492304e2", //用户id
-          pubUserid: JSON.parse(sessionStorage.getItem('userInfo')).userId, //用户id
+          pubUserid: JSON.parse(sessionStorage.getItem("userInfo")).userId, //用户id
           type: "1", //1 求购，2 出售
           categoryName: this.getUrlParam("category"), //商品分类
           name: this.getUrlParam("name"), //搜索框的名字
@@ -364,17 +379,53 @@ export default class SaleRelease extends React.Component {
           ></Address>
         </div>
         <div className="zhanwei"></div>
-        <Loose {...this.props} uname="散张求购" ref={this.userLoose_}></Loose>
+        <div className="tabBar">
+          <ul>
+            {this.state.tabBar.map((item, key) => (
+              <li
+                key={key}
+                onClick={() => this.tabChange(item, key)}
+                className={this.state.Ontable == `tab-${key}` ? "onActive" : ""}
+              >
+                {item.name}
+              </li>
+            ))}
+          </ul>
+        </div>
+      
+        <div
+          style={{ display: this.state.Ontable == "tab-0" ? "block" : "none" }}
+        >
+            <div className="zhanwei"></div>
+          <Loose {...this.props} uname="散张求购" ref={this.userLoose_}></Loose>
+        </div>
+     
+        <div
+          style={{ display: this.state.Ontable == "tab-1" ? "block" : "none" }}
+        >
+             <div className="zhanwei"></div>
+          <Serial
+            {...this.props}
+            utitle="求购"
+            userName="求购"
+            ref={this.userSerial_}
+          ></Serial>
+        </div>
+     
+        <div
+          style={{ display: this.state.Ontable == "tab-2" ? "block" : "none" }}
+        >
+           <div className="zhanwei"></div>
+          <Scattered
+            ustatus="1"
+            {...this.props}
+            ref={this.userScattered_}
+          ></Scattered>
+        </div>
+
         <div className="zhanwei"></div>
-        <Serial {...this.props} utitle="求购" ref={this.userSerial_}></Serial>
         <div className="zhanwei"></div>
-        <Scattered
-          ustatus="1"
-          {...this.props}
-          ref={this.userScattered_}
-        ></Scattered>
-        <div className="zhanwei"></div>
-        <div className="zhanwei"></div>
+        <div className="Footer_zhanwei"></div>
         <button className="adddelte" onClick={() => this.PhotoImageUpload()}>
           {this.getUrlParam("goodsId") ? "发布" : "增加详情"}
         </button>

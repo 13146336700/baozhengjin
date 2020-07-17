@@ -24,6 +24,16 @@ export default class Standard extends React.Component {
             num: 100,
           },
           {
+            code: "滚刀",
+            title: "滚刀",
+            num: 100,
+          },
+          {
+            code: "滚捆",
+            title: "滚捆",
+            num: 1000,
+          },
+          {
             code: "标千",
             title: "标千",
             num: 1000,
@@ -42,6 +52,14 @@ export default class Standard extends React.Component {
       },
     ],
   };
+  componentDidMount() {
+    if (sessionStorage.getItem("BIAOLIAN_ARR")) {
+      //有值 回显
+      this.setState({
+        LooseArr: JSON.parse(sessionStorage.getItem("BIAOLIAN_ARR")),
+      });
+    }
+  };
   selectChange = (ev, item1, key) => {
     console.log(ev.target.value);
     console.log(item1);
@@ -51,26 +69,36 @@ export default class Standard extends React.Component {
     // });
     // this.changeDOM(obj.code);
     let LooseArr = [...this.state.LooseArr];
+    let _this = this;
     console.log(LooseArr[key]);
 
     this.changeDOM(ev.target.value, LooseArr[key]);
-    this.setState({
-      LooseArr: LooseArr.map((item, index) =>
-        key == index
-          ? {
-              ...item,
-              tag: ev.target.value,
-              dealCnt: this.changeDOM(ev.target.value, LooseArr[key]),
-            }
-          : item
-      ),
+
+    LooseArr.map((item, index,arr) => {
+      if (key == index) {
+        item.tag = ev.target.value;
+        item.dealCnt = _this.changeDOM(ev.target.value, arr[key]);
+      }
     });
-    console.log(this.state.LooseArr);
+
+    this.setState({
+      LooseArr: LooseArr,
+    });
     // this.setState({
-    //   LooseArr:LooseArr
-    //   tag: ev.target.value,
-    //   selectCode: ev.target.value,
+    //   LooseArr: LooseArr.map((item, index) =>
+    //     key == index
+    //       ? {
+    //           ...item,
+    //           tag: ev.target.value,
+    //           dealCnt: this.changeDOM(ev.target.value, LooseArr[key]),
+    //         }
+    //       : item
+    //   ),
     // });
+
+    console.log(this.state.LooseArr);
+
+    sessionStorage.setItem("BIAOLIAN_ARR", JSON.stringify(LooseArr));
   };
   changeDOM = (value, arr) => {
     var obj = arr.todoList.find(function (key) {
@@ -87,6 +115,7 @@ export default class Standard extends React.Component {
     this.setState({
       LooseArr: LooseArr,
     });
+    sessionStorage.setItem("BIAOLIAN_ARR", JSON.stringify(LooseArr));
   };
   SETNUmber = (value, addNumber) => {
     let newstr,
@@ -122,7 +151,7 @@ export default class Standard extends React.Component {
   hanChange = (ev, index, item1) => {
     console.log(item1);
     console.log(ev.target.value);
-
+    let _this = this;
     const LooseArr = [...this.state.LooseArr]; //浅拷贝一下
     // this.setState({
     //   LooseArr: LooseArr.map((item, key) =>
@@ -131,26 +160,52 @@ export default class Standard extends React.Component {
     //       : item
     //   ),
     // });
-    this.setState({
-      LooseArr: LooseArr.map((item, key) =>
-        key == index
-          ? {
-              ...item,
-              number: ev.target.value,
-              endnumber: this.SETNUmber(ev.target.value, item.dealCnt),
-            }
-          : item
-      ),
+
+    LooseArr.map((item, key) => {
+      if (key == index) {
+        item.number = ev.target.value;
+        item.endnumber = _this.SETNUmber(ev.target.value, item.dealCnt);
+      }
     });
+
+    this.setState({
+      LooseArr: LooseArr,
+    });
+
+    sessionStorage.setItem("BIAOLIAN_ARR", JSON.stringify(LooseArr));
+
+    // this.setState({
+    //   LooseArr: LooseArr.map((item, key) =>
+    //     key == index
+    //       ? {
+    //           ...item,
+    //           number: ev.target.value,
+    //           endnumber: this.SETNUmber(ev.target.value, item.dealCnt),
+    //         }
+    //       : item
+    //   ),
+    // });
   };
   hanpriceChange = (ev, index) => {
     console.log(ev.target.value);
     const LooseArr = [...this.state.LooseArr]; //浅拷贝一下
-    this.setState({
-      LooseArr: LooseArr.map((item, key) =>
-        key == index ? { ...item, dealPrice: ev.target.value } : item
-      ),
+
+    LooseArr.map((item, key) => {
+      if (key == index) {
+        item.dealPrice = ev.target.value;
+      }
     });
+    this.setState({
+      LooseArr: LooseArr,
+    });
+
+    // this.setState({
+    //   LooseArr: LooseArr.map((item, key) =>
+    //     key == index ? { ...item, dealPrice: ev.target.value } : item
+    //   ),
+    // });
+
+    sessionStorage.setItem("BIAOLIAN_ARR", JSON.stringify(LooseArr));
   };
   Myoption = (item) => {
     console.log(item);
@@ -219,7 +274,7 @@ export default class Standard extends React.Component {
                 ) : null}
               </div>
               <li>
-                <div>求购类型</div>
+                <div>{this.props.userName}类型</div>
                 <div className="select-area">
                   <span>{item.tag}</span>
                   <img src={require("../../assets/right.png")} alt="" />
@@ -243,7 +298,7 @@ export default class Standard extends React.Component {
                 </div>
               </li>
               <li>
-                <div>求购号码</div>
+                <div>{this.props.userName}号码</div>
                 <input
                   type="text"
                   value={item.number}
@@ -251,7 +306,7 @@ export default class Standard extends React.Component {
                   placeholder="请输入要包含的号码"
                 />
                 <p>
-                  起始号码：{item.number}----结束号码{item.endnumber}
+                  起: <span>{item.number}</span>终:<span>{item.endnumber}</span>
                 </p>
               </li>
               <li>

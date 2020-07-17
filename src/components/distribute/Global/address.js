@@ -13,7 +13,7 @@ export default class address extends React.Component {
       // selectValue:'startup'
       dealWay: "北京交割",
       dealWayCode: "beijing",
-      MykeyWordValue:'担保交易',
+      MykeyWordValue: "担保交易",
       todolist: [
         { dealWay: "北京交割", code: "beijing" },
         { dealWay: "上海交割", code: "shanghai" },
@@ -26,25 +26,26 @@ export default class address extends React.Component {
     name: "- -",
     phone: "- -",
     address: "- -",
+    addressShow: false,
   };
   componentDidMount() {
     // funcitonName 是原生回调使用的方法名
     window["IOSSelectAddressUpload"] = this.IOSSelectAddressUpload;
     this.getDealPattern();
-  };
+  }
   //props将要被改变前执行
-  componentWillReceiveProps(props){
+  componentWillReceiveProps(props) {
     console.log(props);
-    const key=props.keyWordValue;
+    const key = props.keyWordValue;
     this.setState({
-      MykeyWordValue:key
+      MykeyWordValue: key,
     });
-};
+  }
 
   getDealPattern = () => {
     axios
       .post("payment/json/getDealPattern", {
-        userId:JSON.parse(sessionStorage.getItem('userInfo')).userId, //用户id,
+        userId: JSON.parse(sessionStorage.getItem("userInfo")).userId, //用户id,
         type: this.props.type,
       })
       .then((response) => {
@@ -55,6 +56,16 @@ export default class address extends React.Component {
             phone: response.data.resultList[0].receivePhone,
             address: response.data.resultList[0].receiveAddress,
           });
+
+          if (!response.data.resultList[0].receiveName) {
+            this.setState({
+              addressShow: true,
+            });
+          } else {
+            this.setState({
+              addressShow: false,
+            });
+          }
         } else {
           Toast.info(response.data.message, 1);
         }
@@ -82,12 +93,12 @@ export default class address extends React.Component {
     // console.log(ev.target.value);
     // dealWayCode
 
-     var obj = this.state.todolist.find(function (key) {
+    var obj = this.state.todolist.find(function (key) {
       return key.dealWay === ev.target.value;
     });
     this.setState({
       dealWay: ev.target.value,
-      dealWayCode: obj.code
+      dealWayCode: obj.code,
     });
   };
   APPios = () => {
@@ -109,7 +120,12 @@ export default class address extends React.Component {
   render() {
     return (
       <div className="address">
-        <div className="addressHome" style={{display:this.state.MykeyWordValue =='线下交易' ?'block':'none'}}>
+        <div
+          className="addressHome"
+          style={{
+            display: this.state.MykeyWordValue == "线下交易" ? "block" : "none",
+          }}
+        >
           <div className="userDelivery select-area">
             <div>
               <span>交割地点：</span>
@@ -133,10 +149,16 @@ export default class address extends React.Component {
         <div className="zhanwei"></div>
         <div className="user_information" onClick={() => this.APPios()}>
           <div>
-            <div>
-              <span>{this.state.name}</span>
-              <span>{this.state.phone}</span>
-            </div>
+            {this.state.addressShow ? (
+              <div>
+                <span className="Noaddress">选择地址</span>
+              </div>
+            ) : (
+              <div>
+                <span>{this.state.name}</span>
+                <span>{this.state.phone}</span>
+              </div>
+            )}
 
             <img src={require("../../assets/right.png")} alt="" />
           </div>

@@ -24,6 +24,14 @@ export default class Serial extends React.Component {
       },
     ],
   };
+  componentDidMount() {
+    if (sessionStorage.getItem("SANLIAN_ARR")) {
+      //有值 回显
+      this.setState({
+        LooseArr: JSON.parse(sessionStorage.getItem("SANLIAN_ARR")),
+      });
+    }
+  }
   componentWillMount() {
     console.log(this.props);
 
@@ -66,38 +74,82 @@ export default class Serial extends React.Component {
   hanChange = (ev, index) => {
     console.log(ev.target.value);
     const LooseArr = [...this.state.LooseArr]; //浅拷贝一下
-    this.setState({
-      LooseArr: LooseArr.map((item, key) =>
-        key == index ? { ...item, number: ev.target.value } : item
-      ),
+
+    LooseArr.map((item, key) => {
+      if (key == index) {
+        item.number = ev.target.value;
+      }
     });
+    this.setState({
+      LooseArr: LooseArr,
+    });
+    // this.setState({
+    //   LooseArr: LooseArr.map((item, key) =>
+    //     key == index ? { ...item, number: ev.target.value } : item
+    //   ),
+    // });
+
+    sessionStorage.setItem("SANLIAN_ARR", JSON.stringify(LooseArr));
   };
   hansheetsChange = (ev, index) => {
     console.log(ev.target.value);
     const LooseArr = [...this.state.LooseArr]; //浅拷贝一下
-    this.setState({
-      LooseArr: LooseArr.map((item, key) =>
-        key == index ? { ...item, dealCnt: ev.target.value } : item
-      ),
+
+    LooseArr.map((item, key) => {
+      if (key == index) {
+        item.dealCnt = ev.target.value;
+      }
     });
+
+    this.setState({
+      LooseArr: LooseArr,
+    });
+
+    sessionStorage.setItem("SANLIAN_ARR", JSON.stringify(LooseArr));
+    // this.setState({
+    //   LooseArr: LooseArr.map((item, key) =>
+    //     key == index ? { ...item, dealCnt: ev.target.value } : item
+    //   ),
+    // });
   };
   hanpriceChange = (ev, index) => {
     console.log(ev.target.value);
     const LooseArr = [...this.state.LooseArr]; //浅拷贝一下
-    this.setState({
-      LooseArr: LooseArr.map((item, key) =>
-        key == index ? { ...item, dealPrice: ev.target.value } : item
-      ),
+
+    LooseArr.map((item, key) => {
+      if (key == index) {
+        item.dealPrice = ev.target.value;
+      }
     });
+    this.setState({
+      LooseArr: LooseArr,
+    });
+    // this.setState({
+    //   LooseArr: LooseArr.map((item, key) =>
+    //     key == index ? { ...item, dealPrice: ev.target.value } : item
+    //   ),
+    // });
   };
   hanAllpriceValueChange = (ev, index) => {
     console.log(ev.target.value);
     const LooseArr = [...this.state.LooseArr]; //浅拷贝一下
-    this.setState({
-      LooseArr: LooseArr.map((item, key) =>
-        key == index ? { ...item, signlePrice: ev.target.value } : item
-      ),
+
+    LooseArr.map((item, key) => {
+      if (key == index) {
+        item.signlePrice = ev.target.value;
+      }
     });
+
+    this.setState({
+      LooseArr: LooseArr,
+    });
+    // this.setState({
+    //   LooseArr: LooseArr.map((item, key) =>
+    //     key == index ? { ...item, signlePrice: ev.target.value } : item
+    //   ),
+    // });
+
+    sessionStorage.setItem("SANLIAN_ARR", JSON.stringify(LooseArr));
   };
   add = () => {
     //添加
@@ -138,7 +190,7 @@ export default class Serial extends React.Component {
           return;
         }
       }
-      MyBoole = false; 
+      MyBoole = false;
     }
     let LooseArr = this.state.LooseArr;
     LooseArr.push({
@@ -237,7 +289,7 @@ export default class Serial extends React.Component {
                   type="text"
                   value={item.dealCnt}
                   onChange={(ev) => this.hansheetsChange(ev, key)}
-                  placeholder="请输入连张数"
+                  placeholder="请输入散连张数"
                 />
               </li>
 

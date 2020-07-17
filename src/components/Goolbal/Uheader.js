@@ -23,7 +23,7 @@ export default class Uheaders extends React.Component {
     }
     return ""; //如果此处只写return;则返回的是undefined
   };
-  Jonp = ()=>{
+  Jonp = () => {
     this.props.history.push("/searchNumber");
   };
   backClick = () => {
@@ -46,23 +46,37 @@ export default class Uheaders extends React.Component {
           console.log(e);
         }
       }
+
+      //删除缓存数据
+      sessionStorage.removeItem("SANZNANG_ARR");
+      sessionStorage.removeItem("BIAOLIAN_ARR");
+      sessionStorage.removeItem("SANLIAN_ARR");
+      sessionStorage.removeItem("SANZHANG_ARR");
     } else if (
       this.props.match.path == "/SaleRelease" ||
       this.props.match.path == "/BuyingRelease"
     ) {
       //因为有搜索 返回会回到搜索页面 所以单独处理
-        if(this.getUrlParam("goodsId")){
-          //商品进入
-          this.props.history.go(-1);
-        }
+      if (this.getUrlParam("goodsId")) {
+        //商品进入
+        this.props.history.go(-1);
+      }
       if (this.getUrlParam("url")) {
         this.props.history.push(this.getUrlParam("url"));
       }
-    } else if(this.props.match.path == "/myStock/"){
-      this.props.history.push(`/myDistribute?userId=${JSON.parse(sessionStorage.getItem('userInfo')).userId}`);
-    } else if(this.props.match.path == "/SaleDetails"){
-      this.props.history.go(-2);
-    }else {
+    } else if (this.props.match.path == "/myStock/") {
+      this.props.history.push(
+        `/myDistribute?userId=${
+          JSON.parse(sessionStorage.getItem("userInfo")).userId
+        }`
+      );
+    } else if (this.props.match.path == "/SaleDetails") {
+      if (sessionStorage.getItem("ReturnGo") == "1") {
+        this.props.history.go(-1);
+      } else {
+        this.props.history.go(-2);
+      }
+    } else {
       this.props.history.go(-1);
     }
   };
@@ -77,7 +91,10 @@ export default class Uheaders extends React.Component {
             <li> {this.props.utitle} </li>
             <li>
               {this.props.useach ? (
-                <img src={require("../assets/seach.png")} onClick={()=>this.Jonp()}/>
+                <img
+                  src={require("../assets/seach.png")}
+                  onClick={() => this.Jonp()}
+                />
               ) : null}
             </li>
           </ul>

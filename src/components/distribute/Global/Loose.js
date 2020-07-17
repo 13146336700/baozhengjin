@@ -18,85 +18,105 @@ export default class Loose extends React.Component {
             code: "任意",
             title: "任意",
           },
-          {
-            code: "起始号",
-            title: "起始号",
-          },
+         
           {
             code: "尾号",
             title: "尾号",
           },
-          {
-            code: "豹子号（三连号）",
-            title: "豹子号（三连号）",
-          },
-          {
-            code: "狮子号（四连号）",
-            title: "狮子号（四连号）",
-          },
-          {
-            code: "老虎号（五连号）",
-            title: "老虎号（五连号）",
-          },
-          {
-            code: "大象号（六连号）",
-            title: "大象号（六连号）",
-          },
-          {
-            code: "恐龙号（七连号）",
-            title: "恐龙号（七连号）",
-          },
-          {
-            code: "麒麟号（八连号）",
-            title: "麒麟号（八连号）",
-          },
-          {
-            code: "生日号",
-            title: "生日号",
-          },
-          {
-            code: "顺号",
-            title: "顺号",
-          },
-          {
-            code: "爱情号",
-            title: "爱情号",
-          },
-          {
-            code: "叠号",
-            title: "叠号",
-          },
-          {
-            code: " 一拖三",
-            title: " 一拖三",
-          },
-          {
-            code: "三拖一",
-            title: "三拖一",
-          },
+          // {
+          //   code: "起始号",
+          //   title: "起始号",
+          // },
+          // {
+          //   code: "豹子号（三连号）",
+          //   title: "豹子号（三连号）",
+          // },
+          // {
+          //   code: "狮子号（四连号）",
+          //   title: "狮子号（四连号）",
+          // },
+          // {
+          //   code: "老虎号（五连号）",
+          //   title: "老虎号（五连号）",
+          // },
+          // {
+          //   code: "大象号（六连号）",
+          //   title: "大象号（六连号）",
+          // },
+          // {
+          //   code: "恐龙号（七连号）",
+          //   title: "恐龙号（七连号）",
+          // },
+          // {
+          //   code: "麒麟号（八连号）",
+          //   title: "麒麟号（八连号）",
+          // },
+          // {
+          //   code: "生日号",
+          //   title: "生日号",
+          // },
+          // {
+          //   code: "顺号",
+          //   title: "顺号",
+          // },
+          // {
+          //   code: "爱情号",
+          //   title: "爱情号",
+          // },
+          // {
+          //   code: "叠号",
+          //   title: "叠号",
+          // },
+          // {
+          //   code: " 一拖三",
+          //   title: " 一拖三",
+          // },
+          // {
+          //   code: "三拖一",
+          //   title: "三拖一",
+          // },
         ],
         number: "",
         dealPrice: "",
-        selectValue: "请选择类型",
+        // selectValue: "请选择类型",
+        selectValue: "尾号",
       },
     ],
   };
   componentDidMount() {
     // funcitonName 是原生回调使用的方法名
     window["ActivityVerificationDownload"] = this.ActivityVerificationDownload;
+    if (sessionStorage.getItem("SANZHANG_ARR")) {
+      //有值 回显
+      this.setState({
+        LooseArr: JSON.parse(sessionStorage.getItem("SANZHANG_ARR")),
+      });
+    }
   }
   selectChange = (ev, key) => {
     let LooseArr = [...this.state.LooseArr];
-    this.setState({
-      LooseArr: LooseArr.map((item, index) =>
-        key == index
-          ? {
-              ...item,
-              selectValue: ev.target.value,
-            }
-          : item
-      ),
+    
+    LooseArr.map((item, index) => {
+      if (key == index) {
+        item.selectValue = ev.target.value;
+      }
     });
+    this.setState({
+      LooseArr: LooseArr,
+    });
+
+    sessionStorage.setItem("SANZHANG_ARR", JSON.stringify(LooseArr));
+
+    // this.setState({
+    //   LooseArr: LooseArr.map((item, index) =>
+    //     key == index
+    //       ? {
+    //           ...item,
+    //           selectValue: ev.target.value,
+    //         }
+    //       : item
+    //   ),
+    // });
     console.log(this.state.LooseArr);
   };
   add = () => {
@@ -132,65 +152,66 @@ export default class Loose extends React.Component {
           title: "任意",
         },
         {
-          code: "起始号",
-          title: "起始号",
-        },
-        {
           code: "尾号",
           title: "尾号",
         },
-        {
-          code: "豹子号（三连号）",
-          title: "豹子号（三连号）",
-        },
-        {
-          code: "狮子号（四连号）",
-          title: "狮子号（四连号）",
-        },
-        {
-          code: "老虎号（五连号）",
-          title: "老虎号（五连号）",
-        },
-        {
-          code: "大象号（六连号）",
-          title: "大象号（六连号）",
-        },
-        {
-          code: "恐龙号（七连号）",
-          title: "恐龙号（七连号）",
-        },
-        {
-          code: "麒麟号（八连号）",
-          title: "麒麟号（八连号）",
-        },
-        {
-          code: "生日号",
-          title: "生日号",
-        },
-        {
-          code: "顺号",
-          title: "顺号",
-        },
-        {
-          code: "爱情号",
-          title: "爱情号",
-        },
-        {
-          code: "叠号",
-          title: "叠号",
-        },
-        {
-          code: " 一拖三",
-          title: " 一拖三",
-        },
-        {
-          code: "三拖一",
-          title: "三拖一",
-        },
+        // {
+        //   code: "起始号",
+        //   title: "起始号",
+        // },
+        // {
+        //   code: "豹子号（三连号）",
+        //   title: "豹子号（三连号）",
+        // },
+        // {
+        //   code: "狮子号（四连号）",
+        //   title: "狮子号（四连号）",
+        // },
+        // {
+        //   code: "老虎号（五连号）",
+        //   title: "老虎号（五连号）",
+        // },
+        // {
+        //   code: "大象号（六连号）",
+        //   title: "大象号（六连号）",
+        // },
+        // {
+        //   code: "恐龙号（七连号）",
+        //   title: "恐龙号（七连号）",
+        // },
+        // {
+        //   code: "麒麟号（八连号）",
+        //   title: "麒麟号（八连号）",
+        // },
+        // {
+        //   code: "生日号",
+        //   title: "生日号",
+        // },
+        // {
+        //   code: "顺号",
+        //   title: "顺号",
+        // },
+        // {
+        //   code: "爱情号",
+        //   title: "爱情号",
+        // },
+        // {
+        //   code: "叠号",
+        //   title: "叠号",
+        // },
+        // {
+        //   code: " 一拖三",
+        //   title: " 一拖三",
+        // },
+        // {
+        //   code: "三拖一",
+        //   title: "三拖一",
+        // },
       ],
       number: "",
       dealPrice: "",
-      selectValue: "请选择类型",
+      // selectValue: "请选择类型",
+      selectValue: "任意",
     });
     this.setState({
       LooseArr: LooseArr,
@@ -209,19 +230,42 @@ export default class Loose extends React.Component {
   };
   hanChange = (ev, index) => {
     const LooseArr = [...this.state.LooseArr]; //浅拷贝一下
-    this.setState({
-      LooseArr: LooseArr.map((item, key) =>
-        key == index ? { ...item, dealPrice: ev.target.value } : item
-      ),
+    LooseArr.map((item, key) => {
+      if (key == index) {
+        item.dealPrice = ev.target.value;
+      }
     });
+
+    this.setState({
+      LooseArr: LooseArr,
+    });
+    // this.setState({
+    //   LooseArr: LooseArr.map((item, key) =>
+    //     key == index ? { ...item, dealPrice: ev.target.value } : item
+    //   ),
+    // });
+
+
+    sessionStorage.setItem("SANZHANG_ARR", JSON.stringify(LooseArr));
   };
   hanNumChange = (ev, index) => {
     const LooseArr = [...this.state.LooseArr]; //浅拷贝一下
-    this.setState({
-      LooseArr: LooseArr.map((item, key) =>
-        key == index ? { ...item, number: ev.target.value } : item
-      ),
+
+    LooseArr.map((item, key) => {
+      if (key == index) {
+        item.number = ev.target.value;
+      }
     });
+    this.setState({
+      LooseArr: LooseArr,
+    });
+    sessionStorage.setItem("SANZHANG_ARR", JSON.stringify(LooseArr));
+
+    // this.setState({
+    //   LooseArr: LooseArr.map((item, key) =>
+    //     key == index ? { ...item, number: ev.target.value } : item
+    //   ),
+    // });
   };
   delte = (item, key) => {
     console.log(key);
@@ -238,6 +282,8 @@ export default class Loose extends React.Component {
     this.setState({
       LooseArr: LooseArr,
     });
+    
+    sessionStorage.setItem("SANZHANG_ARR", JSON.stringify(LooseArr));
   };
   render() {
     return (
@@ -289,12 +335,12 @@ export default class Loose extends React.Component {
                 />
               </li>
               <li>
-                <div>连号总价格</div>
+                <div>单价(元)</div>
                 <input
                   type="text"
                   value={item.dealPrice}
                   onChange={(ev) => this.hanChange(ev, key)}
-                  placeholder="请输入连号总价格"
+                  placeholder="请输入单价"
                 />
               </li>
             </ul>

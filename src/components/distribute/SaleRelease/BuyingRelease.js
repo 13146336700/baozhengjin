@@ -18,6 +18,12 @@ export default class BuyingRelease extends React.Component {
     this.userScattered_ = React.createRef(); //散连的
     this.state = {
       keyWord: "",
+      tabBar: [
+        { name: "散张求购" },
+        { name: "标连求购" },
+        { name: "散连求购" },
+      ],
+      Ontable: "tab-0",
     };
   }
   getUrlParam = (name) => {
@@ -31,9 +37,16 @@ export default class BuyingRelease extends React.Component {
   setKeyWorld = (keyWord) => {
     log(keyWord);
     this.setState({
-      keyWord:keyWord
+      keyWord: keyWord,
     });
   };
+  tabChange = (item, key) => {
+    log(item, key);
+    this.setState({
+      Ontable: `tab-${key}`,
+    });
+  };
+
   setexamination() {
     let unitName = this.getUrlParam("unitName");
     let Name = this.getUrlParam("name");
@@ -188,12 +201,14 @@ export default class BuyingRelease extends React.Component {
         }
 
         obj.signlePrice = myScattered__Item.signlePrice;
+        obj.dealPrice = myScattered__Item.dealPrice;
       } else if (
         myScattered__Item.priceShow == true &&
         myScattered__Item.AllpriceShow == false
       ) {
         tag = "散单";
         obj.dealPrice = myScattered__Item.dealPrice;
+        obj.signlePrice = myScattered__Item.dealPrice;
         if (
           myScattered__Item.dealPrice &&
           myScattered__Item.dealCnt &&
@@ -290,111 +305,79 @@ export default class BuyingRelease extends React.Component {
       dealPattern: dealPattern, //担保 2，线下 3
       isPostage: isPostage, //默认N 不包邮，Y 包邮。买没有包邮，固定填N
       scatteredJson:
-        Numbers.A == "3" ? JSON.stringify([]) : JSON.stringify(scatteredJson),
+        Numbers.A == "3" ? JSON.stringify([]) : JSON.stringify(scatteredJson),//散装规格Json	
       standardConsecutiveJson:
         Numbers.B == "3"
           ? JSON.stringify([])
-          : JSON.stringify(standardConsecutiveJson),
+          : JSON.stringify(standardConsecutiveJson),//连号整售
       otherConsecutiveJson:
         Numbers.C == "3"
           ? JSON.stringify([])
-          : JSON.stringify(otherConsecutiveJson),
+          : JSON.stringify(otherConsecutiveJson),//其他连号整售
       address: "",
       dealWay: "",
       personPhone: "",
       personName: "",
     });
 
-      // axios
-      //   .post("subject/json/addNumberFormat", {
-      //     goodsId: this.getUrlParam("goodsId"),
-      //     scatteredJson:
-      //       Numbers.A == "3"
-      //         ? JSON.stringify([])
-      //         : JSON.stringify(scatteredJson),
-      //     standardConsecutiveJson:
-      //       Numbers.B == "3"
-      //         ? JSON.stringify([])
-      //         : JSON.stringify(standardConsecutiveJson),
-      //     otherConsecutiveJson:
-      //       Numbers.C == "3"
-      //         ? JSON.stringify([])
-      //         : JSON.stringify(otherConsecutiveJson),
-      //   })
-      //   .then((response) => {
-      //     if (response.data.code == "10000") {
-      //       //成功到库存页面
-      //       // this.props.history.push("/");
-      //       this.props.history.push({
-      //         pathname: "/myStock",
-      //         search: `userId=4028808361926f8a0161db4c492304e2&name=${this.getUrlParam(
-      //           "name"
-      //         )}&type=2`,
-      //       });
-      //     } else {
-      //       Toast.info(response.data.message, 1);
-      //     }
-      //   })
-      //   .catch((error) => {});
-      this.props.history.push({
-        pathname: "/preview",
-        state: {
-          goodsId: this.getUrlParam("goodsId"), //商品id
-          // pubUserid: "4028808361926f8a0161db4c492304e2", //用户id
-          pubUserid: JSON.parse(sessionStorage.getItem('userInfo')).userId, //用户id
-          type: "2", //1 求购，2 出售
-          categoryName: this.getUrlParam("category"), //商品分类
-          name: this.getUrlParam("name"), //搜索框的名字
-          dealPattern: dealPattern, //担保 2，线下 3
-          isPostage: isPostage, //默认N 不包邮，Y 包邮。买没有包邮，固定填N
-          scatteredJson:
-            Numbers.A == "3"
-              ? JSON.stringify([])
-              : JSON.stringify(scatteredJson),
-          standardConsecutiveJson:
-            Numbers.B == "3"
-              ? JSON.stringify([])
-              : JSON.stringify(standardConsecutiveJson),
-          otherConsecutiveJson:
-            Numbers.C == "3"
-              ? JSON.stringify([])
-              : JSON.stringify(otherConsecutiveJson),
-          address: "",
-          dealWay: "",
-          personPhone: "",
-          personName: "",
-        },
-        // search:`goodsId=${this.getUrlParam("goodsId")}&name=${this.getUrlParam("name")}`
-      });
+   
+    this.props.history.push({
+      pathname: "/preview",
+      state: {
+        goodsId: this.getUrlParam("goodsId"), //商品id
+        // pubUserid: "4028808361926f8a0161db4c492304e2", //用户id
+        pubUserid: JSON.parse(sessionStorage.getItem("userInfo")).userId, //用户id
+        type: "2", //1 求购，2 出售
+        categoryName: this.getUrlParam("category"), //商品分类
+        name: this.getUrlParam("name"), //搜索框的名字
+        dealPattern: dealPattern, //担保 2，线下 3
+        isPostage: isPostage, //默认N 不包邮，Y 包邮。买没有包邮，固定填N
+        scatteredJson:
+          Numbers.A == "3" ? JSON.stringify([]) : JSON.stringify(scatteredJson),
+        standardConsecutiveJson:
+          Numbers.B == "3"
+            ? JSON.stringify([])
+            : JSON.stringify(standardConsecutiveJson),
+        otherConsecutiveJson:
+          Numbers.C == "3"
+            ? JSON.stringify([])
+            : JSON.stringify(otherConsecutiveJson),
+        address: "",
+        dealWay: "",
+        personPhone: "",
+        personName: "",
+      },
+      // search:`goodsId=${this.getUrlParam("goodsId")}&name=${this.getUrlParam("name")}`
+    });
 
-      // this.props.history.push({
-      //   pathname: "/SaleDetails",
-      //   state: {
-      //     goodsId: this.getUrlParam("goodsId"), //搜索框的名字
-      //     pubUserid: "4028808361926f8a0161db4c492304e2", //用户id
-      //     type: "2", //1 求购，2 出售
-      //     categoryName: this.getUrlParam("category"), //商品分类
-      //     name: this.getUrlParam("name"), //搜索框的名字
-      //     dealPattern: dealPattern, //担保 2，线下 3
-      //     isPostage: isPostage, //默认N 不包邮，Y 包邮。买没有包邮，固定填N
-      //     scatteredJson:
-      //       Numbers.A == "3"
-      //         ? JSON.stringify([])
-      //         : JSON.stringify(scatteredJson),
-      //     standardConsecutiveJson:
-      //       Numbers.B == "3"
-      //         ? JSON.stringify([])
-      //         : JSON.stringify(standardConsecutiveJson),
-      //     otherConsecutiveJson:
-      //       Numbers.C == "3"
-      //         ? JSON.stringify([])
-      //         : JSON.stringify(otherConsecutiveJson),
-      //     address: "",
-      //     dealWay: "",
-      //     personPhone: "",
-      //     personName: "",
-      //   },
-      // });
+    // this.props.history.push({
+    //   pathname: "/SaleDetails",
+    //   state: {
+    //     goodsId: this.getUrlParam("goodsId"), //搜索框的名字
+    //     pubUserid: "4028808361926f8a0161db4c492304e2", //用户id
+    //     type: "2", //1 求购，2 出售
+    //     categoryName: this.getUrlParam("category"), //商品分类
+    //     name: this.getUrlParam("name"), //搜索框的名字
+    //     dealPattern: dealPattern, //担保 2，线下 3
+    //     isPostage: isPostage, //默认N 不包邮，Y 包邮。买没有包邮，固定填N
+    //     scatteredJson:
+    //       Numbers.A == "3"
+    //         ? JSON.stringify([])
+    //         : JSON.stringify(scatteredJson),
+    //     standardConsecutiveJson:
+    //       Numbers.B == "3"
+    //         ? JSON.stringify([])
+    //         : JSON.stringify(standardConsecutiveJson),
+    //     otherConsecutiveJson:
+    //       Numbers.C == "3"
+    //         ? JSON.stringify([])
+    //         : JSON.stringify(otherConsecutiveJson),
+    //     address: "",
+    //     dealWay: "",
+    //     personPhone: "",
+    //     personName: "",
+    //   },
+    // });
   }
   render() {
     return (
@@ -419,21 +402,53 @@ export default class BuyingRelease extends React.Component {
         </div>
 
         <div className="zhanwei"></div>
-        <LooseSale
-          {...this.props}
-          uname="散张出售"
-          ref={this.userLooseSale_}
-        ></LooseSale>
+        <div className="tabBar">
+          <ul>
+            {this.state.tabBar.map((item, key) => (
+              <li
+                key={key}
+                onClick={() => this.tabChange(item, key)}
+                className={this.state.Ontable == `tab-${key}` ? "onActive" : ""}
+              >
+                {item.name}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div
+          style={{ display: this.state.Ontable == "tab-0" ? "block" : "none" }}
+        >
+          <div className="zhanwei"></div>
+          <LooseSale
+            {...this.props}
+            uname="散张出售"
+            ref={this.userLooseSale_}
+          ></LooseSale>
+        </div>
+        <div
+          style={{ display: this.state.Ontable == "tab-1" ? "block" : "none" }}
+        >
+          <div className="zhanwei"></div>
+          <Serial
+            {...this.props}
+            utitle="整售"
+            userName="出售"
+            ref={this.userSerial_}
+          ></Serial>
+        </div>
+        <div
+          style={{ display: this.state.Ontable == "tab-2" ? "block" : "none" }}
+        >
+          <div className="zhanwei"></div>
+          <Scattered
+            ustatus="2"
+            {...this.props}
+            ref={this.userScattered_}
+          ></Scattered>
+        </div>
         <div className="zhanwei"></div>
-        <Serial {...this.props} utitle="整售" ref={this.userSerial_}></Serial>
         <div className="zhanwei"></div>
-        <Scattered
-          ustatus="2"
-          {...this.props}
-          ref={this.userScattered_}
-        ></Scattered>
-        <div className="zhanwei"></div>
-        <div className="zhanwei"></div>
+        <div className="Footer_zhanwei"></div>
         <button className="adddelte" onClick={() => this.setexamination()}>
           预览检查
         </button>

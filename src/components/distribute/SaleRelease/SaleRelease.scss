@@ -3,6 +3,27 @@
   height: 21px; /*px*/
   background: rgba(235, 235, 235, 1);
 }
+.tabBar {
+  width: 100%;
+  // margin-bottom: 20px;/*px*/
+  ul {
+    display: flex;
+    li {
+      height: 80px;/*px*/
+      line-height: 80px;/*px*/
+      width: 33.3%;
+      text-align: center;
+      font-size: 30px; /*px*/
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: rgba(51, 51, 51, 1);
+    }
+    .onActive{
+      border-bottom:2px solid rgba(235,51,24,1);
+      color: rgba(235,51,24,1);
+    }
+  }
+}
 .SaleRelease {
   width: 100%;
   min-height: 100%;
@@ -17,6 +38,10 @@
     height: 21px; /*px*/
   }
 }
+.Footer_zhanwei{
+  width: 100%;
+  height: 100px;/*px*/
+}
 .adddelte {
   width: 95%;
   margin-left: 2.5%;
@@ -29,6 +54,8 @@
   font-family: PingFangSC-Medium, PingFang SC;
   font-weight: 500;
   color: rgba(255, 255, 255, 1);
+  position: fixed;
+  bottom: 20px;/*px*/
 }
 .Increase_title {
   width: 95%;
@@ -113,7 +140,7 @@
         .add_upimage {
           width: 158px; /*px*/
           height: 158px; /*px*/
-          margin-top: 10px;/*px*/
+          margin-top: 10px; /*px*/
           margin-left: 15px; /*px*/
         }
       }

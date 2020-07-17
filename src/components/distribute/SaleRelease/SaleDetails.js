@@ -108,12 +108,21 @@ export default class SaleDetails extends React.Component {
     } else {
       Toast.info("请输入有效的数字", 1);
     }
+    if (
+      this.state.ExpirationValue == "" ||
+      this.state.ExpirationValue == undefined ||
+      this.state.ExpirationValue == null
+    ) {
+      Toast.info("请输入有效的数字", 1);
+      return;
+    }
 
     axios
       .post("subject/json/saveGoods", {
         pubUserid: myArray.pubUserid,
         type: myArray.type,
         categoryName: myArray.categoryName,
+        dealPattern: myArray.dealPattern,
         name: myArray.name,
         isPostage: myArray.isPostage,
         scatteredJson: myArray.scatteredJson,

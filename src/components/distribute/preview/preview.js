@@ -26,6 +26,9 @@ export default class Preview extends React.Component {
   };
   componentWillMount() {
     let son = this.props.history.location.state;
+    console.log(JSON.parse(son.scatteredJson));
+    console.log(JSON.parse(son.otherConsecutiveJson));
+    console.log(JSON.parse(son.standardConsecutiveJson));
     console.log(son);
     if (son) {
       this.setState({
@@ -138,6 +141,8 @@ export default class Preview extends React.Component {
       let son = this.props.history.location.state;
       console.log(this.props);
       console.log(son);
+
+      sessionStorage.setItem("ReturnGo", '2');
       this.props.history.push({
         pathname: "/SaleDetails",
         state: {

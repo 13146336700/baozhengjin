@@ -9,14 +9,33 @@
     width: 100%;
   }
 }
+.Noaddress{
+  color: green;
+}
 .myseach {
   width: 100%;
   padding-top: 30px; /*px*/
   background-color: white !important;
   padding-bottom: 32px; /*px*/
-  .Useach {
+  .Useach_homes {
     width: 90%;
     margin: auto;
+    display: flex;
+    align-items: center;
+    span {
+      display: flex;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-size: 28px; /*px*/
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: rgba(51, 51, 51, 1);
+    }
+  }
+  .Useach {
+    // width: 60%;
+    flex: 1;
+    // margin: auto;
+    margin-left: 20px;/*px*/
     height: 64px; /*px*/
     display: flex;
     align-items: center;
@@ -24,7 +43,7 @@
     border-radius: 11px; /*px*/
     overflow: hidden;
     img {
-      width: 30px; /*px*/
+      width: 40px; /*px*/
       margin-left: 18px; /*px*/
     }
     input {
@@ -142,8 +161,7 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      
--webkit-overflow-scrolling: touch;  
+      -webkit-overflow-scrolling: touch;
       overflow-y: scroll;
       li {
         height: 70px; /*px*/
@@ -283,7 +301,8 @@
           font-size: 30px; /*px*/
           font-family: PingFangSC-Regular, PingFang SC;
           font-weight: 400;
-          color: rgba(153, 153, 153, 1);
+          // text-align: right;
+          // color: rgba(153, 153, 153, 1);
         }
         .select-area {
           position: relative;
@@ -294,6 +313,9 @@
             margin-left: 10px; /*px*/
             margin-right: 20px; /*px*/
           }
+          span {
+            color: black;
+          }
           select {
             position: absolute;
             left: 0;
@@ -302,8 +324,17 @@
             width: 100%;
           }
         }
-        p{
+        p {
           width: 100%;
+          display: flex;
+          align-items: center;
+          span {
+            margin-left: 8px; /*px*/
+            border: 1px solid black;
+            border-radius: 8px;
+            display: inline-block;
+            min-width: 15px; /*px*/
+          }
         }
       }
       li:last-child {
@@ -408,7 +439,7 @@
   z-index: 9900;
   top: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  .image_div{
+  .image_div {
     width: 100%;
     height: 100%;
     display: flex;
