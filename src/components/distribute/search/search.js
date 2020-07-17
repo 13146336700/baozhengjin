@@ -27,6 +27,23 @@ export default class SearchNumber extends React.Component {
 
     componentWillMount() {
         document.title = "配号搜索";
+
+        /**商品分类过来，直接携带商品信息 */
+        if (this.getUrlParam('name')) {
+            this.setState({
+                searchName: this.getUrlParam('name'),
+                name: this.getUrlParam('name'),
+                category: this.getUrlParam('categoryName'),
+                unitName: this.getUrlParam('unitName'),
+                searchData:[]
+            });
+            let searchInfo = {
+                name: this.getUrlParam('name'),
+                unitName: this.getUrlParam('unitName'),
+                categoryName: this.getUrlParam('categoryName')
+              }
+              sessionStorage.setItem('searchInfo', JSON.stringify(searchInfo));
+        }
         
         /**获取历史搜索内容 */
         let arr = sessionStorage.getItem('searchistory')?JSON.parse(sessionStorage.getItem('searchistory')):[];
@@ -35,6 +52,16 @@ export default class SearchNumber extends React.Component {
         });
     };
     
+    /**获取网址参数 */
+    getUrlParam = (name) => {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = this.props.location.search.substr(1).match(reg);
+        if (r != null) {
+        return decodeURI(r[2]);
+        }
+        return ""; //如果此处只写return;则返回的是undefined
+    };
+
     /**系统商品检索 */
     searchNumProduct = (en) =>{
         this.setState({
@@ -124,6 +151,17 @@ export default class SearchNumber extends React.Component {
         })
     }
 
+    /**输入框获得焦点清除默认值 */
+    clearName(en) {
+        this.setState({
+            searchName: '',
+            name: '',
+            category: '',
+            unitName: '',
+            searchData:[]
+        });
+    }
+
     /*商品搜索接口 */
     searchNum() {
         if (this.state.name === '') {
@@ -152,7 +190,7 @@ export default class SearchNumber extends React.Component {
             <div className="searchNumber" style={{background:'#ffffff',minHeight:'100%',display:'flex',flexDirection:'column'}}>
                 <Uheader {...this.props} utitle="配号搜索" ></Uheader>
                 <div className="searchTop">
-                    <input type="text" name="name" placeholder="请输入要搜索的品种" value={this.state.searchName} onChange={this.searchNumProduct.bind(this)}/>
+                    <input type="text" name="name" placeholder="请输入要搜索的品种" value={this.state.searchName} onChange={this.searchNumProduct.bind(this)} onFocus={(en) => this.clearName(en)}/>
                     <button className={this.state.type === '1'?'activeBtn':''} onClick={() =>this.changeType('1')}>求购</button>
                     <button className={this.state.type === '2'?'activeBtn':''} onClick={() =>this.changeType('2')}>出售</button>
                 </div>

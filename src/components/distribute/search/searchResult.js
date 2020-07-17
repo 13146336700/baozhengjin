@@ -25,6 +25,11 @@ export default class SearchResult extends React.Component {
         return ""; //如果此处只写return;则返回的是undefined
     };
 
+    /**返回搜索页面 */
+    goSearch() {
+        this.props.history.push(`/searchNumber?name=${this.getUrlParam('name')}&unitName=${this.getUrlParam('unitName')}&categoryName=${this.getUrlParam('category')}`);
+    }
+
     render() {
         let searchInfo = JSON.parse(sessionStorage.getItem('searchInfo'));
         return (
@@ -38,7 +43,7 @@ export default class SearchResult extends React.Component {
                             cancelText=" "
                             onSubmit={value => console.log(value, 'onSubmit')}
                             onClear={value => console.log(value, 'onClear')}
-                            onFocus={() => this.props.history.go(-1)}
+                            onFocus={() => this.goSearch()}
                             onBlur={() => console.log('onBlur')}
                             onChange={this.onChange}
                         />
