@@ -19,6 +19,15 @@ export default class myseach extends React.Component {
     name: "", //文本框输入值
     dealPattern: "", // 2担保 3线下
   };
+  componentDidMount() {
+    if (sessionStorage.getItem("newlistARR")) {
+
+      //有值 回显
+      this.setState({
+        list: JSON.parse(sessionStorage.getItem("newlistARR")),
+      });
+    }
+  };
   componentWillMount() {
     if (this.getUrlParam("name")) {
       this.setState({
@@ -73,6 +82,7 @@ export default class myseach extends React.Component {
     //  })
 
     this.setState({ list: newlist });
+    sessionStorage.setItem("newlistARR", JSON.stringify(newlist));
     // this.setState({
     //   list: newlist.map((item1, index) =>
     //     index == key
