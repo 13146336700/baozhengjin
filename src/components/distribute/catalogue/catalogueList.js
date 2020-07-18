@@ -10,7 +10,6 @@ export default class CatalogueList extends React.Component {
         //this.state = {}  定义数据
         this.state = {
            data: [], //配号目录数据
-           type: 0
         }
     }
 
@@ -34,9 +33,15 @@ export default class CatalogueList extends React.Component {
 
     /**获取邮币卡目录数据 */
     getList() {
-        axios.post('subject/json/getPhCatalog',{}).then(res => {
+        axios.post("subject/json/catalogProduct", {
+          tag: this.getUrlParam('tag'),
+          catalog: this.getUrlParam('catalog'),
+          secondCatalog: this.getUrlParam('name'),
+          pageSize: 10000,
+          pageIndex: 1,
+        }).then(res =>{
             this.setState({
-                data:res.data.resultList
+                data:res.data.resultObject.dataList
             })
         }).catch(err => {
             Toast.info(err,2)
@@ -56,31 +61,30 @@ export default class CatalogueList extends React.Component {
         return (
             <div className="catalogueList" style={{background:'#ffffff',minHeight:'100%'}}>
                 <Uheader {...this.props} utitle="邮币卡行情列表"></Uheader>
-                <ul className='cont'>
+                <ul className='cont' style={{paddingBottom:'20px'}}>
                     <li className="list listTop">
                         <span className="code">志号/编号</span>
                         <span className="name">名称</span>
                     </li>
-                    <li className="list">
-                        <span className="code">J141</span>
-                        <span className="name">中国奥运会会徽个性化大版</span>
-                    </li>
-                    <li className="list">
-                        <span className="code">J141</span>
-                        <span className="name">中国奥运会会徽个性化大版</span>
-                    </li>
-                    <li className="list">
-                        <span className="code">J141</span>
-                        <span className="name">中国奥运会会徽个性化大版</span>
-                    </li>
-                    <li className="list">
-                        <span className="code">J141</span>
-                        <span className="name">中国奥运会会徽个性化大版</span>
-                    </li>
-                    <li className="list">
-                        <span className="code">J141</span>
-                        <span className="name">中国奥运会会徽个性化大版</span>
-                    </li>
+                    {
+                        this.state.data.length > 0 ?(
+                            <nav>
+                                {
+                                    this.state.data.map((item, index) =>(
+                                        <li className="list">
+                                            <span className="code">J141</span>
+                                            <span className="name">中国奥运会会徽个性化大版</span>
+                                        </li>
+                                    ))
+                                }
+                                {/* <li>没有更多数据了</li> */}
+                            </nav>
+                        ):(
+                            <li style={{background: '#ffffff',lineHeight: '300px',textAlign: 'center',fontSize: '16px'}}>
+                                暂无数据
+                            </li>
+                        )
+                    }
                 </ul>
             </div>
         );
