@@ -17,6 +17,8 @@ export default class distribute extends React.Component {
           sessionStorage.removeItem("BIAOLIAN_ARR");
           sessionStorage.removeItem("SANLIAN_ARR");
           sessionStorage.removeItem("SANZHANG_ARR");    
+          sessionStorage.removeItem("BIAOLIAN_Ontable");
+          sessionStorage.removeItem('market');
         let info = JSON.parse(sessionStorage.getItem("userInfo"));
         if (info&&info.userId) {
             return false

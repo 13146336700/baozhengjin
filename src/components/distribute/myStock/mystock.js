@@ -17,7 +17,7 @@ export default class MyStock extends React.Component {
           sessionStorage.removeItem("BIAOLIAN_ARR");
           sessionStorage.removeItem("SANLIAN_ARR");
           sessionStorage.removeItem("SANZHANG_ARR");
-
+          sessionStorage.removeItem("BIAOLIAN_Ontable");
         this.getdataList();
         if (this.getUrlParam('type')) {
             this.setState({

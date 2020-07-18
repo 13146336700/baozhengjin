@@ -24,12 +24,10 @@ export default class Goods extends React.Component {
         return ""; //如果此处只写return;则返回的是undefined
     };
 
-    
-
     render() {
         let goodsInfo = JSON.parse(sessionStorage.getItem('goodsInfo'));
         return (
-            <div className="mydistribute" style={{background: '#ffffff'}}>
+            <div className="mydistribute" style={{background: '#ffffff',minHeight:'100%'}}>
                 <Uheader {...this.props} utitle={this.getUrlParam('name')} useach="true"></Uheader>
                 <Banner {...this.props} rpType="flBanner"/>
                 <Pulload {...this.props} page="goods" type={this.state.goodsType} onRef={(ref) => { this.child = ref; }}/>
