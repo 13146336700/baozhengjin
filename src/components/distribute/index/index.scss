@@ -48,6 +48,7 @@
     text-align: center!important;
     padding-left: 0px!important;
     width: 100%!important;
+    font-size: 40px!important;
 }
 .am-modal-transparent{
     width: 60%!important;
@@ -78,6 +79,27 @@
                 font-weight:400;
                 color:rgba(0,0,0,1);
                 line-height:46px;
+                display: flex;
+                .title{
+                    flex: 1;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+                .market{
+                    width:160px;
+                    height:36px;
+                    background:rgba(45,114,216,1);
+                    border-radius:8px;
+                    font-size:24px;
+                    font-family:PingFangSC-Regular,PingFang SC;
+                    font-weight:400;
+                    color:rgba(255,255,255,1);
+                    line-height:36px;
+                    text-align: center;
+                    margin-top: 5px;
+                    margin-right: 10px;
+                }
             }
             .number{
                 p{
@@ -667,103 +689,118 @@
     
 }
 
-/*币票配号*/
-.distribute{
-    .listBox{
-        .goodsType{
-            box-sizing: border-box;
-            padding-right: 20px;
+/* 配号邮币卡目录 */
+.catalogue{
+    .tabBar{
+        height: 90px;
+        line-height: 90px;
+        display: flex;
+        background-color: #FFFFFF;
+        border-top:2px solid #000 ;
+        .tab{
             display: flex;
-            .info{
-                flex: 1;
-                .number{
-                    p{
-                        width: 50%;
-                    }
-                }
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: justify;
+            line-height: 90px;
+            font-size: 32px;
+            box-sizing: border-box;
+            .icon{
+                display: inline-block;
+                width: 36px;
+                height: 36px;
+                margin-right: 20px;
             }
-            .market{
-                width:211px;
-                height:50px;
-                background:rgba(45,114,216,1);
-                border-radius:8px;
+        }
+        .active{
+            border-bottom: 1px solid #EB3318;
+        }
+    }
+    .series{
+        padding: 51px 0 40px 0px;
+        display: flex;
+        border-top: 8px solid #F5F5F5;
+        .seriesIcon{
+            width: 190px;
+            img{
+                display: block;
+                width:95px;
+                height:113px;
+                margin: 0 auto 20px;
+            }
+            span{
+                display: block;
+                height:27px;
                 font-size:28px;
-                font-family:PingFangSC-Regular,PingFang SC;
+                font-family:PingFangSC;
                 font-weight:400;
-                color:rgba(255,255,255,1);
+                color:rgba(102,102,102,1);
                 line-height:50px;
                 text-align: center;
-                margin-top: 18px;
+            }
+        }
+        .seriesList{
+            border-left: 1px solid #E7E7E7;
+            flex: 1;
+            padding: 0 10px;
+            .list{
+                display: inline-block;
+                width: calc(50% - 10px);
+                height:32px;
+                font-size:32px;
+                font-family:PingFangSC;
+                font-weight:400;
+                color:rgba(0,0,0,1);
+                line-height:32px;
+                margin-bottom: 40px;
+                text-align: center;
             }
         }
     }
 }
 
-/*发布弹窗页面*/
-// .publish{
-//     .top{
-//         width: 100%;
-//         height: auto;
-//         margin-bottom: 80px;
-//         padding-top: 60px;
-//         img{
-//             display: block;
-//             width: 372px;
-//             height: auto;
-//             margin: 0 auto;
-//         }
-//     }
-//     .banner{
-//         width: 80%;
-//         height: 111px;
-//         margin: 0 auto;
-//         border-radius: 10px;
-//         .slider-slide{
-//             height: 100%;
-//             width: 100%;
-//             border-radius: 20px;
-//         }
-//         img{
-//             display: block;
-//         }
-//     }
-//     .btnBox{
-//         position: fixed;
-//         bottom: 0px;
-//         padding: 0 120px;
-//         box-sizing: border-box;
-//         width: 100%;
-//         dl{
-//             display: inline-block;
-//             width: 50%;
-//             dd{
-//                 img{
-//                     display: block;
-//                     width: 125px;
-//                     height: 125px;
-//                     margin: 0 auto;
-//                 }
-//                 margin-bottom: 40px;
-//             }
-//             dt{
-//                 height:24px;
-//                 font-size:24px;
-//                 font-family:PingFang SC;
-//                 font-weight:500;
-//                 color:rgba(51,51,51,1);
-//                 line-height:24px;
-//                 text-align: center;
-//             }
-//         }
-//     }
-//     .close{
-//         height: 36px;
-//         padding: 94px 0px 56px;
-//         img{
-//             display: block;
-//             height: 36px;
-//             width: 36px;
-//             margin: 0 auto;
-//         }
-//     }
-// }
+/* 配号邮币卡行情列表 */
+.catalogueList{
+    
+    .list{
+        display: flex;
+        box-sizing: border-box;
+        width: 100%;
+        height: 80px;
+        padding: 0 26px;
+        font-size:28px;
+        font-family:PingFang SC;
+        font-weight:400;
+        color:rgba(68,68,68,1);
+        line-height:80px;
+        border-bottom: 1px solid #E7E7E7;
+    }
+    .listTop{
+        height:60px;
+        background:rgba(249,249,249,1);
+        font-size:24px;
+        font-family:FZLanTingKanHei-R-GBK;
+        font-weight:400;
+        color:rgba(103,103,103,1);
+        line-height:60px;
+    }
+    .code{
+       display: block;
+       width: 120px; 
+    }
+    .name{
+        text-align: center;
+        flex: 1;
+    }
+}
+
+
+
+
+
+
+
+
+
