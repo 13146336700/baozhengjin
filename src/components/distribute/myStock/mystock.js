@@ -18,6 +18,7 @@ export default class MyStock extends React.Component {
           sessionStorage.removeItem("SANLIAN_ARR");
           sessionStorage.removeItem("SANZHANG_ARR");
           sessionStorage.removeItem("BIAOLIAN_Ontable");
+        
         this.getdataList();
         if (this.getUrlParam('type')) {
             this.setState({
@@ -49,9 +50,9 @@ export default class MyStock extends React.Component {
     goodsAdd() {
         // console.log(this.demo.state.data[0].goodsId);
         if (this.state.goodsType === '1') {
-            this.props.history.push(`/SaleRelease?goodsId=${this.state.data[0].goodsId}&name=${this.getUrlParam('name')}&url=mystock`)
+            this.props.history.push(`/SaleRelease?goodsId=${this.state.data[0].goodsId}&name=${this.getUrlParam('name')}&url=myStock`)
         } else {
-            this.props.history.push(`/BuyingRelease?goodsId=${this.state.data[0].goodsId}&name=${this.getUrlParam('name')}&url=mystock`)
+            this.props.history.push(`/BuyingRelease?goodsId=${this.state.data[0].goodsId}&name=${this.getUrlParam('name')}&url=myStock`)
         }
     }
 
@@ -99,15 +100,17 @@ export default class MyStock extends React.Component {
 
     /**获取列表 */
     getdataList(index) {
+        console.log(this,'sssssss');
+        let _this = this;
         axios.post('subject/json/goodsNumber',{
-            userId:this.getUrlParam('userId'),
-            name: this.getUrlParam('name'),
-            type: index || this.getUrlParam('type'),
+            userId:_this.getUrlParam('userId'),
+            name: _this.getUrlParam('name'),
+            type: index || _this.getUrlParam('type'),
         }).then(res =>{
-            this.setState({
+            _this.setState({
                 data: res.data.resultList
             });
-            this.checkAddShow(res.data.resultList);
+            _this.checkAddShow(res.data.resultList);
         }).catch(err => {
             Toast.info(err.message, 2);
         })
@@ -135,6 +138,7 @@ export default class MyStock extends React.Component {
 
     /**获取网址参数 */
     getUrlParam = (name) => {
+        console.log(name);
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
         var r = this.props.location.search.substr(1).match(reg);
         if (r != null) {
@@ -198,11 +202,20 @@ export default class MyStock extends React.Component {
                                     <p  className="unit">{item.tag}&nbsp;&nbsp;共<span>{item.dealCnt}</span>{item.unitName}</p>
                                     </div>
                                     <span className="price" onClick={() => this.goodsDetail(item.goodsId)}>￥{item.dealPrice}元</span>
-                                <Button className="deal" onClick={() => operation([
-                                    { text: '商品下架', onPress: () => this.showShade(item,'sign') },
-                                    { text: '修改价格', onPress: () => this.showShade(item,'change') },
-                                ])}
-                                >操作</Button>
+                                    {
+                                        item.status === '0'?(
+                                            <Button className="deal" onClick={() => operation([
+                                                { text: '商品下架', onPress: () => this.showShade(item,'sign') },
+                                                { text: '修改价格', onPress: () => this.showShade(item,'change') },
+                                            ])}
+                                            >操作</Button>
+                                        ):(<Button className="deal" style={{border:'2px solid #ffffff'}} disabled onClick={() => operation([
+                                            { text: '', onPress: () => console.log() },
+                                            { text: '', onPress: () => console.log() },
+                                        ])}
+                                        ></Button>)
+                                    }
+                                    
                                 </li>
                             ))}
                         </ul>

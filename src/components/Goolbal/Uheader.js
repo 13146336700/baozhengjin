@@ -78,6 +78,7 @@ export default class Uheaders extends React.Component {
       if (this.getUrlParam("goodsId")) {
         //商品进入
         this.props.history.go(-1);
+        return false;
       }
       if (this.getUrlParam("url")) {
         this.props.history.push(this.getUrlParam("url"));

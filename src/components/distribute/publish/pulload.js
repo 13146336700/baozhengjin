@@ -148,7 +148,7 @@ export default class Pulload extends React.Component {
         }
          
       }).catch((err) =>{
-        Toast.info(err.data.message, 2);
+        Toast.info(err, 2);
       })
     }
   
@@ -239,7 +239,7 @@ export default class Pulload extends React.Component {
       if (item.sellCnt === '0' && item.buyCnt === '0') {
         Toast.info('该产品暂无需求,您可点击下面的发布按钮发布该商品', 2);
       } else {
-        this.props.history.push(`/goodsDistribute?item=${item.name}&unitName=${item.unitName}&categoryName=${item.categoryName}`);
+        this.props.history.push(`/goodsDistribute?name=${item.name}&unitName=${item.unitName}&categoryName=${item.categoryName}`);
         let goodsInfo = {
           name: item.name,
           unitName: item.unitName,
