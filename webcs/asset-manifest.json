@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "./static/css/main.26621a65.chunk.css",
-    "main.js": "./static/js/main.169d4936.chunk.js",
-    "main.js.map": "./static/js/main.169d4936.chunk.js.map",
+    "main.css": "./static/css/main.e6b58379.chunk.css",
+    "main.js": "./static/js/main.aa4dede3.chunk.js",
+    "main.js.map": "./static/js/main.aa4dede3.chunk.js.map",
     "runtime-main.js": "./static/js/runtime-main.d6a7b5d6.js",
     "runtime-main.js.map": "./static/js/runtime-main.d6a7b5d6.js.map",
     "static/css/2.bcde461b.chunk.css": "./static/css/2.bcde461b.chunk.css",
-    "static/js/2.a808e9b8.chunk.js": "./static/js/2.a808e9b8.chunk.js",
-    "static/js/2.a808e9b8.chunk.js.map": "./static/js/2.a808e9b8.chunk.js.map",
+    "static/js/2.e904c0be.chunk.js": "./static/js/2.e904c0be.chunk.js",
+    "static/js/2.e904c0be.chunk.js.map": "./static/js/2.e904c0be.chunk.js.map",
     "index.html": "./index.html",
-    "precache-manifest.de2019ea636b5c174f20600fe34c1ceb.js": "./precache-manifest.de2019ea636b5c174f20600fe34c1ceb.js",
+    "precache-manifest.d2d3b65ac5a8ec958dc5db15ef10838d.js": "./precache-manifest.d2d3b65ac5a8ec958dc5db15ef10838d.js",
     "service-worker.js": "./service-worker.js",
     "static/css/2.bcde461b.chunk.css.map": "./static/css/2.bcde461b.chunk.css.map",
-    "static/css/main.26621a65.chunk.css.map": "./static/css/main.26621a65.chunk.css.map",
-    "static/js/2.a808e9b8.chunk.js.LICENSE.txt": "./static/js/2.a808e9b8.chunk.js.LICENSE.txt",
+    "static/css/main.e6b58379.chunk.css.map": "./static/css/main.e6b58379.chunk.css.map",
+    "static/js/2.e904c0be.chunk.js.LICENSE.txt": "./static/js/2.e904c0be.chunk.js.LICENSE.txt",
     "static/media/advisory.scss": "./static/media/avisory.c12ee124.png",
     "static/media/releasecontent.scss": "./static/media/juxing.c947d225.png",
     "static/media/member.scss": "./static/media/memberHeader.10551686.png",
@@ -22,7 +22,6 @@
     "static/media/Punishment.scss": "./static/media/cf_backgrand_01.5ac85ed1.png",
     "static/media/Uheader.scss": "./static/media/cf_backgrand_02.75ca4240.png",
     "static/media/cf_ic_bond.png": "./static/media/cf_ic_bond.6ecef0ed.png",
-    "static/media/goods.png": "./static/media/goods.258af95b.png",
     "static/media/jindou.png": "./static/media/jindou.04c0fa60.png",
     "static/media/jnjl_image.png": "./static/media/jnjl_image.36632cd3.png",
     "static/media/pub.png": "./static/media/pub.ed019a58.png",
@@ -32,8 +31,8 @@
   "entrypoints": [
     "static/js/runtime-main.d6a7b5d6.js",
     "static/css/2.bcde461b.chunk.css",
-    "static/js/2.a808e9b8.chunk.js",
-    "static/css/main.26621a65.chunk.css",
-    "static/js/main.169d4936.chunk.js"
+    "static/js/2.e904c0be.chunk.js",
+    "static/css/main.e6b58379.chunk.css",
+    "static/js/main.aa4dede3.chunk.js"
   ]
 }

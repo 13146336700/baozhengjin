@@ -49,9 +49,7 @@ export default class Standard extends React.Component {
     };
     this.selectChange = this.selectChange.bind(this);
   }
-  state = {
-    
-  };
+  state = {};
   componentDidMount() {
     if (sessionStorage.getItem("BIAOLIAN_ARR")) {
       //有值 回显
@@ -102,7 +100,7 @@ export default class Standard extends React.Component {
     });
     sessionStorage.setItem("BIAOLIAN_ARR", JSON.stringify(LooseArr));
   };
-  SETNUmber = (value, addNumber, num,obj) => {
+  SETNUmber = (value, addNumber, num, obj) => {
     let newstr,
       ccccccc,
       bu0 = "";
@@ -131,13 +129,14 @@ export default class Standard extends React.Component {
       newstr = `${AddSetstr}`;
     }
     console.log(setstr, newstr);
-  
+    console.log("最后一位" + newstr.substr(newstr.length - 1, 1));
+      console.log(obj);
     ccccccc = value.replace(setstr, newstr);
     if (num == 1) {
       return ccccccc;
     } else {
       console.log("最后一位" + newstr.substr(newstr.length - 1, 1));
-      // console.log(obj);
+      console.log(obj);
       // console.log("最后一位" + newstr.substr(newstr.length - 1, 1));
     }
   };
@@ -157,7 +156,12 @@ export default class Standard extends React.Component {
     LooseArr.map((item, key) => {
       if (key == index) {
         item.number = ev.target.value;
-        item.endnumber = _this.SETNUmber(ev.target.value, item.dealCnt, "1",item);
+        item.endnumber = _this.SETNUmber(
+          ev.target.value,
+          item.dealCnt,
+          "1",
+          item
+        );
       }
     });
 
@@ -199,11 +203,9 @@ export default class Standard extends React.Component {
         return;
       }
     }
-console.log(LooseObj);
-if(this.SETNUmber(LooseObj.number,LooseObj.dealCnt,'2',LooseObj)){
-
-}
-    
+    console.log(LooseObj);
+    if (this.SETNUmber(LooseObj.number, LooseObj.dealCnt, "2", LooseObj)) {
+    }
 
     let LooseArr = this.state.LooseArr;
     LooseArr.push({

@@ -19,9 +19,9 @@ export default class BuyingRelease extends React.Component {
     this.state = {
       keyWord: "",
       tabBar: [
-        { name: "散张求购" },
-        { name: "标连求购" },
-        { name: "散连求购" },
+        { name: "散张出售" },
+        { name: "标连整售" },
+        { name: "散连出售" },
       ],
       Ontable: "tab-0",
     };
@@ -67,7 +67,7 @@ export default class BuyingRelease extends React.Component {
     if (!Name) {
       Toast.info("请输入名称", 1);
       return;
-    };
+    }
 
     let Numbers = {
       A: "3",
@@ -116,16 +116,6 @@ export default class BuyingRelease extends React.Component {
       item.tag = "散单";
     });
     log(scatteredJson);
-    for (var i = 0; i < scatteredJson.length; i++) {
-      if (!priceReg.test(scatteredJson[i].dealPrice)) {
-        Toast.info("请输入散张出售正确的单价:整数或者保留两位小数", 2);
-        return;
-      };
-      if (!_this.setBuyingNumber(scatteredJson[i].number)) {
-        Toast.info("请输入散张出售正确出售号码", 2);
-        return;
-      }
-    }
 
     //标连-------------------------------------------------------!!
     let [mySerial_, standardConsecutiveJson, mySerial_Length] = [
@@ -167,16 +157,6 @@ export default class BuyingRelease extends React.Component {
     });
 
     log(standardConsecutiveJson);
-    for (var i = 0; i < standardConsecutiveJson.length; i++) {
-      if (!priceReg.test(standardConsecutiveJson[i].dealPrice)) {
-        Toast.info("请输入标连出售正确的单价:整数或者保留两位小数", 2);
-        return;
-      };
-      if (!_this.setBuyingNumber(standardConsecutiveJson[i].number)) {
-        Toast.info("请输入标连出售正确出售号码", 2);
-        return;
-      }
-    }
 
     //散连 ---------------------------------------
     let [
@@ -310,30 +290,6 @@ export default class BuyingRelease extends React.Component {
     }
     log(otherConsecutiveJson);
 
-    for (var i = 0; i < otherConsecutiveJson.length; i++) {
-      if(otherConsecutiveJson[i].priceShow){
-        if (!priceReg.test(otherConsecutiveJson[i].dealPrice)) {
-          Toast.info("请输入散连出售正确的单价:整数或者保留两位小数", 2);
-          return;
-        };
-      } 
-       if(otherConsecutiveJson[i].AllpriceShow){
-        if (!priceReg.test(otherConsecutiveJson[i].signlePrice)) {
-          Toast.info("请输入散连出售正确的连号总价:整数或者保留两位小数", 2);
-          return;
-        };
-      }
-      
-      if (!_this.setBuyingNumber(otherConsecutiveJson[i].number)) {
-        Toast.info("请输入散连出售正确出售号码", 2);
-        return;
-      }
-      if (!_this.isPositiveInteger(otherConsecutiveJson[i].dealCnt)) {
-        Toast.info("请输入散连出售正确求购数量", 1);
-        return;
-      }
-    }
-
     log(Numbers);
     let NumbersB = 0;
     let NumbersC = 0;
@@ -355,6 +311,58 @@ export default class BuyingRelease extends React.Component {
       return;
     }
     log("执行代码");
+
+    if (Numbers.A == "1") {
+      for (var i = 0; i < scatteredJson.length; i++) {
+        if (!priceReg.test(scatteredJson[i].dealPrice)) {
+          Toast.info("请输入散张出售正确的单价:整数或者保留两位小数", 2);
+          return;
+        }
+        if (!_this.setBuyingNumber(scatteredJson[i].number)) {
+          Toast.info("请输入散张出售正确出售号码", 2);
+          return;
+        }
+      }
+    }
+
+    if (Numbers.B == "1") {
+      for (var i = 0; i < standardConsecutiveJson.length; i++) {
+        if (!priceReg.test(standardConsecutiveJson[i].dealPrice)) {
+          Toast.info("请输入标连出售正确的单价:整数或者保留两位小数", 2);
+          return;
+        }
+        if (!_this.setBuyingNumber(standardConsecutiveJson[i].number)) {
+          Toast.info("请输入标连出售正确出售号码", 2);
+          return;
+        }
+      }
+    }
+
+    if (Numbers.C == "1") {
+      for (var i = 0; i < otherConsecutiveJson.length; i++) {
+        if (otherConsecutiveJson[i].priceShow) {
+          if (!priceReg.test(otherConsecutiveJson[i].dealPrice)) {
+            Toast.info("请输入散连出售正确的单价:整数或者保留两位小数", 2);
+            return;
+          }
+        }
+        if (otherConsecutiveJson[i].AllpriceShow) {
+          if (!priceReg.test(otherConsecutiveJson[i].signlePrice)) {
+            Toast.info("请输入散连出售正确的连号总价:整数或者保留两位小数", 2);
+            return;
+          }
+        }
+
+        if (!_this.setBuyingNumber(otherConsecutiveJson[i].number)) {
+          Toast.info("请输入散连出售正确出售号码", 2);
+          return;
+        }
+        if (!_this.isPositiveInteger(otherConsecutiveJson[i].dealCnt)) {
+          Toast.info("请输入散连出售正确求购数量", 1);
+          return;
+        }
+      }
+    }
 
     //检查预览
     log({
