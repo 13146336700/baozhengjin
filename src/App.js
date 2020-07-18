@@ -31,11 +31,12 @@ import SearchNumber from "./components/distribute/search/search"
 import SearchResult from "./components/distribute/search/searchResult" 
 import Preview from "./components/distribute/preview/preview" 
 import Publish from "./components/distribute/publish/publish" 
-// import Pulload from "./components/distribute/publish/pulload" 
+import Catalogue from "./components/distribute/catalogue/catalogue" 
+import CatalogueList from "./components/distribute/catalogue/catalogueList" 
 
 import './App.css';
 
-import {Router,Route,Switch,Redirect} from 'react-router-dom';
+import {Router,Route,} from 'react-router-dom';
 import { createHashHistory } from "history";
 const hashHistory = createHashHistory();
 
@@ -84,7 +85,9 @@ myStock           我的库存
 preview           发布预览
 searchNumber      配号搜索页
 searchResult      配号搜索结果页
-publish           发布弹窗页，选择发布类型
+publishBtn           发布弹窗页，选择发布类型
+Catalogue         配号邮币卡目录
+CatalogueList         配号邮币卡目录列表
 
 
 
@@ -121,7 +124,8 @@ function App() {
          <Route path="/searchResult" exact component={SearchResult}/>    
          <Route path="/preview" exact component={Preview}/>    
          <Route path="/publish" exact component={Publish}/>    
-         {/* <Route path="/pulload" exact component={Pulload}/>     */}
+         <Route path="/catalogue" exact component={Catalogue}/>    
+         <Route path="/catalogueList" exact component={CatalogueList}/>    
 
       </Router>
   );
