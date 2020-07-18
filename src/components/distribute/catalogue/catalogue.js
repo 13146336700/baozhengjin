@@ -10,6 +10,7 @@ export default class Catalogue extends React.Component {
         //this.state = {}  定义数据
         this.state = {
            data: [], //配号目录数据
+           mapData:[],  //分类渲染的数据
            type: 0
         }
     }
@@ -36,8 +37,10 @@ export default class Catalogue extends React.Component {
     getList() {
         axios.post('subject/json/getPhCatalog',{}).then(res => {
             this.setState({
-                data:res.data.resultList
-            })
+                data:res.data.resultList,
+                mapData: res.data.resultList[0].dataList
+            });
+            console.log(this.state.data,'sssssssss')
         }).catch(err => {
             Toast.info(err,2)
         })
@@ -46,13 +49,18 @@ export default class Catalogue extends React.Component {
     /**tab切换 */
     tabChange(type) {
         this.setState({
-            type: type
+            type: type,
+            mapData: this.state.data[type].dataList
         })
+    }
+
+    /**跳转列表 */
+    goList(tag,catalog,name) {
+        this.props.history.push(`/catalogueList?tag=${tag}&catalog=${catalog}&name=${name}`)
     }
 
 
     render() {
-        // let listData = this.state.data[this.state.type].dataList;
         return (
             <div className="catalogue" style={{background:'#ffffff',minHeight:'100%'}}>
                 <Uheader {...this.props} utitle="邮币卡目录"></Uheader>
@@ -61,60 +69,25 @@ export default class Catalogue extends React.Component {
                     <div className={this.state.type===1?'active tab':'tab'} onClick={() => this.tabChange(1)}> <img className='icon' src={this.state.type===1?require('../../assets/coinAct.png'):require('../../assets/coin.png')} alt=""/> 钱币</div>
                 </div>
                 <div className="cont">
-                    {/* {
-                        listData.map((item,index) => ( */}
+                    {
+                        this.state.mapData.map((item,index) => (
                             <div className="series" >
                                 <div className="seriesIcon">
                                     <img src='http://api.youbao360.com:9090/img/stamp/T58_1-1_t4.jpg' alt="系列图片"/>
-                                    <span>编写系列</span>
+                                    <span>{item.name}</span>
                                 </div>
                                 <div className="seriesList">
                                     <ul>
-                                        {/* {
-                                            item.list.map((it, key) =>( */}
-                                                <li className='list'>2019编年邮票</li>
-                                                <li className='list'>2019编年邮票</li>
-                                                <li className='list'>2019编年邮票</li>
-                                                <li className='list'>2019编年邮票</li>
-                                                <li className='list'>2019编年邮票</li>
-                                                <li className='list'>2019编年邮票</li>
-                                                <li className='list'>2019编年邮票</li>
-                                                <li className='list'>2019编年邮票</li>
-                                                <li className='list'>2019编年邮票</li>
-                                                <li className='list'>2019编年邮票</li>
-                                                <li className='list'>2019编年邮票</li>
-                                            {/* ))
-                                        } */}
+                                        {
+                                            item.list.map((it, key) =>(
+                                                <li className='list' key={key} onClick={() =>this.goList(item.tag,item.name,it)}>{it}</li>
+                                            ))
+                                        }
                                     </ul>
                                 </div>
                             </div>
-                            <div className="series" >
-                                <div className="seriesIcon">
-                                    <img src='http://api.youbao360.com:9090/img/stamp/T58_1-1_t4.jpg' alt="系列图片"/>
-                                    <span>编写系列</span>
-                                </div>
-                                <div className="seriesList">
-                                    <ul>
-                                        {/* {
-                                            item.list.map((it, key) =>( */}
-                                                <li className='list'>2019编年邮票</li>
-                                                <li className='list'>2019编年邮票</li>
-                                                <li className='list'>2019编年邮票</li>
-                                                <li className='list'>2019编年邮票</li>
-                                                <li className='list'>2019编年邮票</li>
-                                                <li className='list'>2019编年邮票</li>
-                                                <li className='list'>2019编年邮票</li>
-                                                <li className='list'>2019编年邮票</li>
-                                                <li className='list'>2019编年邮票</li>
-                                                <li className='list'>2019编年邮票</li>
-                                                <li className='list'>2019编年邮票</li>
-                                            {/* ))
-                                        } */}
-                                    </ul>
-                                </div>
-                            </div>
-                        {/* ))
-                    } */}
+                        ))
+                    } 
                 </div>
             </div>
         );

@@ -18,7 +18,7 @@ export default class CatalogueList extends React.Component {
         this.getList();
     };
     componentDidMount() {
-        
+        console.log(this.props.history,'s');
     }
     
     /**获取网址参数 */
@@ -72,8 +72,8 @@ export default class CatalogueList extends React.Component {
                                 {
                                     this.state.data.map((item, index) =>(
                                         <li className="list">
-                                            <span className="code">J141</span>
-                                            <span className="name">中国奥运会会徽个性化大版</span>
+                                            <span className="code">{item.code}</span>
+                                            <span className="name">{item.name}</span>
                                         </li>
                                     ))
                                 }

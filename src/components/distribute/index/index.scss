@@ -416,6 +416,13 @@
             width: 180px;
         }
     }
+    .mylist{
+        .goodsType{
+            .name{
+                display: block;
+            }
+        }
+    }
 }
 
 /*发布按钮*/
@@ -769,7 +776,7 @@
         box-sizing: border-box;
         width: 100%;
         height: 80px;
-        padding: 0 26px;
+        padding: 0 36px;
         font-size:28px;
         font-family:PingFang SC;
         font-weight:400;
@@ -788,11 +795,14 @@
     }
     .code{
        display: block;
-       width: 120px; 
+       width: 200px; 
     }
     .name{
         text-align: center;
         flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 }
 
