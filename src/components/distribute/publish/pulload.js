@@ -18,7 +18,6 @@ export default class Pulload extends React.Component {
       super();
       this.state ={
         hasMore: true,
-        data: [],
         action: STATS.init,
         index: loadMoreLimitNum, //loading more test time limit
         refreshing: false,  //能否上拉的判断
@@ -240,13 +239,19 @@ export default class Pulload extends React.Component {
       if (item.sellCnt === '0' && item.buyCnt === '0') {
         Toast.info('该产品暂无需求,您可点击下面的发布按钮发布该商品', 2);
       } else {
-        this.props.history.push(`/goodsDistribute?name=${item.name}&unitName=${item.unitName}&categoryName=${item.categoryName}`);
+        this.props.history.push(`/goodsDistribute?item=${item.name}&unitName=${item.unitName}&categoryName=${item.categoryName}`);
         let goodsInfo = {
           name: item.name,
           unitName: item.unitName,
-          categoryName: item.categoryName
+          categoryName: item.categoryName,
+        }
+        let market = {
+          code: item.code,
+          sid: item.sid,
+          tag: item.tag
         }
         sessionStorage.setItem('goodsInfo', JSON.stringify(goodsInfo));
+        sessionStorage.setItem('market', JSON.stringify(market));
       }
     }
   
@@ -283,7 +288,7 @@ export default class Pulload extends React.Component {
             
             this.getdataList();
           }
-        }, 3000)
+        }, 2000)
       }
   
       //DO NOT modify below code
@@ -316,11 +321,13 @@ export default class Pulload extends React.Component {
                         this.state.data.length > 0 ?(
                           <ul className="listBox" >
                             {this.state.data.map((item,index) => (
-                                <li className="list" key= {index} >
+                                <li className="list" key= {index} onClick={() => this.goodsDistribute(item)}>
                                     <img src={item.showImg} alt="商品图片"/>
                                     <div className="goodsType">
-                                      <div className="info" onClick={() => this.goodsDistribute(item)}>
-                                        <div className="name">{item.name}</div>
+                                      {/* <div className="info" onClick={() => this.goodsDistribute(item)}> */}
+                                        <div className="name"><p className='title'>{item.name}</p> 
+                                        {/* <span className='market' onClick={() => this.market(item.sid, item.code, item.tag)}>最新行情</span> */}
+                                        </div>
                                         <div className="number">
                                           <p>
                                             出售：<span>{item.sellCnt}</span>个需求
@@ -329,8 +336,8 @@ export default class Pulload extends React.Component {
                                             收购：<span>{item.buyCnt}</span>个需求
                                           </p>
                                         </div>
-                                      </div>
-                                      <div className='market' onClick={() => this.market(item.sid, item.code, item.tag)}>最新市场行情</div>
+                                      {/* </div> */}
+                                      
                                     </div>
                                 </li>
                             ))}
@@ -399,7 +406,7 @@ export default class Pulload extends React.Component {
                             ))}
                           </ul>
                         ):(
-                          <div style={{background: '#f5f5f9',lineHeight: '300px',textAlign: 'center',fontSize: '16px'}}>暂无相关数据</div>
+                          <div style={{background: '#ffffff',lineHeight: '300px',textAlign: 'center',fontSize: '16px'}}>暂无相关数据</div>
                         )
                       }
                     </nav>
