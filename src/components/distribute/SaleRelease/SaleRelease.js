@@ -30,10 +30,19 @@ export default class SaleRelease extends React.Component {
       ],
       Ontable: "tab-0",
     };
-  }
+  };
+  componentDidMount(){
+   
+    if (sessionStorage.getItem("BIAOLIAN_Ontable")) {
+      //有值 回显
+      this.setState({
+        Ontable: sessionStorage.getItem("BIAOLIAN_Ontable"),
+      });
+    }
+  };
   componentWillMount() {
     console.log(this.getUrlParam("name"));
-  }
+  };
   getUrlParam = (name) => {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = this.props.location.search.substr(1).match(reg);
@@ -55,9 +64,12 @@ export default class SaleRelease extends React.Component {
   };
   tabChange = (item, key) => {
     log(item, key);
+    let Ontable = `tab-${key}`;
     this.setState({
-      Ontable: `tab-${key}`,
+      Ontable: Ontable,
     });
+    sessionStorage.setItem("BIAOLIAN_Ontable",Ontable);
+
   };
   setBuyingNumber = (ischeck) => {
     if (ischeck.length < 3 || ischeck.length > 20) {
@@ -177,7 +189,7 @@ export default class SaleRelease extends React.Component {
 
       let obj = {
         tag: mySerial_Item.tag,
-        dealCnt: mySerial_Item.dealCnt,
+        dealCnt: Number(mySerial_Item.dealCnt)+1,
         number: mySerial_Item.number,
         dealPrice: mySerial_Item.dealPrice,
         unitName: unitName,
@@ -362,7 +374,7 @@ export default class SaleRelease extends React.Component {
             Toast.info("发布成功", 1);
             this.props.history.push({
               pathname: "/myStock",
-              search: `userId=4028808361926f8a0161db4c492304e2&name=${this.getUrlParam(
+              search: `userId=${JSON.parse(sessionStorage.getItem("userInfo")).userId}&name=${this.getUrlParam(
                 "name"
               )}&type=1`,
             });

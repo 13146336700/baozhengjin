@@ -12,38 +12,45 @@ export default class Standard extends React.Component {
               code: "标十",
               title: "标十",
               num: 9,
+              Examples: "xxxxxxx1",
             },
             {
               code: "标百",
               title: "标百",
               num: 99,
+              Examples: "xxxxxx01",
             },
             {
               code: "滚刀",
               title: "滚刀",
               num: 99,
+              Examples: "xxxxxxxx",
             },
             {
               code: "滚捆",
               title: "滚捆",
               num: 999,
+              Examples: "xxxxxxxx",
             },
             {
               code: "标千",
               title: "标千",
               num: 999,
+              Examples: "xxxxx001",
             },
             {
               code: "标五千",
               title: "标五千",
               num: 4999,
+              Examples: "xxxxx005",
             },
           ],
           dealCnt: "", //标号的
           number: "",
-          endnumber: "",
+          endnumber: "", //结束号码
           dealPrice: "",
           tag: "请选择类型",
+          Examples: "xxxxxxxx",
         },
       ],
     };
@@ -66,13 +73,12 @@ export default class Standard extends React.Component {
     let _this = this;
     console.log(LooseArr[key]);
 
-    // this.changeDOM(ev.target.value, LooseArr[key]);
-
     LooseArr.map((item, index, arr) => {
       if (key == index) {
         item.tag = ev.target.value;
-        item.dealCnt = _this.changeDOM(ev.target.value, arr[key]);
+        item.dealCnt = _this.changeDOM(ev.target.value, arr[key]).num;
         item.endnumber = Number(item.dealCnt) + Number(item.number);
+        item.Examples = _this.changeDOM(ev.target.value, arr[key]).Examples;
       }
     });
 
@@ -88,7 +94,7 @@ export default class Standard extends React.Component {
     var obj = arr.todoList.find(function (key) {
       return key.title === value;
     });
-    return obj.num;
+    return obj;
   };
   delte = (item, key) => {
     console.log(key);
@@ -109,8 +115,8 @@ export default class Standard extends React.Component {
       value.replace(/[^0-9]/gi, "").length,
     ];
     let [AddSetstr, AddSetstrLength] = [
-      `${Number(setstr) + addNumber}`,
-      `${Number(setstr) + addNumber}`.length,
+      `${Number(setstr) + Number(addNumber)}`,
+      `${Number(setstr) + Number(addNumber)}`.length,
     ];
     if (value.indexOf(setstr) == -1) {
       Toast.info("不支持的号码", 2);
@@ -128,16 +134,43 @@ export default class Standard extends React.Component {
     } else {
       newstr = `${AddSetstr}`;
     }
-    console.log(setstr, newstr);
-    console.log("最后一位" + newstr.substr(newstr.length - 1, 1));
-      console.log(obj);
     ccccccc = value.replace(setstr, newstr);
+
     if (num == 1) {
       return ccccccc;
     } else {
-      console.log("最后一位" + newstr.substr(newstr.length - 1, 1));
-      console.log(obj);
-      // console.log("最后一位" + newstr.substr(newstr.length - 1, 1));
+      switch (obj.tag) {
+        case "标十":
+          if (setstr.substring(setstr.length - 1) != "1") {
+            return false;
+          } else {
+            return true;
+          }
+          break;
+        case "标百":
+          if (setstr.substring(setstr.length - 2) != "01") {
+            return false;
+          } else {
+            return true;
+          }
+          break;
+        case "标千":
+          if (setstr.substring(setstr.length - 3) != "001") {
+            return false;
+          } else {
+            return true;
+          }
+          break;
+        case "标五千":
+          if (setstr.substring(setstr.length - 3) != "005") {
+            return false;
+          } else {
+            return true;
+          }
+          break;
+        default:
+          break;
+      }
     }
   };
   hanChange = (ev, index, item1) => {
@@ -195,8 +228,17 @@ export default class Standard extends React.Component {
   Myoption = (item) => {
     console.log(item);
   };
+  setBuyingNumber = (ischeck) => {
+    if (ischeck.length < 3 || ischeck.length > 20) {
+      return false;
+    } else {
+      return true;
+    }
+  };
   add = () => {
     let LooseObj = this.state.LooseArr[this.state.LooseArr.length - 1];
+    var priceReg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;
+
     for (let key in LooseObj) {
       if (!LooseObj[key]) {
         Toast.info("请输入标连值", 2);
@@ -204,8 +246,24 @@ export default class Standard extends React.Component {
       }
     }
     console.log(LooseObj);
-    if (this.SETNUmber(LooseObj.number, LooseObj.dealCnt, "2", LooseObj)) {
+    // console.log(
+    //   this.SETNUmber(LooseObj.number, LooseObj.dealCnt, "2", LooseObj)
+    // );
+    if (!this.SETNUmber(LooseObj.number, LooseObj.dealCnt, "2", LooseObj)) {
+      Toast.info("号码尾数请和示例尾号相同", 2);
+      return;
     }
+    if (!priceReg.test(LooseObj.dealPrice)) {
+      Toast.info("请输入标连整售正确的单价:整数或者保留两位小数", 2);
+      return;
+    }
+    if (!this.setBuyingNumber(LooseObj.number)) {
+      Toast.info("请输入标连整售正确出售号码", 2);
+      return;
+    }
+
+    // if (this.SETNUmber(LooseObj.number, LooseObj.dealCnt, "2", LooseObj)) {
+    // }
 
     let LooseArr = this.state.LooseArr;
     LooseArr.push({
@@ -214,32 +272,37 @@ export default class Standard extends React.Component {
           code: "标十",
           title: "标十",
           num: 9,
+          Examples: "xxxxxxx1",
         },
         {
           code: "标百",
           title: "标百",
           num: 99,
+          Examples: "xxxxxx01",
         },
         {
           code: "滚刀",
           title: "滚刀",
           num: 99,
+          Examples: "xxxxxxxx",
+        },
+        {
+          code: "滚捆",
+          title: "滚捆",
+          num: 999,
+          Examples: "xxxxxxxx",
         },
         {
           code: "标千",
           title: "标千",
           num: 999,
-        },
-
-        {
-          code: "滚捆",
-          title: "滚捆",
-          num: 999,
+          Examples: "xxxxx001",
         },
         {
           code: "标五千",
           title: "标五千",
           num: 4999,
+          Examples: "xxxxx005",
         },
       ],
       dealCnt: "", //标号的
@@ -247,6 +310,7 @@ export default class Standard extends React.Component {
       endnumber: "", //结束号码
       dealPrice: "",
       tag: "请选择类型",
+      Examples: "xxxxxxxx",
     });
     this.setState({
       LooseArr: LooseArr,
@@ -256,7 +320,7 @@ export default class Standard extends React.Component {
     return (
       <div className="Loose">
         <div className="Loose_title">
-          <p>标连{this.props.utitle}</p>
+          {/* <p>标连{this.props.utitle}</p> */}
         </div>
         <div className="Loose_body">
           {this.state.LooseArr.map((item, key) => (
@@ -300,11 +364,15 @@ export default class Standard extends React.Component {
                   type="text"
                   value={item.number}
                   onChange={(ev) => this.hanChange(ev, key, item)}
-                  placeholder="请输入要包含的号码"
+                  placeholder="请输入起始的号码"
                 />
-                <p>
-                  起: <span>{item.number}</span>终:<span>{item.endnumber}</span>
-                </p>
+                <p>示例:{item.Examples}</p>
+              </li>
+              <li>
+                <div>起始号码:{item.number}</div>
+                <div style={{ color: "#333333" }}>
+                  结束号码:{item.endnumber}
+                </div>
               </li>
               <li>
                 <div>连号总价格</div>

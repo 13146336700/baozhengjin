@@ -21,6 +21,7 @@ export default class Serial extends React.Component {
         signlePrice: "", //连号总价格 值
         dealCnt: "",
         selectValue: "请选择类型",
+        endnumber: "", //结束号码
       },
     ],
   };
@@ -71,33 +72,129 @@ export default class Serial extends React.Component {
       LooseArr: LooseArr,
     });
   };
+  SETNUmber = (value, addNumber, num, obj) => {
+    let newstr,
+      ccccccc,
+      bu0 = "";
+    let [setstr, setstrLength] = [
+      value.replace(/[^0-9]/gi, ""),
+      value.replace(/[^0-9]/gi, "").length,
+    ];
+    let [AddSetstr, AddSetstrLength] = [
+      `${Number(setstr) + Number(addNumber)}`,
+      `${Number(setstr) + Number(addNumber)}`.length,
+    ];
+    if (value.indexOf(setstr) == -1) {
+      Toast.info("不支持的号码", 2);
+      return;
+    }
+    // log(value.indexOf(setstr))
+
+    if (AddSetstrLength != setstrLength) {
+      //如果需要补0
+      let bu0Cha = Number(setstrLength) - Number(AddSetstrLength);
+      for (var i = 0; i < bu0Cha; i++) {
+        bu0 += "0";
+      }
+      newstr = `${bu0}${AddSetstr}`;
+    } else {
+      newstr = `${AddSetstr}`;
+    }
+    ccccccc = value.replace(setstr, newstr);
+
+    if (num == 1) {
+      return ccccccc;
+    } else {
+      switch (obj.tag) {
+        case "标十":
+          if (setstr.substring(setstr.length - 1) != "1") {
+            return false;
+          } else {
+            return true;
+          }
+          break;
+        case "标百":
+          if (setstr.substring(setstr.length - 2) != "01") {
+            return false;
+          } else {
+            return true;
+          }
+          break;
+        case "标千":
+          if (setstr.substring(setstr.length - 3) != "001") {
+            return false;
+          } else {
+            return true;
+          }
+          break;
+        case "标五千":
+          if (setstr.substring(setstr.length - 3) != "005") {
+            return false;
+          } else {
+            return true;
+          }
+          break;
+        default:
+          break;
+      }
+    }
+  };
+  isPositiveInteger = (s) => {
+    //是否为正整数
+    var re = /^[0-9]+$/;
+    return re.test(s);
+  };
   hanChange = (ev, index) => {
     console.log(ev.target.value);
     const LooseArr = [...this.state.LooseArr]; //浅拷贝一下
+    let _this = this;
 
     LooseArr.map((item, key) => {
       if (key == index) {
         item.number = ev.target.value;
+        if (
+          item.number &&
+          item.dealCnt &&
+          _this.isPositiveInteger(item.dealCnt)
+        ) {
+          item.endnumber = _this.SETNUmber(
+            ev.target.value,
+            Number(item.dealCnt) - 1,
+            "1",
+            item
+          );
+        } else {
+          item.endnumber = "";
+        }
       }
     });
     this.setState({
       LooseArr: LooseArr,
     });
-    // this.setState({
-    //   LooseArr: LooseArr.map((item, key) =>
-    //     key == index ? { ...item, number: ev.target.value } : item
-    //   ),
-    // });
-
     sessionStorage.setItem("SANLIAN_ARR", JSON.stringify(LooseArr));
   };
   hansheetsChange = (ev, index) => {
     console.log(ev.target.value);
     const LooseArr = [...this.state.LooseArr]; //浅拷贝一下
+    let _this = this;
 
     LooseArr.map((item, key) => {
       if (key == index) {
         item.dealCnt = ev.target.value;
+        if (
+          item.number &&
+          item.dealCnt &&
+          _this.isPositiveInteger(item.dealCnt)
+        ) {
+          item.endnumber = _this.SETNUmber(
+            item.number,
+            Number(ev.target.value) - 1,
+            "1",
+            item
+          );
+        } else {
+          item.endnumber = "";
+        }
       }
     });
 
@@ -124,6 +221,7 @@ export default class Serial extends React.Component {
     this.setState({
       LooseArr: LooseArr,
     });
+    sessionStorage.setItem("SANLIAN_ARR", JSON.stringify(LooseArr));
     // this.setState({
     //   LooseArr: LooseArr.map((item, key) =>
     //     key == index ? { ...item, dealPrice: ev.target.value } : item
@@ -143,17 +241,20 @@ export default class Serial extends React.Component {
     this.setState({
       LooseArr: LooseArr,
     });
-    // this.setState({
-    //   LooseArr: LooseArr.map((item, key) =>
-    //     key == index ? { ...item, signlePrice: ev.target.value } : item
-    //   ),
-    // });
 
     sessionStorage.setItem("SANLIAN_ARR", JSON.stringify(LooseArr));
+  };
+  setBuyingNumber = (ischeck) => {
+    if (ischeck.length < 3 || ischeck.length > 20) {
+      return false;
+    } else {
+      return true;
+    }
   };
   add = () => {
     //添加
     let LooseObj = this.state.LooseArr[this.state.LooseArr.length - 1];
+    var priceReg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;
     let MyBoole = "";
     if (this.props.ustatus == "1") {
       // 求购
@@ -166,6 +267,19 @@ export default class Serial extends React.Component {
           Toast.info("散连请输入有效数值", 2);
           return;
         }
+      }
+
+      if (!priceReg.test(obj.signlePrice)) {
+        Toast.info("请输入散连求购正确的连号总价格或者保留两位小数", 1);
+        return;
+      }
+      if (!this.setBuyingNumber(obj.number)) {
+        Toast.info("请输入散连求购正确求购号码", 1);
+        return;
+      }
+      if (!this.isPositiveInteger(obj.dealCnt)) {
+        Toast.info("请输入散连求购正确求购数量", 1);
+        return;
       }
       MyBoole = true;
     } else if (this.props.ustatus == "2") {
@@ -191,6 +305,28 @@ export default class Serial extends React.Component {
         }
       }
       MyBoole = false;
+
+      if (LooseObj.priceShow) {
+        if (!priceReg.test(LooseObj.dealPrice)) {
+          Toast.info("请输入散连出售正确的单价:整数或者保留两位小数", 2);
+          return;
+        }
+      }
+      if (LooseObj.AllpriceShow) {
+        if (!priceReg.test(LooseObj.signlePrice)) {
+          Toast.info("请输入散连出售正确的连号总价:整数或者保留两位小数", 2);
+          return;
+        }
+      }
+
+      if (!this.setBuyingNumber(LooseObj.number)) {
+        Toast.info("请输入散连出售正确出售号码", 2);
+        return;
+      }
+      if (!this.isPositiveInteger(LooseObj.dealCnt)) {
+        Toast.info("请输入散连出售正确求购数量", 1);
+        return;
+      }
     }
     let LooseArr = this.state.LooseArr;
     LooseArr.push({
@@ -200,6 +336,7 @@ export default class Serial extends React.Component {
       AllpriceShow: MyBoole, //连号总价格 显示
       signlePrice: "", //连号总价格 值
       dealCnt: "",
+      endnumber: "", //结束号码
       selectValue: "请选择类型",
     });
     this.setState({
@@ -210,7 +347,7 @@ export default class Serial extends React.Component {
     return (
       <div className="Loose">
         <div className="Loose_title">
-          <p>散连{this.state.StatusName}</p>
+          {/* <p>散连{this.state.StatusName}</p> */}
         </div>
         <div className="Loose_body">
           {this.state.LooseArr.map((item, key, array) => (
@@ -299,8 +436,14 @@ export default class Serial extends React.Component {
                   type="text"
                   value={item.number}
                   onChange={(ev) => this.hanChange(ev, key)}
-                  placeholder="请输入要包含的号码"
+                  placeholder="请输入起始的号码"
                 />
+              </li>
+              <li>
+                <div>起始号码:{item.number}</div>
+                <div style={{ color: "#333333" }}>
+                  结束号码:{item.endnumber}
+                </div>
               </li>
               {item.AllpriceShow ? (
                 <li>
@@ -309,7 +452,7 @@ export default class Serial extends React.Component {
                     type="text"
                     value={item.signlePrice}
                     onChange={(ev) => this.hanAllpriceValueChange(ev, key)}
-                    placeholder="请输入价格"
+                    placeholder="请输入连号总价格"
                   />
                 </li>
               ) : null}
@@ -321,7 +464,7 @@ export default class Serial extends React.Component {
                     type="text"
                     value={item.dealPrice}
                     onChange={(ev) => this.hanpriceChange(ev, key)}
-                    placeholder="请输入价格"
+                    placeholder="请输入单张价格"
                   />
                 </li>
               ) : null}

@@ -18,7 +18,7 @@ export default class SaleDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ExpirationValue: "30",
+      ExpirationValue: "15",
       desc: "", //文本框
       imageArray: [],
     };

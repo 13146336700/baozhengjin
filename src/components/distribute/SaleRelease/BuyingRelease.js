@@ -26,6 +26,81 @@ export default class BuyingRelease extends React.Component {
       Ontable: "tab-0",
     };
   }
+  componentDidMount() {
+    if (sessionStorage.getItem("BIAOLIAN_Ontable")) {
+      //有值 回显
+      this.setState({
+        Ontable: sessionStorage.getItem("BIAOLIAN_Ontable"),
+      });
+    }
+  }
+  SETNUmber = (value, addNumber, num, obj) => {
+    let newstr,
+      ccccccc,
+      bu0 = "";
+    let [setstr, setstrLength] = [
+      value.replace(/[^0-9]/gi, ""),
+      value.replace(/[^0-9]/gi, "").length,
+    ];
+    let [AddSetstr, AddSetstrLength] = [
+      `${Number(setstr) + Number(addNumber)}`,
+      `${Number(setstr) + Number(addNumber)}`.length,
+    ];
+    if (value.indexOf(setstr) == -1) {
+      Toast.info("不支持的号码", 2);
+      return;
+    }
+    // log(value.indexOf(setstr))
+
+    if (AddSetstrLength != setstrLength) {
+      //如果需要补0
+      let bu0Cha = Number(setstrLength) - Number(AddSetstrLength);
+      for (var i = 0; i < bu0Cha; i++) {
+        bu0 += "0";
+      }
+      newstr = `${bu0}${AddSetstr}`;
+    } else {
+      newstr = `${AddSetstr}`;
+    }
+    ccccccc = value.replace(setstr, newstr);
+
+    if (num == 1) {
+      return ccccccc;
+    } else {
+      switch (obj.tag) {
+        case "标十":
+          if (setstr.substring(setstr.length - 1) != "1") {
+            return false;
+          } else {
+            return true;
+          }
+          break;
+        case "标百":
+          if (setstr.substring(setstr.length - 2) != "01") {
+            return false;
+          } else {
+            return true;
+          }
+          break;
+        case "标千":
+          if (setstr.substring(setstr.length - 3) != "001") {
+            return false;
+          } else {
+            return true;
+          }
+          break;
+        case "标五千":
+          if (setstr.substring(setstr.length - 3) != "005") {
+            return false;
+          } else {
+            return true;
+          }
+          break;
+        default:
+          break;
+      }
+    }
+  };
   getUrlParam = (name) => {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = this.props.location.search.substr(1).match(reg);
@@ -42,9 +117,11 @@ export default class BuyingRelease extends React.Component {
   };
   tabChange = (item, key) => {
     log(item, key);
+    let Ontable = `tab-${key}`;
     this.setState({
-      Ontable: `tab-${key}`,
+      Ontable: Ontable,
     });
+    sessionStorage.setItem("BIAOLIAN_Ontable", Ontable);
   };
   setBuyingNumber = (ischeck) => {
     if (ischeck.length < 3 || ischeck.length > 20) {
@@ -129,7 +206,7 @@ export default class BuyingRelease extends React.Component {
       let mySerial_Item = mySerial_[i];
       let obj = {
         tag: mySerial_Item.tag,
-        dealCnt: mySerial_Item.dealCnt,
+        dealCnt: Number(mySerial_Item.dealCnt) + 1,
         number: mySerial_Item.number,
         dealPrice: mySerial_Item.dealPrice,
         unitName: unitName,
@@ -327,12 +404,23 @@ export default class BuyingRelease extends React.Component {
 
     if (Numbers.B == "1") {
       for (var i = 0; i < standardConsecutiveJson.length; i++) {
+        if (
+          !_this.SETNUmber(
+            standardConsecutiveJson[i].number,
+            standardConsecutiveJson[i].dealCnt,
+            "2",
+            standardConsecutiveJson[i]
+          )
+        ) {
+          Toast.info("号码尾数请和示例尾号相同", 2);
+          return;
+        }
         if (!priceReg.test(standardConsecutiveJson[i].dealPrice)) {
-          Toast.info("请输入标连出售正确的单价:整数或者保留两位小数", 2);
+          Toast.info("请输入标连整售正确的单价:整数或者保留两位小数", 2);
           return;
         }
         if (!_this.setBuyingNumber(standardConsecutiveJson[i].number)) {
-          Toast.info("请输入标连出售正确出售号码", 2);
+          Toast.info("请输入标连整售正确出售号码", 2);
           return;
         }
       }

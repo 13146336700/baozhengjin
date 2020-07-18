@@ -1,4 +1,6 @@
-import React, { Component } from "react";
+import React, {
+  Component
+} from "react";
 var u = navigator.userAgent;
 var isAndroid = u.indexOf("Android") > -1;
 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
@@ -26,19 +28,19 @@ export default class Uheaders extends React.Component {
   Jonp = () => {
     let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
     if (!userInfo || userInfo.userId === '') {
-        if (isiOS) {
-            window.webkit.messageHandlers.IOSNativeLogin.postMessage('');
-        } else {
-            window.app.login()
-        }
-        return false
+      if (isiOS) {
+        window.webkit.messageHandlers.IOSNativeLogin.postMessage('');
+      } else {
+        window.app.login()
+      }
+      return false
     }
     if (this.props.match.path == "/goodsDistribute/") {
       this.props.history.push(`/searchNumber?name=${this.getUrlParam('name')}&unitName=${this.getUrlParam('unitName')}&categoryName=${this.getUrlParam('categoryName')}`);
     } else {
       this.props.history.push(`/searchNumber`)
     }
-    
+
   };
   backClick = () => {
     console.log(this.props);
@@ -49,7 +51,6 @@ export default class Uheaders extends React.Component {
       if (isiOS) {
         try {
           window.webkit.messageHandlers.IOSNativeGotoBack.postMessage("");
-          // window.webkit.messageHandlers.IOSNativePayBond.postMessage(50);
         } catch (e) {
           console.log(e);
         }
@@ -66,6 +67,9 @@ export default class Uheaders extends React.Component {
       sessionStorage.removeItem("BIAOLIAN_ARR");
       sessionStorage.removeItem("SANLIAN_ARR");
       sessionStorage.removeItem("SANZHANG_ARR");
+      sessionStorage.removeItem("BIAOLIAN_Ontable");
+      sessionStorage.removeItem("market");
+
     } else if (
       this.props.match.path == "/SaleRelease" ||
       this.props.match.path == "/BuyingRelease"
@@ -79,6 +83,10 @@ export default class Uheaders extends React.Component {
         this.props.history.push(this.getUrlParam("url"));
       }
     } else if (this.props.match.path == "/myStock/") {
+
+      sessionStorage.removeItem("BIAOLIAN_Ontable");
+      sessionStorage.removeItem("market");
+
       this.props.history.push(
         `/myDistribute?userId=${
           JSON.parse(sessionStorage.getItem("userInfo")).userId
@@ -95,25 +103,42 @@ export default class Uheaders extends React.Component {
     }
   };
   render() {
-    return (
-      <div className="Uheaders">
-        <div className="Uheadershome">
-          <ul className={isiOS ? "iosHeader" : null}>
-            <li onClick={() => this.backClick()}>
-              <img src={require("../assets/Goreturn.png")} />
-            </li>
-            <li> {this.props.utitle} </li>
-            <li>
-              {this.props.useach ? (
-                <img
-                  src={require("../assets/seach.png")}
-                  onClick={() => this.Jonp()}
-                />
-              ) : null}
-            </li>
-          </ul>
-        </div>
-      </div>
+    return ( <
+      div className = "Uheaders" >
+      <
+      div className = "Uheadershome" >
+      <
+      ul className = {
+        isiOS ? "iosHeader" : null
+      } >
+      <
+      li onClick = {
+        () => this.backClick()
+      } >
+      <
+      img src = {
+        require("../assets/Goreturn.png")
+      }
+      /> <
+      /li> <
+      li > {
+        this.props.utitle
+      } < /li> <
+      li > {
+        this.props.useach ? ( <
+          img src = {
+            require("../assets/seach.png")
+          }
+          onClick = {
+            () => this.Jonp()
+          }
+          />
+        ) : null
+      } <
+      /li> <
+      /ul> <
+      /div> <
+      /div>
     );
   }
 }

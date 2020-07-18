@@ -34,15 +34,31 @@ export default class LooseSale extends React.Component {
     }
     return ""; //如果此处只写return;则返回的是undefined
   };
-
+  setBuyingNumber = (ischeck) => {
+    if (ischeck.length < 3 || ischeck.length > 20) {
+      return false;
+    } else {
+      return true;
+    }
+  };
   add = () => {
+    var priceReg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;
     let LooseObj = this.state.LooseArr[this.state.LooseArr.length - 1];
     for (let key in LooseObj) {
       if (!LooseObj[key]) {
         Toast.info("请输入散张值", 1);
         return;
       }
+    };
+    if (!priceReg.test(LooseObj.dealPrice)) {
+      Toast.info("请输入散张出售正确的单价:整数或者保留两位小数", 2);
+      return;
     }
+    if (!this.setBuyingNumber(LooseObj.number)) {
+      Toast.info("请输入散张出售正确出售号码", 2);
+      return;
+    }
+  // }
 
     let LooseArr = this.state.LooseArr;
     LooseArr.push({
@@ -104,7 +120,7 @@ export default class LooseSale extends React.Component {
     return (
       <div className="Loose">
         <div className="Loose_title">
-          <p> {this.props.uname} </p>
+          {/* <p> {this.props.uname} </p> */}
         </div>
         <div className="Loose_body">
           
@@ -127,7 +143,7 @@ export default class LooseSale extends React.Component {
                   type="text" 
                   pattern="\d"
                   onChange={(ev) => this.hanNumChange(ev, key)}
-                  placeholder="请输入出售号码"
+                  placeholder="请输入出售的号码"
                 />
               </li>
               <li>
@@ -136,7 +152,7 @@ export default class LooseSale extends React.Component {
                   type="text"
                   value={item.dealPrice}
                   onChange={(ev) => this.hanChange(ev, key)}
-                  placeholder="请输入价格"
+                  placeholder="请输入单张价格"
                 />
               </li>
             </ul>

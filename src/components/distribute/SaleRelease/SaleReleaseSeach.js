@@ -155,6 +155,14 @@ export default class SaleReleaseSeach extends React.Component {
     } else {
       goodsId = "";
     }
+    
+    let market = {
+      sid:val.sid,
+      tag:val.tag,
+      code:val.code
+    };
+    sessionStorage.setItem("market", JSON.stringify(market));
+
     this.props.history.push({
       pathname: `/${this.props.match.params.ustate}`,
       search: `category=${val.category}&name=${val.name}&unitName=${

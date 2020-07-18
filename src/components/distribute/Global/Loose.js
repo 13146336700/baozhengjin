@@ -18,7 +18,7 @@ export default class Loose extends React.Component {
             code: "任意",
             title: "任意",
           },
-         
+
           {
             code: "尾号",
             title: "尾号",
@@ -80,6 +80,7 @@ export default class Loose extends React.Component {
         dealPrice: "",
         // selectValue: "请选择类型",
         selectValue: "尾号",
+        Myplaceholder: "请输入您需要的尾号",
       },
     ],
   };
@@ -95,10 +96,16 @@ export default class Loose extends React.Component {
   }
   selectChange = (ev, key) => {
     let LooseArr = [...this.state.LooseArr];
-    
+    let Myplaceholder = "";
+    if (ev.target.value == "尾号") {
+      Myplaceholder = "请输入您需要的尾号";
+    } else {
+      Myplaceholder = "请输入您需要的号码";
+    }
     LooseArr.map((item, index) => {
       if (key == index) {
         item.selectValue = ev.target.value;
+        item.Myplaceholder = Myplaceholder;
       }
     });
     this.setState({
@@ -119,6 +126,13 @@ export default class Loose extends React.Component {
     // });
     console.log(this.state.LooseArr);
   };
+  setBuyingNumber = (ischeck) => {
+    if (ischeck.length < 3 || ischeck.length > 20) {
+      return false;
+    } else {
+      return true;
+    }
+  };
   add = () => {
     let [Loose, LooseObj, tag] = [
       this.state.LooseArr[this.state.LooseArr.length - 1],
@@ -126,6 +140,7 @@ export default class Loose extends React.Component {
       "",
     ];
     log(Loose);
+    var priceReg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;
 
     LooseObj.number = Loose.number;
     LooseObj.dealPrice = Loose.dealPrice;
@@ -142,7 +157,17 @@ export default class Loose extends React.Component {
         Toast.info("散张请输入有效数字", 2);
         return;
       }
+    }
+
+    if (!priceReg.test(LooseObj.dealPrice)) {
+      Toast.info("请输入散张求购正确的单价:整数或者保留两位小数", 2);
+      return;
     };
+    
+    if (!this.setBuyingNumber(LooseObj.number)) {
+      Toast.info("请输入散张求购正确求购号码", 2);
+      return;
+    }
 
     let LooseArr = this.state.LooseArr;
     LooseArr.push({
@@ -211,7 +236,8 @@ export default class Loose extends React.Component {
       number: "",
       dealPrice: "",
       // selectValue: "请选择类型",
-      selectValue: "任意",
+      selectValue: "尾号",
+      Myplaceholder: "请输入您需要的尾号",
     });
     this.setState({
       LooseArr: LooseArr,
@@ -247,7 +273,6 @@ export default class Loose extends React.Component {
     //     key == index ? { ...item, dealPrice: ev.target.value } : item
     //   ),
     // });
-
 
     sessionStorage.setItem("SANZHANG_ARR", JSON.stringify(LooseArr));
   };
@@ -285,15 +310,13 @@ export default class Loose extends React.Component {
     this.setState({
       LooseArr: LooseArr,
     });
-    
+
     sessionStorage.setItem("SANZHANG_ARR", JSON.stringify(LooseArr));
   };
   render() {
     return (
       <div className="Loose">
-        <div className="Loose_title">
-          <p>{this.props.uname}</p>
-        </div>
+        <div className="Loose_title">{/* <p>{this.props.uname}</p> */}</div>
         <div className="Loose_body">
           {this.state.LooseArr.map((item, key) => (
             <ul key={key}>
@@ -317,9 +340,7 @@ export default class Loose extends React.Component {
                     onChange={(e) => this.selectChange(e, key)}
                     value={item.selectValue}
                   >
-                    <option style={{ display: "none" }} >
-                      请选择
-                    </option>
+                    <option style={{ display: "none" }}>请选择</option>
                     {item.todoList.map((item, key) => (
                       <option value={item.code} key={key}>
                         {item.title}
@@ -334,7 +355,7 @@ export default class Loose extends React.Component {
                   type="text"
                   value={item.number}
                   onChange={(ev) => this.hanNumChange(ev, key)}
-                  placeholder="请输入要包含的号码"
+                  placeholder={item.Myplaceholder}
                 />
               </li>
               <li>
@@ -343,7 +364,7 @@ export default class Loose extends React.Component {
                   type="text"
                   value={item.dealPrice}
                   onChange={(ev) => this.hanChange(ev, key)}
-                  placeholder="请输入单价"
+                  placeholder="请输入单张单价"
                 />
               </li>
             </ul>

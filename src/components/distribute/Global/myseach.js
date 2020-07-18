@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { List, Switch } from "antd-mobile";
 import "./index.scss";
+var u = navigator.userAgent;
+var isAndroid = u.indexOf("Android") > -1;
+var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
 export default class myseach extends React.Component {
   state = {
     list: [
@@ -21,13 +25,12 @@ export default class myseach extends React.Component {
   };
   componentDidMount() {
     if (sessionStorage.getItem("newlistARR")) {
-
       //有值 回显
       this.setState({
         list: JSON.parse(sessionStorage.getItem("newlistARR")),
       });
     }
-  };
+  }
   componentWillMount() {
     if (this.getUrlParam("name")) {
       this.setState({
@@ -95,6 +98,34 @@ export default class myseach extends React.Component {
     console.log(ev);
     console.log(ev.targe.value);
   };
+  
+  NewQuotes = () => {
+    let market = JSON.parse(sessionStorage.getItem("market"));
+    console.log(market);
+    if (isiOS) {
+      try {
+        window.webkit.messageHandlers.IOSNativeMarket.postMessage({
+          oid: market.sid,
+          code: market.code,
+          tag: market.tag,
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      try {
+        window.app.androidNativeMarket(
+          JSON.stringify({
+            oid: market.sid,
+            code: market.code,
+            tag: market.tag,
+          })
+        );
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
   Jump = () => {
     let goodsId = "";
     if (this.getUrlParam("goodsId")) {
@@ -118,19 +149,20 @@ export default class myseach extends React.Component {
         <div className="Useach_homes">
           <span>藏品名称:</span>
           <div className="Useach" onClick={() => this.Jump()}>
-            {
-              this.props.ustate == 'BuyingRelease'?(
-                <img src={require("../../assets/mai.png")} alt="" />
-              ):(
-                <img src={require("../../assets/mai_.png")} alt="" />
-              )
-            }
+            {this.props.ustate == "BuyingRelease" ? (
+              <img src={require("../../assets/mai.png")} alt="" />
+            ) : (
+              <img src={require("../../assets/mai_.png")} alt="" />
+            )}
             <input
               type="text"
               value={this.state.name}
               onChange={(ev) => this.hanInput(ev)}
-              placeholder="点击查找确认要发布的配号品类"
+              placeholder="点击确认名称"
             />
+          </div>
+          <div className="Contents" onClick={() => this.Jump()}>
+            前往目录选择
           </div>
         </div>
 
@@ -150,9 +182,8 @@ export default class myseach extends React.Component {
             </div>
           ))}
           <div className="mySwitch">
-            {
-              this.props.ustate == 'BuyingRelease'?(
-                <List.Item
+            {this.props.ustate == "BuyingRelease" ? (
+              <List.Item
                 extra={
                   <Switch
                     color="#EB3318"
@@ -167,10 +198,13 @@ export default class myseach extends React.Component {
               >
                 包邮
               </List.Item>
-              ):null
-            }
-           
+            ) : null}
           </div>
+          {sessionStorage.getItem("market") ? (
+            <div className="Latest" onClick={() => this.NewQuotes()}>
+              最新市场行情
+            </div>
+          ) : null}
         </div>
       </div>
     );

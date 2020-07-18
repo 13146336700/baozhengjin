@@ -9,7 +9,7 @@
     width: 100%;
   }
 }
-.Noaddress{
+.Noaddress {
   color: green;
 }
 .myseach {
@@ -18,7 +18,7 @@
   background-color: white !important;
   padding-bottom: 32px; /*px*/
   .Useach_homes {
-    width: 90%;
+    width: 95%;
     margin: auto;
     display: flex;
     align-items: center;
@@ -35,7 +35,7 @@
     // width: 60%;
     flex: 1;
     // margin: auto;
-    margin-left: 20px;/*px*/
+    margin-left: 20px; /*px*/
     height: 64px; /*px*/
     display: flex;
     align-items: center;
@@ -58,8 +58,22 @@
       color: rgba(153, 153, 153, 1);
     }
   }
+  .Contents {
+    margin-left: 8px; /*px*/
+    width: 160px; /*px*/
+    // height: 50px; /*px*/
+    height: 55px; /*px*/
+    text-align: center;
+    line-height: 55px; /*px*/
+    border: 1px solid rgba(64, 84, 161, 1);
+    border-radius: 4px; /*px*/
+    font-size: 24px; /*px*/
+    font-family: PingFang SC;
+    font-weight: 400;
+    color: rgba(64, 84, 161, 1);
+  }
   .transaction {
-    width: 90%;
+    width: 95%;
     margin: 41px auto 0 auto; /*px*/
     height: 30px; /*px*/
     display: flex;
@@ -67,6 +81,8 @@
     justify-content: space-between;
 
     .way {
+      display: flex;
+      align-items: center ;
       img {
         width: 28px; /*px*/
       }
@@ -95,6 +111,12 @@
     }
     .mySwitch {
       width: 185px; /*px*/
+    }
+    .Latest{
+      background-color: #2d72d8;
+      color: white;
+      padding: 8px 10px;/*px*/
+      border-radius: 8px;/*px*/
     }
   }
 }
@@ -185,7 +207,7 @@
   border-radius: 26px; /*px*/
   background-color: white;
   .Loose_title {
-    height: 111px; /*px*/
+    height: 40px; /*px*/
 
     justify-content: center;
     align-items: center;
@@ -327,14 +349,7 @@
         p {
           width: 100%;
           display: flex;
-          align-items: center;
-          span {
-            margin-left: 8px; /*px*/
-            border: 1px solid black;
-            border-radius: 8px;
-            display: inline-block;
-            min-width: 15px; /*px*/
-          }
+          justify-content: flex-end;
         }
       }
       li:last-child {

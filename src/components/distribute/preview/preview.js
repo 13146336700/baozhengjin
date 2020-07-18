@@ -79,22 +79,42 @@ export default class Preview extends React.Component {
     const standardConsecutiveJson = [...this.state.standardConsecutiveJson]; //浅拷贝一下
 
     if (this.state.mynum == 1) {
-      this.setState({
-        scatteredJson: scatteredJson.map((item, key) =>
-          key == myindex
-            ? { ...item, dealPrice: dealPrice, number: number }
-            : item
-        ),
+      scatteredJson.map((item, key) => {
+        if (key == myindex) {
+          item.dealPrice = dealPrice;
+          item.number = number;
+        }
       });
+      this.setState({
+        scatteredJson: scatteredJson
+      });
+
+      // this.setState({
+      //   scatteredJson: scatteredJson.map((item, key) =>
+      //     key == myindex
+      //       ? { ...item, dealPrice: dealPrice, number: number }
+      //       : item
+      //   ),
+      // });
+
+      sessionStorage.setItem("SANZNANG_ARR", JSON.stringify(scatteredJson));
+
     } else if (this.state.mynum == 2) {
-      this.setState({
-        otherConsecutiveJson: otherConsecutiveJson.map((item, key) =>
-          key == myindex
-            ? { ...item, dealPrice: dealPrice, number: number }
-            : item
-        ),
+
+      otherConsecutiveJson.map((item, key) => {
+        if (key == myindex) {
+          item.dealPrice = dealPrice;
+          item.number = number;
+        }
       });
+
+      this.setState({
+        otherConsecutiveJson: otherConsecutiveJson
+      });
+      
+      sessionStorage.setItem("SANLIAN_ARR", JSON.stringify(otherConsecutiveJson));
     } else if (this.state.mynum == 3) {
+
       this.setState({
         standardConsecutiveJson: standardConsecutiveJson.map((item, key) =>
           key == myindex
@@ -124,11 +144,10 @@ export default class Preview extends React.Component {
         .then((response) => {
           if (response.data.code == "10000") {
             //成功到库存页面
-            // this.props.history.push("/");
             Toast.info("成功", 1);
             this.props.history.push({
               pathname: "/myStock",
-              search: `userId=4028808361926f8a0161db4c492304e2&name=${this.getUrlParam(
+              search: `userId=${JSON.parse(sessionStorage.getItem("userInfo")).userId}&name=${this.getUrlParam(
                 "name"
               )}&type=2`,
             });
@@ -231,7 +250,7 @@ export default class Preview extends React.Component {
           <div className="shade">
             <div className="cont">
               <p>
-                <label htmlFor="">号码</label>
+                <label htmlFor="">修改号码</label>
                 <input
                   type="text"
                   value={this.state.number}
@@ -239,7 +258,7 @@ export default class Preview extends React.Component {
                 />
               </p>
               <p>
-                <label htmlFor="">价格</label>
+                <label htmlFor="">修改价格</label>
                 <input
                   type="text"
                   value={this.state.dealPrice}
