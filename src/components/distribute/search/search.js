@@ -185,12 +185,23 @@ export default class SearchNumber extends React.Component {
         this.props.history.push(`/searchResult?name=${this.state.name}&type=${this.state.type}&sname=${this.state.sname}&position=${this.state.position}&tag=${this.state.tag}&category=${this.state.category}&unitName=${this.state.unitName}`);
     }
 
+    /**跳转行情目录 */
+    goMarketList() {
+        let marketFrom = {
+            url: '',
+            market: 'searchNumber'
+        }
+        sessionStorage.setItem("marketFrom",JSON.stringify(marketFrom));
+        this.props.history.push("/catalogue");
+    }
+
     render() {
         return (
             <div className="searchNumber" style={{background:'#ffffff',minHeight:'100%',display:'flex',flexDirection:'column'}}>
                 <Uheader {...this.props} utitle="配号搜索" ></Uheader>
                 <div className="searchTop">
                     <input type="text" name="name" placeholder="请输入要搜索的品种" value={this.state.searchName} onChange={this.searchNumProduct.bind(this)} onFocus={(en) => this.clearName(en)}/>
+                    <span onClick={this.goMarketList.bind(this)}>行情目录</span>
                     <button className={this.state.type === '1'?'activeBtn':''} onClick={() =>this.changeType('1')}>求购</button>
                     <button className={this.state.type === '2'?'activeBtn':''} onClick={() =>this.changeType('2')}>出售</button>
                 </div>

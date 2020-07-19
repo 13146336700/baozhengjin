@@ -55,9 +55,13 @@ export default class CatalogueList extends React.Component {
         })
     }
 
+    /**获取参数传值 */
+    goFrom(item) {
+        let marketFrom = JSON.parse(sessionStorage.getItem("marketFrom"));
+        this.props.history.push(`/${marketFrom.market}?name=${item.name}&unitName=${item.unitName}&categoryName=${item.category}&url${marketFrom.url}`); 
+    }
 
     render() {
-        // let listData = this.state.data[this.state.type].dataList;
         return (
             <div className="catalogueList" style={{background:'#ffffff',minHeight:'100%'}}>
                 <Uheader {...this.props} utitle="邮币卡行情列表"></Uheader>
@@ -71,13 +75,12 @@ export default class CatalogueList extends React.Component {
                             <nav>
                                 {
                                     this.state.data.map((item, index) =>(
-                                        <li className="list">
+                                        <li className="list" onClick={() =>this.goFrom(item)}>
                                             <span className="code">{item.code}</span>
                                             <span className="name">{item.name}</span>
                                         </li>
                                     ))
                                 }
-                                {/* <li>没有更多数据了</li> */}
                             </nav>
                         ):(
                             <li style={{background: '#ffffff',lineHeight: '300px',textAlign: 'center',fontSize: '16px'}}>
