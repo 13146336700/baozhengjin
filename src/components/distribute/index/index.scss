@@ -360,6 +360,41 @@
         flex: 1;
         overflow-y: scroll;
     }
+    .list{
+        padding: 26px 0px;
+        .deal{
+            margin-right: 40px;
+        }
+    }
+    .stockList{
+        position: relative;
+        .nameBox{
+            .unit{
+                color: #999999;
+                span{
+                    color: #999999;
+                }
+            }
+            .number{
+                color: #999999;
+            }
+        }
+        .price{
+            color: #999999;
+        }
+        .deal{
+            border: transparent;
+            img{
+                display: block;
+                height: 83px;
+                width: 83px;
+                position: absolute;
+                top: 0px;
+                right: 0px;
+                margin-right: 0px;
+            }
+        }
+    }
 }
 
 /*我的配号*/
@@ -397,7 +432,7 @@
     }
     .stocklistBox{
         .list{
-            padding: 26px 44px 26px 0px;
+            padding: 26px 40px 26px 0px;
         }
         .nameBox{
             .number{
@@ -805,12 +840,5 @@
         white-space: nowrap;
     }
 }
-
-
-
-
-
-
-
 
 

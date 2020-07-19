@@ -196,7 +196,7 @@ export default class MyStock extends React.Component {
                     this.state.data.length > 0 ? (
                         <ul className="listBox stocklistBox" style={{paddingBottom:'70px'}}>
                             {this.state.data.map((item,index) => (
-                                <li className="list" key= {index} >
+                                <li className={item.status !== '0'?'list stockList':'list'} key= {index} >
                                     <div className="nameBox" onClick={() => this.goodsDetail(item.goodsId)}>
                                     <p className="number">{item.format}</p>
                                     <p  className="unit">{item.tag}&nbsp;&nbsp;共<span>{item.dealCnt}</span>{item.unitName}</p>
@@ -209,13 +209,10 @@ export default class MyStock extends React.Component {
                                                 { text: '修改价格', onPress: () => this.showShade(item,'change') },
                                             ])}
                                             >操作</Button>
-                                        ):(<Button className="deal" style={{border:'2px solid #ffffff'}} disabled onClick={() => operation([
-                                            { text: '', onPress: () => console.log() },
-                                            { text: '', onPress: () => console.log() },
-                                        ])}
-                                        ></Button>)
+                                        ):(<div className="deal">
+                                            <img src={item.status === '3'?require("../../assets/ic_manual dismounting.png"):item.status === '2'?require("../../assets/ic_sell out.png"):require("../../assets/ic_invalid.png")} alt=""/>
+                                        </div>)
                                     }
-                                    
                                 </li>
                             ))}
                         </ul>
