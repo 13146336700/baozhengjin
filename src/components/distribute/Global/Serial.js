@@ -424,7 +424,7 @@ export default class Standard extends React.Component {
                     onChange={(e) => this.selectChange(e, item, key)}
                     value={item.tag}
                   >
-                    {/* <option style={{ display: "none" }} selected>请选择</option> */}
+                    <option style={{ display: "none" }}>请选择</option>
                     {item.todoList.map((item1, key1) => (
                       <option
                       selected
