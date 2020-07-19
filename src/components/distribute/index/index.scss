@@ -571,10 +571,10 @@
         border-bottom: 4px solid #f2f2f2;
     }
     .searchTop{
-        height: 126px;
+        // height: 126px;
         box-sizing: border-box;
         padding: 30px;
-        display: flex;
+        // display: flex;
         padding-left: -10px;
         button{
             width:120px;
@@ -586,7 +586,7 @@
             font-family:PingFangSC-Regular,PingFang SC;
             font-weight:400;
             color:rgba(51,51,51,1);
-            margin-left: 40px;
+            margin-right: 40px;
             background-color: #ffffff;
             transform: translateY(5px);
         }
@@ -595,14 +595,41 @@
             border:1px solid rgba(235,51,24,1);
             color: #ffffff;
         }
-        input{
-            height:64px;
-            border-radius:7px;
-            border:1px solid rgba(151,151,151,1);
-            flex: 1;
-            padding-left: 20px;
-            font-size: 28px;
+        .searchBox{
+            padding-top: 34px;
+            padding-bottom: 17px;
+            border-bottom: 1px solid #D8D8D8;
+            font-size:30px;
+            display: flex;
+            label{
+                display: inline-block;
+                width: 200px;
+                line-height: 53px;
+            }
+            .catalog{
+                float: right;
+                width:180px;
+                height:53px;
+                background:rgba(255,255,255,1);
+                border-radius:4px;
+                border:1px solid rgba(64,84,161,1);
+                font-size:22px;
+                font-family:PingFangSC-Regular,PingFang SC;
+                font-weight:400;
+                color:rgba(64,84,161,1);
+                line-height:53px;
+                text-align: center;
+            }
+            input{
+                height:53px;
+                border: transparent;
+                flex: 1;
+                font-size: 32px;
+                margin-left: 50px;
+                box-sizing: border-box;
+            }
         }
+        
     }
     
     .mainCon{

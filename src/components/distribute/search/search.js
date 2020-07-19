@@ -200,10 +200,12 @@ export default class SearchNumber extends React.Component {
             <div className="searchNumber" style={{background:'#ffffff',minHeight:'100%',display:'flex',flexDirection:'column'}}>
                 <Uheader {...this.props} utitle="配号搜索" ></Uheader>
                 <div className="searchTop">
-                    <input type="text" name="name" placeholder="请输入要搜索的品种" value={this.state.searchName} onChange={this.searchNumProduct.bind(this)} onFocus={(en) => this.clearName(en)}/>
-                    <span onClick={this.goMarketList.bind(this)}>行情目录</span>
                     <button className={this.state.type === '1'?'activeBtn':''} onClick={() =>this.changeType('1')}>求购</button>
                     <button className={this.state.type === '2'?'activeBtn':''} onClick={() =>this.changeType('2')}>出售</button>
+                    <div className="searchBox">
+                        <label htmlFor="name">藏品名称</label><input type="text" name="name" placeholder="点击搜索商品名称" value={this.state.searchName} onChange={this.searchNumProduct.bind(this)} onFocus={(en) => this.clearName(en)}/>
+                        <span className='catalog' onClick={this.goMarketList.bind(this)}>行情目录</span>
+                    </div>
                 </div>
                 <div style={{height:'10px',background:'rgba(242,242,242,1)'}}></div>
                 <div className="mainCon">
