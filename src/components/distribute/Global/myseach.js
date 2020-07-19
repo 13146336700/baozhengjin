@@ -170,7 +170,7 @@ export default class myseach extends React.Component {
               type="text"
               value={this.state.name}
               onChange={(ev) => this.hanInput(ev)}
-              placeholder="点击确认名称"
+              placeholder="点击搜索名称"
             />
           </div>
           <div className="Contents" onClick={() => this.Jump("2")}>

@@ -23,6 +23,8 @@
     margin: auto;
     display: flex;
     align-items: center;
+    border-bottom: 1px solid rgba(216,216,216,1);
+    padding-bottom: 24px;/*px*/
     span {
       display: flex;
       font-family: PingFangSC-Regular, PingFang SC;
@@ -40,26 +42,28 @@
     height: 64px; /*px*/
     display: flex;
     align-items: center;
-    background: rgba(242, 242, 242, 1);
+    // background: rgba(242, 242, 242, 1);
     border-radius: 11px; /*px*/
     overflow: hidden;
     img {
       width: 40px; /*px*/
+      height: 40px;/*px*/
       margin-left: 18px; /*px*/
     }
     input {
       line-height: 64px; /*px*/
       flex: 1;
-      background: rgba(242, 242, 242, 1);
+      // background: rgba(242, 242, 242, 1);
       margin-left: 18px; /*px*/
-      font-size: 28px; /*px*/
+      font-size: 30px; /*px*/
       font-family: PingFangSC-Regular, PingFang SC;
       font-weight: 400;
       border: none;
-      color: rgba(153, 153, 153, 1);
     }
   }
   .Contents {
+    background:rgba(255,255,255,1);
+
     margin-left: 8px; /*px*/
     width: 160px; /*px*/
     // height: 50px; /*px*/
@@ -68,10 +72,10 @@
     line-height: 55px; /*px*/
     border: 1px solid rgba(64, 84, 161, 1);
     border-radius: 4px; /*px*/
-    font-size: 24px; /*px*/
+    font-size: 22px; /*px*/
     font-family: PingFang SC;
     font-weight: 400;
-    color: rgba(64, 84, 161, 1);
+    color:rgba(64,84,161,1);
   }
   .transaction {
     width: 95%;
