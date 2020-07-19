@@ -1,6 +1,4 @@
-import React, {
-  Component
-} from "react";
+import React, { Component } from "react";
 var u = navigator.userAgent;
 var isAndroid = u.indexOf("Android") > -1;
 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
@@ -13,7 +11,15 @@ export default class Uheaders extends React.Component {
     // };
     this.backClick = this.backClick.bind(this);
   }
-  componentWillMount() {}
+  componentWillMount() {
+    console.log(this.props);
+    if (this.props.match.path == "/goodsDistribute/") {
+      sessionStorage.setItem(`${this.props.match.path}Url`, this.props.location.search);
+      // sessionStorage.setItem("/goodsDistributeUrl", this.props.location.search);
+    }else if(this.props.match.path == "/distribute"){
+      sessionStorage.setItem(`${this.props.match.path}Url`, this.props.location.search);
+    }
+  }
   static defaultProps = {
     useach: false,
   };
@@ -26,21 +32,40 @@ export default class Uheaders extends React.Component {
     return ""; //如果此处只写return;则返回的是undefined
   };
   Jonp = () => {
-    let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-    if (!userInfo || userInfo.userId === '') {
+    let userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+    if (!userInfo || userInfo.userId === "") {
       if (isiOS) {
-        window.webkit.messageHandlers.IOSNativeLogin.postMessage('');
+        window.webkit.messageHandlers.IOSNativeLogin.postMessage("");
       } else {
-        window.app.login()
+        window.app.login();
       }
-      return false
+      return false;
     }
-    if (this.props.match.path == "/goodsDistribute/") {
-      this.props.history.push(`/searchNumber?name=${this.getUrlParam('name')}&unitName=${this.getUrlParam('unitName')}&categoryName=${this.getUrlParam('categoryName')}`);
+    if (
+      this.props.match.path == "/goodsDistribute/" ||
+      this.props.match.path == "/distribute"
+    ) {
+      let url;
+      if (this.props.match.path == "/goodsDistribute/") {
+        url = "goodsDistribute";
+      } else if (this.props.match.path == "/distribute") {
+        url = "distribute";
+      }
+      console.log(`${this.props.match.path}Url`);
+      sessionStorage.setItem(
+        `${this.props.match.path}Url`,
+        this.props.location.search
+      );
+      this.props.history.push(
+        `/searchNumber?name=${this.getUrlParam(
+          "name"
+        )}&unitName=${this.getUrlParam(
+          "unitName"
+        )}&categoryName=${this.getUrlParam("categoryName")}&url=${url}`
+      );
     } else {
-      this.props.history.push(`/searchNumber`)
+      this.props.history.push(`/searchNumber`);
     }
-
   };
   backClick = () => {
     console.log(this.props);
@@ -69,11 +94,13 @@ export default class Uheaders extends React.Component {
       sessionStorage.removeItem("SANZHANG_ARR");
       sessionStorage.removeItem("BIAOLIAN_Ontable");
       sessionStorage.removeItem("market");
-
     } else if (
       this.props.match.path == "/SaleRelease" ||
       this.props.match.path == "/BuyingRelease"
     ) {
+      //发布页面
+      let urls = sessionStorage.getItem(`/${this.getUrlParam("url")}Url`);
+      console.log(urls);
       //因为有搜索 返回会回到搜索页面 所以单独处理
       if (this.getUrlParam("goodsId")) {
         //商品进入
@@ -81,10 +108,25 @@ export default class Uheaders extends React.Component {
         return false;
       }
       if (this.getUrlParam("url")) {
-        this.props.history.push(this.getUrlParam("url"));
+        this.props.history.push(
+          `${this.getUrlParam("url")}${urls}`
+        );
       }
+    } else if (this.props.match.path == "/searchNumber") {
+      //配号搜索页面
+      let urls = sessionStorage.getItem(`/${this.getUrlParam("url")}Url`);
+      console.log(urls);
+      this.props.history.push(
+        `/${this.getUrlParam("url")}${urls}`
+      );
+    } else if (this.props.match.path == "/goodsDistribute/") {
+      //首页 列表
+      this.props.history.push(
+        `/distribute?userId=${
+          JSON.parse(sessionStorage.getItem("userInfo")).userId
+        }&userType=${JSON.parse(sessionStorage.getItem("userInfo")).userType}`
+      );
     } else if (this.props.match.path == "/myStock/") {
-
       sessionStorage.removeItem("BIAOLIAN_Ontable");
       sessionStorage.removeItem("market");
 
@@ -104,42 +146,25 @@ export default class Uheaders extends React.Component {
     }
   };
   render() {
-    return ( <
-      div className = "Uheaders" >
-      <
-      div className = "Uheadershome" >
-      <
-      ul className = {
-        isiOS ? "iosHeader" : null
-      } >
-      <
-      li onClick = {
-        () => this.backClick()
-      } >
-      <
-      img src = {
-        require("../assets/Goreturn.png")
-      }
-      /> <
-      /li> <
-      li > {
-        this.props.utitle
-      } < /li> <
-      li > {
-        this.props.useach ? ( <
-          img src = {
-            require("../assets/seach.png")
-          }
-          onClick = {
-            () => this.Jonp()
-          }
-          />
-        ) : null
-      } <
-      /li> <
-      /ul> <
-      /div> <
-      /div>
+    return (
+      <div className="Uheaders">
+        <div className="Uheadershome">
+          <ul className={isiOS ? "iosHeader" : null}>
+            <li onClick={() => this.backClick()}>
+              <img src={require("../assets/Goreturn.png")} />
+            </li>
+            <li> {this.props.utitle} </li>
+            <li>
+              {this.props.useach ? (
+                <div onClick={() => this.Jonp()}>
+                  <img src={require("../assets/seach.png")} />
+                  搜索
+                </div>
+              ) : null}
+            </li>
+          </ul>
+        </div>
+      </div>
     );
   }
 }

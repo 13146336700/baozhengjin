@@ -124,7 +124,11 @@ export default class BuyingRelease extends React.Component {
     sessionStorage.setItem("BIAOLIAN_Ontable", Ontable);
   };
   setBuyingNumber = (ischeck) => {
-    if (ischeck.length < 3 || ischeck.length > 20) {
+    if (
+      ischeck.length < 3 ||
+      ischeck.length > 20 ||
+      /[\u4E00-\u9FA5]/i.test(ischeck)
+    ) {
       return false;
     } else {
       return true;

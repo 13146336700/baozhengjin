@@ -59,17 +59,17 @@ export default class SaleReleaseSeach extends React.Component {
       })
       .catch((error) => {});
   };
-  snameChange = (ev) => {
+  snameChange = (value) => {
     //文本
-    console.log(ev.target.value);
+    console.log(value);
     this.setState({
-      sname: ev.target.value,
+      sname: value,
     });
     if (this.state.sname) {
       axios
         .post("subject/json/searchNumProduct", {
-          sname: ev.target.value,
-          pageSize: "10",
+          sname: value,
+          pageSize: "15",
           pageIndex: "1",
         })
         .then((response) => {
@@ -133,6 +133,10 @@ export default class SaleReleaseSeach extends React.Component {
       catalog: null,
     });
   }
+  MysearcClick = () => {
+    //搜索
+    this.snameChange(this.state.sname);
+  };
 
   setSelfState = (val) => {
     console.log(val);
@@ -155,11 +159,11 @@ export default class SaleReleaseSeach extends React.Component {
     } else {
       goodsId = "";
     }
-    
+
     let market = {
-      sid:val.sid,
-      tag:val.tag,
-      code:val.code
+      sid: val.sid,
+      tag: val.tag,
+      code: val.code,
     };
     sessionStorage.setItem("market", JSON.stringify(market));
 
@@ -167,14 +171,16 @@ export default class SaleReleaseSeach extends React.Component {
       pathname: `/${this.props.match.params.ustate}`,
       search: `category=${val.category}&name=${val.name}&unitName=${
         val.unitName
-      }&url=${this.getUrlParam("url")}&goodsId=${goodsId}&checked=${this.getUrlParam('checked')}`,
+      }&url=${this.getUrlParam(
+        "url"
+      )}&goodsId=${goodsId}&checked=${this.getUrlParam("checked")}`,
     });
   };
 
   render() {
     return (
       <div className="SaleReleaseSeach">
-        <Uheader utitle="发布藏品搜索" {...this.props}></Uheader>
+        {/* <Uheader utitle="发布藏品搜索" {...this.props}></Uheader> */}
         {/* 
         右拉入
         */}
@@ -189,28 +195,34 @@ export default class SaleReleaseSeach extends React.Component {
         ></MyRight>
 
         <div className="Useach">
+          <img
+            src={require("../../assets/Goreturn.png")}
+            alt=""
+            className="Goreturn"
+            onClick={() => {
+              this.props.history.go(-1);
+            }}
+          />
+
           <div className="Useachhome">
             <img src={require("../../assets/usearch.png")} alt="" />
             <div className="hot_word">
               <input
                 type="text"
                 value={this.state.sname}
-                onChange={(ev) => this.snameChange(ev)}
+                onChange={(ev) => this.snameChange(ev.target.value)}
                 placeholder="输入要查找的名称"
               />
-              <ul>
-                {this.state.searchNumProduct.map((item, key) => (
-                  <li key={key + 500} onClick={() => this.resouClick(item)}>
-                    {item.name}
-                  </li>
-                ))}
-              </ul>
             </div>
           </div>
+          <div className="searchFo" onClick={() => this.MysearcClick()}>
+            搜索
+          </div>
         </div>
+        <div className="Useach_boder_"></div>
 
-        <ul className="tab_">
-          <li
+        {/* <ul className="tab_">
+           <li
             className={this.state.Tab == "tab-1" ? "active" : null}
             onClick={() => this.tabClick(1, "coin")}
           >
@@ -222,18 +234,29 @@ export default class SaleReleaseSeach extends React.Component {
           >
             邮票
           </li>
+        </ul> */}
+        {!this.state.searchNumProduct.length ? (
+          <div className="Contents">
+            <div className="Contents_title">热门藏品</div>
+            <ul>
+              {this.state.productList.map((item, key) => (
+                <li key={key + 600} onClick={() => this.goSelete(item)}>
+                  {item.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+
+        <ul className="Ul_seach">
+          {this.state.searchNumProduct.map((item, key) => (
+            <li key={key + 500} onClick={() => this.resouClick(item)}>
+              {item.name}
+            </li>
+          ))}
         </ul>
-        <div className="Contents">
-          <div className="Contents_title">热门藏品</div>
-          <ul>
-            {this.state.productList.map((item, key) => (
-              <li key={key + 600} onClick={() => this.goSelete(item)}>
-                {item.name}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="Contents">
+
+        {/* <div className="Contents">
           <div className="Contents_title">藏品目录</div>
           <ul>
             {this.state.cataloglist.map((item, key) => (
@@ -242,7 +265,7 @@ export default class SaleReleaseSeach extends React.Component {
               </li>
             ))}
           </ul>
-        </div>
+        </div> */}
       </div>
     );
   }

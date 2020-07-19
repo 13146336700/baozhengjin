@@ -1,10 +1,26 @@
 import React, { Component } from "react";
-import { Toast, WhiteSpace, WingBlank, Button } from "antd-mobile";
+import { Toast, WhiteSpace, WingBlank, Button,Picker, List } from "antd-mobile";
+
 import "./index.scss";
+
 export default class Standard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      data: [
+        {
+          label: '2013',
+          value: '2013',
+        },
+        {
+          label: '2014',
+          value: '2014',
+        },
+      ],
+      cols: 1,
+      asyncValue: [
+        
+      ],
       LooseArr: [
         {
           todoList: [
@@ -229,7 +245,11 @@ export default class Standard extends React.Component {
     console.log(item);
   };
   setBuyingNumber = (ischeck) => {
-    if (ischeck.length < 3 || ischeck.length > 20) {
+    if (
+      ischeck.length < 3 ||
+      ischeck.length > 20 ||
+      /[\u4E00-\u9FA5]/i.test(ischeck)
+   ) {
       return false;
     } else {
       return true;
@@ -316,9 +336,67 @@ export default class Standard extends React.Component {
       LooseArr: LooseArr,
     });
   };
+  onPickerChange = (val) => {
+    console.log(val);
+    let colNum = 1;
+    const d = [...this.state.data];
+    const asyncValue = [...val];
+    if (val[0] === "zj") {
+      d.forEach((i) => {
+        if (i.value === "zj") {
+          colNum = 2;
+          if (!i.children) {
+            i.children = [
+              {
+                value: "zj-nb",
+                label: "宁波",
+              },
+              {
+                value: "zj-hz",
+                label: "杭州",
+              },
+            ];
+            asyncValue.push("zj-nb");
+          } else if (val[1] === "zj-hz") {
+            i.children.forEach((j) => {
+              if (j.value === "zj-hz") {
+                j.children = [
+                  {
+                    value: "zj-hz-xh",
+                    label: "西湖区",
+                  },
+                ];
+                asyncValue.push("zj-hz-xh");
+              }
+            });
+            colNum = 3;
+          }
+        }
+      });
+    } else {
+      colNum = 1;
+    }
+    this.setState({
+      data: d,
+      cols: colNum,
+      asyncValue,
+    });
+  };
   render() {
     return (
       <div className="Loose">
+        {/* <Picker
+          data={this.state.data}
+          cols={this.state.cols}
+          value={this.state.asyncValue}
+          onPickerChange={this.onPickerChange}
+          onOk={(v) => console.log(v)}
+        >
+          <List.Item arrow="horizontal" onClick={this.onClick}>
+            Multiple & async
+          </List.Item>
+        </Picker> */}
+
         <div className="Loose_title">
           {/* <p>标连{this.props.utitle}</p> */}
         </div>
@@ -341,13 +419,15 @@ export default class Standard extends React.Component {
                 <div className="select-area" data-tap-disabled="true">
                   <span>{item.tag}</span>
                   <img src={require("../../assets/right.png")} alt="" />
+                  <div data-tap-disabled="true">
                   <select
                     onChange={(e) => this.selectChange(e, item, key)}
                     value={item.tag}
                   >
-                    <option style={{ display: "none" }}>请选择</option>
+                    {/* <option style={{ display: "none" }} selected>请选择</option> */}
                     {item.todoList.map((item1, key1) => (
                       <option
+                      selected
                         onClick={() => this.Myoption(item1)}
                         value={item1.code}
                         key={key1}
@@ -356,6 +436,8 @@ export default class Standard extends React.Component {
                       </option>
                     ))}
                   </select>
+                  </div>
+                  
                 </div>
               </li>
               <li>

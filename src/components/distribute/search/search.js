@@ -188,7 +188,7 @@ export default class SearchNumber extends React.Component {
     /**跳转行情目录 */
     goMarketList() {
         let marketFrom = {
-            url: '',
+            url: this.getUrlParam('url'),
             market: 'searchNumber'
         }
         sessionStorage.setItem("marketFrom",JSON.stringify(marketFrom));

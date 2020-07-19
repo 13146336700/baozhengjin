@@ -185,7 +185,7 @@ export default class MyStock extends React.Component {
         const operation = Modal.operation;
         return (
             <div className="mystock" style={{background: '#FFFFFF',height:'100%'}}>
-                <Uheader {...this.props} utitle="库存管理" useach="true"></Uheader>
+                <Uheader {...this.props} utitle="库存管理"></Uheader>
                 <div className="goodsName">{this.getUrlParam('name')}</div>
                 {/* <Demo {...this.props} page="stock" showShade={this.showShade.bind(this)} showAdd={this.checkAddShow.bind(this)} onRef={(ref) => { this.demo = ref; }}></Demo> */}
                 <div className="tabBar">

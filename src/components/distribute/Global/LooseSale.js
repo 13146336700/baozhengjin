@@ -35,7 +35,11 @@ export default class LooseSale extends React.Component {
     return ""; //如果此处只写return;则返回的是undefined
   };
   setBuyingNumber = (ischeck) => {
-    if (ischeck.length < 3 || ischeck.length > 20) {
+    if (
+      ischeck.length < 3 ||
+      ischeck.length > 20 ||
+      /[\u4E00-\u9FA5]/i.test(ischeck)
+    ) {
       return false;
     } else {
       return true;
@@ -49,7 +53,7 @@ export default class LooseSale extends React.Component {
         Toast.info("请输入散张值", 1);
         return;
       }
-    };
+    }
     if (!priceReg.test(LooseObj.dealPrice)) {
       Toast.info("请输入散张出售正确的单价:整数或者保留两位小数", 2);
       return;
@@ -58,7 +62,7 @@ export default class LooseSale extends React.Component {
       Toast.info("请输入散张出售正确出售号码", 2);
       return;
     }
-  // }
+    // }
 
     let LooseArr = this.state.LooseArr;
     LooseArr.push({
@@ -119,11 +123,8 @@ export default class LooseSale extends React.Component {
   render() {
     return (
       <div className="Loose">
-        <div className="Loose_title">
-          {/* <p> {this.props.uname} </p> */}
-        </div>
+        <div className="Loose_title">{/* <p> {this.props.uname} </p> */}</div>
         <div className="Loose_body">
-          
           {this.state.LooseArr.map((item, key) => (
             <ul key={key}>
               <div className="title_num_del">
@@ -140,7 +141,7 @@ export default class LooseSale extends React.Component {
                 <div> 出售号码 </div>
                 <input
                   value={item.number}
-                  type="text" 
+                  type="text"
                   pattern="\d"
                   onChange={(ev) => this.hanNumChange(ev, key)}
                   placeholder="请输入出售的号码"
@@ -149,7 +150,7 @@ export default class LooseSale extends React.Component {
               <li>
                 <div> 单价（ 元 / 张） </div>
                 <input
-                  type="text"
+                  type="tel"
                   value={item.dealPrice}
                   onChange={(ev) => this.hanChange(ev, key)}
                   placeholder="请输入单张价格"

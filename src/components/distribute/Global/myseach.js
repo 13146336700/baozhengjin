@@ -98,7 +98,7 @@ export default class myseach extends React.Component {
     console.log(ev);
     console.log(ev.targe.value);
   };
-  
+
   NewQuotes = () => {
     let market = JSON.parse(sessionStorage.getItem("market"));
     console.log(market);
@@ -126,8 +126,9 @@ export default class myseach extends React.Component {
       }
     }
   };
-  Jump = () => {
+  Jump = (num) => {
     let goodsId = "";
+    let _this = this;
     if (this.getUrlParam("goodsId")) {
       goodsId = this.getUrlParam("goodsId");
     } else {
@@ -135,12 +136,23 @@ export default class myseach extends React.Component {
     }
     // _this.props.history.push("/good");
     // this.props.history.push(`/SaleReleaseSeach/${this.props.ustate}/${this.getUrlParam('url')}`);
-    this.props.history.push({
-      pathname: `/SaleReleaseSeach/${this.props.ustate}`,
-      search: `url=${this.getUrlParam("url")}&goodsId=${goodsId}&checked=${
-        this.state.checked
-      }`,
-    });
+    if (num == 1) {
+      this.props.history.push({
+        pathname: `/SaleReleaseSeach/${this.props.ustate}`,
+        search: `url=${this.getUrlParam("url")}&goodsId=${goodsId}&checked=${
+          this.state.checked
+        }`,
+      });
+    } else {
+      let marketFrom = {
+        url: this.getUrlParam("url"),
+        market: _this.props.ustate,
+      };
+      sessionStorage.setItem("marketFrom", JSON.stringify(marketFrom));
+      this.props.history.push({
+        pathname: `/catalogue`,
+      });
+    }
   };
   render() {
     // const { getFieldProps } = this.props.form;
@@ -148,7 +160,7 @@ export default class myseach extends React.Component {
       <div className="myseach">
         <div className="Useach_homes">
           <span>藏品名称:</span>
-          <div className="Useach" onClick={() => this.Jump()}>
+          <div className="Useach" onClick={() => this.Jump("1")}>
             {this.props.ustate == "BuyingRelease" ? (
               <img src={require("../../assets/mai.png")} alt="" />
             ) : (
@@ -161,7 +173,7 @@ export default class myseach extends React.Component {
               placeholder="点击确认名称"
             />
           </div>
-          <div className="Contents" onClick={() => this.Jump()}>
+          <div className="Contents" onClick={() => this.Jump("2")}>
             前往目录选择
           </div>
         </div>

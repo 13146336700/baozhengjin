@@ -86,7 +86,7 @@ export default class Preview extends React.Component {
         }
       });
       this.setState({
-        scatteredJson: scatteredJson
+        scatteredJson: scatteredJson,
       });
 
       // this.setState({
@@ -98,9 +98,7 @@ export default class Preview extends React.Component {
       // });
 
       sessionStorage.setItem("SANZNANG_ARR", JSON.stringify(scatteredJson));
-
     } else if (this.state.mynum == 2) {
-
       otherConsecutiveJson.map((item, key) => {
         if (key == myindex) {
           item.dealPrice = dealPrice;
@@ -109,19 +107,28 @@ export default class Preview extends React.Component {
       });
 
       this.setState({
-        otherConsecutiveJson: otherConsecutiveJson
+        otherConsecutiveJson: otherConsecutiveJson,
       });
-      
-      sessionStorage.setItem("SANLIAN_ARR", JSON.stringify(otherConsecutiveJson));
-    } else if (this.state.mynum == 3) {
 
-      this.setState({
-        standardConsecutiveJson: standardConsecutiveJson.map((item, key) =>
-          key == myindex
-            ? { ...item, dealPrice: dealPrice, number: number }
-            : item
-        ),
+      sessionStorage.setItem(
+        "SANLIAN_ARR",
+        JSON.stringify(otherConsecutiveJson)
+      );
+    } else if (this.state.mynum == 3) {
+      standardConsecutiveJson.map((item, key) => {
+        if (key == myindex) {
+          item.dealPrice = dealPrice;
+          item.number = number;
+        }
       });
+      this.setState({
+        standardConsecutiveJson: standardConsecutiveJson,
+      });
+
+      // sessionStorage.setItem(
+      //   "BIAOLIAN_ARR",
+      //   JSON.stringify(standardConsecutiveJson)
+      // );
     }
 
     this.setState({
@@ -147,9 +154,9 @@ export default class Preview extends React.Component {
             Toast.info("成功", 1);
             this.props.history.push({
               pathname: "/myStock",
-              search: `userId=${JSON.parse(sessionStorage.getItem("userInfo")).userId}&name=${this.getUrlParam(
-                "name"
-              )}&type=2`,
+              search: `userId=${
+                JSON.parse(sessionStorage.getItem("userInfo")).userId
+              }&name=${this.getUrlParam("name")}&type=2`,
             });
           } else {
             Toast.info(response.data.message, 1);
@@ -161,7 +168,7 @@ export default class Preview extends React.Component {
       console.log(this.props);
       console.log(son);
 
-      sessionStorage.setItem("ReturnGo", '2');
+      sessionStorage.setItem("ReturnGo", "2");
       this.props.history.push({
         pathname: "/SaleDetails",
         state: {
@@ -265,7 +272,10 @@ export default class Preview extends React.Component {
                   onChange={(ev) => this.changePrice(ev)}
                 />
               </p>
+              <div className="div_changeList">
               <button onClick={this.changeList.bind(this)}>确认修改</button>
+
+              </div>
             </div>
           </div>
         ) : null}

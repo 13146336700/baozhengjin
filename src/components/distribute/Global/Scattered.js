@@ -245,7 +245,11 @@ export default class Serial extends React.Component {
     sessionStorage.setItem("SANLIAN_ARR", JSON.stringify(LooseArr));
   };
   setBuyingNumber = (ischeck) => {
-    if (ischeck.length < 3 || ischeck.length > 20) {
+    if (
+      ischeck.length < 3 ||
+      ischeck.length > 20 ||
+      /[\u4E00-\u9FA5]/i.test(ischeck)
+   ) {
       return false;
     } else {
       return true;
