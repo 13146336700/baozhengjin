@@ -326,7 +326,7 @@ export default class Pulload extends React.Component {
                                     <div className="goodsType">
                                       {/* <div className="info" onClick={() => this.goodsDistribute(item)}> */}
                                         <div className="name"><p className='title'>{item.name}</p> 
-                                        <span className='market' onClick={(e) => {e.stopPropagation();this.market(item.sid, item.code, item.tag)}}>最新行情</span>
+                                        <span className='market' onClick={(e) => {e.stopPropagation();e.nativeEvent.stopImmediatePropagation();this.market(item.sid, item.code, item.tag)}}>最新行情</span>
                                         </div>
                                         <div className="number">
                                           <p>
