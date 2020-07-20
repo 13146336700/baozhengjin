@@ -55,7 +55,7 @@ export default class LooseSale extends React.Component {
       }
     }
     if (!priceReg.test(LooseObj.dealPrice)) {
-      Toast.info("请输入散张出售正确的单价:整数或者保留两位小数", 2);
+      Toast.info("请输入散张出售正确的单价", 2);
       return;
     }
     if (!this.setBuyingNumber(LooseObj.number)) {
@@ -148,7 +148,7 @@ export default class LooseSale extends React.Component {
                 />
               </li>
               <li>
-                <div> 单价（ 元 / 张） </div>
+                <div> 单价（ 元 / {this.getUrlParam("unitName")?this.getUrlParam("unitName"):'张'}） </div>
                 <input
                   type="tel"
                   value={item.dealPrice}

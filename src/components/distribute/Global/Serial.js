@@ -264,22 +264,24 @@ export default class Standard extends React.Component {
 
     for (let key in LooseObj) {
       if (!LooseObj[key]) {
-        Toast.info("请输入标连值", 2);
+        Toast.info("请输入完整的标连整售信息", 2);
         return;
       }
-    }
+    };
+
     console.log(LooseObj);
     // console.log(
     //   this.SETNUmber(LooseObj.number, LooseObj.dealCnt, "2", LooseObj)
     // );
     if (!this.SETNUmber(LooseObj.number, LooseObj.dealCnt, "2", LooseObj)) {
-      Toast.info("号码尾数请和示例尾号相同", 2);
+      Toast.info("填写的号码尾号请和示例尾号相同", 3);
       return;
     }
     if (!priceReg.test(LooseObj.dealPrice)) {
-      Toast.info("请输入标连整售正确的单价:整数或者保留两位小数", 2);
+      Toast.info("请输入标连整售正确的总价格", 2);
       return;
     }
+    
     if (!this.setBuyingNumber(LooseObj.number)) {
       Toast.info("请输入标连整售正确出售号码", 2);
       return;

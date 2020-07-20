@@ -416,7 +416,7 @@ export default class BuyingRelease extends React.Component {
     if (Numbers.A == "1") {
       for (var i = 0; i < scatteredJson.length; i++) {
         if (!priceReg.test(scatteredJson[i].dealPrice)) {
-          Toast.info("请输入散张出售正确的单价:整数或者保留两位小数", 2);
+          Toast.info("请输入散张出售正确的单价", 2);
           return;
         }
         if (!_this.setBuyingNumber(scatteredJson[i].number)) {
@@ -436,11 +436,11 @@ export default class BuyingRelease extends React.Component {
             standardConsecutiveJson[i]
           )
         ) {
-          Toast.info("号码尾数请和示例尾号相同", 2);
+          Toast.info("填写的号码尾号请和示例尾号相同", 2);
           return;
         }
         if (!priceReg.test(standardConsecutiveJson[i].dealPrice)) {
-          Toast.info("请输入标连整售正确的单价:整数或者保留两位小数", 2);
+          Toast.info("请输入标连整售正确的总价格", 2);
           return;
         }
         if (!_this.setBuyingNumber(standardConsecutiveJson[i].number)) {
