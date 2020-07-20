@@ -630,10 +630,10 @@
             padding-bottom: 17px;
             border-bottom: 1px solid #D8D8D8;
             font-size:30px;
-            display: flex;
+            // display: flex;
             label{
                 display: inline-block;
-                width: 200px;
+                width: 160px;
                 line-height: 53px;
             }
             .catalog{
@@ -651,11 +651,13 @@
                 text-align: center;
             }
             input{
+                display: inline-block;
+                width: calc(100% - 374px);
                 height:53px;
                 border: transparent;
-                flex: 1;
+                // flex: 1;
                 font-size: 32px;
-                margin-left: 50px;
+                margin-left: 30px;
                 box-sizing: border-box;
             }
         }
@@ -705,10 +707,11 @@
             }
         }
         .searchBox{
-            display: flex;
+            // display: flex;
             margin-bottom: 18px;
             input{
-                flex: 1;
+                // flex: 1;
+                width: calc(100% - 113px);
                 height:70px;
                 background:rgba(242,242,242,1);
                 border-radius:11px;
@@ -718,6 +721,7 @@
                 box-sizing: border-box;
             }
             button{
+                float: right;
                 width: 112px;
                 height: 70px;
                 line-height: 70px;

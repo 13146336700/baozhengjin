@@ -257,7 +257,7 @@ export default class SearchNumber extends React.Component {
               onFocus={(en) => this.clearName(en)}
             />
             <span className="catalog" onClick={this.goMarketList.bind(this)}>
-              行情目录
+              前往目录选择
             </span>
           </div>
         </div>
