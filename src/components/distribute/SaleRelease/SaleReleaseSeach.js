@@ -81,7 +81,7 @@ export default class SaleReleaseSeach extends React.Component {
                 searchNumProduct: response.data.resultObject.dataList,
               });
             } else {
-              Toast.info("暂无搜索", 2);
+              Toast.info("暂无此藏品名称", 2);
             }
           } else {
             Toast.info(response.data.message, 1);
@@ -138,8 +138,12 @@ export default class SaleReleaseSeach extends React.Component {
       catalog: null,
     });
   }
-  MysearcClick = () => {
+  MysearcClick(){
     //搜索
+    if(!this.state.sname){
+      Toast.info("请选择要搜索的藏品名称", 2);
+      return false;
+    }
     this.snameChange(this.state.sname);
   };
 

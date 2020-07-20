@@ -181,15 +181,16 @@ export default class SearchNumber extends React.Component {
 
   /*商品搜索接口 */
   searchNum() {
-    console.log(this.state.searchName);
+    if (this.state.searchName === "") {
+      Toast.info("请选择要搜索的藏品名称", 2);
+      return false;
+    }
+    
     if (this.state.searchName != "" && this.state.name === "") {
       Toast.info("暂无此藏品名称", 2);
       return false;
     };
-    if (this.state.name === "") {
-      Toast.info("请选择要搜索的藏品名称", 2);
-      return false;
-    }
+    
 
     /**搜索数据存入历史搜索 */
     let obj = {

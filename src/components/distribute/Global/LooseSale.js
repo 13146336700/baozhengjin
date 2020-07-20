@@ -50,7 +50,7 @@ export default class LooseSale extends React.Component {
     let LooseObj = this.state.LooseArr[this.state.LooseArr.length - 1];
     for (let key in LooseObj) {
       if (!LooseObj[key]) {
-        Toast.info("请输入散张值", 1);
+        Toast.info("请输入完整的散张出售信息", 2);
         return;
       }
     }
