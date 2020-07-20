@@ -195,9 +195,12 @@ export default class SearchNumber extends React.Component {
     /**搜索数据存入历史搜索 */
     let obj = {
       name: this.state.name,
-      position: this.state.positionName,
       sname: this.state.sname,
       tag: this.state.tag,
+      type: this.state.type,
+      position: this.state.position,
+      category: this.state.category,
+      unitName: this.state.unitName
     };
     let arr = this.state.searchHistory;
     arr.unshift(obj);
@@ -209,6 +212,13 @@ export default class SearchNumber extends React.Component {
     this.props.history.push(
       `/searchResult?name=${this.state.name}&type=${this.state.type}&sname=${this.state.sname}&position=${this.state.position}&tag=${this.state.tag}&category=${this.state.category}&unitName=${this.state.unitName}`
     );
+  }
+
+  /**搜索历史功能 */
+  historySearch(item) {
+    this.props.history.push(
+        `/searchResult?name=${item.name}&type=${item.type}&sname=${item.sname}&position=${item.position}&tag=${item.tag}&category=${item.category}&unitName=${item.unitName}`
+      );
   }
 
   /**跳转行情目录 */
@@ -232,7 +242,7 @@ export default class SearchNumber extends React.Component {
           flexDirection: "column",
         }}
       >
-        <Uheader {...this.props} utitle="配号搜索" useach='true'></Uheader>
+        <Uheader {...this.props} utitle="配号搜索"></Uheader>
         <div className="searchTop">
           <button
             className={this.state.type === "1" ? "activeBtn" : ""}
@@ -329,7 +339,7 @@ export default class SearchNumber extends React.Component {
               {/* <div className="searchtitle">搜索历史<span>(长按可删除单个记录)</span><img className="deleteIcon" src={require("../../assets/delete.png")} alt=""/></div> */}
               <ul>
                 {this.state.searchHistory.map((item, index) => (
-                  <li className="typelist" key={index}>
+                  <li className="typelist" key={index} onClick={() =>this.historySearch(item)}>
                     {item.name} {item.sname ? `•${item.position}` : ""}
                     {item.sname ? `•${item.sname}` : ""}
                     {item.tag ? `•${item.tag}` : ""}

@@ -57,7 +57,7 @@ export default class SearchResult extends React.Component {
                 {/* <div className="pub">
                     <img src={require('../../assets/pub.png')} alt=""/>
                 </div> */}
-                {/* <PublishBtn {...this.props} url='searchResult' category={this.getUrlParam('category') || searchInfo.categoryName} name={this.getUrlParam('name') || searchInfo.name} unitName={this.getUrlParam('unitName') || searchInfo.unitName}></PublishBtn> */}
+                <PublishBtn {...this.props} url='searchResult' category={this.getUrlParam('category') || searchInfo.categoryName} name={this.getUrlParam('name') || searchInfo.name} unitName={this.getUrlParam('unitName') || searchInfo.unitName}></PublishBtn>
             </div>
         );
     } 
