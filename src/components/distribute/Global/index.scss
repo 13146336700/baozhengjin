@@ -47,7 +47,7 @@
     overflow: hidden;
     img {
       width: 40px; /*px*/
-      height: 40px;/*px*/
+      // height: 40px;/*px*/
       margin-left: 18px; /*px*/
     }
     input {
@@ -93,7 +93,7 @@
       }
       span {
         display: inline-block;
-        margin-left: 20px; /*px*/
+        margin-left: 10px; /*px*/
         font-size: 28px; /*px*/
         font-family: PingFangSC-Regular, PingFang SC;
         font-weight: 400;
@@ -269,7 +269,7 @@
               align-items: center;
               img {
                 width: 28px; /*px*/
-                margin-right: 20px; /*px*/
+                margin-right: 5px; /*px*/
               }
               span {
                 display: inline-block;
@@ -326,6 +326,7 @@
           border: none;
           width: 45%;
           font-size: 30px; /*px*/
+          text-align: right;
           font-family: PingFangSC-Regular, PingFang SC;
           font-weight: 400;
           // text-align: right;
@@ -369,8 +370,11 @@
       border-bottom-right-radius: 26px; /*px*/
       width: 100%;
       text-align: center;
-      height: 80px; /*px*/
-      line-height: 80px; /*px*/
+      // justify-content: center;
+      height: 88px; /*px*/
+      // line-height: 80px; /*px*/
+      // display: flex;
+      // align-items: center;
       font-size: 30px; /*px*/
       font-family: PingFangSC-Regular, PingFang SC;
       font-weight: 400;

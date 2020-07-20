@@ -13,7 +13,7 @@ export default class address extends React.Component {
       // selectValue:'startup'
       dealWay: "北京交割",
       dealWayCode: "beijing",
-      MykeyWordValue: "担保交易",
+      MykeyWordValue: "",
       todolist: [
         { dealWay: "北京交割", code: "beijing" },
         { dealWay: "上海交割", code: "shanghai" },
@@ -32,7 +32,15 @@ export default class address extends React.Component {
     // funcitonName 是原生回调使用的方法名
     window["IOSSelectAddressUpload"] = this.IOSSelectAddressUpload;
     this.getDealPattern();
-  }
+    if(sessionStorage.getItem("newlistARR")){
+     
+      let isCheck = JSON.parse(sessionStorage.getItem("newlistARR"))[1].isCheck;
+      console.log(isCheck);
+      this.setState({
+        MykeyWordValue:isCheck
+      })
+    }
+  };
   //props将要被改变前执行
   componentWillReceiveProps(props) {
     console.log(props);
@@ -123,7 +131,7 @@ export default class address extends React.Component {
         <div
           className="addressHome"
           style={{
-            display: this.state.MykeyWordValue == "线下交易" ? "block" : "none",
+            display: this.state.MykeyWordValue == true ? "block" : "none",
           }}
         >
           <div className="userDelivery select-area">

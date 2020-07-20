@@ -9,7 +9,6 @@ export default class SaleReleaseSeach extends React.Component {
     super(props);
     this.state = {
       Tab: "tab-1",
-      cataloglist: [], //藏品目录
       sonarray: [], //传给子组件的数组
       catalog: "", //一级目录 子组件
       productList: [], //热门
@@ -50,7 +49,6 @@ export default class SaleReleaseSeach extends React.Component {
         console.log(response);
         if (response.data.code == "10000") {
           this.setState({
-            cataloglist: response.data.resultObject.cataloglist,
             productList: response.data.resultObject.productList,
           });
         } else {
@@ -75,9 +73,16 @@ export default class SaleReleaseSeach extends React.Component {
         .then((response) => {
           console.log(response.data);
           if (response.data.code == "10000") {
-            this.setState({
-              searchNumProduct: response.data.resultObject.dataList,
-            });
+            if (
+              Array.isArray(response.data.resultObject.dataList) &&
+              response.data.resultObject.dataList.length
+            ) {
+              this.setState({
+                searchNumProduct: response.data.resultObject.dataList,
+              });
+            } else {
+              Toast.info("暂无搜索", 2);
+            }
           } else {
             Toast.info(response.data.message, 1);
           }
@@ -255,17 +260,6 @@ export default class SaleReleaseSeach extends React.Component {
             </li>
           ))}
         </ul>
-
-        {/* <div className="Contents">
-          <div className="Contents_title">藏品目录</div>
-          <ul>
-            {this.state.cataloglist.map((item, key) => (
-              <li key={key + 10} onClick={() => this.mytable(item)}>
-                {item.name}
-              </li>
-            ))}
-          </ul>
-        </div> */}
       </div>
     );
   }

@@ -59,7 +59,7 @@ export default class myseach extends React.Component {
   };
   setParent = (item, key) => {
     //点击查询按钮，将值传给父组件
-    this.props.setKeyWorld(item.name);
+    
     console.log(this.props);
 
     let newlist = [...this.state.list]; //浅拷贝一下
@@ -74,15 +74,13 @@ export default class myseach extends React.Component {
     //   }),
     // });
     newlist.map((item1, index) => {
-      if (item1.isCheck == true) {
-        item1.isCheck = false;
-      } else {
-        item1.isCheck = true;
+      if (index == key) {
+        item1.isCheck = !item1.isCheck;
       }
     });
-    //  var objes = newlist.find((item)=>{
-    //    return item.isCheck = true;
-    //  })
+
+
+    this.props.setKeyWorld(newlist[1].isCheck);
 
     this.setState({ list: newlist });
     sessionStorage.setItem("newlistARR", JSON.stringify(newlist));

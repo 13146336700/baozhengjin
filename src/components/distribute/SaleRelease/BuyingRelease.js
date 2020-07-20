@@ -97,6 +97,7 @@ export default class BuyingRelease extends React.Component {
           }
           break;
         default:
+           return true;
           break;
       }
     }
@@ -136,6 +137,9 @@ export default class BuyingRelease extends React.Component {
   };
   isPositiveInteger = (s) => {
     //是否为正整数
+    if (s.length > 18) {
+      return false;
+    }
     var re = /^[0-9]+$/;
     return re.test(s);
   };
@@ -146,7 +150,7 @@ export default class BuyingRelease extends React.Component {
     let _this = this;
 
     if (!Name) {
-      Toast.info("请输入名称", 1);
+      Toast.info("请输入藏品名称", 1);
       return;
     }
 
@@ -161,11 +165,25 @@ export default class BuyingRelease extends React.Component {
       "",
       "N",
     ];
-    My_seach.list.map((item, key) => {
-      if (item.isCheck == true) {
-        dealPattern = item.dealPattern;
-      }
-    });
+    if (My_seach.list[0].isCheck == true && My_seach.list[1].isCheck == true) {
+      dealPattern = "5";
+    } else if (
+      My_seach.list[0].isCheck == true &&
+      My_seach.list[1].isCheck == false
+    ) {
+      dealPattern = My_seach.list[0].dealPattern;
+    } else if (
+      My_seach.list[0].isCheck == false &&
+      My_seach.list[1].isCheck == true
+    ) {
+      dealPattern = My_seach.list[1].dealPattern;
+    }
+
+    // My_seach.list.map((item, key) => {
+    //   if (item.isCheck == true) {
+    //     dealPattern = item.dealPattern;
+    //   }
+    // });
     //是否包邮
     if (My_seach.checked) {
       isPostage = "Y";
@@ -305,7 +323,8 @@ export default class BuyingRelease extends React.Component {
       ) {
         tag = "散单";
         obj.dealPrice = myScattered__Item.dealPrice;
-        obj.signlePrice = myScattered__Item.dealPrice;
+        // obj.signlePrice = myScattered__Item.dealPrice;
+        obj.signlePrice = "";
         if (
           myScattered__Item.dealPrice &&
           myScattered__Item.dealCnt &&
@@ -331,7 +350,7 @@ export default class BuyingRelease extends React.Component {
       ) {
         tag = "散整";
         obj.dealPrice = myScattered__Item.signlePrice;
-        obj.signlePrice = myScattered__Item.signlePrice;
+        // obj.signlePrice = myScattered__Item.signlePrice;
 
         if (
           myScattered__Item.signlePrice &&
@@ -432,14 +451,36 @@ export default class BuyingRelease extends React.Component {
 
     if (Numbers.C == "1") {
       for (var i = 0; i < otherConsecutiveJson.length; i++) {
-        if (otherConsecutiveJson[i].priceShow) {
+        //整售 单售
+        if (
+          otherConsecutiveJson[i].priceShow == true &&
+          otherConsecutiveJson[i].AllpriceShow == true
+        ) {
+          if (
+            !priceReg.test(otherConsecutiveJson[i].dealPrice) ||
+            !priceReg.test(otherConsecutiveJson[i].signlePrice)
+          ) {
+            Toast.info("请输入散连出售正确的价格:整数或者保留两位小数", 2);
+            return;
+          }
+        }
+        //单售
+        if (
+          otherConsecutiveJson[i].priceShow ||
+          otherConsecutiveJson[i].AllpriceShow == false
+        ) {
           if (!priceReg.test(otherConsecutiveJson[i].dealPrice)) {
             Toast.info("请输入散连出售正确的单价:整数或者保留两位小数", 2);
             return;
           }
         }
-        if (otherConsecutiveJson[i].AllpriceShow) {
-          if (!priceReg.test(otherConsecutiveJson[i].signlePrice)) {
+
+        //整售
+        if (
+          otherConsecutiveJson[i].AllpriceShow ||
+          otherConsecutiveJson[i].priceShow == false
+        ) {
+          if (!priceReg.test(otherConsecutiveJson[i].dealCnt)) {
             Toast.info("请输入散连出售正确的连号总价:整数或者保留两位小数", 2);
             return;
           }
@@ -505,6 +546,9 @@ export default class BuyingRelease extends React.Component {
         dealWay: "",
         personPhone: "",
         personName: "",
+        assureAddress: "",
+        assurePersonPhone: "",
+        assurePersonName: "",
       },
       // search:`goodsId=${this.getUrlParam("goodsId")}&name=${this.getUrlParam("name")}`
     });
@@ -560,7 +604,7 @@ export default class BuyingRelease extends React.Component {
           ></Myseach>
         </div>
 
-        <div className="zhanwei"></div>
+        {/* <div className="zhanwei"></div> */}
         <div className="tabBar">
           <ul>
             {this.state.tabBar.map((item, key) => (
@@ -577,7 +621,7 @@ export default class BuyingRelease extends React.Component {
         <div
           style={{ display: this.state.Ontable == "tab-0" ? "block" : "none" }}
         >
-          <div className="zhanwei"></div>
+          {/* <div className="zhanwei"></div> */}
           <LooseSale
             {...this.props}
             uname="散张出售"
@@ -587,7 +631,7 @@ export default class BuyingRelease extends React.Component {
         <div
           style={{ display: this.state.Ontable == "tab-1" ? "block" : "none" }}
         >
-          <div className="zhanwei"></div>
+          {/* <div className="zhanwei"></div> */}
           <Serial
             {...this.props}
             utitle="整售"
@@ -598,7 +642,7 @@ export default class BuyingRelease extends React.Component {
         <div
           style={{ display: this.state.Ontable == "tab-2" ? "block" : "none" }}
         >
-          <div className="zhanwei"></div>
+          {/* <div className="zhanwei"></div> */}
           <Scattered
             ustatus="2"
             {...this.props}

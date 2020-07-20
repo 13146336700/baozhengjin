@@ -117,9 +117,9 @@ function App() {
          <Route path="/Increase" exact component={Increase}/>   
          <Route path="/SaleDetails" exact component={SaleDetails}/>   
          <Route path="/distribute" exact component={distribute}/>    
-         <Route path="/myDistribute/" exact component={MyDistribute}/>    
-         <Route path="/goodsDistribute/" exact component={Goods}/>    
-         <Route path="/myStock/" exact component={MyStock}/>    
+         <Route path="/myDistribute" exact component={MyDistribute}/>    
+         <Route path="/goodsDistribute" exact component={Goods}/>    
+         <Route path="/myStock" exact component={MyStock}/>    
          <Route path="/searchNumber" exact component={SearchNumber}/>    
          <Route path="/searchResult" exact component={SearchResult}/>    
          <Route path="/preview" exact component={Preview}/>    

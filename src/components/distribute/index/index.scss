@@ -53,7 +53,10 @@
 .am-modal-transparent{
     width: 60%!important;
 }
-
+.footer_zhanwei{
+    width: 100%;
+    height: 200px;/*px*/
+}
 .listBox{
     padding-top: 20px;
     
@@ -302,10 +305,11 @@
         background: rgba(0,0,0,0.5);
         .cont{
             position: absolute;
-            top: 30%;
+            top: 28%;
             left: 50%;
             width: 70%;
-            height: 376px;
+            // height:476px;
+            padding-bottom: 20px;
             background-color: #ffffff;
             border-radius: 24px;
             overflow: hidden;
@@ -314,10 +318,10 @@
             // transform: translateX(-240px);
             p{
                 // display: flex;
-                padding-left: 44px;
+                padding-left: 44px;/*px*/
                 height:100px;
                 background:rgba(255,255,255,1);
-                border-bottom:1px solid rgba(207,207,207,1);
+                border:2px solid rgba(231, 231, 231, 0.972);/*px*/
                 font-size:34px;
                 font-family:PingFangSC-Regular,PingFang SC;
                 font-weight:400;
@@ -328,33 +332,48 @@
                     width: 30%;
                 }
                 input{
+                    margin-left: 56px;/*px*/
                     display: inline-block;
                     box-sizing: border-box;
                     border: none;
                     height: 100px;
                     line-height: 100px;
-                    width: 70%;
+                    width: 50%;
                     background-color: #ffffff;
                 }
+            }
+            p:nth-child(2){
+                border-top: none;
+            }
+            p:nth-child(3){
+                border-top: none;
+            }
+            .zhanweifu_{
+                width: 100%;
+                height: 40px;/*px*/
             }
             .div_changeList{
                 width: 100%;
                 text-align: center;
                 button{
-                    width:324px;
-                    height:96px;
+                    width:40%;
+                    height:80px;/*px*/
                     background:rgba(215,48,45,1);
-                    border-radius:26px;
-                    font-size:34px;
+                    border-radius:16px;/*px*/
+                    font-size:30px;/*px*/
                     font-family:PingFangSC-Medium,PingFang SC;
                     font-weight:500;
                     color:rgba(255,255,255,1);
-                    line-height:96px;
-                    letter-spacing:2px;
+                    line-height:80px;/*px*/
+                    letter-spacing:2px;/*px*/
                     text-align: center;
                     border: transparent;
-                    // margin: 40px 78px 0px;
-                    margin-top: 40px;
+                    margin-top: 40px;/*px*/
+                }
+                button:nth-child(2){
+                    margin-left: 20px;/*px*/
+                    background-color: #D3D3D3;
+                    color: black;
                 }
             }
             

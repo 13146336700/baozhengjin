@@ -51,23 +51,27 @@ export default class SaleDetails extends React.Component {
     });
   };
   APPUpload = () => {
-    if (this.state.imageArray.length > 9) {
-      Toast.info("最多10张", 1);
-    } else {
+    // if (this.state.imageArray.length > 9) {
+    //   Toast.info("最多10张", 1);
+    // } else {
+      let num = 10 - Number(this.state.imageArray.length);
       if (isiOS) {
         try {
-          window.webkit.messageHandlers.IOSNativePhotoImage.postMessage("");
+          window.webkit.messageHandlers.IOSNativePhotoImage.postMessage(
+            Number(num) 
+          );
         } catch (e) {
           console.log(e);
         }
       } else {
         try {
-          window.app.androidNativePhotoImage();
+          
+          window.app.androidNativePhotoImage(num);
         } catch (e) {
           console.log(e);
         }
       }
-    }
+    // }
   };
   isRealNum = (val) => {
     if (val === "" || val == null) {
@@ -127,9 +131,12 @@ export default class SaleDetails extends React.Component {
         picUrls: this.state.imageArray.join(","),
         validDay: this.state.ExpirationValue,
         address: myArray.address,
-        dealWay: myArray.dealWay,
         personPhone: myArray.personPhone,
         personName: myArray.personName,
+        assureAddress: myArray.address,
+        assurePersonPhone: myArray.personPhone,
+        assurePersonName: myArray.personName,
+        dealWay: myArray.dealWay,
       })
       .then((response) => {
         if (response.data.code == "10000") {
@@ -183,12 +190,16 @@ export default class SaleDetails extends React.Component {
                   />
                 </div>
               ))}
-              <img
-                src={require("../../assets/imagepicker.png")}
-                alt="添加"
-                className="add_upimage"
-                onClick={() => this.APPUpload()}
-              />
+              {this.state.imageArray.length
+                < 10?(
+                    <img
+                      src={require("../../assets/imagepicker.png")}
+                      alt="添加"
+                      className="add_upimage"
+                      onClick={() => this.APPUpload()}
+                    />
+                  )
+                : null}
             </div>
           </div>
         </div>

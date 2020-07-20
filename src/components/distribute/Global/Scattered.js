@@ -135,13 +135,18 @@ export default class Serial extends React.Component {
           }
           break;
         default:
+          return true;
           break;
       }
     }
   };
   isPositiveInteger = (s) => {
     //是否为正整数
-    var re = /^[0-9]+$/;
+    console.log(s.length);
+    if (s.length > 18) {
+      return false;
+    }
+    var re = /^\+?[1-9]\d*$/;
     return re.test(s);
   };
   hanChange = (ev, index) => {
@@ -249,7 +254,7 @@ export default class Serial extends React.Component {
       ischeck.length < 3 ||
       ischeck.length > 20 ||
       /[\u4E00-\u9FA5]/i.test(ischeck)
-   ) {
+    ) {
       return false;
     } else {
       return true;
@@ -260,6 +265,8 @@ export default class Serial extends React.Component {
     let LooseObj = this.state.LooseArr[this.state.LooseArr.length - 1];
     var priceReg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;
     let MyBoole = "";
+    console.log(LooseObj);
+    // dealCnt
     if (this.props.ustatus == "1") {
       // 求购
       let obj = {};
@@ -365,12 +372,22 @@ export default class Serial extends React.Component {
                       <div
                         onClick={() => {
                           const LooseArr = [...array]; //浅拷贝一下
+
+                          LooseArr.map((item1, index) => {
+                            if (index == key) {
+                              item.AllpriceShow = !item.AllpriceShow;
+                              if (item.AllpriceShow == false) {
+                                item.signlePrice = "";
+                              }
+                            }
+                          });
+
+                          sessionStorage.setItem(
+                            "SANLIAN_ARR",
+                            JSON.stringify(LooseArr)
+                          );
                           this.setState({
-                            LooseArr: LooseArr.map((item1, index) =>
-                              index == key
-                                ? { ...item1, AllpriceShow: !item.AllpriceShow }
-                                : item1
-                            ),
+                            LooseArr: LooseArr,
                           });
                         }}
                       >
@@ -391,13 +408,22 @@ export default class Serial extends React.Component {
                       <div
                         onClick={() => {
                           const LooseArr = [...array]; //浅拷贝一下
-                          this.setState({
-                            LooseArr: LooseArr.map((item1, index) =>
-                              index == key
-                                ? { ...item1, priceShow: !item.priceShow }
-                                : item1
-                            ),
+
+                          LooseArr.map((item1, index) => {
+                            if (index == key) {
+                              item.priceShow = !item.priceShow;
+                              if (item.priceShow == false) {
+                                item.dealPrice = "";
+                              }
+                            }
                           });
+                          this.setState({
+                            LooseArr: LooseArr,
+                          });
+                          sessionStorage.setItem(
+                            "SANLIAN_ARR",
+                            JSON.stringify(LooseArr)
+                          );
                         }}
                       >
                         {item.priceShow ? (

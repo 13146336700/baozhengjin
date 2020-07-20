@@ -52,6 +52,9 @@ export default class SaleRelease extends React.Component {
   };
   isPositiveInteger = (s) => {
     //是否为正整数
+    if (s.length > 18) {
+      return false;
+    }
     var re = /^[0-9]+$/;
     return re.test(s);
   };
@@ -108,11 +111,20 @@ export default class SaleRelease extends React.Component {
       "",
       "N",
     ];
-    My_seach.list.map((item, key) => {
-      if (item.isCheck == true) {
-        dealPattern = item.dealPattern;
-      }
-    });
+
+    if(My_seach.list[0].isCheck == true && My_seach.list[1].isCheck == true){
+      dealPattern = '5';
+    }else if(My_seach.list[0].isCheck == true && My_seach.list[1].isCheck == false){
+      dealPattern = My_seach.list[0].dealPattern;
+    }else if(My_seach.list[0].isCheck == false && My_seach.list[1].isCheck == true){
+      dealPattern = My_seach.list[1].dealPattern;
+    }
+
+    // My_seach.list.map((item, key) => {
+    //   if (item.isCheck == true) {
+    //     dealPattern = item.dealPattern;
+    //   }
+    // });
 
     //散张求购---------------------------------------
     let [My_Loose_, Loose_Last, LooseObj, tag] = [
@@ -331,22 +343,7 @@ export default class SaleRelease extends React.Component {
       }
     }
 
-    //检查预览
-    log({
-      pubUserid: "4028808361926f8a0161db4c492304e2", //用户id
-      type: "1", //1 求购，2 出售
-      categoryName: this.getUrlParam("category"), //商品分类
-      name: this.getUrlParam("name"), //搜索框的名字
-      dealPattern: dealPattern, //担保 2，线下 3
-      isPostage: "N", //默认N 不包邮，Y 包邮。买没有包邮，固定填N
-      scatteredJson: JSON.stringify(scatteredJson),
-      standardConsecutiveJson: JSON.stringify(standardConsecutiveJson),
-      otherConsecutiveJson: JSON.stringify(otherConsecutiveJson),
-      address: MyuserAddress_.address,
-      dealWay: MyuserAddress_.dealWayCode,
-      personPhone: MyuserAddress_.phone,
-      personName: MyuserAddress_.personName,
-    });
+  
     if (!dealPattern) {
       Toast.info("请选择交易方式", 1);
       return;
@@ -410,9 +407,12 @@ export default class SaleRelease extends React.Component {
               ? JSON.stringify([])
               : JSON.stringify(otherConsecutiveJson),
           address: MyuserAddress_.address,
-          dealWay: MyuserAddress_.dealWayCode,
           personPhone: MyuserAddress_.phone,
           personName: MyuserAddress_.name,
+          assureAddress: MyuserAddress_.address,
+          assurePersonPhone: MyuserAddress_.phone,
+          assurePersonName: MyuserAddress_.name,
+          dealWay: MyuserAddress_.dealWayCode,
         },
       });
     }

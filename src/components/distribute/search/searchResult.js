@@ -35,7 +35,9 @@ export default class SearchResult extends React.Component {
         return (
             <div className="mydistribute" style={{background: '#ffffff', minHeight:'100%'}}>
                 <div className="Resultheader">
-                    <p className="back"> <Icon type="left" size="sm" /></p>
+                    <p className="back" onClick={()=>{
+                        this.props.history.go(-1)
+                    }}> <Icon type="left" size="sm" /></p>
                     <p className="title">
                         <SearchBar
                             value={`${this.getUrlParam('name')}${this.getUrlParam('sname')?'•'+this.getUrlParam('sname'):''}${this.getUrlParam('position')==='any'?'•任意':this.getUrlParam('position')==='start'?'•起始号':'•尾号'}${this.getUrlParam('tag')?'•'+this.getUrlParam('tag'):''}`}
@@ -55,7 +57,7 @@ export default class SearchResult extends React.Component {
                 {/* <div className="pub">
                     <img src={require('../../assets/pub.png')} alt=""/>
                 </div> */}
-                <PublishBtn {...this.props} url='searchResult' category={this.getUrlParam('category') || searchInfo.categoryName} name={this.getUrlParam('name') || searchInfo.name} unitName={this.getUrlParam('unitName') || searchInfo.unitName}></PublishBtn>
+                {/* <PublishBtn {...this.props} url='searchResult' category={this.getUrlParam('category') || searchInfo.categoryName} name={this.getUrlParam('name') || searchInfo.name} unitName={this.getUrlParam('unitName') || searchInfo.unitName}></PublishBtn> */}
             </div>
         );
     } 

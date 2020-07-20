@@ -18,6 +18,7 @@ export default class MyStock extends React.Component {
           sessionStorage.removeItem("SANLIAN_ARR");
           sessionStorage.removeItem("SANZHANG_ARR");
           sessionStorage.removeItem("BIAOLIAN_Ontable");
+    sessionStorage.removeItem("newlistARR");
         
         this.getdataList();
         if (this.getUrlParam('type')) {
@@ -44,15 +45,17 @@ export default class MyStock extends React.Component {
         changePrice:'', //修改的价格
         addShow: true,  //增加库存按钮是否显示
         data:[],
-        goodsType: '2'
+        goodsType: '2',
+        category:'',
+        unitName:''
     };
 
     goodsAdd() {
         // console.log(this.demo.state.data[0].goodsId);
         if (this.state.goodsType === '1') {
-            this.props.history.push(`/SaleRelease?goodsId=${this.state.data[0].goodsId}&name=${this.getUrlParam('name')}&url=myStock`)
+            this.props.history.push(`/SaleRelease?goodsId=${this.state.data[0].goodsId}&name=${this.getUrlParam('name')}&url=myStock&category=${this.state.category}&unitName=${this.state.unitName}`)
         } else {
-            this.props.history.push(`/BuyingRelease?goodsId=${this.state.data[0].goodsId}&name=${this.getUrlParam('name')}&url=myStock`)
+            this.props.history.push(`/BuyingRelease?goodsId=${this.state.data[0].goodsId}&name=${this.getUrlParam('name')}&url=myStock&category=${this.state.category}&unitName=${this.state.unitName}`)
         }
     }
 
@@ -108,9 +111,11 @@ export default class MyStock extends React.Component {
             type: index || _this.getUrlParam('type'),
         }).then(res =>{
             _this.setState({
-                data: res.data.resultList
+                data: res.data.resultObject.dataList,
+                category:res.data.resultObject.category,
+                unitName:res.data.resultObject.unitName
             });
-            _this.checkAddShow(res.data.resultList);
+            _this.checkAddShow(res.data.resultObject.dataList);
         }).catch(err => {
             Toast.info(err.message, 2);
         })

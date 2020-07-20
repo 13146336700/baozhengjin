@@ -23,6 +23,7 @@ export default class Preview extends React.Component {
     mynum: "",
     myindex: "",
     dealPrice: "",
+    signlePrice: "", //总价
   };
   componentWillMount() {
     let son = this.props.history.location.state;
@@ -51,29 +52,50 @@ export default class Preview extends React.Component {
       number: ev.target.value,
     });
   }
-
   changePrice(ev) {
     this.setState({
       dealPrice: ev.target.value,
     });
   }
-
+  changesignlePrice(ev) {
+    this.setState({
+      signlePrice: ev.target.value,
+    });
+  }
   changeData(item, num, myindex) {
+    console.log(item);
+    let signlePrice;
+    try {
+      signlePrice = item.signlePrice;
+    } catch (error) {
+      signlePrice = "";
+    }
     this.setState({
       myindex: myindex, //要修改的东西
       mynum: num, //要修改的东西
       showShadeFlag: true,
       dealPrice: item.dealPrice,
       number: item.number,
+      signlePrice: signlePrice,
     });
   }
+  cancel() {
+this.setState({
+  mynum: '', //要修改的东西
+  showShadeFlag: false,
+  dealPrice: '',
+  number: '',
+  signlePrice: '',
+});
 
+  };
   changeList() {
     console.log(this.state.myindex);
     console.log(this.state.mynum);
     const myindex = this.state.myindex;
     const dealPrice = this.state.dealPrice;
     const number = this.state.number;
+    const signlePrice = this.state.signlePrice;
     const scatteredJson = [...this.state.scatteredJson]; //浅拷贝一下
     const otherConsecutiveJson = [...this.state.otherConsecutiveJson]; //浅拷贝一下
     const standardConsecutiveJson = [...this.state.standardConsecutiveJson]; //浅拷贝一下
@@ -99,10 +121,12 @@ export default class Preview extends React.Component {
 
       sessionStorage.setItem("SANZNANG_ARR", JSON.stringify(scatteredJson));
     } else if (this.state.mynum == 2) {
+      //散连
       otherConsecutiveJson.map((item, key) => {
         if (key == myindex) {
           item.dealPrice = dealPrice;
           item.number = number;
+          item.signlePrice = signlePrice;
         }
       });
 
@@ -115,6 +139,7 @@ export default class Preview extends React.Component {
         JSON.stringify(otherConsecutiveJson)
       );
     } else if (this.state.mynum == 3) {
+      //标连
       standardConsecutiveJson.map((item, key) => {
         if (key == myindex) {
           item.dealPrice = dealPrice;
@@ -184,9 +209,12 @@ export default class Preview extends React.Component {
           ),
           otherConsecutiveJson: JSON.stringify(this.state.otherConsecutiveJson),
           address: son.address,
-          dealWay: son.dealWay,
           personPhone: son.personPhone,
           personName: son.personName,
+          assureAddress: son.address,
+          assurePersonPhone: son.personPhone,
+          assurePersonName: son.personName,
+          dealWay: son.dealWay,
         },
         // search: `goodsId=${this.getUrlParam("goodsId")}`,
       });
@@ -272,13 +300,28 @@ export default class Preview extends React.Component {
                   onChange={(ev) => this.changePrice(ev)}
                 />
               </p>
-              <div className="div_changeList">
-              <button onClick={this.changeList.bind(this)}>确认修改</button>
+              {this.state.signlePrice ? (
+                <p>
+                  <label htmlFor="">修改总价</label>
+                  <input
+                    type="text"
+                    value={this.state.signlePrice}
+                    onChange={(ev) => this.changesignlePrice(ev)}
+                  />
+                </p>
+              ) : (
+                <div className="zhanweifu_"></div>
+              )}
 
+              <div className="div_changeList">
+                <button onClick={this.changeList.bind(this)}>确认修改</button>
+                <button onClick={this.cancel.bind(this)}>取消</button>
               </div>
+              
             </div>
           </div>
         ) : null}
+        <div className="footer_zhanwei"></div>
         <button className="adddelte" onClick={() => this.setexamination()}>
           {this.getUrlParam("goodsId") ? "确认增加" : "下一步"}
         </button>

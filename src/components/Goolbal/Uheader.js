@@ -13,7 +13,7 @@ export default class Uheaders extends React.Component {
   }
   componentWillMount() {
     console.log(this.props);
-    if (this.props.match.path == "/goodsDistribute/") {
+    if (this.props.match.path == "/goodsDistribute") {
       sessionStorage.setItem(`${this.props.match.path}Url`, this.props.location.search);
       // sessionStorage.setItem("/goodsDistributeUrl", this.props.location.search);
     }else if(this.props.match.path == "/distribute"){
@@ -42,11 +42,11 @@ export default class Uheaders extends React.Component {
       return false;
     }
     if (
-      this.props.match.path == "/goodsDistribute/" ||
+      this.props.match.path == "/goodsDistribute" ||
       this.props.match.path == "/distribute"
     ) {
       let url;
-      if (this.props.match.path == "/goodsDistribute/") {
+      if (this.props.match.path == "/goodsDistribute") {
         url = "goodsDistribute";
       } else if (this.props.match.path == "/distribute") {
         url = "distribute";
@@ -71,7 +71,7 @@ export default class Uheaders extends React.Component {
     console.log(this.props);
     if (
       this.props.match.path == "/distribute" ||
-      this.props.match.path == "/myDistribute/"
+      this.props.match.path == "/myDistribute"
     ) {
       if (isiOS) {
         try {
@@ -94,6 +94,7 @@ export default class Uheaders extends React.Component {
       sessionStorage.removeItem("SANZHANG_ARR");
       sessionStorage.removeItem("BIAOLIAN_Ontable");
       sessionStorage.removeItem("market");
+      sessionStorage.removeItem("newlistARR");
     } else if (
       this.props.match.path == "/SaleRelease" ||
       this.props.match.path == "/BuyingRelease"
@@ -119,14 +120,14 @@ export default class Uheaders extends React.Component {
       this.props.history.push(
         `/${this.getUrlParam("url")}${urls}`
       );
-    } else if (this.props.match.path == "/goodsDistribute/") {
+    } else if (this.props.match.path == "/goodsDistribute") {
       //首页 列表
       this.props.history.push(
         `/distribute?userId=${
           JSON.parse(sessionStorage.getItem("userInfo")).userId
         }&userType=${JSON.parse(sessionStorage.getItem("userInfo")).userType}`
       );
-    } else if (this.props.match.path == "/myStock/") {
+    } else if (this.props.match.path == "/myStock") {
       sessionStorage.removeItem("BIAOLIAN_Ontable");
       sessionStorage.removeItem("market");
 
@@ -157,7 +158,7 @@ export default class Uheaders extends React.Component {
             <li>
               {this.props.useach ? (
                 <div onClick={() => this.Jonp()}>
-                  <img src={require("../assets/seach.png")} />
+                  <img src={require("../assets/distrsearch.png")} />
                   搜索
                 </div>
               ) : null}

@@ -63,8 +63,9 @@
         font-weight: 400;
         color: rgba(51, 51, 51, 1);
         img {
-          width: 50px; /*px*/
+          width: 34px; /*px*/
           vertical-align: middle;
+          margin-right: 8px;/*px*/
         }
       }
     }
@@ -83,7 +84,8 @@
     padding-bottom: constant(safe-area-inset-bottom);
     padding-top: env(safe-area-inset-top);
     padding-top: constant(safe-area-inset-top);
-    padding: 12px;
+    
+    // padding: 12px;
 
   }
 

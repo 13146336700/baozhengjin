@@ -93,7 +93,9 @@ export default class Standard extends React.Component {
       if (key == index) {
         item.tag = ev.target.value;
         item.dealCnt = _this.changeDOM(ev.target.value, arr[key]).num;
-        item.endnumber = Number(item.dealCnt) + Number(item.number);
+        if(item.dealCnt && item.number){
+          item.endnumber = Number(item.dealCnt) + Number(this.SETNUmber(item.number,item.dealCnt,'1',item));
+        }
         item.Examples = _this.changeDOM(ev.target.value, arr[key]).Examples;
       }
     });
@@ -185,6 +187,7 @@ export default class Standard extends React.Component {
           }
           break;
         default:
+          return true;
           break;
       }
     }
@@ -427,7 +430,6 @@ export default class Standard extends React.Component {
                     <option style={{ display: "none" }}>请选择</option>
                     {item.todoList.map((item1, key1) => (
                       <option
-                      selected
                         onClick={() => this.Myoption(item1)}
                         value={item1.code}
                         key={key1}
