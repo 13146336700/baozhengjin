@@ -170,14 +170,18 @@
         }
         span{
             float: right;
-            width: 200px;
+            width: 260px;
             color: #eb3318;
             line-height: 46px;
             margin-left: 10px;
             font-size: 32px;
         }
     }
-    
+    .list{
+        .goodsType{
+            width: 100%;
+        }
+    }
 }
 
 

@@ -343,7 +343,7 @@ export default class Pulload extends React.Component {
                             ))}
                         </ul>
                         ):(
-                          <div style={{background: '#f5f5f9',lineHeight: '300px',textAlign: 'center',fontSize: '16px'}}>暂无相关数据</div>
+                          <div style={{background: 'transparent',lineHeight: '300px',textAlign: 'center',fontSize: '16px'}}>暂无相关数据</div>
                         )
                       }
                     </nav>

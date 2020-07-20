@@ -27,7 +27,7 @@ export default class Goods extends React.Component {
     render() {
         let goodsInfo = JSON.parse(sessionStorage.getItem('goodsInfo'));
         return (
-            <div className="mydistribute" style={{background: '#ffffff',minHeight:'100%'}}>
+            <div className="mydistribute goodsdistribute" style={{background: '#ffffff',minHeight:'100%'}}>
                 <Uheader {...this.props} utitle={this.getUrlParam('name')} useach="true"></Uheader>
                 <Banner {...this.props} rpType="flBanner"/>
                 <Pulload {...this.props} page="goods" type={this.state.goodsType} onRef={(ref) => { this.child = ref; }}/>
