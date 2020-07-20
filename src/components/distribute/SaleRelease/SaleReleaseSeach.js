@@ -170,10 +170,11 @@ export default class SaleReleaseSeach extends React.Component {
     }
 
     let market = {
-      sid: val.sid,
+      oid: val.sid,
       tag: val.tag,
       code: val.code,
     };
+    
     sessionStorage.setItem("market", JSON.stringify(market));
 
     this.props.history.push({

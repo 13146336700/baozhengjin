@@ -54,7 +54,7 @@ export default class LooseSale extends React.Component {
         return;
       }
     }
-    if (!priceReg.test(LooseObj.dealPrice)) {
+    if (!priceReg.test(LooseObj.dealPrice) || Number(LooseObj.dealPrice) <= 0) {
       Toast.info("请输入散张出售正确的单价", 2);
       return;
     }

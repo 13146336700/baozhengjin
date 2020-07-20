@@ -277,7 +277,7 @@ export default class Standard extends React.Component {
       Toast.info("填写的号码尾号请和示例尾号相同", 3);
       return;
     }
-    if (!priceReg.test(LooseObj.dealPrice)) {
+    if (!priceReg.test(LooseObj.dealPrice) || Number(LooseObj.dealPrice) <= 0) {
       Toast.info("请输入标连整售正确的总价格", 2);
       return;
     }

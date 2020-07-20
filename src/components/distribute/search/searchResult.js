@@ -10,6 +10,7 @@ export default class SearchResult extends React.Component {
 
     componentWillMount() {
         document.title = "配号分类";
+        sessionStorage.setItem(`${this.props.match.path}Url`, this.props.location.search);
     };
     state = {
         checked: true

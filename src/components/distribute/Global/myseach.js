@@ -106,7 +106,7 @@ export default class myseach extends React.Component {
       // oid:'4028808366edaebe01673f3af65947f7',
       // code: 'coin',
       // tag: '纪念钞18-3',
-      oid: market.sid,
+      oid: market.oid,
       code: market.code,
       tag: market.tag,
     }

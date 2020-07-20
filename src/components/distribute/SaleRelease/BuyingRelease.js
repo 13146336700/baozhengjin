@@ -178,6 +178,11 @@ export default class BuyingRelease extends React.Component {
     ) {
       dealPattern = My_seach.list[1].dealPattern;
     }
+    // log(dealPattern);
+    if (!dealPattern) {
+      Toast.info("请选择商品交易方式", 2);
+      return;
+    }
 
     // My_seach.list.map((item, key) => {
     //   if (item.isCheck == true) {
@@ -404,18 +409,171 @@ export default class BuyingRelease extends React.Component {
     }
 
     if (NumbersB == 3) {
-      Toast.info("请输入值", 1);
+      Toast.info("请选择您要出售的商品类型", 2);
       return;
     }
-    if (NumbersC > 0) {
-      Toast.info("请输入有效值", 1);
-      return;
-    }
-    log("执行代码");
+    // if (NumbersC > 0) {
+    //   Toast.info("请输入有效值", 2);
+    //   return;
+    // }
 
+    log("执行代码");
+    //  if(Numbers.A == "1" && Numbers.B == "1" && Numbers.C == "1"){
+
+    //  }
+
+    if (Numbers.A == "2") {
+      for (var i = 0; i < scatteredJson.length; i++) {
+        if (
+          !priceReg.test(scatteredJson[i].dealPrice) ||
+          Number(scatteredJson[i].dealPrice) <= 0
+        ) {
+          Toast.info("请输入散张出售正确的单价", 2);
+          return;
+        }
+        if (!_this.setBuyingNumber(scatteredJson[i].number)) {
+          Toast.info("请输入散张出售正确出售号码", 2);
+          return;
+        }
+      }
+    }
+    console.log(standardConsecutiveJson);
+
+    if (Numbers.B == "2") {
+      for (var i = 0; i < standardConsecutiveJson.length; i++) {
+        if (
+          !_this.SETNUmber(
+            standardConsecutiveJson[i].number,
+            standardConsecutiveJson[i].dealCnt,
+            "2",
+            standardConsecutiveJson[i]
+          )
+        ) {
+          Toast.info("填写的号码尾号请和示例尾号相同", 2);
+          return;
+        }
+
+        if (
+          !priceReg.test(standardConsecutiveJson[i].dealPrice) ||
+          Number(standardConsecutiveJson[i].dealPrice) <= 0
+        ) {
+          Toast.info("请输入标连整售正确的总价格", 2);
+          return;
+        }
+
+        if (
+          !standardConsecutiveJson[i].tag ||
+          standardConsecutiveJson[i].tag == "请选择类型"
+        ) {
+          Toast.info("请选择标连整售的出售类型", 2);
+          return;
+        }
+        if (!_this.setBuyingNumber(standardConsecutiveJson[i].number)) {
+          Toast.info("请输入标连整售正确出售号码", 2);
+          return;
+        }
+      }
+    }
+    if (Numbers.C == "2") {
+      for (var i = 0; i < otherConsecutiveJson.length; i++) {
+        //整售 单售
+        if (
+          otherConsecutiveJson[i].priceShow == true &&
+          otherConsecutiveJson[i].AllpriceShow == true
+        ) {
+          if (Number(otherConsecutiveJson[i].dealCnt) > 18) {
+            Toast.info("散连出售选择单售时,出售数量不能大于18", 3);
+            return;
+          }
+          if (
+            !priceReg.test(otherConsecutiveJson[i].dealPrice) ||
+            Number(otherConsecutiveJson[i].dealPrice) <= 0
+          ) {
+            Toast.info("请输入散连出售正确的单价", 2);
+            return;
+          }
+          if (
+            !priceReg.test(otherConsecutiveJson[i].signlePrice) ||
+            Number(otherConsecutiveJson[i].signlePrice) <= 0
+          ) {
+            Toast.info("请输入散连出售正确的总价格", 2);
+            return;
+          }
+          // if (
+          //   !priceReg.test(otherConsecutiveJson[i].dealPrice) ||
+          //   !priceReg.test(otherConsecutiveJson[i].signlePrice)
+          // ) {
+          //   Toast.info("请输入散连出售正确的价格:整数或者保留两位小数", 2);
+          //   return;
+          // }
+        }
+        //单售
+        if (
+          otherConsecutiveJson[i].priceShow ||
+          otherConsecutiveJson[i].AllpriceShow == false
+        ) {
+          if (Number(otherConsecutiveJson[i].dealCnt) > 18) {
+            Toast.info("散连出售选择单售时,出售数量不能大于18", 3);
+            return;
+          }
+          if (!this.isPositiveInteger(otherConsecutiveJson[i].dealCnt)) {
+            Toast.info("散连出售出售数量为大于0的整数", 2);
+            return;
+          }
+          if (
+            !priceReg.test(otherConsecutiveJson[i].dealPrice) ||
+            Number(otherConsecutiveJson[i].dealPrice) <= 0
+          ) {
+            Toast.info("请输入散连出售正确的单价", 2);
+            return;
+          }
+          // if (!priceReg.test(otherConsecutiveJson[i].dealPrice)) {
+          //   Toast.info("请输入散连出售正确的单价:整数或者保留两位小数", 2);
+          //   return;
+          // }
+        }
+
+        //整售
+        if (
+          otherConsecutiveJson[i].AllpriceShow ||
+          otherConsecutiveJson[i].priceShow == false
+        ) {
+          if (Number(otherConsecutiveJson[i].dealCnt) > 100000) {
+            Toast.info("散连出售选择整售时,出售数量不能大于5位数", 3);
+            return;
+          }
+          if (!this.isPositiveInteger(otherConsecutiveJson[i].dealCnt)) {
+            Toast.info("散连出售出售数量为大于0的整数", 2);
+            return;
+          }
+
+          if (
+            !priceReg.test(otherConsecutiveJson[i].dealPrice) ||
+            Number(otherConsecutiveJson[i].dealPrice) <= 0
+          ) {
+            Toast.info("请输入散连出售正确的总价格", 2);
+            return;
+          }
+          // if (!priceReg.test(otherConsecutiveJson[i].dealCnt)) {
+          //   Toast.info("请输入散连出售正确的连号总价:整数或者保留两位小数", 2);
+          //   return;
+          // }
+        }
+
+        if (!_this.setBuyingNumber(otherConsecutiveJson[i].number)) {
+          Toast.info("请输入散连出售正确出售号码", 2);
+          return;
+        }
+      }
+    }
+
+    //-----------------------------------
     if (Numbers.A == "1") {
       for (var i = 0; i < scatteredJson.length; i++) {
-        if (!priceReg.test(scatteredJson[i].dealPrice)) {
+        if (
+          !priceReg.test(scatteredJson[i].dealPrice) ||
+          Number(scatteredJson[i].dealPrice) <= 0
+        ) {
           Toast.info("请输入散张出售正确的单价", 2);
           return;
         }
@@ -439,8 +597,18 @@ export default class BuyingRelease extends React.Component {
           Toast.info("填写的号码尾号请和示例尾号相同", 2);
           return;
         }
-        if (!priceReg.test(standardConsecutiveJson[i].dealPrice)) {
+        if (
+          !priceReg.test(standardConsecutiveJson[i].dealPrice) ||
+          Number(standardConsecutiveJson[i].dealPrice) <= 0
+        ) {
           Toast.info("请输入标连整售正确的总价格", 2);
+          return;
+        }
+        if (
+          !standardConsecutiveJson[i].tag ||
+          standardConsecutiveJson[i].tag == "请选择类型"
+        ) {
+          Toast.info("请选择标连整售的出售类型", 2);
           return;
         }
         if (!_this.setBuyingNumber(standardConsecutiveJson[i].number)) {
@@ -449,6 +617,7 @@ export default class BuyingRelease extends React.Component {
         }
       }
     }
+log(otherConsecutiveJson);
 
     if (Numbers.C == "1") {
       for (var i = 0; i < otherConsecutiveJson.length; i++) {
@@ -457,23 +626,56 @@ export default class BuyingRelease extends React.Component {
           otherConsecutiveJson[i].priceShow == true &&
           otherConsecutiveJson[i].AllpriceShow == true
         ) {
-          if (
-            !priceReg.test(otherConsecutiveJson[i].dealPrice) ||
-            !priceReg.test(otherConsecutiveJson[i].signlePrice)
-          ) {
-            Toast.info("请输入散连出售正确的价格:整数或者保留两位小数", 2);
+          if (Number(otherConsecutiveJson[i].dealCnt) > 18) {
+            Toast.info("散连出售选择单售时,出售数量不能大于18", 3);
             return;
           }
+          if (
+            !priceReg.test(otherConsecutiveJson[i].dealPrice) ||
+            Number(otherConsecutiveJson[i].dealPrice) <= 0
+          ) {
+            Toast.info("请输入散连出售正确的单价", 2);
+            return;
+          }
+          if (
+            !priceReg.test(otherConsecutiveJson[i].signlePrice) ||
+            Number(otherConsecutiveJson[i].signlePrice) <= 0
+          ) {
+            Toast.info("请输入散连出售正确的总价格", 2);
+            return;
+          }
+          // if (
+          //   !priceReg.test(otherConsecutiveJson[i].dealPrice) ||
+          //   !priceReg.test(otherConsecutiveJson[i].signlePrice)
+          // ) {
+          //   Toast.info("请输入散连出售正确的价格:整数或者保留两位小数", 2);
+          //   return;
+          // }
         }
         //单售
         if (
           otherConsecutiveJson[i].priceShow ||
           otherConsecutiveJson[i].AllpriceShow == false
         ) {
-          if (!priceReg.test(otherConsecutiveJson[i].dealPrice)) {
-            Toast.info("请输入散连出售正确的单价:整数或者保留两位小数", 2);
+          if (Number(otherConsecutiveJson[i].dealCnt) > 18) {
+            Toast.info("散连出售选择单售时,出售数量不能大于18", 3);
             return;
           }
+          if (!this.isPositiveInteger(otherConsecutiveJson[i].dealCnt)) {
+            Toast.info("散连出售出售数量为大于0的整数", 2);
+            return;
+          }
+          if (
+            !priceReg.test(otherConsecutiveJson[i].dealPrice) ||
+            Number(otherConsecutiveJson[i].dealPrice) <= 0
+          ) {
+            Toast.info("请输入散连出售正确的单价", 2);
+            return;
+          }
+          // if (!priceReg.test(otherConsecutiveJson[i].dealPrice)) {
+          //   Toast.info("请输入散连出售正确的单价:整数或者保留两位小数", 2);
+          //   return;
+          // }
         }
 
         //整售
@@ -481,18 +683,30 @@ export default class BuyingRelease extends React.Component {
           otherConsecutiveJson[i].AllpriceShow ||
           otherConsecutiveJson[i].priceShow == false
         ) {
-          if (!priceReg.test(otherConsecutiveJson[i].dealCnt)) {
-            Toast.info("请输入散连出售正确的连号总价:整数或者保留两位小数", 2);
+          if (Number(otherConsecutiveJson[i].dealCnt) > 100000) {
+            Toast.info("散连出售选择整售时,出售数量不能大于5位数", 3);
             return;
           }
+          if (!this.isPositiveInteger(otherConsecutiveJson[i].dealCnt)) {
+            Toast.info("散连出售出售数量为大于0的整数", 2);
+            return;
+          }
+
+          if (
+            !priceReg.test(otherConsecutiveJson[i].dealPrice) ||
+            Number(otherConsecutiveJson[i].dealPrice) <= 0
+          ) {
+            Toast.info("请输入散连出售正确的总价格", 2);
+            return;
+          }
+          // if (!priceReg.test(otherConsecutiveJson[i].dealCnt)) {
+          //   Toast.info("请输入散连出售正确的连号总价:整数或者保留两位小数", 2);
+          //   return;
+          // }
         }
 
         if (!_this.setBuyingNumber(otherConsecutiveJson[i].number)) {
           Toast.info("请输入散连出售正确出售号码", 2);
-          return;
-        }
-        if (!_this.isPositiveInteger(otherConsecutiveJson[i].dealCnt)) {
-          Toast.info("请输入散连出售正确求购数量", 1);
           return;
         }
       }

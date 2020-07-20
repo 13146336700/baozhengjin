@@ -143,11 +143,19 @@ export default class Serial extends React.Component {
   isPositiveInteger = (s) => {
     //是否为正整数
     console.log(s.length);
-    if (s.length > 18) {
-      return false;
-    }
+    // if (s.length > 18) {
+    //   return false;
+    // }
     var re = /^\+?[1-9]\d*$/;
     return re.test(s);
+  };
+  getUrlParam = (name) => {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = this.props.location.search.substr(1).match(reg);
+    if (r != null) {
+      return decodeURI(r[2]);
+    }
+    return ""; //如果此处只写return;则返回的是undefined
   };
   hanChange = (ev, index) => {
     console.log(ev.target.value);
@@ -260,7 +268,7 @@ export default class Serial extends React.Component {
       return true;
     }
   };
-  add(){
+  add() {
     //添加
     let LooseObj = this.state.LooseArr[this.state.LooseArr.length - 1];
     var priceReg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;
@@ -299,7 +307,7 @@ export default class Serial extends React.Component {
       obj.dealCnt = LooseObj.dealCnt;
       obj.number = LooseObj.number;
       if (LooseObj.priceShow == false && LooseObj.AllpriceShow == false) {
-        Toast.info("请选择整售或者单售", 2);
+        Toast.info("请在散连出售中选择整售或者单售", 3);
         return;
       }
       if (LooseObj.priceShow) {
@@ -311,33 +319,74 @@ export default class Serial extends React.Component {
 
       for (let key in obj) {
         if (!obj[key]) {
-          Toast.info("请输入散连值", 1);
+          Toast.info("请输入完整的散连出售信息", 2);
           return;
         }
       }
       MyBoole = false;
+      if (LooseObj.priceShow == true && LooseObj.AllpriceShow == false) {
+        if (Number(LooseObj.dealCnt) > 18) {
+          Toast.info("散连出售选择单售时,出售数量不能大于18", 3);
+          return;
+        }
 
-      if (LooseObj.priceShow) {
-        if (!priceReg.test(LooseObj.dealPrice)) {
-          Toast.info("请输入散连出售正确的单价:整数或者保留两位小数", 2);
+        if (!this.isPositiveInteger(LooseObj.dealCnt)) {
+          Toast.info("散连出售出售数量为大于0的整数", 2);
+          return;
+        }
+        if (
+          !priceReg.test(LooseObj.dealPrice) ||
+          Number(LooseObj.dealPrice) <= 0
+        ) {
+          Toast.info("请输入散连出售正确的单价", 2);
+          return;
+        }
+      } else if (LooseObj.AllpriceShow == true && LooseObj.priceShow == false) {
+        if (Number(LooseObj.dealCnt) > 100000) {
+          Toast.info("散连出售选择整售时,出售数量不能大于5位数", 3);
+          return;
+        }
+        if (!this.isPositiveInteger(LooseObj.dealCnt)) {
+          Toast.info("散连出售出售数量为大于0的整数", 2);
+          return;
+        }
+        if (
+          !priceReg.test(LooseObj.dealPrice) ||
+          Number(LooseObj.dealPrice) <= 0
+        ) {
+          Toast.info("请输入散连出售正确的总价格", 2);
+          return;
+        }
+      } else if (LooseObj.AllpriceShow && LooseObj.AllpriceShow) {
+        if (Number(LooseObj.dealCnt) > 18) {
+          Toast.info("散连出售选择单售时,出售数量不能大于18", 3);
+          return;
+        }
+
+        if (
+          !priceReg.test(LooseObj.dealPrice) ||
+          Number(LooseObj.dealPrice) <= 0
+        ) {
+          Toast.info("请输入散连出售正确的单价", 2);
+          return;
+        }
+        if (
+          !priceReg.test(LooseObj.signlePrice) ||
+          Number(LooseObj.signlePrice) <= 0
+        ) {
+          Toast.info("请输入散连出售正确的总价格", 2);
           return;
         }
       }
-      if (LooseObj.AllpriceShow) {
-        if (!priceReg.test(LooseObj.signlePrice)) {
-          Toast.info("请输入散连出售正确的连号总价:整数或者保留两位小数", 2);
-          return;
-        }
-      }
-
       if (!this.setBuyingNumber(LooseObj.number)) {
         Toast.info("请输入散连出售正确出售号码", 2);
         return;
       }
-      if (!this.isPositiveInteger(LooseObj.dealCnt)) {
-        Toast.info("请输入散连出售正确求购数量", 1);
-        return;
-      }
+
+      // if (!this.isPositiveInteger(LooseObj.dealCnt)) {
+      //   Toast.info("请输入散连出售正确求购数量", 1);
+      //   return;
+      // }
     }
     let LooseArr = this.state.LooseArr;
     LooseArr.push({
@@ -353,7 +402,7 @@ export default class Serial extends React.Component {
     this.setState({
       LooseArr: LooseArr,
     });
-  };
+  }
   render() {
     return (
       <div className="Loose">
@@ -489,7 +538,13 @@ export default class Serial extends React.Component {
 
               {item.priceShow ? (
                 <li>
-                  <div>单价（元/张）</div>
+                  <div>
+                    单价（元/{" "}
+                    {this.getUrlParam("unitName")
+                      ? this.getUrlParam("unitName")
+                      : "张"}
+                    ）
+                  </div>
                   <input
                     type="text"
                     value={item.dealPrice}
