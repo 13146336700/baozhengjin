@@ -21,6 +21,7 @@ export default class SaleDetails extends React.Component {
       ExpirationValue: "15",
       desc: "", //文本框
       imageArray: [],
+      releaseDisabled: false,
     };
   }
   state = {};
@@ -54,23 +55,22 @@ export default class SaleDetails extends React.Component {
     // if (this.state.imageArray.length > 9) {
     //   Toast.info("最多10张", 1);
     // } else {
-      let num = 10 - Number(this.state.imageArray.length);
-      if (isiOS) {
-        try {
-          window.webkit.messageHandlers.IOSNativePhotoImage.postMessage(
-            Number(num) 
-          );
-        } catch (e) {
-          console.log(e);
-        }
-      } else {
-        try {
-          
-          window.app.androidNativePhotoImage(num);
-        } catch (e) {
-          console.log(e);
-        }
+    let num = 10 - Number(this.state.imageArray.length);
+    if (isiOS) {
+      try {
+        window.webkit.messageHandlers.IOSNativePhotoImage.postMessage(
+          Number(num)
+        );
+      } catch (e) {
+        console.log(e);
       }
+    } else {
+      try {
+        window.app.androidNativePhotoImage(num);
+      } catch (e) {
+        console.log(e);
+      }
+    }
     // }
   };
   isRealNum = (val) => {
@@ -84,11 +84,22 @@ export default class SaleDetails extends React.Component {
     }
   };
   hanTextTare = (ev) => {
+    if (ev.target.value.length > 100) {
+      Toast.info("藏品描述最多为100个字", 2);
+      return;
+    }
     this.setState({
       desc: ev.target.value,
     });
   };
-  release = () => {
+  release() {
+    if (this.state.desc.length > 100) {
+      Toast.info("藏品描述最多为100个字", 2);
+      return;
+    }
+    this.setState({
+      releaseDisabled: true,
+    });
     //发布
     // let str = "";
     // this.state.imageArray.map((item,key)=>{
@@ -143,16 +154,20 @@ export default class SaleDetails extends React.Component {
           //成功到库存页面
           // http://198.166.1.196:3000/#/myStock?userId=xx&name=**&type=**   配号编辑   参数必传
           Toast.info("成功", 1);
+
           this.props.history.push({
             pathname: "/myStock",
             search: `userId=${myArray.pubUserid}&name=${myArray.name}&type=${myArray.type}`,
+          });
+          this.setState({
+            releaseDisabled: false,
           });
         } else {
           Toast.info(response.data.message, 1);
         }
       })
       .catch((error) => {});
-  };
+  }
   imageDelte = (item, key) => {
     const imageArray = [...this.state.imageArray]; //浅拷贝一下
     imageArray.splice(key, 1);
@@ -190,16 +205,14 @@ export default class SaleDetails extends React.Component {
                   />
                 </div>
               ))}
-              {this.state.imageArray.length
-                < 10?(
-                    <img
-                      src={require("../../assets/imagepicker.png")}
-                      alt="添加"
-                      className="add_upimage"
-                      onClick={() => this.APPUpload()}
-                    />
-                  )
-                : null}
+              {this.state.imageArray.length < 10 ? (
+                <img
+                  src={require("../../assets/imagepicker.png")}
+                  alt="添加"
+                  className="add_upimage"
+                  onClick={() => this.APPUpload()}
+                />
+              ) : null}
             </div>
           </div>
         </div>
@@ -219,7 +232,11 @@ export default class SaleDetails extends React.Component {
           </div>
         </div>
         <div className="zhanwei"> </div> <div className="zhanwei"> </div>
-        <button className="adddelte dinbu" onClick={() => this.release()}>
+        <button
+          className="adddelte dinbu"
+          onClick={() => this.release()}
+          disabled={this.state.releaseDisabled}
+        >
           点击发布
         </button>
         <div className="zhanwei"> </div>

@@ -98,7 +98,7 @@ export default class SaleReleaseSeach extends React.Component {
     console.log(args);
     this.setState({ open: !this.state.open });
   };
-  resouClick = (item) => {
+  resouClick(item) {
     console.log(item);
     this.setState({
       sname: item.name,
@@ -106,7 +106,7 @@ export default class SaleReleaseSeach extends React.Component {
 
     this.goSelete(item);
     this.inputOnBlur();
-  };
+  }
 
   inputOnBlur = () => {
     this.setState({
@@ -157,7 +157,7 @@ export default class SaleReleaseSeach extends React.Component {
     }
     return ""; //如果此处只写return;则返回的是undefined
   };
-  goSelete = (val) => {
+  goSelete(val) {
     let goodsId = "";
     if (this.getUrlParam("goodsId")) {
       goodsId = this.getUrlParam("goodsId");
@@ -180,7 +180,7 @@ export default class SaleReleaseSeach extends React.Component {
         "url"
       )}&goodsId=${goodsId}&checked=${this.getUrlParam("checked")}`,
     });
-  };
+  }
 
   render() {
     return (

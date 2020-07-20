@@ -55,7 +55,7 @@ export default class SaleRelease extends React.Component {
     if (s.length > 18) {
       return false;
     }
-    var re = /^[0-9]+$/;
+     var re = /^\+?[1-9]\d*$/;
     return re.test(s);
   };
   setKeyWorld = (keyWord) => {

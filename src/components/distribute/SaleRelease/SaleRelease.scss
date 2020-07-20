@@ -57,6 +57,10 @@
   position: fixed;
   bottom: 20px; /*px*/
 }
+button:disabled
+{ 
+opacity: 0.5;
+}
 .Increase_title {
   width: 95%;
   margin: auto;

@@ -137,7 +137,7 @@ export default class Loose extends React.Component {
       return true;
     }
   };
-  add = () => {
+  add(){
     let [Loose, LooseObj, tag] = [
       this.state.LooseArr[this.state.LooseArr.length - 1],
       {},

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { List, Switch } from "antd-mobile";
+import { Toast, WhiteSpace, WingBlank, Button } from "antd-mobile";
 import "./index.scss";
 var u = navigator.userAgent;
 var isAndroid = u.indexOf("Android") > -1;
@@ -98,27 +99,26 @@ export default class myseach extends React.Component {
   };
 
   NewQuotes = () => {
+
     let market = JSON.parse(sessionStorage.getItem("market"));
     console.log(market);
+    let IOSNativeMarket ={
+      // oid:'4028808366edaebe01673f3af65947f7',
+      // code: 'coin',
+      // tag: '纪念钞18-3',
+      oid: market.sid,
+      code: market.code,
+      tag: market.tag,
+    }
     if (isiOS) {
       try {
-        window.webkit.messageHandlers.IOSNativeMarket.postMessage({
-          oid: market.sid,
-          code: market.code,
-          tag: market.tag,
-        });
+        window.webkit.messageHandlers.IOSNativeMarket.postMessage(IOSNativeMarket);
       } catch (e) {
         console.log(e);
       }
     } else {
       try {
-        window.app.androidNativeMarket(
-          JSON.stringify({
-            oid: market.sid,
-            code: market.code,
-            tag: market.tag,
-          })
-        );
+        window.app.androidNativeMarket(JSON.stringify(IOSNativeMarket));
       } catch (e) {
         console.log(e);
       }

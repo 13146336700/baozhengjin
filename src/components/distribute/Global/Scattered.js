@@ -260,7 +260,7 @@ export default class Serial extends React.Component {
       return true;
     }
   };
-  add = () => {
+  add(){
     //添加
     let LooseObj = this.state.LooseArr[this.state.LooseArr.length - 1];
     var priceReg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;

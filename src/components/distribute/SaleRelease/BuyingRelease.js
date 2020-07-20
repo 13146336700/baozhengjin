@@ -97,7 +97,7 @@ export default class BuyingRelease extends React.Component {
           }
           break;
         default:
-           return true;
+          return true;
           break;
       }
     }
@@ -116,14 +116,14 @@ export default class BuyingRelease extends React.Component {
       keyWord: keyWord,
     });
   };
-  tabChange = (item, key) => {
+  tabChange(item, key) {
     log(item, key);
     let Ontable = `tab-${key}`;
     this.setState({
       Ontable: Ontable,
     });
     sessionStorage.setItem("BIAOLIAN_Ontable", Ontable);
-  };
+  }
   setBuyingNumber = (ischeck) => {
     if (
       ischeck.length < 3 ||
@@ -140,7 +140,7 @@ export default class BuyingRelease extends React.Component {
     if (s.length > 18) {
       return false;
     }
-    var re = /^[0-9]+$/;
+    var re = /^\+?[1-9]\d*$/;
     return re.test(s);
   };
   setexamination() {
@@ -402,6 +402,7 @@ export default class BuyingRelease extends React.Component {
         NumbersC++;
       }
     }
+
     if (NumbersB == 3) {
       Toast.info("请输入值", 1);
       return;
@@ -585,7 +586,10 @@ export default class BuyingRelease extends React.Component {
   render() {
     return (
       <div className="SaleRelease">
-        <Uheader {...this.props} utitle="配号出售发布"></Uheader>
+        <Uheader
+          {...this.props}
+          utitle={this.getUrlParam("goodsId") ? "增加出售需求" : "配号出售发布"}
+        ></Uheader>
         <p className="header_border_bottom"></p>
         <div
           className="Increase_title"
