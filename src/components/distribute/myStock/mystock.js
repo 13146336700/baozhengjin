@@ -50,6 +50,16 @@ export default class MyStock extends React.Component {
         unitName:''
     };
 
+    /**取消修改弹窗 */
+    cancel() {
+        this.setState({
+            showShadeFlag: false,
+            dealType: '',
+            changeItem: '',
+            changePrice: ''
+        })
+    }
+
     goodsAdd() {
         // console.log(this.demo.state.data[0].goodsId);
         if (this.state.goodsType === '1') {
@@ -251,6 +261,7 @@ export default class MyStock extends React.Component {
                                             <input type="text" disabled value={this.state.changeItem.dealPrice}/>
                                         </p>
                                         <button onClick={() =>this.updateFormat('3')}>确认下架</button>
+                                        <button onClick={() =>this.cancel()}>取消</button>
                                     </div>
                                 ):(
                                     <div className="cont">
@@ -262,7 +273,11 @@ export default class MyStock extends React.Component {
                                             <label htmlFor="">价格</label>
                                             <input type="text" value={this.state.changePrice} onChange={this.changePriceFn.bind(this)}/>
                                         </p>
-                                        <button onClick={() =>this.updateFormat('0')}>确认修改</button>
+                                        <div className="div_changeList">
+                                            <button onClick={() =>this.updateFormat('0')}>确认修改</button>
+                                            <button onClick={() =>this.cancel()}>取消</button>
+                                        </div>
+                                        
                                     </div>
                                 )
                             }

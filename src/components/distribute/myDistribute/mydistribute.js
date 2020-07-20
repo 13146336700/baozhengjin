@@ -34,7 +34,7 @@ export default class MyDistribute extends React.Component {
 
     render() {
         return (
-            <div className="mydistribute" style={{padding:'10px 0 0 0'}}>
+            <div className="mydistribute" style={{backgroundColor:'#ffffff',minHeight:'100%'}}>
                 <Uheader {...this.props} utitle="我的配号"></Uheader>
                 <Pulload {...this.props} page="my" onRef={(ref) => { this.child = ref; }}/>
             </div>
