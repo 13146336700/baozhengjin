@@ -73,7 +73,7 @@ export default class Catalogue extends React.Component {
                         this.state.mapData.map((item,index) => (
                             <div className="series" >
                                 <div className="seriesIcon">
-                                    <img src={item.images} alt="系列图片"/>
+                                    <img src={item.images || require("../../assets/logo.png")} alt="系列图片"/>
                                     <span>{item.name}</span>
                                 </div>
                                 <div className="seriesList">

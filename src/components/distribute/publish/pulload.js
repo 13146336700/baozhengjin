@@ -237,7 +237,7 @@ export default class Pulload extends React.Component {
   
     goodsDistribute(item) {
       if (item.sellCnt === '0' && item.buyCnt === '0') {
-        Toast.info('该产品暂无需求,您可点击下面的发布按钮发布该商品', 2);
+        Toast.info('该产品暂无需求,您可点击下面的发布按钮发布该商品', 3);
       } else {
         this.props.history.push(`/goodsDistribute?name=${item.name}&unitName=${item.unitName}&categoryName=${item.categoryName}`);
         let goodsInfo = {

@@ -72,7 +72,7 @@ export default class Banner extends React.Component {
         <div className="banner">
 
         {
-          this.state.bannerData.length > 0?
+          this.state.bannerData.length > 0 && this.state.homeFlag ?
           <Carousel
             infinite
             autoplay={this.state.homeFlag}
