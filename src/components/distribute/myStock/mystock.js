@@ -260,8 +260,10 @@ export default class MyStock extends React.Component {
                                             <label htmlFor="">价格</label>
                                             <input type="text" disabled value={this.state.changeItem.dealPrice}/>
                                         </p>
-                                        <button onClick={() =>this.updateFormat('3')}>确认下架</button>
-                                        <button onClick={() =>this.cancel()}>取消</button>
+                                        <div className="div_changeList">
+                                            <button onClick={() =>this.updateFormat('3')}>确认下架</button>
+                                            <button onClick={() =>this.cancel()}>取消</button>
+                                        </div>
                                     </div>
                                 ):(
                                     <div className="cont">
