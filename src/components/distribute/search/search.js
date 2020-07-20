@@ -232,7 +232,7 @@ export default class SearchNumber extends React.Component {
           flexDirection: "column",
         }}
       >
-        <Uheader {...this.props} utitle="配号搜索"></Uheader>
+        <Uheader {...this.props} utitle="配号搜索" useach='true'></Uheader>
         <div className="searchTop">
           <button
             className={this.state.type === "1" ? "activeBtn" : ""}
