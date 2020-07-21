@@ -25,7 +25,6 @@ export default class Banner extends React.Component {
         this.setState({
           homeFlag:true
         });
-        console.log('可以了哈哈')
       }
     }
     

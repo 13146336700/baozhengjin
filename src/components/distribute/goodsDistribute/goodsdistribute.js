@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs,  Badge } from 'antd-mobile';
+// import { Tabs,  Badge } from 'antd-mobile';
 import "../index/index.scss";
 // import Demo from "../pullRefresh/pullRefresh";
 import Pulload from "../publish/pulload";
