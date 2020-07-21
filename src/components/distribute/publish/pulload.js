@@ -203,6 +203,9 @@ export default class Pulload extends React.Component {
             break;
       };
       // arr = [];
+      let defaultDom = document.getElementsByClassName('pull-load-footer-default');
+      defaultDom[0].classList.remove('nomore');
+
       setTimeout(() =>{
         this.getdataList(index);
       },10)
@@ -264,6 +267,13 @@ export default class Pulload extends React.Component {
         // console.info("It's same action or on loading or on refreshing ",action, this.state.action,action === this.state.action);
         return false
       }
+      if(this.state.data < 10){
+        this.setState({
+          action: STATS.reset,
+          hasMore: false
+        });
+        return false
+      }
   
       if(action === STATS.refreshing){//刷新
         (function smoothscroll(){
@@ -278,7 +288,7 @@ export default class Pulload extends React.Component {
         this.setState({
           hasMore: true
         });
-        setTimeout(()=>{
+        // setTimeout(()=>{
           if(this.state.index === 0){
             this.setState({
               action: STATS.reset,
@@ -288,12 +298,12 @@ export default class Pulload extends React.Component {
             
             this.getdataList();
           }
-        }, 2000)
+        // }, 1000)
       }
   
       //DO NOT modify below code
       this.setState({
-        action: action
+        action: STATS.reset
       })
     }
   
