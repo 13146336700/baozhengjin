@@ -781,6 +781,7 @@
         bottom: 0px;
         background-color: #F2F2F2;
         z-index: 1000;
+        overflow-y: scroll;
         .list{
             height:84px;
             border-radius:8px;
@@ -833,7 +834,7 @@
             width: 190px;
             img{
                 display: block;
-                width:95px;
+                width:113px;
                 height:113px;
                 margin: 0 auto 20px;
             }

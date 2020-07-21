@@ -65,8 +65,8 @@ export default class Catalogue extends React.Component {
             <div className="catalogue" style={{background:'#ffffff',minHeight:'100%'}}>
                 <Uheader {...this.props} utitle="邮币卡目录"></Uheader>
                 <div className="tabBar">
-                    <div className={this.state.type===0?'active tab':'tab'} onClick={() => this.tabChange(0)}> <img className='icon' src={this.state.type===0?require('../../assets/stampAct.png'):require('../../assets/stamp.png')} alt=""/> <span>邮票</span></div>
-                    <div className={this.state.type===1?'active tab':'tab'} onClick={() => this.tabChange(1)}> <img className='icon' src={this.state.type===1?require('../../assets/coinAct.png'):require('../../assets/coin.png')} alt=""/> 钱币</div>
+                    <div className={this.state.type===0?'active tab':'tab'} onClick={() => this.tabChange(0)}> <img className='icon' src={this.state.type===0?require('../../assets/coinAct.png'):require('../../assets/coin.png')} alt=""/> <span>钱币</span></div>
+                    <div className={this.state.type===1?'active tab':'tab'} onClick={() => this.tabChange(1)}> <img className='icon' src={this.state.type===1?require('../../assets/stampAct.png'):require('../../assets/stamp.png')} alt=""/>邮票</div>
                 </div>
                 <div className="cont">
                     {
