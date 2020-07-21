@@ -108,7 +108,8 @@ export default class SearchNumber extends React.Component {
   searchSname(en) {
     let reg = /[^\w\/]/ig;
     if (reg.test(en.target.value)) {
-      Toast.info('只能输入字母和数字',2)
+      Toast.info('只能输入字母和数字',2);
+      return false
     }
     this.setState({
       sname: en.target.value.replace(/[^\w\/]/ig,''),
