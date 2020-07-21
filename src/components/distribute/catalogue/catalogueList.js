@@ -68,9 +68,33 @@ export default class CatalogueList extends React.Component {
     sessionStorage.setItem("market", JSON.stringify(market));
 
     let marketFrom = JSON.parse(sessionStorage.getItem("marketFrom"));
-    this.props.history.push(
-      `/${marketFrom.market}?name=${item.name}&unitName=${item.unitName}&category=${item.category}&url=${marketFrom.url}`
-    );
+    if (marketFrom.market === 'searchNumber') {
+      this.props.history.push(
+        `/${marketFrom.market}?name=${item.name}&unitName=${item.unitName}&category=${item.category}&url=${marketFrom.url}`
+      );
+      return false;
+    }
+
+    this.checkgoodstatus(item,marketFrom);
+  }
+
+  checkgoodstatus(item,marketFrom) {
+      axios.post('market/json/getGoodsParam',{
+          userId: JSON.parse(sessionStorage.getItem('userInfo')).userId,	//String	必填	用户id	产品名称
+          type: marketFrom.market === 'SaleRelease'?'1':'2',	//String	必填	品类交易类型	
+          name: item.name,	//String	必填	品类交易类型	商品名称
+          sysInfor: 'web'
+      }).then(res => {
+          if (res.data.resultObject.isPublish === 'Y') {
+              this.props.history.push(`/myStock?userId=${JSON.parse(sessionStorage.getItem('userInfo')).userId}&type=${marketFrom.market === 'SaleRelease'?'1':'2'}&name=${item.name}`);
+          } else {
+            this.props.history.push(
+              `/${marketFrom.market}?name=${item.name}&unitName=${item.unitName}&category=${item.category}&url=${marketFrom.url}`
+            );
+          }
+      }).catch(err => {
+          console.log(err)
+      })
   }
 
   render() {
