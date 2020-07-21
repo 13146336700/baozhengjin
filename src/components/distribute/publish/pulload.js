@@ -375,10 +375,10 @@ export default class Pulload extends React.Component {
                                       </div>
                                       <div className="number">
                                         <p>
-                                          出售：<span>{item.sellCnt?item.sellCnt:0}</span>个需求
+                                          出售：<span>{item.sellCnt?item.sellCnt:0}</span>
                                         </p>
                                         <p>
-                                          收购：<span>{item.buyCnt?item.buyCnt:0}</span>个需求
+                                          收购：<span>{item.buyCnt?item.buyCnt:0}</span>
                                         </p>
                                       </div>
                                     </div>
