@@ -258,7 +258,7 @@ export default class SaleRelease extends React.Component {
       this.userSerial_.current.state.LooseArr,
       [],
     ];
-
+console.log(mySerial_);
     for (let i = 0; i < mySerial_.length; i++) {
       let mySerial_Item = mySerial_[i];
       let Mytag = mySerial_Item.tag;
@@ -385,6 +385,8 @@ export default class SaleRelease extends React.Component {
         }
       }
     }
+    // log(standardConsecutiveJson);
+
     if (Numbers.B == "1" || Numbers.B == "2") {
       for (var i = 0; i < standardConsecutiveJson.length; i++) {
         if (
@@ -546,7 +548,6 @@ export default class SaleRelease extends React.Component {
             ref={this.userAddress_}
           ></Address>
         </div>
-        <div className="zhanwei"></div>
         <div className="tabBar">
           <ul>
             {this.state.tabBar.map((item, key) => (
@@ -564,14 +565,12 @@ export default class SaleRelease extends React.Component {
         <div
           style={{ display: this.state.Ontable == "tab-0" ? "block" : "none" }}
         >
-          <div className="zhanwei"></div>
           <Loose {...this.props} uname="散张求购" ref={this.userLoose_}></Loose>
         </div>
 
         <div
           style={{ display: this.state.Ontable == "tab-1" ? "block" : "none" }}
         >
-          <div className="zhanwei"></div>
           <Serial
             {...this.props}
             utitle="求购"
@@ -583,7 +582,6 @@ export default class SaleRelease extends React.Component {
         <div
           style={{ display: this.state.Ontable == "tab-2" ? "block" : "none" }}
         >
-          <div className="zhanwei"></div>
           <Scattered
             ustatus="1"
             {...this.props}

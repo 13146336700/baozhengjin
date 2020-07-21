@@ -1,3 +1,15 @@
+.am-switch .checkbox {
+  width: 60px; /*px*/
+}
+.am-switch .checkbox:before {
+  width: 58px; /*px*/
+}
+.am-switch input[type="checkbox"]:checked + .checkbox:after {
+  transform: translateX(33px); /*px*/
+}
+.am-toast{
+  z-index: 999981451321 !important;
+}
 .select-area {
   position: relative;
   overflow: hidden;
@@ -19,12 +31,12 @@
   background-color: white !important;
   padding-bottom: 32px; /*px*/
   .Useach_homes {
-    width: 95%;
+    width: 90%;
     margin: auto;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid rgba(216,216,216,1);
-    padding-bottom: 24px;/*px*/
+    border-bottom: 1px solid rgba(216, 216, 216, 1);
+    padding-bottom: 24px; /*px*/
     span {
       display: flex;
       font-family: PingFangSC-Regular, PingFang SC;
@@ -62,7 +74,7 @@
     }
   }
   .Contents {
-    background:rgba(255,255,255,1);
+    background: rgba(255, 255, 255, 1);
 
     margin-left: 8px; /*px*/
     width: 160px; /*px*/
@@ -75,10 +87,10 @@
     font-size: 22px; /*px*/
     font-family: PingFang SC;
     font-weight: 400;
-    color:rgba(64,84,161,1);
+    color: rgba(64, 84, 161, 1);
   }
   .transaction {
-    width: 95%;
+    width: 90%;
     margin: 41px auto 0 auto; /*px*/
     height: 30px; /*px*/
     display: flex;
@@ -87,7 +99,7 @@
 
     .way {
       display: flex;
-      align-items: center ;
+      align-items: center;
       img {
         width: 28px; /*px*/
       }
@@ -117,11 +129,11 @@
     .mySwitch {
       width: 185px; /*px*/
     }
-    .Latest{
+    .Latest {
       background-color: #2d72d8;
       color: white;
-      padding: 8px 10px;/*px*/
-      border-radius: 8px;/*px*/
+      padding: 8px 10px; /*px*/
+      border-radius: 8px; /*px*/
     }
   }
 }
@@ -331,6 +343,16 @@
           font-weight: 400;
           // text-align: right;
           // color: rgba(153, 153, 153, 1);
+        }
+        .peihaoInpnt {
+          input {
+            width: 100%;
+          }
+          p{
+            font-size: 20px;/*px*/
+            color: black;
+            margin-top: 15px;/*px*/
+          }
         }
         .select-area {
           position: relative;

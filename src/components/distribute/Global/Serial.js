@@ -147,7 +147,7 @@ export default class Standard extends React.Component {
     });
     sessionStorage.setItem("BIAOLIAN_ARR", JSON.stringify(LooseArr));
   };
-  
+
   SETNUmber = (value, addNumber, num, obj) => {
     let newstr,
       ccccccc,
@@ -423,15 +423,16 @@ export default class Standard extends React.Component {
                 </div>
               </li>
               <li>
-                <div>{this.props.userName}号码</div>
-                <input
-                  type="text"
-                  value={item.number}
-                  onChange={(ev) => this.hanChange(ev, key, item)}
-                
-                  placeholder="请输入起始的号码"
-                />
-                <p>示例:{item.Examples}</p>
+                <div className="peihaoHaoma">{this.props.userName}号码</div>
+                <div className="peihaoInpnt">
+                  <input
+                    type="text"
+                    value={item.number}
+                    onChange={(ev) => this.hanChange(ev, key, item)}
+                    placeholder="请输入起始的号码"
+                  />
+                  <p>示例:{item.Examples}</p>
+                </div>
               </li>
               <li>
                 <div>起始号码:{item.number}</div>

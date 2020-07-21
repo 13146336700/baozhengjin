@@ -23,6 +23,7 @@ export default class Preview extends React.Component {
     mynum: "",
     myindex: "",
     dealPrice: "",
+    dealPriceShow: false, //总价显示
     signlePrice: "", //总价
   };
   componentWillMount() {
@@ -67,9 +68,15 @@ export default class Preview extends React.Component {
     let signlePrice;
     try {
       signlePrice = item.signlePrice;
+      // if (num == 2) {
+
+      // }
     } catch (error) {
       signlePrice = "";
     }
+    this.setState({
+      dealPriceShow: item.signlePrice ? true : false,
+    });
     this.setState({
       myindex: myindex, //要修改的东西
       mynum: num, //要修改的东西
@@ -79,6 +86,17 @@ export default class Preview extends React.Component {
       signlePrice: signlePrice,
     });
   }
+  setBuyingNumber = (ischeck) => {
+    if (
+      ischeck.length < 3 ||
+      ischeck.length > 20 ||
+      /[\u4E00-\u9FA5]/i.test(ischeck)
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  };
   cancel() {
     this.setState({
       mynum: "", //要修改的东西
@@ -93,41 +111,67 @@ export default class Preview extends React.Component {
     console.log(this.state.mynum);
     const myindex = this.state.myindex;
     const dealPrice = this.state.dealPrice;
+    let _this = this;
+    console.log(dealPrice);
     const number = this.state.number;
     const signlePrice = this.state.signlePrice;
     const scatteredJson = [...this.state.scatteredJson]; //浅拷贝一下
     const otherConsecutiveJson = [...this.state.otherConsecutiveJson]; //浅拷贝一下
     const standardConsecutiveJson = [...this.state.standardConsecutiveJson]; //浅拷贝一下
-
+    var priceReg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;
     if (this.state.mynum == 1) {
-      scatteredJson.map((item, key) => {
-        if (key == myindex) {
-          item.dealPrice = dealPrice;
-          item.number = number;
+      console.log(scatteredJson);
+      for (let i = 0; i < scatteredJson.length; i++) {
+        if (i == myindex) {
+          if (!priceReg.test(dealPrice) || Number(dealPrice) <= 0) {
+            Toast.info("请输入正确修改的单价", 2);
+            return;
+          }
+          if (!_this.setBuyingNumber(number)) {
+            Toast.info("请输入正确修改号码", 2);
+            return;
+          }
+          scatteredJson[i].dealPrice = dealPrice;
+          scatteredJson[i].number = number;
         }
-      });
+      }
+      // scatteredJson.map((item, key) => {
+      //   if (key == myindex) {
+      //     item.dealPrice = dealPrice;
+      //     item.number = number;
+      //   }
+      // });
+
       this.setState({
         scatteredJson: scatteredJson,
       });
 
-      // this.setState({
-      //   scatteredJson: scatteredJson.map((item, key) =>
-      //     key == myindex
-      //       ? { ...item, dealPrice: dealPrice, number: number }
-      //       : item
-      //   ),
-      // });
-
       sessionStorage.setItem("SANZNANG_ARR", JSON.stringify(scatteredJson));
     } else if (this.state.mynum == 2) {
       //散连
-      otherConsecutiveJson.map((item, key) => {
-        if (key == myindex) {
-          item.dealPrice = dealPrice;
-          item.number = number;
-          item.signlePrice = signlePrice;
+      for (let i = 0; i < otherConsecutiveJson.length; i++) {
+        if (i == myindex) {
+          if (!priceReg.test(dealPrice) || Number(dealPrice) <= 0) {
+            Toast.info("请输入正确修改的单价", 2);
+            return;
+          }
+          if (!_this.setBuyingNumber(number)) {
+            Toast.info("请输入正确修改号码", 2);
+            return;
+          }
+          otherConsecutiveJson[i].dealPrice = dealPrice;
+          otherConsecutiveJson[i].number = number;
+          otherConsecutiveJson[i].signlePrice = signlePrice;
         }
-      });
+      }
+
+      // otherConsecutiveJson.map((item, key) => {
+      //   if (key == myindex) {
+      //     item.dealPrice = dealPrice;
+      //     item.number = number;
+      //     item.signlePrice = signlePrice;
+      //   }
+      // });
 
       this.setState({
         otherConsecutiveJson: otherConsecutiveJson,
@@ -139,12 +183,27 @@ export default class Preview extends React.Component {
       );
     } else if (this.state.mynum == 3) {
       //标连
-      standardConsecutiveJson.map((item, key) => {
-        if (key == myindex) {
-          item.dealPrice = dealPrice;
-          item.number = number;
+      for (let i = 0; i < standardConsecutiveJson.length; i++) {
+        if (i == myindex) {
+          if (!priceReg.test(dealPrice) || Number(dealPrice) <= 0) {
+            Toast.info("请输入正确修改的单价", 2);
+            return;
+          }
+          if (!_this.setBuyingNumber(number)) {
+            Toast.info("请输入正确修改号码", 2);
+            return;
+          }
+          standardConsecutiveJson[i].dealPrice = dealPrice;
+          standardConsecutiveJson[i].number = number;
         }
-      });
+      }
+
+      // standardConsecutiveJson.map((item, key) => {
+      //   if (key == myindex) {
+      //     item.dealPrice = dealPrice;
+      //     item.number = number;
+      //   }
+      // });
       this.setState({
         standardConsecutiveJson: standardConsecutiveJson,
       });
@@ -176,7 +235,7 @@ export default class Preview extends React.Component {
         .then((response) => {
           if (response.data.code == "10000") {
             //成功到库存页面
-            Toast.info("发布成功", 2);
+            Toast.info("发布成功", 20000);
             this.props.history.push({
               pathname: "/myStock",
               search: `userId=${
@@ -300,7 +359,7 @@ export default class Preview extends React.Component {
                   onChange={(ev) => this.changePrice(ev)}
                 />
               </p>
-              {this.state.signlePrice ? (
+              {this.state.dealPriceShow ? (
                 <p>
                   <label htmlFor="">修改总价</label>
                   <input

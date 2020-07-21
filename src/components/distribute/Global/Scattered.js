@@ -306,6 +306,7 @@ export default class Serial extends React.Component {
       let obj = {};
       obj.dealCnt = LooseObj.dealCnt;
       obj.number = LooseObj.number;
+      console.log(LooseObj);
       if (LooseObj.priceShow == false && LooseObj.AllpriceShow == false) {
         Toast.info("请在散连出售中选择整售或者单售", 3);
         return;
@@ -351,8 +352,8 @@ export default class Serial extends React.Component {
           return;
         }
         if (
-          !priceReg.test(LooseObj.dealPrice) ||
-          Number(LooseObj.dealPrice) <= 0
+          !priceReg.test(LooseObj.signlePrice) ||
+          Number(LooseObj.signlePrice) <= 0
         ) {
           Toast.info("请输入散连出售正确的总价格", 2);
           return;
