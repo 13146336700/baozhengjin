@@ -146,6 +146,18 @@ export default class MyStock extends React.Component {
 
     /**价格修改 */
     changePriceFn = (en) => {
+        // if (en.target.value === '') {
+        //     Toast.info("价格不能为空",2);
+        //     this.setState({
+        //         changePrice: en.target.value
+        //     })
+        //    return false 
+        // }
+        // let Reg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;
+        // if (!Reg.test(en.target.value)) {
+        //    Toast.info("请输入整数或者保留两位小数",2);
+        //    return false 
+        // }
         this.setState({
             changePrice: en.target.value
         })
@@ -176,6 +188,15 @@ export default class MyStock extends React.Component {
     
     /**商品下架 */
     updateFormat(type) {
+        if (this.state.changePrice === '') {
+            Toast.info("价格不能为空",2);
+            return false
+        }
+        let Reg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;
+        if (!Reg.test(this.state.changePrice)) {
+           Toast.info("请输入整数或者保留两位小数",2);
+           return false 
+        }
         axios.post('subject/json/updateFormat',{
             id: this.state.changeItem.id,
             status:type,
@@ -190,8 +211,11 @@ export default class MyStock extends React.Component {
                 });
                 this.getdataList(this.state.goodsType);
             }
+            if (res.data.code === 30000) {
+                Toast.info(res.data.message, 2);
+            }
         }).catch(err => {
-            console.log(err);
+            Toast.info(err.message, 2);
         });
     }
 
