@@ -178,7 +178,7 @@ export default class SaleDetails extends React.Component {
   render() {
     return (
       <div className="SaleDetails">
-        <Uheader {...this.props} utitle="增加配号出售详情"></Uheader>
+        <Uheader {...this.props} utitle={this.props.history.location.state.type == '1'?"增加配号求购详情":"增加配号出售详情"}></Uheader>
         <div className="zhanwei zhanwei_yanse"> </div>
         {/* <ImageBig imageArray={this.state.imageArray} {...this.props} imageArrayKey='1'></ImageBig> */}
         <div className="SaleDetails_title">

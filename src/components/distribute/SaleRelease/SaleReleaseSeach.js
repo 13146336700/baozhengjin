@@ -138,14 +138,14 @@ export default class SaleReleaseSeach extends React.Component {
       catalog: null,
     });
   }
-  MysearcClick(){
+  MysearcClick() {
     //搜索
-    if(!this.state.sname){
+    if (!this.state.sname) {
       Toast.info("请选择要搜索的藏品名称", 2);
       return false;
     }
     this.snameChange(this.state.sname);
-  };
+  }
 
   setSelfState = (val) => {
     console.log(val);
@@ -168,23 +168,52 @@ export default class SaleReleaseSeach extends React.Component {
     } else {
       goodsId = "";
     }
-
+    console.log(val);
     let market = {
       oid: val.sid,
       tag: val.tag,
       code: val.code,
     };
-    
-    sessionStorage.setItem("market", JSON.stringify(market));
 
-    this.props.history.push({
-      pathname: `/${this.props.match.params.ustate}`,
-      search: `category=${val.category}&name=${val.name}&unitName=${
-        val.unitName
-      }&url=${this.getUrlParam(
-        "url"
-      )}&goodsId=${goodsId}&checked=${this.getUrlParam("checked")}`,
-    });
+    sessionStorage.setItem("market", JSON.stringify(market));
+    // console.log()
+    // SaleRelease
+    let ustate = this.props.match.params.ustate;
+    axios
+      .post("market/json/getGoodsParam", {
+        userId: JSON.parse(sessionStorage.getItem("userInfo")).userId, //String	必填	用户id	产品名称
+        type: ustate === "SaleRelease" ? "1" : "2", //String	必填	品类交易类型
+        name: val.name, //String	必填	品类交易类型	商品名称
+        sysInfor: "web",
+      })
+      .then((res) => {
+        console.log(res);
+        if (res.data.resultObject.isPublish === "Y") {
+          this.props.history.push(
+            `/myStock?userId=${
+              JSON.parse(sessionStorage.getItem("userInfo")).userId
+            }&type=${ustate === "SaleRelease" ? "1" : "2"}&name=${val.name}`
+          );
+        } else {
+          this.props.history.push(
+            `/${ustate}?name=${val.name}&unitName=${val.unitName}&category=${
+              val.category
+            }&url=${ustate}&checked=${this.getUrlParam("checked")}`
+          );
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    // this.props.history.push({
+    //   pathname: `/${this.props.match.params.ustate}`,
+    //   search: `category=${val.category}&name=${val.name}&unitName=${
+    //     val.unitName
+    //   }&url=${this.getUrlParam(
+    //     "url"
+    //   )}&goodsId=${goodsId}&checked=${this.getUrlParam("checked")}`,
+    // });
   }
 
   render() {

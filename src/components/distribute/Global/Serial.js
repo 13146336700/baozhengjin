@@ -215,12 +215,17 @@ export default class Standard extends React.Component {
     LooseArr.map((item, key) => {
       if (key == index) {
         item.number = ev.target.value;
-        item.endnumber = _this.SETNUmber(
-          ev.target.value,
-          item.dealCnt,
-          "1",
-          item
-        );
+        if(ev.target.value && item.dealCnt){
+          item.endnumber = _this.SETNUmber(
+            ev.target.value,
+            item.dealCnt,
+            "1",
+            item
+          );
+        }else{
+          item.endnumber ='';
+        }
+        
       }
     });
 
