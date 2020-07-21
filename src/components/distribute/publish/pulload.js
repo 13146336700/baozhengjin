@@ -7,7 +7,7 @@ import { Toast } from 'antd-mobile';
 var u = navigator.userAgent;
 // var isAndroid = u.indexOf("Android") > -1;
 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-var url:'',  getData: {};  //接口请求地址 //接口请求数据
+var url = '',  getData = {};  //接口请求地址 //接口请求数据
 
 
 const loadMoreLimitNum = 2;
@@ -342,10 +342,10 @@ export default class Pulload extends React.Component {
                                         </div>
                                         <div className="number">
                                           <p>
-                                            出售：<span>{item.sellCnt}</span>个需求
+                                            出售：<span>{item.sellCnt}</span>
                                           </p>
                                           <p>
-                                            收购：<span>{item.buyCnt}</span>个需求
+                                            收购：<span>{item.buyCnt}</span>
                                           </p>
                                         </div>
                                       {/* </div> */}

@@ -106,13 +106,13 @@ export default class SearchNumber extends React.Component {
 
   /**搜索商品号码 */
   searchSname(en) {
-    let reg = /[^\w\/]/ig;
+    let reg = /[^\w/]/ig;
     if (reg.test(en.target.value)) {
       Toast.info('只能输入字母和数字',2);
       return false
     }
     this.setState({
-      sname: en.target.value.replace(/[^\w\/]/ig,''),
+      sname: en.target.value.replace(/[^\w/]/ig,''),
     });
   }
 
@@ -191,7 +191,7 @@ export default class SearchNumber extends React.Component {
       return false;
     }
     
-    if (this.state.searchName != "" && this.state.name === "") {
+    if (this.state.searchName !== "" && this.state.name === "") {
       Toast.info("暂无此藏品名称", 2);
       return false;
     };
@@ -328,8 +328,8 @@ export default class SearchNumber extends React.Component {
           <div className="searchlist">
             <div className="searchtitle"> 搜索类型 </div>
             <ul>
-              {this.state.numberType.map((val) => (
-                <li
+              {this.state.numberType.map((val,index) => (
+                <li key={index}
                   className={
                     this.state.tag === val ? "activeBtn typelist" : "typelist"
                   }
