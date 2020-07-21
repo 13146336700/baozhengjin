@@ -28,7 +28,7 @@ export default class SearchResult extends React.Component {
 
     /**返回搜索页面 */
     goSearch() {
-        this.props.history.push(`/searchNumber?name=${this.getUrlParam('name')}&unitName=${this.getUrlParam('unitName')}&category=${this.getUrlParam('category')}`);
+        this.props.history.push(`/searchNumber?name=${this.getUrlParam('name')}&unitName=${this.getUrlParam('unitName')}&category=${this.getUrlParam('category')}&url=${this.getUrlParam("url")}`);
     }
 
     render() {
@@ -37,7 +37,7 @@ export default class SearchResult extends React.Component {
             <div className="mydistribute" style={{background: '#ffffff', minHeight:'100%'}}>
                 <div className="Resultheader">
                     <p className="back" onClick={()=>{
-                        this.props.history.go(-1)
+                        this.goSearch()
                     }}> <Icon type="left" size="sm" /></p>
                     <p className="title">
                         <SearchBar

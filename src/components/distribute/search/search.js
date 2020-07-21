@@ -205,7 +205,8 @@ export default class SearchNumber extends React.Component {
       position: this.state.position,
       positionName: this.state.positionName,
       category: this.state.category,
-      unitName: this.state.unitName
+      unitName: this.state.unitName,
+      url: this.getUrlParam("url")
     };
     let arr = this.state.searchHistory;
     arr.unshift(obj);
@@ -215,14 +216,14 @@ export default class SearchNumber extends React.Component {
     sessionStorage.setItem("searchistory", JSON.stringify(arr));
 
     this.props.history.push(
-      `/searchResult?name=${this.state.name}&type=${this.state.type}&sname=${this.state.sname}&position=${this.state.position}&tag=${this.state.tag}&category=${this.state.category}&unitName=${this.state.unitName}`
+      `/searchResult?name=${this.state.name}&type=${this.state.type}&sname=${this.state.sname}&position=${this.state.position}&tag=${this.state.tag}&category=${this.state.category}&unitName=${this.state.unitName}&url=${this.getUrlParam("url")}`
     );
   }
 
   /**搜索历史功能 */
   historySearch(item) {
     this.props.history.push(
-        `/searchResult?name=${item.name}&type=${item.type}&sname=${item.sname}&position=${item.position}&tag=${item.tag}&category=${item.category}&unitName=${item.unitName}`
+        `/searchResult?name=${item.name}&type=${item.type}&sname=${item.sname}&position=${item.position}&tag=${item.tag}&category=${item.category}&unitName=${item.unitName}&url=${item.url}`
       );
   }
 
