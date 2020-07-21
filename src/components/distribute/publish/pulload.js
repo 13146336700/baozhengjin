@@ -247,7 +247,7 @@ export default class Pulload extends React.Component {
         }
         let market = {
           code: item.code,
-          sid: item.sid,
+          oid: item.sid,
           tag: item.tag
         }
         sessionStorage.setItem('goodsInfo', JSON.stringify(goodsInfo));
