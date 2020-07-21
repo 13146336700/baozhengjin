@@ -32,22 +32,27 @@ export default class address extends React.Component {
     // funcitonName 是原生回调使用的方法名
     window["IOSSelectAddressUpload"] = this.IOSSelectAddressUpload;
     this.getDealPattern();
-    if(sessionStorage.getItem("newlistARR")){
-     
+    if (sessionStorage.getItem("newlistARR")) {
       let isCheck = JSON.parse(sessionStorage.getItem("newlistARR"))[1].isCheck;
-      console.log(isCheck);
       this.setState({
-        MykeyWordValue:isCheck
-      })
+        MykeyWordValue: isCheck,
+      });
     }
-  };
+  }
   //props将要被改变前执行
   componentWillReceiveProps(props) {
     console.log(props);
     const key = props.keyWordValue;
-    this.setState({
-      MykeyWordValue: key,
-    });
+    if (sessionStorage.getItem("newlistARR")) {
+      let isCheck = JSON.parse(sessionStorage.getItem("newlistARR"))[1].isCheck;
+      this.setState({
+        MykeyWordValue: isCheck,
+      });
+    }
+
+    // this.setState({
+    //   MykeyWordValue: key,
+    // });
   }
 
   getDealPattern = () => {

@@ -131,19 +131,20 @@ export default class Loose extends React.Component {
       ischeck.length < 3 ||
       ischeck.length > 20 ||
       /[\u4E00-\u9FA5]/i.test(ischeck)
-   ) {
+    ) {
       return false;
     } else {
       return true;
     }
   };
-  add(){
+  add() {
     let [Loose, LooseObj, tag] = [
       this.state.LooseArr[this.state.LooseArr.length - 1],
       {},
       "",
     ];
     log(Loose);
+
     var priceReg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;
 
     LooseObj.number = Loose.number;
@@ -158,16 +159,16 @@ export default class Loose extends React.Component {
     log(LooseObj);
     for (var key in LooseObj) {
       if (!LooseObj[key]) {
-        Toast.info("散张请输入有效数字", 2);
+        Toast.info("请输入完整的散张求购信息", 2);
         return;
       }
     }
 
-    if (!priceReg.test(LooseObj.dealPrice)) {
-      Toast.info("请输入散张求购正确的单价:整数或者保留两位小数", 2);
+    if (!priceReg.test(LooseObj.dealPrice)|| Number(LooseObj.dealPrice) <= 0) {
+      Toast.info("请输入散张求购正确的单价", 2);
       return;
-    };
-    
+    }
+
     if (!this.setBuyingNumber(LooseObj.number)) {
       Toast.info("请输入散张求购正确求购号码", 2);
       return;
@@ -246,7 +247,7 @@ export default class Loose extends React.Component {
     this.setState({
       LooseArr: LooseArr,
     });
-  };
+  }
   ActivityVerificationDownload = (val) => {
     Toast.success(`${val}`, 1);
     console.log(val);

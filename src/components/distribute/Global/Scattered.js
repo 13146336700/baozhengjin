@@ -283,13 +283,13 @@ export default class Serial extends React.Component {
       obj.signlePrice = LooseObj.signlePrice;
       for (let key in obj) {
         if (!obj[key]) {
-          Toast.info("散连请输入有效数值", 2);
+          Toast.info("请输入完整的散连求购信息", 2);
           return;
         }
       }
-
-      if (!priceReg.test(obj.signlePrice)) {
-        Toast.info("请输入散连求购正确的连号总价格或者保留两位小数", 1);
+      if (!priceReg.test(obj.signlePrice)||
+      Number(LooseObj.signlePrice) <= 0) {
+        Toast.info("请输入散连求购正确的总价格", 2);
         return;
       }
       if (!this.setBuyingNumber(obj.number)) {

@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { Toast, WhiteSpace, WingBlank, Button,Picker, List } from "antd-mobile";
+import {
+  Toast,
+  WhiteSpace,
+  WingBlank,
+  Button,
+  Picker,
+  List,
+} from "antd-mobile";
 
 import "./index.scss";
 
@@ -9,18 +16,16 @@ export default class Standard extends React.Component {
     this.state = {
       data: [
         {
-          label: '2013',
-          value: '2013',
+          label: "2013",
+          value: "2013",
         },
         {
-          label: '2014',
-          value: '2014',
+          label: "2014",
+          value: "2014",
         },
       ],
       cols: 1,
-      asyncValue: [
-        
-      ],
+      asyncValue: [],
       LooseArr: [
         {
           todoList: [
@@ -93,8 +98,10 @@ export default class Standard extends React.Component {
       if (key == index) {
         item.tag = ev.target.value;
         item.dealCnt = _this.changeDOM(ev.target.value, arr[key]).num;
-        if(item.dealCnt && item.number){
-          item.endnumber = Number(item.dealCnt) + Number(this.SETNUmber(item.number,item.dealCnt,'1',item));
+        if (item.dealCnt && item.number) {
+          item.endnumber =
+            Number(item.dealCnt) +
+            Number(this.SETNUmber(item.number, item.dealCnt, "1", item));
         }
         item.Examples = _this.changeDOM(ev.target.value, arr[key]).Examples;
       }
@@ -252,22 +259,23 @@ export default class Standard extends React.Component {
       ischeck.length < 3 ||
       ischeck.length > 20 ||
       /[\u4E00-\u9FA5]/i.test(ischeck)
-   ) {
+    ) {
       return false;
     } else {
       return true;
     }
   };
   add() {
+    let utitle = this.props.utitle;
     let LooseObj = this.state.LooseArr[this.state.LooseArr.length - 1];
     var priceReg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;
 
     for (let key in LooseObj) {
       if (!LooseObj[key]) {
-        Toast.info("请输入完整的标连整售信息", 2);
+        Toast.info(`请输入完整的标连${utitle}信息`, 2);
         return;
       }
-    };
+    }
 
     console.log(LooseObj);
     // console.log(
@@ -278,12 +286,12 @@ export default class Standard extends React.Component {
       return;
     }
     if (!priceReg.test(LooseObj.dealPrice) || Number(LooseObj.dealPrice) <= 0) {
-      Toast.info("请输入标连整售正确的总价格", 2);
+      Toast.info(`请输入标连${utitle}正确的总价格`, 2);
       return;
     }
-    
+
     if (!this.setBuyingNumber(LooseObj.number)) {
-      Toast.info("请输入标连整售正确出售号码", 2);
+      Toast.info(`请输入标连${utitle}正确出售号码`, 2);
       return;
     }
 
@@ -340,68 +348,11 @@ export default class Standard extends React.Component {
     this.setState({
       LooseArr: LooseArr,
     });
-  };
-  onPickerChange = (val) => {
-    console.log(val);
-    let colNum = 1;
-    const d = [...this.state.data];
-    const asyncValue = [...val];
-    if (val[0] === "zj") {
-      d.forEach((i) => {
-        if (i.value === "zj") {
-          colNum = 2;
-          if (!i.children) {
-            i.children = [
-              {
-                value: "zj-nb",
-                label: "宁波",
-              },
-              {
-                value: "zj-hz",
-                label: "杭州",
-              },
-            ];
-            asyncValue.push("zj-nb");
-          } else if (val[1] === "zj-hz") {
-            i.children.forEach((j) => {
-              if (j.value === "zj-hz") {
-                j.children = [
-                  {
-                    value: "zj-hz-xh",
-                    label: "西湖区",
-                  },
-                ];
-                asyncValue.push("zj-hz-xh");
-              }
-            });
-            colNum = 3;
-          }
-        }
-      });
-    } else {
-      colNum = 1;
-    }
-    this.setState({
-      data: d,
-      cols: colNum,
-      asyncValue,
-    });
-  };
+  }
+
   render() {
     return (
       <div className="Loose">
-        {/* <Picker
-          data={this.state.data}
-          cols={this.state.cols}
-          value={this.state.asyncValue}
-          onPickerChange={this.onPickerChange}
-          onOk={(v) => console.log(v)}
-        >
-          <List.Item arrow="horizontal" onClick={this.onClick}>
-            Multiple & async
-          </List.Item>
-        </Picker> */}
-
         <div className="Loose_title">
           {/* <p>标连{this.props.utitle}</p> */}
         </div>
@@ -425,23 +376,22 @@ export default class Standard extends React.Component {
                   <span>{item.tag}</span>
                   <img src={require("../../assets/right.png")} alt="" />
                   <div data-tap-disabled="true">
-                  <select
-                    onChange={(e) => this.selectChange(e, item, key)}
-                    value={item.tag}
-                  >
-                    <option style={{ display: "none" }}>请选择</option>
-                    {item.todoList.map((item1, key1) => (
-                      <option
-                        onClick={() => this.Myoption(item1)}
-                        value={item1.code}
-                        key={key1}
-                      >
-                        {item1.title}
-                      </option>
-                    ))}
-                  </select>
+                    <select
+                      onChange={(e) => this.selectChange(e, item, key)}
+                      value={item.tag}
+                    >
+                      <option style={{ display: "none" }}>请选择</option>
+                      {item.todoList.map((item1, key1) => (
+                        <option
+                          onClick={() => this.Myoption(item1)}
+                          value={item1.code}
+                          key={key1}
+                        >
+                          {item1.title}
+                        </option>
+                      ))}
+                    </select>
                   </div>
-                  
                 </div>
               </li>
               <li>

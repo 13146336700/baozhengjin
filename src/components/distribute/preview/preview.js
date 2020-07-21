@@ -80,15 +80,14 @@ export default class Preview extends React.Component {
     });
   }
   cancel() {
-this.setState({
-  mynum: '', //要修改的东西
-  showShadeFlag: false,
-  dealPrice: '',
-  number: '',
-  signlePrice: '',
-});
-
-  };
+    this.setState({
+      mynum: "", //要修改的东西
+      showShadeFlag: false,
+      dealPrice: "",
+      number: "",
+      signlePrice: "",
+    });
+  }
   changeList() {
     console.log(this.state.myindex);
     console.log(this.state.mynum);
@@ -163,10 +162,11 @@ this.setState({
     });
   }
   setexamination = () => {
-    if (this.getUrlParam("goodsId")) {
+    // if (this.getUrlParam("goodsId")) {
+    if (this.props.history.location.state.goodsId) {
       axios
         .post("subject/json/addNumberFormat", {
-          goodsId: this.getUrlParam("goodsId"),
+          goodsId: this.props.history.location.state.goodsId,
           scatteredJson: JSON.stringify(this.state.scatteredJson),
           standardConsecutiveJson: JSON.stringify(
             this.state.standardConsecutiveJson
@@ -176,12 +176,12 @@ this.setState({
         .then((response) => {
           if (response.data.code == "10000") {
             //成功到库存页面
-            Toast.info("成功", 1);
+            Toast.info("发布成功", 2);
             this.props.history.push({
               pathname: "/myStock",
               search: `userId=${
                 JSON.parse(sessionStorage.getItem("userInfo")).userId
-              }&name=${this.getUrlParam("name")}&type=2`,
+              }&name=${this.props.history.location.state.name}&type=2`,
             });
           } else {
             Toast.info(response.data.message, 1);
@@ -317,13 +317,13 @@ this.setState({
                 <button onClick={this.changeList.bind(this)}>确认修改</button>
                 <button onClick={this.cancel.bind(this)}>取消</button>
               </div>
-              
             </div>
           </div>
         ) : null}
         <div className="footer_zhanwei"></div>
         <button className="adddelte" onClick={() => this.setexamination()}>
-          {this.getUrlParam("goodsId") ? "确认增加" : "下一步"}
+          {/* {this.getUrlParam("goodsId") ? "确认增加" : "下一步"} */}
+          {this.props.history.location.state.goodsId ? "确认增加" : "下一步"}
         </button>
       </div>
     );

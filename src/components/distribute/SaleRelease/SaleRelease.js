@@ -55,7 +55,7 @@ export default class SaleRelease extends React.Component {
     if (s.length > 18) {
       return false;
     }
-     var re = /^\+?[1-9]\d*$/;
+    var re = /^\+?[1-9]\d*$/;
     return re.test(s);
   };
   setKeyWorld = (keyWord) => {
@@ -63,6 +63,74 @@ export default class SaleRelease extends React.Component {
     this.setState({
       keyWord: keyWord,
     });
+  };
+  SETNUmber = (value, addNumber, num, obj) => {
+    let newstr,
+      ccccccc,
+      bu0 = "";
+    let [setstr, setstrLength] = [
+      value.replace(/[^0-9]/gi, ""),
+      value.replace(/[^0-9]/gi, "").length,
+    ];
+    let [AddSetstr, AddSetstrLength] = [
+      `${Number(setstr) + Number(addNumber)}`,
+      `${Number(setstr) + Number(addNumber)}`.length,
+    ];
+    if (value.indexOf(setstr) == -1) {
+      Toast.info("不支持的号码", 2);
+      return;
+    }
+    // log(value.indexOf(setstr))
+
+    if (AddSetstrLength != setstrLength) {
+      //如果需要补0
+      let bu0Cha = Number(setstrLength) - Number(AddSetstrLength);
+      for (var i = 0; i < bu0Cha; i++) {
+        bu0 += "0";
+      }
+      newstr = `${bu0}${AddSetstr}`;
+    } else {
+      newstr = `${AddSetstr}`;
+    }
+    ccccccc = value.replace(setstr, newstr);
+
+    if (num == 1) {
+      return ccccccc;
+    } else {
+      switch (obj.tag) {
+        case "标十":
+          if (setstr.substring(setstr.length - 1) != "1") {
+            return false;
+          } else {
+            return true;
+          }
+          break;
+        case "标百":
+          if (setstr.substring(setstr.length - 2) != "01") {
+            return false;
+          } else {
+            return true;
+          }
+          break;
+        case "标千":
+          if (setstr.substring(setstr.length - 3) != "001") {
+            return false;
+          } else {
+            return true;
+          }
+          break;
+        case "标五千":
+          if (setstr.substring(setstr.length - 3) != "005") {
+            return false;
+          } else {
+            return true;
+          }
+          break;
+        default:
+          return true;
+          break;
+      }
+    }
   };
   tabChange = (item, key) => {
     log(item, key);
@@ -88,7 +156,7 @@ export default class SaleRelease extends React.Component {
     let Name = this.getUrlParam("name");
     var priceReg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;
     if (!Name) {
-      Toast.info("请输入名称", 1);
+      Toast.info("请输入藏品名称", 2);
       return;
     }
 
@@ -112,11 +180,17 @@ export default class SaleRelease extends React.Component {
       "N",
     ];
 
-    if(My_seach.list[0].isCheck == true && My_seach.list[1].isCheck == true){
-      dealPattern = '5';
-    }else if(My_seach.list[0].isCheck == true && My_seach.list[1].isCheck == false){
+    if (My_seach.list[0].isCheck == true && My_seach.list[1].isCheck == true) {
+      dealPattern = "5";
+    } else if (
+      My_seach.list[0].isCheck == true &&
+      My_seach.list[1].isCheck == false
+    ) {
       dealPattern = My_seach.list[0].dealPattern;
-    }else if(My_seach.list[0].isCheck == false && My_seach.list[1].isCheck == true){
+    } else if (
+      My_seach.list[0].isCheck == false &&
+      My_seach.list[1].isCheck == true
+    ) {
       dealPattern = My_seach.list[1].dealPattern;
     }
 
@@ -292,18 +366,17 @@ export default class SaleRelease extends React.Component {
       }
     }
     if (NumbersB == 3) {
-      Toast.info("请输入值", 1);
-      return;
-    }
-    if (NumbersC > 0) {
-      Toast.info("请输入有效值", 1);
+      Toast.info("请选择您要求购的商品类型", 2);
       return;
     }
 
-    if (Numbers.A == "1") {
+    if (Numbers.A == "1" || Numbers.A == "2") {
       for (let i = 0; i < scatteredJson.length; i++) {
-        if (!priceReg.test(scatteredJson[i].dealPrice)) {
-          Toast.info("请输入散张求购正确的单价:整数或者保留两位小数", 2);
+        if (
+          !priceReg.test(scatteredJson[i].dealPrice) ||
+          Number(scatteredJson[i].dealPrice) <= 0
+        ) {
+          Toast.info("请输入散张求购正确的单价", 2);
           return;
         }
         if (!_this.setBuyingNumber(scatteredJson[i].number)) {
@@ -312,42 +385,67 @@ export default class SaleRelease extends React.Component {
         }
       }
     }
-
-    if (Numbers.B == "1") {
-      for (let i = 0; i < standardConsecutiveJson.length; i++) {
-        if (!priceReg.test(standardConsecutiveJson[i].dealPrice)) {
-          Toast.info("请输入标连求购正确的价格:整数或者保留两位小数", 1);
+    if (Numbers.B == "1" || Numbers.B == "2") {
+      for (var i = 0; i < standardConsecutiveJson.length; i++) {
+        if (
+          !_this.SETNUmber(
+            standardConsecutiveJson[i].number,
+            standardConsecutiveJson[i].dealCnt,
+            "2",
+            standardConsecutiveJson[i]
+          )
+        ) {
+          Toast.info("填写的号码尾号请和示例尾号相同", 2);
+          return;
+        }
+        if (
+          !priceReg.test(standardConsecutiveJson[i].dealPrice) ||
+          Number(standardConsecutiveJson[i].dealPrice) <= 0
+        ) {
+          Toast.info("请输入标连求购正确的单价", 2);
+          return;
+        }
+        if (
+          !standardConsecutiveJson[i].tag ||
+          standardConsecutiveJson[i].tag == "请选择类型"
+        ) {
+          Toast.info("请选择标连求购类型", 2);
           return;
         }
         if (!_this.setBuyingNumber(standardConsecutiveJson[i].number)) {
-          Toast.info("请输入标连求购正确求购号码", 1);
+          Toast.info("请输入标连求购正确求购号码", 2);
           return;
         }
       }
     }
 
-    if (Numbers.C == "1") {
+    if (Numbers.C == "1" || Numbers.C == "2") {
       for (let i = 0; i < otherConsecutiveJson.length; i++) {
-        if (!priceReg.test(otherConsecutiveJson[i].dealPrice)) {
-          Toast.info("请输入散连求购正确的连号总价格或者保留两位小数", 1);
+        if (
+          !priceReg.test(otherConsecutiveJson[i].dealPrice) ||
+          Number(otherConsecutiveJson[i].dealPrice) <= 0
+        ) {
+          Toast.info("请输入散连求购正确的总价格", 2);
           return;
         }
         if (!_this.setBuyingNumber(otherConsecutiveJson[i].number)) {
           Toast.info("请输入散连求购正确求购号码", 1);
           return;
         }
-        if (!_this.isPositiveInteger(otherConsecutiveJson[i].dealCnt)) {
+        if (
+          !_this.isPositiveInteger(otherConsecutiveJson[i].dealCnt) ||
+          Number(otherConsecutiveJson[i].dealCnt) <= 0
+        ) {
           Toast.info("请输入散连求购正确求购数量", 1);
           return;
         }
       }
     }
-
-  
     if (!dealPattern) {
-      Toast.info("请选择交易方式", 1);
+      Toast.info("请选择商品交易方式", 2);
       return;
     }
+
     if (this.getUrlParam("goodsId")) {
       axios
         .post("subject/json/addNumberFormat", {
@@ -370,7 +468,7 @@ export default class SaleRelease extends React.Component {
             //成功到库存页面
             // this.props.history.push("/");
 
-            Toast.info("发布成功", 1);
+            Toast.info("发布成功", 2);
             this.props.history.push({
               pathname: "/myStock",
               search: `userId=${
@@ -392,7 +490,7 @@ export default class SaleRelease extends React.Component {
           type: "1", //1 求购，2 出售
           categoryName: this.getUrlParam("category"), //商品分类
           name: this.getUrlParam("name"), //搜索框的名字
-          dealPattern: dealPattern, //担保 2，线下 3
+          dealPattern: dealPattern, //担保 2，线下 3 全部5
           isPostage: "N", //默认N 不包邮，Y 包邮。买没有包邮，固定填N
           scatteredJson:
             Numbers.A == "3"
