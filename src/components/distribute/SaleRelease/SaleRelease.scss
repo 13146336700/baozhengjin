@@ -186,17 +186,10 @@ opacity: 0.5;
   overflow: hidden;
   .Useach {
     padding-top: 30px; /*px*/
-    width: 95%;
+    width: 92%;
     display: flex;
     align-items: center;
     margin: auto;
-
-    // background-color: white;
-    .Goreturn {
-      width: 35px; /*px*/
-      height: 35px; /*px*/
-    }
-    .Useachhome {
       padding-left: env(safe-area-inset-left);
       padding-left: constant(safe-area-inset-left);
       padding-right: env(safe-area-inset-right);
@@ -205,22 +198,30 @@ opacity: 0.5;
       padding-bottom: constant(safe-area-inset-bottom);
       padding-top: env(safe-area-inset-top);
       padding-top: constant(safe-area-inset-top);
-      padding: 21px;
 
+    // background-color: white;
+    .Goreturn {
+      width: 35px; /*px*/
+      height: 35px; /*px*/
+    }
+    .Useachhome {
+      padding: 12px;
       height: 40px; /*px*/
       margin: auto;
-      width: 80%;
+      width: 75%;
       display: flex;
       align-items: center;
       background: #ececec;
       border-radius: 11px; /*px*/
+      overflow: hidden;
       img {
         width: 30px; /*px*/
         margin-left: 18px; /*px*/
       }
       input {
         // line-height: 64px; /*px*/
-        flex: 1;
+        // flex: 1;
+        width: 100%;
         // background: rgba(242, 242, 242, 1);
         background: #ececec;
         line-height: 40px; /*px*/

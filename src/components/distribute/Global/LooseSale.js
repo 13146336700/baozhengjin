@@ -72,17 +72,23 @@ export default class LooseSale extends React.Component {
     this.setState({
       LooseArr: LooseArr,
     });
-  };
+  }
 
   hanChange = (ev, index) => {
     console.log(ev.target.value);
     const LooseArr = [...this.state.LooseArr]; //浅拷贝一下
+    // var priceReg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;
+    // if (!priceReg.test(ev.target.value)) {
+    //   Toast.info("请输入散张出售正确的单价", 2);
+    //   return;
+    // }
 
     LooseArr.map((item, key) => {
       if (key == index) {
         item.dealPrice = ev.target.value;
       }
     });
+
     this.setState({
       LooseArr: LooseArr,
     });
@@ -148,9 +154,16 @@ export default class LooseSale extends React.Component {
                 />
               </li>
               <li>
-                <div> 单价（ 元 / {this.getUrlParam("unitName")?this.getUrlParam("unitName"):'张'}） </div>
+                <div>
+                   
+                  单价（ 元 / 
+                  {this.getUrlParam("unitName")
+                    ? this.getUrlParam("unitName")
+                    : "张"}
+                  ） 
+                </div>
                 <input
-                  type="tel"
+                  type="text"
                   value={item.dealPrice}
                   onChange={(ev) => this.hanChange(ev, key)}
                   placeholder="请输入单张价格"

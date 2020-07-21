@@ -90,7 +90,7 @@ export default class BuyingRelease extends React.Component {
           }
           break;
         case "标五千":
-          if (setstr.substring(setstr.length - 3) != "005") {
+          if (setstr.substring(setstr.length - 3) != "001") {
             return false;
           } else {
             return true;

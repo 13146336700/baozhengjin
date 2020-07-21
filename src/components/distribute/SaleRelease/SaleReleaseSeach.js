@@ -35,6 +35,10 @@ export default class SaleReleaseSeach extends React.Component {
   componentDidMount() {
     this.tabClick();
     console.log(this.props);
+    sessionStorage.setItem(
+      `${this.props.match.path}Url`,
+      this.props.location.search
+    );
   }
   tabClick = (num = 1, messa = "coin") => {
     // console.log(num);
@@ -145,7 +149,7 @@ export default class SaleReleaseSeach extends React.Component {
       return false;
     }
     this.snameChange(this.state.sname);
-  }
+  };
 
   setSelfState = (val) => {
     console.log(val);
@@ -196,9 +200,7 @@ export default class SaleReleaseSeach extends React.Component {
           );
         } else {
           this.props.history.push(
-            `/${ustate}?name=${val.name}&unitName=${val.unitName}&category=${
-              val.category
-            }&url=${ustate}`
+            `/${ustate}?name=${val.name}&unitName=${val.unitName}&category=${val.category}&url=distribute`
           );
         }
       })

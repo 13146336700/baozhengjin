@@ -30,40 +30,46 @@ export default class Standard extends React.Component {
         {
           todoList: [
             {
+              code: "请选择类型",
+              title: "请选择类型",
+              num: 0,
+              Examples: "********",
+            },
+            {
               code: "标十",
               title: "标十",
               num: 9,
-              Examples: "xxxxxxx1",
+              Examples: "*******1",
             },
             {
               code: "标百",
               title: "标百",
               num: 99,
-              Examples: "xxxxxx01",
+              Examples: "******01",
             },
             {
               code: "滚刀",
               title: "滚刀",
               num: 99,
-              Examples: "xxxxxxxx",
+              Examples: "*******x",
             },
             {
               code: "滚捆",
               title: "滚捆",
               num: 999,
-              Examples: "xxxxxxxx",
+              Examples: "*******x",
             },
             {
               code: "标千",
               title: "标千",
               num: 999,
-              Examples: "xxxxx001",
+              Examples: "*****001",
             },
             {
               code: "标五千",
               title: "标五千",
               num: 4999,
-              Examples: "xxxxx005",
+              Examples: "*****001",
             },
           ],
           dealCnt: "", //标号的
@@ -71,7 +77,7 @@ export default class Standard extends React.Component {
           endnumber: "", //结束号码
           dealPrice: "",
           tag: "请选择类型",
-          Examples: "xxxxxxxx",
+          Examples: "********",
         },
       ],
     };
@@ -98,9 +104,13 @@ export default class Standard extends React.Component {
       if (key == index) {
         item.tag = ev.target.value;
         item.dealCnt = _this.changeDOM(ev.target.value, arr[key]).num;
+        if (item.tag == "请选择类型") {
+          item.dealCnt = "";
+          item.endnumber = "";
+        }
         if (item.dealCnt && item.number) {
           item.endnumber = _this.SETNUmber(
-           item.number,
+            item.number,
             item.dealCnt,
             "1",
             item
@@ -137,6 +147,7 @@ export default class Standard extends React.Component {
     });
     sessionStorage.setItem("BIAOLIAN_ARR", JSON.stringify(LooseArr));
   };
+  
   SETNUmber = (value, addNumber, num, obj) => {
     let newstr,
       ccccccc,
@@ -193,7 +204,7 @@ export default class Standard extends React.Component {
           }
           break;
         case "标五千":
-          if (setstr.substring(setstr.length - 3) != "005") {
+          if (setstr.substring(setstr.length - 3) != "001") {
             return false;
           } else {
             return true;
@@ -217,22 +228,21 @@ export default class Standard extends React.Component {
     //       : item
     //   ),
     // });
-console.log(LooseArr);
+    console.log(LooseArr);
 
     LooseArr.map((item, key) => {
       if (key == index) {
         item.number = ev.target.value;
-        if(ev.target.value && item.dealCnt){
+        if (ev.target.value && item.dealCnt) {
           item.endnumber = _this.SETNUmber(
             ev.target.value,
             item.dealCnt,
             "1",
             item
           );
-        }else{
-          item.endnumber ='';
+        } else {
+          item.endnumber = "";
         }
-        
       }
     });
 
@@ -314,40 +324,46 @@ console.log(LooseArr);
     LooseArr.push({
       todoList: [
         {
+          code: "请选择类型",
+          title: "请选择类型",
+          num: 0,
+          Examples: "********",
+        },
+        {
           code: "标十",
           title: "标十",
           num: 9,
-          Examples: "xxxxxxx1",
+          Examples: "*******1",
         },
         {
           code: "标百",
           title: "标百",
           num: 99,
-          Examples: "xxxxxx01",
+          Examples: "******01",
         },
         {
           code: "滚刀",
           title: "滚刀",
           num: 99,
-          Examples: "xxxxxxxx",
+          Examples: "********",
         },
         {
           code: "滚捆",
           title: "滚捆",
           num: 999,
-          Examples: "xxxxxxxx",
+          Examples: "********",
         },
         {
           code: "标千",
           title: "标千",
           num: 999,
-          Examples: "xxxxx001",
+          Examples: "*****001",
         },
         {
           code: "标五千",
           title: "标五千",
           num: 4999,
-          Examples: "xxxxx005",
+          Examples: "*****001",
         },
       ],
       dealCnt: "", //标号的
@@ -355,7 +371,7 @@ console.log(LooseArr);
       endnumber: "", //结束号码
       dealPrice: "",
       tag: "请选择类型",
-      Examples: "xxxxxxxx",
+      Examples: "********",
     });
     this.setState({
       LooseArr: LooseArr,
@@ -392,7 +408,7 @@ console.log(LooseArr);
                       onChange={(e) => this.selectChange(e, item, key)}
                       value={item.tag}
                     >
-                      <option style={{ display: "none" }}>请选择</option>
+                      {/* <option>请选择类型</option> */}
                       {item.todoList.map((item1, key1) => (
                         <option
                           onClick={() => this.Myoption(item1)}
@@ -412,6 +428,7 @@ console.log(LooseArr);
                   type="text"
                   value={item.number}
                   onChange={(ev) => this.hanChange(ev, key, item)}
+                
                   placeholder="请输入起始的号码"
                 />
                 <p>示例:{item.Examples}</p>

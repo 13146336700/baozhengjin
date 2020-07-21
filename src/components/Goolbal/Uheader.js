@@ -12,6 +12,19 @@ export default class Uheaders extends React.Component {
     this.backClick = this.backClick.bind(this);
   }
   componentWillMount() {
+    //  var str= navigator.userAgent.toLowerCase(); 
+    // console.log(plus.os.name);
+    // Toast.info(window.plus, 2000);
+    // alert(u)
+    // alert( "IMSI: " + window.plus);  
+
+    //     var ver=str.match(/cpu iphone os (.*?) like mac os/);
+    //     if(isiOS){
+    //         alert("请在Ios系统中打开");
+    //     }else{
+    //         alert("你当前的Ios系统版本为："+ver[1].replace(/_/g,"."));
+    //     }
+
     console.log(this.props);
     if (this.props.match.path == "/goodsDistribute") {
       sessionStorage.setItem(`${this.props.match.path}Url`, this.props.location.search);

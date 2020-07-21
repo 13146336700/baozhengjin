@@ -18,7 +18,7 @@ export default class SaleDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ExpirationValue: "15",
+      ExpirationValue: "90",
       desc: "", //文本框
       imageArray: [],
       releaseDisabled: false,
@@ -97,9 +97,11 @@ export default class SaleDetails extends React.Component {
       Toast.info("藏品描述最多为100个字", 2);
       return;
     }
+
     this.setState({
       releaseDisabled: true,
     });
+
     //发布
     // let str = "";
     // this.state.imageArray.map((item,key)=>{
@@ -107,26 +109,38 @@ export default class SaleDetails extends React.Component {
     // })
     // console.log(str);
     // this.state.imageArray.join(',')
+    console.log(this.isRealNum(this.state.ExpirationValue));
     let myArray = this.props.history.location.state;
-    if (this.isRealNum(this.state.ExpirationValue)) {
-      if (this.state.ExpirationValue < 1) {
-        Toast.info("最小是1", 1);
-        return;
-      } else if (this.state.ExpirationValue > 30) {
-        Toast.info("最大是30", 1);
-        return;
-      }
-    } else {
-      Toast.info("请输入有效的数字", 1);
-    }
-    if (
-      this.state.ExpirationValue == "" ||
-      this.state.ExpirationValue == undefined ||
-      this.state.ExpirationValue == null
-    ) {
-      Toast.info("请输入有效的数字", 1);
+    if (!this.isRealNum(this.state.ExpirationValue)) {
+      Toast.info("请输入有效天数", 2);
+      this.setState({
+        releaseDisabled: false,
+      });
+      return;
+    };
+    if (this.state.ExpirationValue < 1) {
+      Toast.info("有效天数最小为1", 2);
+      this.setState({
+        releaseDisabled: false,
+      });
+      return;
+    };
+    if (Number(this.state.ExpirationValue) >= 365) {
+      Toast.info("有效天数最大为365天", 2);
+      this.setState({
+        releaseDisabled: false,
+      });
       return;
     }
+
+    // if (
+    //   this.state.ExpirationValue == "" ||
+    //   this.state.ExpirationValue == undefined ||
+    //   this.state.ExpirationValue == null
+    // ) {
+    //   Toast.info("请输入有效天数", 1);
+    //   return;
+    // }
     axios
       .post("subject/json/saveGoods", {
         pubUserid: myArray.pubUserid,
@@ -178,7 +192,14 @@ export default class SaleDetails extends React.Component {
   render() {
     return (
       <div className="SaleDetails">
-        <Uheader {...this.props} utitle={this.props.history.location.state.type == '1'?"增加配号求购详情":"增加配号出售详情"}></Uheader>
+        <Uheader
+          {...this.props}
+          utitle={
+            this.props.history.location.state.type == "1"
+              ? "增加配号求购详情"
+              : "增加配号出售详情"
+          }
+        ></Uheader>
         <div className="zhanwei zhanwei_yanse"> </div>
         {/* <ImageBig imageArray={this.state.imageArray} {...this.props} imageArrayKey='1'></ImageBig> */}
         <div className="SaleDetails_title">
@@ -219,11 +240,11 @@ export default class SaleDetails extends React.Component {
         <div className="zhanwei zhanwei_yanse"> </div>
         <div className="Expiration">
           <div>
-            <span className="zhonyao"> * </span> 有效期（最多30天）：
+            <span className="zhonyao"> * </span> 有效期（最多365天）：
           </div>
           <div>
             <input
-              type="text"
+              type="tel"
               value={this.state.ExpirationValue}
               onChange={(ev) => this.haninpiychange(ev)}
               pattern="[0-9]*"
