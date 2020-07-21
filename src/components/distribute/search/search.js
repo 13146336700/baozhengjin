@@ -46,14 +46,14 @@ export default class SearchNumber extends React.Component {
       this.setState({
         searchName: this.getUrlParam("name"),
         name: this.getUrlParam("name"),
-        category: this.getUrlParam("categoryName"),
+        category: this.getUrlParam("category"),
         unitName: this.getUrlParam("unitName"),
         searchData: [],
       });
       let searchInfo = {
         name: this.getUrlParam("name"),
         unitName: this.getUrlParam("unitName"),
-        categoryName: this.getUrlParam("categoryName"),
+        categoryName: this.getUrlParam("category"),
       };
       sessionStorage.setItem("searchInfo", JSON.stringify(searchInfo));
     }
@@ -203,6 +203,7 @@ export default class SearchNumber extends React.Component {
       tag: this.state.tag,
       type: this.state.type,
       position: this.state.position,
+      positionName: this.state.positionName,
       category: this.state.category,
       unitName: this.state.unitName
     };
@@ -344,7 +345,7 @@ export default class SearchNumber extends React.Component {
               <ul>
                 {this.state.searchHistory.map((item, index) => (
                   <li className="typelist" key={index} onClick={() =>this.historySearch(item)}>
-                    {item.name} {item.sname ? `•${item.position}` : ""}
+                    {item.name} {item.sname ? `•${item.positionName}` : ""}
                     {item.sname ? `•${item.sname}` : ""}
                     {item.tag ? `•${item.tag}` : ""}
                   </li>

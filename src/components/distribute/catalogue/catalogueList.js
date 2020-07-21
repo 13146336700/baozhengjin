@@ -69,7 +69,7 @@ export default class CatalogueList extends React.Component {
 
     let marketFrom = JSON.parse(sessionStorage.getItem("marketFrom"));
     this.props.history.push(
-      `/${marketFrom.market}?name=${item.name}&unitName=${item.unitName}&categoryName=${item.category}&url=${marketFrom.url}`
+      `/${marketFrom.market}?name=${item.name}&unitName=${item.unitName}&category=${item.category}&url=${marketFrom.url}`
     );
   }
 

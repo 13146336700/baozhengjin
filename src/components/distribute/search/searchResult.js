@@ -28,7 +28,7 @@ export default class SearchResult extends React.Component {
 
     /**返回搜索页面 */
     goSearch() {
-        this.props.history.push(`/searchNumber?name=${this.getUrlParam('name')}&unitName=${this.getUrlParam('unitName')}&categoryName=${this.getUrlParam('category')}`);
+        this.props.history.push(`/searchNumber?name=${this.getUrlParam('name')}&unitName=${this.getUrlParam('unitName')}&category=${this.getUrlParam('category')}`);
     }
 
     render() {
