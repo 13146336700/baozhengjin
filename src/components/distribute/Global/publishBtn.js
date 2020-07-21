@@ -1,8 +1,9 @@
 import React from 'react';
 import "../index/index.scss";
 import axios from "../../axios/index";
+// import { Toast } from 'antd-mobile';
 var u = navigator.userAgent;
-// var isAndroid = u.indexOf("Android") > -1;
+
 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 
 export default class PublishBtn extends React.Component {
@@ -10,8 +11,21 @@ export default class PublishBtn extends React.Component {
     componentWillMount() {
         document.title = "发布按钮";
     };
+    componentDidMount() {
+        // funcitonName 是原生回调使用的方法名
+        window["IOSLoginUploadUserId"] = this.IOSLoginUploadUserId;
+    }
     state = {
         shadeShow:false
+    };
+
+    /**用户登录并返回信息 */
+    IOSLoginUploadUserId = (val) => {
+        // Toast.info(val,3);
+        if (isiOS) {
+            // console.log(val,'用户信息');
+            sessionStorage.setItem("userInfo",val);
+        } 
     };
 
     /**获取网址参数 */
@@ -64,11 +78,6 @@ export default class PublishBtn extends React.Component {
         if (userInfo.userId === '') {
             if (isiOS) {
                 window.webkit.messageHandlers.IOSNativeLogin.postMessage('');
-                try {
-                    window.webkit.messageHandlers.IOSNativeGotoBack.postMessage("");
-                } catch (e) {
-                    console.log(e);
-                }
             } else {
                 window.app.login();
                 try {

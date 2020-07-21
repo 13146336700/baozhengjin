@@ -333,7 +333,7 @@ export default class Pulload extends React.Component {
                             {this.state.data.map((item,index) => (
                                 <li className="list" key= {index} onClick={() => this.goodsDistribute(item)}>
                                     <div className="imgBox">
-                                      <img src={item.showImg} alt="商品图片"/>
+                                      <img src={item.showImg || require('../../assets/logo.png')} alt=""/>
                                     </div>
                                     <div className="goodsType">
                                       {/* <div className="info" onClick={() => this.goodsDistribute(item)}> */}
@@ -366,7 +366,7 @@ export default class Pulload extends React.Component {
                           <ul className="listBox mylist" >
                             {this.state.data.map((item,index) => (
                                 <li className="list" key= {index} onClick={() => this.props.history.push(`/myStock?userId=${this.getUrlParam('userId')}&type=2&name=${item.name}`)}>
-                                    <img src={item.showImg || require('../../assets/logo.png')} alt="商品图片"/>
+                                    <img src={item.showImg || require('../../assets/logo.png')} alt=""/>
                                     <div className="goodsType">
                                       <div className="name">{item.name}<p>
                                           <img src={require("../../assets/guanli.png")} alt="icon" className="icon"/>
