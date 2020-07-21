@@ -95,6 +95,7 @@ export default class Uheaders extends React.Component {
       sessionStorage.removeItem("BIAOLIAN_Ontable");
       sessionStorage.removeItem("market");
       sessionStorage.removeItem("newlistARR");
+      sessionStorage.removeItem("checked");
     } else if (
       this.props.match.path == "/SaleRelease" ||
       this.props.match.path == "/BuyingRelease"
@@ -148,7 +149,7 @@ export default class Uheaders extends React.Component {
   };
   render() {
     return (
-      <div className="Uheaders">
+      <div className={isiOS?'Uheaders IOSUheaders':'Uheaders'}>
         <div className="Uheadershome">
           <ul className={isiOS ? "iosHeader" : null}>
             <li onClick={() => this.backClick()}>

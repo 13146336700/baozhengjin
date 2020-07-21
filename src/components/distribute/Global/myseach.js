@@ -31,6 +31,12 @@ export default class myseach extends React.Component {
         list: JSON.parse(sessionStorage.getItem("newlistARR")),
       });
     }
+    if (sessionStorage.getItem("checked")) {
+      //有值 回显
+      this.setState({
+        checked: sessionStorage.getItem("checked"),
+      });
+    }
   }
   componentWillMount() {
     if (this.getUrlParam("name")) {
@@ -38,17 +44,17 @@ export default class myseach extends React.Component {
         name: this.getUrlParam("name"),
       });
     }
-    if (this.getUrlParam("checked")) {
-      let checked;
-      if (this.getUrlParam("checked") == "true") {
-        checked = true;
-      } else {
-        checked = false;
-      }
-      this.setState({
-        checked: checked,
-      });
-    }
+    // if (this.getUrlParam("checked")) {
+    //   let checked;
+    //   if (this.getUrlParam("checked") == "true") {
+    //     checked = true;
+    //   } else {
+    //     checked = false;
+    //   }
+    //   this.setState({
+    //     checked: checked,
+    //   });
+    // }
   }
   getUrlParam = (name) => {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
@@ -103,9 +109,6 @@ export default class myseach extends React.Component {
     let market = JSON.parse(sessionStorage.getItem("market"));
     console.log(market);
     let IOSNativeMarket ={
-      // oid:'4028808366edaebe01673f3af65947f7',
-      // code: 'coin',
-      // tag: '纪念钞18-3',
       oid: market.oid,
       code: market.code,
       tag: market.tag,
@@ -137,9 +140,7 @@ export default class myseach extends React.Component {
     if (num == 1) {
       this.props.history.push({
         pathname: `/SaleReleaseSeach/${this.props.ustate}`,
-        search: `url=${this.getUrlParam("url")}&goodsId=${goodsId}&checked=${
-          this.state.checked
-        }`,
+        search: `url=${this.getUrlParam("url")}&goodsId=${goodsId}`,
       });
     } else {
       let marketFrom = {
@@ -202,6 +203,7 @@ export default class myseach extends React.Component {
                       this.setState({
                         checked: !this.state.checked,
                       });
+                      sessionStorage.setItem("checked",!this.state.checked);
                     }}
                   />
                 }

@@ -198,7 +198,7 @@ export default class SaleReleaseSeach extends React.Component {
           this.props.history.push(
             `/${ustate}?name=${val.name}&unitName=${val.unitName}&category=${
               val.category
-            }&url=${ustate}&checked=${this.getUrlParam("checked")}`
+            }&url=${ustate}`
           );
         }
       })

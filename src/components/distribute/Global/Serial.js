@@ -99,9 +99,15 @@ export default class Standard extends React.Component {
         item.tag = ev.target.value;
         item.dealCnt = _this.changeDOM(ev.target.value, arr[key]).num;
         if (item.dealCnt && item.number) {
-          item.endnumber =
-            Number(item.dealCnt) +
-            Number(this.SETNUmber(item.number, item.dealCnt, "1", item));
+          item.endnumber = _this.SETNUmber(
+           item.number,
+            item.dealCnt,
+            "1",
+            item
+          );
+          // item.endnumber =
+          //   Number(item.dealCnt) +
+          //   Number(this.SETNUmber(item.number, item.dealCnt, "1", item));
         }
         item.Examples = _this.changeDOM(ev.target.value, arr[key]).Examples;
       }
@@ -211,6 +217,7 @@ export default class Standard extends React.Component {
     //       : item
     //   ),
     // });
+console.log(LooseArr);
 
     LooseArr.map((item, key) => {
       if (key == index) {
