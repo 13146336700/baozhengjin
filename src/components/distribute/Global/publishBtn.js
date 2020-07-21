@@ -64,8 +64,18 @@ export default class PublishBtn extends React.Component {
         if (userInfo.userId === '') {
             if (isiOS) {
                 window.webkit.messageHandlers.IOSNativeLogin.postMessage('');
+                try {
+                    window.webkit.messageHandlers.IOSNativeGotoBack.postMessage("");
+                } catch (e) {
+                    console.log(e);
+                }
             } else {
-                window.app.login()
+                window.app.login();
+                try {
+                    window.app.androidNativeGotoBack();
+                } catch (e) {
+                    console.log(e);
+                }
             }
         }else if(Number(userInfo.userType) > 1){
             this.checkgoodstatus(type);

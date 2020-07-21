@@ -322,7 +322,9 @@ export default class Pulload extends React.Component {
                           <ul className="listBox" >
                             {this.state.data.map((item,index) => (
                                 <li className="list" key= {index} onClick={() => this.goodsDistribute(item)}>
-                                    <img src={item.showImg} alt="商品图片"/>
+                                    <div className="imgBox">
+                                      <img src={item.showImg} alt="商品图片"/>
+                                    </div>
                                     <div className="goodsType">
                                       {/* <div className="info" onClick={() => this.goodsDistribute(item)}> */}
                                         <div className="name"><p className='title'>{item.name}</p> 
