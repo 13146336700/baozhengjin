@@ -26,7 +26,8 @@ export default class Pulload extends React.Component {
         pageIndex: 1, //页数
         pageSize: "20", //页数
         goodsType: '2', 
-        page: 'index'
+        page: 'index',
+        pageStatus: false,
       }
     }
 
@@ -138,12 +139,14 @@ export default class Pulload extends React.Component {
             pageIndex:Number(this.state.pageIndex) + 1,
             data: arr,
             action: STATS.reset,
+            pageStatus: true
           });
         }else {
           this.setState({
             data: arr,
             action: STATS.reset,
-            index: 0
+            index: 0,
+            pageStatus: true
           });
         }
          
@@ -312,9 +315,10 @@ export default class Pulload extends React.Component {
       const {hasMore} = this.state;
   
       return (
-        <div style={{background:'white',margin:0,padding:0,overflow:'scroll'}}>
-          
-            <ReactPullLoad
+        <div style={{background:'white',margin:0,padding:0,overflow:'scroll'}} className="PullLoad">
+          {
+            this.state.pageStatus?(
+              <ReactPullLoad
               downEnough={500}
               ref="reactpullload"
               className="block"
@@ -450,8 +454,11 @@ export default class Pulload extends React.Component {
                     </nav>
                   ):null
                 }
-            </ReactPullLoad>
-           
+              </ReactPullLoad>
+            ):(
+              <img src={require("../../assets/yure.jpg")} alt="" style={{display:'block',width:'100%',height:'auto'}}/>
+            )
+          }
         </div>
       )
     }
