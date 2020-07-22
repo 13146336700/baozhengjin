@@ -316,8 +316,7 @@ export default class Pulload extends React.Component {
   
       return (
         <div style={{background:'white',margin:0,padding:0,overflow:'scroll'}} className="PullLoad">
-          {
-            this.state.pageStatus?(
+          
               <ReactPullLoad
               downEnough={500}
               ref="reactpullload"
@@ -332,36 +331,44 @@ export default class Pulload extends React.Component {
                   this.props.page === 'index'?(
                     <nav>
                       {
-                        this.state.data.length > 0 ?(
-                          <ul className="listBox" >
-                            {this.state.data.map((item,index) => (
-                                <li className="list" key= {index} onClick={() => this.goodsDistribute(item)}>
-                                    <div className="imgBox">
-                                      <img src={item.showImg || require('../../assets/logo.png')} alt=""/>
-                                    </div>
-                                    <div className="goodsType">
-                                      {/* <div className="info" onClick={() => this.goodsDistribute(item)}> */}
-                                        <div className="name"><p className='title'>{item.name}</p> 
-                                        <span className='market' onClick={(e) => {e.stopPropagation();e.nativeEvent.stopImmediatePropagation();this.market(item.sid, item.code, item.tag)}}>最新行情</span>
-                                        </div>
-                                        <div className="number">
-                                          <p>
-                                            出售：<span>{item.sellCnt}</span>
-                                          </p>
-                                          <p>
-                                            收购：<span>{item.buyCnt}</span>
-                                          </p>
-                                        </div>
-                                      {/* </div> */}
-                                      
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
-                        ):(
-                          <div style={{background: 'transparent',lineHeight: '300px',textAlign: 'center',fontSize: '16px'}}>暂无相关数据</div>
-                        )
-                      }
+                        this.state.pageStatus?(
+                          <div>
+                            {
+                              this.state.data.length > 0 ?(
+                                <ul className="listBox" >
+                                  {this.state.data.map((item,index) => (
+                                      <li className="list" key= {index} onClick={() => this.goodsDistribute(item)}>
+                                          <div className="imgBox">
+                                            <img src={item.showImg || require('../../assets/logo.png')} alt=""/>
+                                          </div>
+                                          <div className="goodsType">
+                                            {/* <div className="info" onClick={() => this.goodsDistribute(item)}> */}
+                                              <div className="name"><p className='title'>{item.name}</p> 
+                                              <span className='market' onClick={(e) => {e.stopPropagation();e.nativeEvent.stopImmediatePropagation();this.market(item.sid, item.code, item.tag)}}>最新行情</span>
+                                              </div>
+                                              <div className="number">
+                                                <p>
+                                                  出售：<span>{item.sellCnt}</span>
+                                                </p>
+                                                <p>
+                                                  收购：<span>{item.buyCnt}</span>
+                                                </p>
+                                              </div>
+                                            {/* </div> */}
+                                            
+                                          </div>
+                                      </li>
+                                  ))}
+                              </ul>
+                              ):(
+                                <div style={{background: 'transparent',lineHeight: '300px',textAlign: 'center',fontSize: '16px'}}>暂无相关数据</div>
+                              )
+                            }
+                          </div>
+                          ):(
+                            <img src={require("../../assets/yure.jpg")} alt="" style={{display:'block',width:'100%',height:'auto'}}/>
+                          )
+                        }
                     </nav>
                   ):this.props.page === 'my'?(
                     <nav>
@@ -455,10 +462,7 @@ export default class Pulload extends React.Component {
                   ):null
                 }
               </ReactPullLoad>
-            ):(
-              <img src={require("../../assets/yure.jpg")} alt="" style={{display:'block',width:'100%',height:'auto'}}/>
-            )
-          }
+            
         </div>
       )
     }
