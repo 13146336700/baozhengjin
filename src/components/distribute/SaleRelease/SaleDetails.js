@@ -31,13 +31,11 @@ export default class SaleDetails extends React.Component {
   componentDidMount() {
     // funcitonName 是原生回调使用的方法名
     window["IOSPhotoImageUpload"] = this.IOSPhotoImageUpload.bind(this);
-  }
-  componentDidMount() {
-    window.addEventListener("resize", this.onWindowResize);
-  }
+     window.addEventListener("resize", this.onWindowResize);
+  };
   componentWillUnmount() {
     window.removeEventListener("resize", this.onWindowResize);
-  }
+  };
   onWindowResize = () => {
     // Toast.info(document.body.clientHeight, 2);
     // Toast.info(`默认高度${this.state.docmHeight}`, 2);
@@ -272,7 +270,6 @@ export default class SaleDetails extends React.Component {
           </div>
         </div>
         <div className="zhanwei"> </div> <div className="zhanwei"> </div>
-        {/* {this.state.heightChange ? ( */}
           <button
             className="adddelte dinbu"
             onClick={() => this.release()}
@@ -280,7 +277,6 @@ export default class SaleDetails extends React.Component {
           >
             点击发布
           </button>
-        // ) : null}
         <div className="zhanwei"> </div>
       </div>
     );

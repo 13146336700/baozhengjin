@@ -126,7 +126,7 @@ export default class Preview extends React.Component {
       for (let i = 0; i < scatteredJson.length; i++) {
         if (i == myindex) {
           if (!priceReg.test(dealPrice) || Number(dealPrice) <= 0) {
-            Toast.info("请输入正确修改的单价", 2);
+            Toast.info("请输入整数或保留两位小数", 2);
             return;
           }
           if (!_this.setBuyingNumber(number)) {
@@ -154,11 +154,11 @@ export default class Preview extends React.Component {
       for (let i = 0; i < otherConsecutiveJson.length; i++) {
         if (i == myindex) {
           if (!priceReg.test(dealPrice) || Number(dealPrice) <= 0) {
-            Toast.info("请输入正确修改的单价", 2);
+            Toast.info("请输入整数或保留两位小数", 2);
             return;
           }
           if (!priceReg.test(signlePrice) || Number(signlePrice) <= 0) {
-            Toast.info("请输入正确修改的总价", 2);
+            Toast.info("请输入整数或保留两位小数", 2);
             return;
           }
           if (!_this.setBuyingNumber(number)) {
@@ -193,7 +193,7 @@ export default class Preview extends React.Component {
       for (let i = 0; i < standardConsecutiveJson.length; i++) {
         if (i == myindex) {
           if (!priceReg.test(dealPrice) || Number(dealPrice) <= 0) {
-            Toast.info("请输入正确修改的单价", 2);
+            Toast.info("请输入整数或保留两位小数", 2);
             return;
           }
           if (!_this.setBuyingNumber(number)) {
