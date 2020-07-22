@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "47ec10aabaa6dab91dfd571396044ce5",
+    "revision": "19f1151f64fa2a88439863f1bbad31e3",
     "url": "./index.html"
   },
   {
-    "revision": "f68837dfa83201c0cccf",
-    "url": "./static/css/2.3703a6fc.chunk.css"
+    "revision": "5d8624e16ed5dee300ad",
+    "url": "./static/css/2.bcde461b.chunk.css"
   },
   {
-    "revision": "8bddc706c44da54075e2",
-    "url": "./static/css/main.331a10dc.chunk.css"
+    "revision": "97a6716b4d9cb44a058e",
+    "url": "./static/css/main.cf942bb8.chunk.css"
   },
   {
-    "revision": "f68837dfa83201c0cccf",
-    "url": "./static/js/2.728726d0.chunk.js"
+    "revision": "5d8624e16ed5dee300ad",
+    "url": "./static/js/2.981fadfb.chunk.js"
   },
   {
     "revision": "3e22cdd869649cf3a0087ef5ce488bb8",
-    "url": "./static/js/2.728726d0.chunk.js.LICENSE.txt"
+    "url": "./static/js/2.981fadfb.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "8bddc706c44da54075e2",
-    "url": "./static/js/main.4e1b9350.chunk.js"
+    "revision": "97a6716b4d9cb44a058e",
+    "url": "./static/js/main.f856ce17.chunk.js"
   },
   {
     "revision": "7a833fefead15dc83aa8",
@@ -38,6 +38,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "327e109fbb3c977c04545d6b363ea08f",
     "url": "./static/media/button.327e109f.png"
+  },
+  {
+    "revision": "623c2a275a9022c3d19589869e55bbe4",
+    "url": "./static/media/buyCar.623c2a27.png"
   },
   {
     "revision": "26195768f7e0543c69d729ff77927997",
@@ -70,6 +74,14 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "10551686da9cf55f9ebb7a4b2d8da275",
     "url": "./static/media/memberHeader.10551686.png"
+  },
+  {
+    "revision": "ed019a5875715327d5879c2d51e19c1b",
+    "url": "./static/media/pub.ed019a58.png"
+  },
+  {
+    "revision": "222a4a5012ee6725a9d7d930d57be5b6",
+    "url": "./static/media/sellCar.222a4a50.png"
   },
   {
     "revision": "d74959df4a062476ff6351473a33012e",

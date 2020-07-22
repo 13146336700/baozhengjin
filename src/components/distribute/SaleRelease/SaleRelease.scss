@@ -27,6 +27,7 @@
 .SaleRelease {
   width: 100%;
   min-height: 100%;
+  position: relative;
   background-color: #f2f2f2;
   .header_border_bottom {
     width: 100%;
@@ -55,6 +56,7 @@
   font-weight: 500;
   color: rgba(255, 255, 255, 1);
   position: fixed;
+  // position: absolute;
   bottom: 20px; /*px*/
 }
 button:disabled {
@@ -83,6 +85,8 @@ button:disabled {
 
 .SaleDetails {
   width: 100%;
+  min-height: 100%;
+
   .SaleDetails_title {
     width: 95%;
     margin: auto;
@@ -175,7 +179,10 @@ button:disabled {
   }
   .dinbu {
     position: absolute;
+    // position: relative;
+    // position: relative;
     bottom: 20px; /*px*/
+    // margin-top: 45%;
   }
 }
 .am-toast {

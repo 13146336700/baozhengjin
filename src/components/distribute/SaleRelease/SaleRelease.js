@@ -31,7 +31,12 @@ export default class SaleRelease extends React.Component {
       Ontable: "tab-0",
     };
   }
+
+  componentWillUnmount() {
+    // window.removeEventListener("resize", this.onWindowResize);
+  }
   componentDidMount() {
+    // window.addEventListener("resize", this.onWindowResize);
     if (sessionStorage.getItem("BIAOLIAN_Ontable")) {
       //有值 回显
       this.setState({
@@ -41,7 +46,10 @@ export default class SaleRelease extends React.Component {
   }
   componentWillMount() {
     console.log(this.getUrlParam("name"));
-  }
+  };
+  // onWindowResize = () => {
+  //   Toast.info(document.body.clientHeight, 2);
+  // };
   getUrlParam = (name) => {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = this.props.location.search.substr(1).match(reg);
@@ -142,7 +150,7 @@ export default class SaleRelease extends React.Component {
   };
   setBuyingNumber = (ischeck) => {
     if (
-      ischeck.length < 3 ||
+      ischeck.length < 1 ||
       ischeck.length > 20 ||
       /[\u4E00-\u9FA5]/i.test(ischeck)
     ) {
@@ -258,7 +266,7 @@ export default class SaleRelease extends React.Component {
       this.userSerial_.current.state.LooseArr,
       [],
     ];
-console.log(mySerial_);
+    console.log(mySerial_);
     for (let i = 0; i < mySerial_.length; i++) {
       let mySerial_Item = mySerial_[i];
       let Mytag = mySerial_Item.tag;

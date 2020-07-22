@@ -258,8 +258,15 @@ export default class Serial extends React.Component {
     sessionStorage.setItem("SANLIAN_ARR", JSON.stringify(LooseArr));
   };
   setBuyingNumber = (ischeck) => {
+    console.log(this.props.ustatus);
+    let maxNumber = 0;
+    if (this.props.ustatus == "1") {
+      maxNumber = Number(1);
+    } else {
+      maxNumber = Number(3);
+    }
     if (
-      ischeck.length < 3 ||
+      ischeck.length < maxNumber ||
       ischeck.length > 20 ||
       /[\u4E00-\u9FA5]/i.test(ischeck)
     ) {
@@ -287,8 +294,10 @@ export default class Serial extends React.Component {
           return;
         }
       }
-      if (!priceReg.test(obj.signlePrice)||
-      Number(LooseObj.signlePrice) <= 0) {
+      if (
+        !priceReg.test(obj.signlePrice) ||
+        Number(LooseObj.signlePrice) <= 0
+      ) {
         Toast.info("请输入散连求购正确的总价格", 2);
         return;
       }

@@ -10,7 +10,6 @@ export default class Preview extends React.Component {
     this.state = {
       refreshing: false,
       down: true,
-      height: document.documentElement.clientHeight,
       data: [1, 1, 1, 1],
       scatteredJson: [],
       otherConsecutiveJson: [],
@@ -26,6 +25,8 @@ export default class Preview extends React.Component {
     dealPriceShow: false, //总价显示
     signlePrice: "", //总价
   };
+ 
+  
   componentWillMount() {
     let son = this.props.history.location.state;
     console.log(JSON.parse(son.scatteredJson));
@@ -39,7 +40,8 @@ export default class Preview extends React.Component {
         standardConsecutiveJson: JSON.parse(son.standardConsecutiveJson),
       });
     }
-  }
+  };
+
   getUrlParam = (name) => {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = this.props.location.search.substr(1).match(reg);
@@ -155,10 +157,15 @@ export default class Preview extends React.Component {
             Toast.info("请输入正确修改的单价", 2);
             return;
           }
+          if (!priceReg.test(signlePrice) || Number(signlePrice) <= 0) {
+            Toast.info("请输入正确修改的总价", 2);
+            return;
+          }
           if (!_this.setBuyingNumber(number)) {
             Toast.info("请输入正确修改号码", 2);
             return;
           }
+
           otherConsecutiveJson[i].dealPrice = dealPrice;
           otherConsecutiveJson[i].number = number;
           otherConsecutiveJson[i].signlePrice = signlePrice;
@@ -235,7 +242,7 @@ export default class Preview extends React.Component {
         .then((response) => {
           if (response.data.code == "10000") {
             //成功到库存页面
-            Toast.info("发布成功", 20000);
+            Toast.info("发布成功", 2);
             this.props.history.push({
               pathname: "/myStock",
               search: `userId=${
@@ -380,10 +387,10 @@ export default class Preview extends React.Component {
           </div>
         ) : null}
         <div className="footer_zhanwei"></div>
-        <button className="adddelte" onClick={() => this.setexamination()}>
-          {/* {this.getUrlParam("goodsId") ? "确认增加" : "下一步"} */}
-          {this.props.history.location.state.goodsId ? "确认增加" : "下一步"}
-        </button>
+            <button className="adddelte" onClick={() => this.setexamination()}>
+            {/* {this.getUrlParam("goodsId") ? "确认增加" : "下一步"} */}
+            {this.props.history.location.state.goodsId ? "确认增加" : "下一步"}
+          </button>
       </div>
     );
   }

@@ -128,7 +128,7 @@ export default class Loose extends React.Component {
   };
   setBuyingNumber = (ischeck) => {
     if (
-      ischeck.length < 3 ||
+      ischeck.length < 1 ||
       ischeck.length > 20 ||
       /[\u4E00-\u9FA5]/i.test(ischeck)
     ) {

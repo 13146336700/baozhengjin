@@ -33,7 +33,8 @@ export default class BuyingRelease extends React.Component {
         Ontable: sessionStorage.getItem("BIAOLIAN_Ontable"),
       });
     }
-  }
+  };
+ 
   SETNUmber = (value, addNumber, num, obj) => {
     let newstr,
       ccccccc,

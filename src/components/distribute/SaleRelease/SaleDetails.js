@@ -22,6 +22,9 @@ export default class SaleDetails extends React.Component {
       desc: "", //文本框
       imageArray: [],
       releaseDisabled: false,
+      heightChange: true,
+      docmHeight: document.documentElement.clientHeight, //默认屏幕高度
+      showHeight: document.body.clientHeight, //实时屏幕高度
     };
   }
   state = {};
@@ -29,6 +32,22 @@ export default class SaleDetails extends React.Component {
     // funcitonName 是原生回调使用的方法名
     window["IOSPhotoImageUpload"] = this.IOSPhotoImageUpload.bind(this);
   }
+  componentDidMount() {
+    window.addEventListener("resize", this.onWindowResize);
+  }
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.onWindowResize);
+  }
+  onWindowResize = () => {
+    // Toast.info(document.body.clientHeight, 2);
+    // Toast.info(`默认高度${this.state.docmHeight}`, 2);
+    // Toast.info(`试试高度${this.state.showHeight}`, 2);
+    // if (this.state.docmHeight > this.state.showHeight) {
+    //   this.state.heightChange = false;
+    // } else {
+    //   this.state.heightChange = true;
+    // }
+  };
   IOSPhotoImageUpload = (val) => {
     const imageArray1 = [...this.state.imageArray]; //浅拷贝一下
     // imageArray1.push
@@ -117,14 +136,14 @@ export default class SaleDetails extends React.Component {
         releaseDisabled: false,
       });
       return;
-    };
+    }
     if (this.state.ExpirationValue < 1) {
       Toast.info("有效天数最小为1", 2);
       this.setState({
         releaseDisabled: false,
       });
       return;
-    };
+    }
     if (Number(this.state.ExpirationValue) >= 365) {
       Toast.info("有效天数最大为365天", 2);
       this.setState({
@@ -253,13 +272,15 @@ export default class SaleDetails extends React.Component {
           </div>
         </div>
         <div className="zhanwei"> </div> <div className="zhanwei"> </div>
-        <button
-          className="adddelte dinbu"
-          onClick={() => this.release()}
-          disabled={this.state.releaseDisabled}
-        >
-          点击发布
-        </button>
+        {/* {this.state.heightChange ? ( */}
+          <button
+            className="adddelte dinbu"
+            onClick={() => this.release()}
+            disabled={this.state.releaseDisabled}
+          >
+            点击发布
+          </button>
+        // ) : null}
         <div className="zhanwei"> </div>
       </div>
     );

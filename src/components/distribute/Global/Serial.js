@@ -51,13 +51,13 @@ export default class Standard extends React.Component {
               code: "滚刀",
               title: "滚刀",
               num: 99,
-              Examples: "*******x",
+              Examples: "********",
             },
             {
               code: "滚捆",
               title: "滚捆",
               num: 999,
-              Examples: "*******x",
+              Examples: "********",
             },
             {
               code: "标千",
@@ -277,8 +277,15 @@ export default class Standard extends React.Component {
     console.log(item);
   };
   setBuyingNumber = (ischeck) => {
+    console.log(this.props.userName);
+    let maxNumber = 0;
+    if (this.props.userName == "求购") {
+      maxNumber = Number(1);
+    } else {
+      maxNumber = Number(3);
+    }
     if (
-      ischeck.length < 3 ||
+      ischeck.length < maxNumber ||
       ischeck.length > 20 ||
       /[\u4E00-\u9FA5]/i.test(ischeck)
     ) {
