@@ -20,6 +20,7 @@ export default class Serial extends React.Component {
         AllpriceShow: false, //连号总价格 显示
         signlePrice: "", //连号总价格 值
         dealCnt: "",
+        cntDesc: "1", //求购数量
         selectValue: "请选择类型",
         endnumber: "", //结束号码
       },
@@ -222,6 +223,19 @@ export default class Serial extends React.Component {
     //   ),
     // });
   };
+  hancntDescChange = (ev, index) => {
+    const LooseArr = [...this.state.LooseArr]; //浅拷贝一下
+
+    LooseArr.map((item, key) => {
+      if (key == index) {
+        item.cntDesc = ev.target.value;
+      }
+    });
+    this.setState({
+      LooseArr: LooseArr,
+    });
+    sessionStorage.setItem("SANLIAN_ARR", JSON.stringify(LooseArr));
+  };
   hanpriceChange = (ev, index) => {
     console.log(ev.target.value);
     const LooseArr = [...this.state.LooseArr]; //浅拷贝一下
@@ -288,6 +302,7 @@ export default class Serial extends React.Component {
       obj.dealCnt = LooseObj.dealCnt;
       obj.number = LooseObj.number;
       obj.signlePrice = LooseObj.signlePrice;
+      obj.cntDesc = LooseObj.cntDesc;
       for (let key in obj) {
         if (!obj[key]) {
           Toast.info("请输入完整的散连求购信息", 2);
@@ -302,19 +317,25 @@ export default class Serial extends React.Component {
         return;
       }
       if (!this.setBuyingNumber(obj.number)) {
-        Toast.info("请输入散连求购正确求购号码", 1);
+        Toast.info("请输入散连求购正确求购号码", 2);
         return;
       }
       if (!this.isPositiveInteger(obj.dealCnt)) {
-        Toast.info("请输入散连求购正确求购数量", 1);
+        Toast.info("请输入散连求购正确求购数量", 2);
+        return;
+      };
+      if (!this.isPositiveInteger(obj.cntDesc)) {
+        Toast.info("请输入散连求购正确求购数量", 2);
         return;
       }
+
       MyBoole = true;
     } else if (this.props.ustatus == "2") {
       //出售
       let obj = {};
       obj.dealCnt = LooseObj.dealCnt;
       obj.number = LooseObj.number;
+      obj.cntDesc = 1;
       console.log(LooseObj);
       if (LooseObj.priceShow == false && LooseObj.AllpriceShow == false) {
         Toast.info("请在散连出售中选择整售或者单售", 3);
@@ -403,6 +424,7 @@ export default class Serial extends React.Component {
       number: "", //数量
       dealPrice: "", //单价
       priceShow: false, //单价 显示
+      cntDesc: "1", //求购数量
       AllpriceShow: MyBoole, //连号总价格 显示
       signlePrice: "", //连号总价格 值
       dealCnt: "",
@@ -528,6 +550,18 @@ export default class Serial extends React.Component {
                   placeholder="请输入起始的号码"
                 />
               </li>
+              {this.props.ustatus == "1" ? (
+                <li>
+                  <div>求购数量</div>
+                  <input
+                    type="text"
+                    value={item.cntDesc}
+                    onChange={(ev) => this.hancntDescChange(ev, key)}
+                    placeholder="请输入您需要的数量"
+                  />
+                </li>
+              ) : null}
+
               <li>
                 <div>起始号码:{item.number}</div>
                 <div style={{ color: "#333333" }}>

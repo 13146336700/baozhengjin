@@ -76,6 +76,7 @@ export default class Standard extends React.Component {
           number: "",
           endnumber: "", //结束号码
           dealPrice: "",
+          cntDesc: "1", //求购数量
           tag: "请选择类型",
           Examples: "********",
         },
@@ -92,6 +93,14 @@ export default class Standard extends React.Component {
       });
     }
   }
+  isPositiveInteger = (s) => {
+    //是否为正整数
+    if (s.length > 18) {
+      return false;
+    }
+    var re = /^\+?[1-9]\d*$/;
+    return re.test(s);
+  };
   selectChange = (ev, item1, key) => {
     console.log(ev.target.value);
     console.log(item1);
@@ -253,7 +262,6 @@ export default class Standard extends React.Component {
     sessionStorage.setItem("BIAOLIAN_ARR", JSON.stringify(LooseArr));
   };
   hanpriceChange = (ev, index) => {
-    console.log(ev.target.value);
     const LooseArr = [...this.state.LooseArr]; //浅拷贝一下
 
     LooseArr.map((item, key) => {
@@ -271,6 +279,19 @@ export default class Standard extends React.Component {
     //   ),
     // });
 
+    sessionStorage.setItem("BIAOLIAN_ARR", JSON.stringify(LooseArr));
+  };
+  hancntDescChange = (ev, index) => {
+    const LooseArr = [...this.state.LooseArr]; //浅拷贝一下
+
+    LooseArr.map((item, key) => {
+      if (key == index) {
+        item.cntDesc = ev.target.value;
+      }
+    });
+    this.setState({
+      LooseArr: LooseArr,
+    });
     sessionStorage.setItem("BIAOLIAN_ARR", JSON.stringify(LooseArr));
   };
   Myoption = (item) => {
@@ -322,6 +343,12 @@ export default class Standard extends React.Component {
     if (!this.setBuyingNumber(LooseObj.number)) {
       Toast.info(`请输入标连${utitle}正确出售号码`, 2);
       return;
+    }
+    if (this.props.userName == "求购") {
+      if (!this.isPositiveInteger(LooseObj.cntDesc)) {
+        Toast.info("请输入标连求购正确求购数量", 2);
+        return;
+      }
     }
 
     // if (this.SETNUmber(LooseObj.number, LooseObj.dealCnt, "2", LooseObj)) {
@@ -377,6 +404,7 @@ export default class Standard extends React.Component {
       number: "",
       endnumber: "", //结束号码
       dealPrice: "",
+      cntDesc: "1", //求购数量
       tag: "请选择类型",
       Examples: "********",
     });
@@ -447,6 +475,18 @@ export default class Standard extends React.Component {
                   结束号码:{item.endnumber}
                 </div>
               </li>
+
+              {this.props.userName == "求购" ? (
+                <li>
+                  <div>求购数量</div>
+                  <input
+                    type="text"
+                    value={item.cntDesc}
+                    onChange={(ev) => this.hancntDescChange(ev, key)}
+                    placeholder="请输入您需要的数量"
+                  />
+                </li>
+              ) : null}
               <li>
                 <div>连号总价格</div>
                 <input

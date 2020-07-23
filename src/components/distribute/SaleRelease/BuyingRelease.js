@@ -33,8 +33,8 @@ export default class BuyingRelease extends React.Component {
         Ontable: sessionStorage.getItem("BIAOLIAN_Ontable"),
       });
     }
-  };
- 
+  }
+
   SETNUmber = (value, addNumber, num, obj) => {
     let newstr,
       ccccccc,
@@ -218,6 +218,7 @@ export default class BuyingRelease extends React.Component {
     scatteredJson.map((item, key) => {
       item.unitName = unitName;
       item.dealCnt = 1;
+      item.cntDesc = 1; //求购数量，这里出售为1
       item.tag = "散单";
     });
     log(scatteredJson);
@@ -237,6 +238,7 @@ export default class BuyingRelease extends React.Component {
         dealCnt: Number(mySerial_Item.dealCnt) + 1,
         number: mySerial_Item.number,
         dealPrice: mySerial_Item.dealPrice,
+        cntDesc: 1,
         unitName: unitName,
       };
 
@@ -390,6 +392,7 @@ export default class BuyingRelease extends React.Component {
       obj.number = myScattered__Item.number;
       obj.priceShow = myScattered__Item.priceShow;
       obj.AllpriceShow = myScattered__Item.AllpriceShow;
+      obj.cntDesc = 1;
 
       obj.unitName = unitName;
       otherConsecutiveJson.push(obj);
@@ -618,9 +621,9 @@ export default class BuyingRelease extends React.Component {
         }
       }
     }
-log(otherConsecutiveJson);
+    log(otherConsecutiveJson);
 
-    if (Numbers.C == "1"||Numbers.C == "2") {
+    if (Numbers.C == "1" || Numbers.C == "2") {
       for (var i = 0; i < otherConsecutiveJson.length; i++) {
         //整售 单售
         if (

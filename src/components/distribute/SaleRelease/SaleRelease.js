@@ -253,6 +253,7 @@ export default class SaleRelease extends React.Component {
         unitName: unitName,
         dealPrice: item.dealPrice,
         number: item.number,
+        cntDesc: item.cntDesc,
         dealCnt: 1,
         tag: item.selectValue,
       };
@@ -287,6 +288,7 @@ export default class SaleRelease extends React.Component {
         tag: mySerial_Item.tag,
         dealCnt: Number(mySerial_Item.dealCnt) + 1,
         number: mySerial_Item.number,
+        cntDesc: mySerial_Item.cntDesc,
         dealPrice: mySerial_Item.dealPrice,
         unitName: unitName,
       };
@@ -319,7 +321,7 @@ export default class SaleRelease extends React.Component {
     ];
     log(myScattered__Length);
     myScattered_obj.dealCnt = myScattered__Length.dealCnt;
-    myScattered_obj.number = myScattered__Length.number;
+    myScattered_obj.cntDesc = myScattered__Length.cntDesc;
     myScattered_obj.signlePrice = myScattered__Length.signlePrice;
     // for (let key in myScattered_obj) {
     //   if (!myScattered_obj[key]) {
@@ -355,6 +357,7 @@ export default class SaleRelease extends React.Component {
       obj.tag = "散连";
       obj.dealCnt = myScattered__Item.dealCnt;
       obj.number = myScattered__Item.number;
+      obj.cntDesc = myScattered__Item.cntDesc;
       obj.dealPrice = myScattered__Item.signlePrice;
       obj.unitName = unitName;
       otherConsecutiveJson.push(obj);
@@ -389,6 +392,10 @@ export default class SaleRelease extends React.Component {
         }
         if (!_this.setBuyingNumber(scatteredJson[i].number)) {
           Toast.info("请输入散张求购正确求购号码", 2);
+          return;
+        }
+        if (!_this.isPositiveInteger(scatteredJson[i].cntDesc)) {
+          Toast.info("请输入散张求购正确求购数量", 2);
           return;
         }
       }
@@ -426,10 +433,15 @@ export default class SaleRelease extends React.Component {
           Toast.info("请输入标连求购正确求购号码", 2);
           return;
         }
+        if (!_this.isPositiveInteger(standardConsecutiveJson[i].cntDesc)) {
+          Toast.info("请输入标连求购正确求购数量", 2);
+          return;
+        }
       }
     }
 
     if (Numbers.C == "1" || Numbers.C == "2") {
+      
       for (let i = 0; i < otherConsecutiveJson.length; i++) {
         if (
           !priceReg.test(otherConsecutiveJson[i].dealPrice) ||
@@ -449,6 +461,10 @@ export default class SaleRelease extends React.Component {
           Toast.info("请输入散连求购正确求购数量", 1);
           return;
         }
+        if (!_this.isPositiveInteger(otherConsecutiveJson[i].cntDesc)) {
+          Toast.info("请输入散连求购正确求购数量", 2);
+          return;
+        }
       }
     }
     if (!dealPattern) {
@@ -456,41 +472,41 @@ export default class SaleRelease extends React.Component {
       return;
     }
 
-    if (this.getUrlParam("goodsId")) {
-      axios
-        .post("subject/json/addNumberFormat", {
-          goodsId: this.getUrlParam("goodsId"),
-          scatteredJson:
-            Numbers.A == "3"
-              ? JSON.stringify([])
-              : JSON.stringify(scatteredJson),
-          standardConsecutiveJson:
-            Numbers.B == "3"
-              ? JSON.stringify([])
-              : JSON.stringify(standardConsecutiveJson),
-          otherConsecutiveJson:
-            Numbers.C == "3"
-              ? JSON.stringify([])
-              : JSON.stringify(otherConsecutiveJson),
-        })
-        .then((response) => {
-          if (response.data.code == "10000") {
-            //成功到库存页面
-            // this.props.history.push("/");
+    // if (this.getUrlParam("goodsId")) {
+    //   axios
+    //     .post("subject/json/addNumberFormat", {
+    //       goodsId: this.getUrlParam("goodsId"),
+    //       scatteredJson:
+    //         Numbers.A == "3"
+    //           ? JSON.stringify([])
+    //           : JSON.stringify(scatteredJson),
+    //       standardConsecutiveJson:
+    //         Numbers.B == "3"
+    //           ? JSON.stringify([])
+    //           : JSON.stringify(standardConsecutiveJson),
+    //       otherConsecutiveJson:
+    //         Numbers.C == "3"
+    //           ? JSON.stringify([])
+    //           : JSON.stringify(otherConsecutiveJson),
+    //     })
+    //     .then((response) => {
+    //       if (response.data.code == "10000") {
+    //         //成功到库存页面
+    //         // this.props.history.push("/");
 
-            Toast.info("发布成功", 2);
-            this.props.history.push({
-              pathname: "/myStock",
-              search: `userId=${
-                JSON.parse(sessionStorage.getItem("userInfo")).userId
-              }&name=${this.getUrlParam("name")}&type=1`,
-            });
-          } else {
-            Toast.info(response.data.message, 1);
-          }
-        })
-        .catch((error) => {});
-    } else {
+    //         Toast.info("发布成功", 2);
+    //         this.props.history.push({
+    //           pathname: "/myStock",
+    //           search: `userId=${
+    //             JSON.parse(sessionStorage.getItem("userInfo")).userId
+    //           }&name=${this.getUrlParam("name")}&type=1`,
+    //         });
+    //       } else {
+    //         Toast.info(response.data.message, 1);
+    //       }
+    //     })
+    //     .catch((error) => {});
+    // } else {
       sessionStorage.setItem("ReturnGo", "1");
       this.props.history.push({
         pathname: "/SaleDetails",
@@ -523,7 +539,7 @@ export default class SaleRelease extends React.Component {
           dealWay: MyuserAddress_.dealWayCode,
         },
       });
-    }
+    // }
   };
   render() {
     return (
@@ -601,7 +617,8 @@ export default class SaleRelease extends React.Component {
         <div className="zhanwei"></div>
         <div className="Footer_zhanwei"></div>
         <button className="adddelte" onClick={() => this.PhotoImageUpload()}>
-          {this.getUrlParam("goodsId") ? "发布" : "增加详情"}
+          {/* {this.getUrlParam("goodsId") ? "发布" : "增加详情"} */}
+          增加详情
         </button>
         <div className="zhanwei"></div>
       </div>

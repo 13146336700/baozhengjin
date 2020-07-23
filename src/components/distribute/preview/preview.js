@@ -99,7 +99,8 @@ export default class Preview extends React.Component {
       return true;
     }
   };
-  cancel() {
+  cancel(ev) {
+    // console.log(ev)
     this.setState({
       mynum: "", //要修改的东西
       showShadeFlag: false,
@@ -107,7 +108,7 @@ export default class Preview extends React.Component {
       number: "",
       signlePrice: "",
     });
-  }
+  };
   changeList() {
     console.log(this.state.myindex);
     console.log(this.state.mynum);
@@ -229,32 +230,32 @@ export default class Preview extends React.Component {
   }
   setexamination = () => {
     // if (this.getUrlParam("goodsId")) {
-    if (this.props.history.location.state.goodsId) {
-      axios
-        .post("subject/json/addNumberFormat", {
-          goodsId: this.props.history.location.state.goodsId,
-          scatteredJson: JSON.stringify(this.state.scatteredJson),
-          standardConsecutiveJson: JSON.stringify(
-            this.state.standardConsecutiveJson
-          ),
-          otherConsecutiveJson: JSON.stringify(this.state.otherConsecutiveJson),
-        })
-        .then((response) => {
-          if (response.data.code == "10000") {
-            //成功到库存页面
-            Toast.info("发布成功", 2);
-            this.props.history.push({
-              pathname: "/myStock",
-              search: `userId=${
-                JSON.parse(sessionStorage.getItem("userInfo")).userId
-              }&name=${this.props.history.location.state.name}&type=2`,
-            });
-          } else {
-            Toast.info(response.data.message, 1);
-          }
-        })
-        .catch((error) => {});
-    } else {
+    // if (this.props.history.location.state.goodsId) {
+    //   axios
+    //     .post("subject/json/addNumberFormat", {
+    //       goodsId: this.props.history.location.state.goodsId,
+    //       scatteredJson: JSON.stringify(this.state.scatteredJson),
+    //       standardConsecutiveJson: JSON.stringify(
+    //         this.state.standardConsecutiveJson
+    //       ),
+    //       otherConsecutiveJson: JSON.stringify(this.state.otherConsecutiveJson),
+    //     })
+    //     .then((response) => {
+    //       if (response.data.code == "10000") {
+    //         //成功到库存页面
+    //         Toast.info("发布成功", 2);
+    //         this.props.history.push({
+    //           pathname: "/myStock",
+    //           search: `userId=${
+    //             JSON.parse(sessionStorage.getItem("userInfo")).userId
+    //           }&name=${this.props.history.location.state.name}&type=2`,
+    //         });
+    //       } else {
+    //         Toast.info(response.data.message, 1);
+    //       }
+    //     })
+    //     .catch((error) => {});
+    // } else {
       let son = this.props.history.location.state;
       console.log(this.props);
       console.log(son);
@@ -263,6 +264,7 @@ export default class Preview extends React.Component {
       this.props.history.push({
         pathname: "/SaleDetails",
         state: {
+          goodsId: son.goodsId, //商品id
           pubUserid: son.pubUserid, //用户id
           type: son.type, //1 求购，2 出售
           categoryName: son.categoryName, //商品分类
@@ -284,7 +286,7 @@ export default class Preview extends React.Component {
         },
         // search: `goodsId=${this.getUrlParam("goodsId")}`,
       });
-    }
+    // }
   };
 
   render() {
@@ -388,8 +390,8 @@ export default class Preview extends React.Component {
         ) : null}
         <div className="footer_zhanwei"></div>
             <button className="adddelte" onClick={() => this.setexamination()}>
-            {/* {this.getUrlParam("goodsId") ? "确认增加" : "下一步"} */}
-            {this.props.history.location.state.goodsId ? "确认增加" : "下一步"}
+            {/* {this.props.history.location.state.goodsId ? "确认增加" : "下一步"} */}
+            下一步
           </button>
       </div>
     );

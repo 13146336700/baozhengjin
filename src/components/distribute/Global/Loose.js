@@ -80,6 +80,7 @@ export default class Loose extends React.Component {
         dealPrice: "",
         // selectValue: "请选择类型",
         selectValue: "尾号",
+        cntDesc: "1", //求购数量
         Myplaceholder: "请输入您需要的尾号",
       },
     ],
@@ -94,6 +95,14 @@ export default class Loose extends React.Component {
       });
     }
   }
+  isPositiveInteger = (s) => {
+    //是否为正整数
+    if (s.length > 18) {
+      return false;
+    }
+    var re = /^\+?[1-9]\d*$/;
+    return re.test(s);
+  };
   selectChange = (ev, key) => {
     let LooseArr = [...this.state.LooseArr];
     let Myplaceholder = "";
@@ -126,6 +135,10 @@ export default class Loose extends React.Component {
     // });
     console.log(this.state.LooseArr);
   };
+  isPositiveNum = (money) => {
+    var re = /^[0-9]*[1-9][0-9]*$/;
+    return re.test(money);
+  };
   setBuyingNumber = (ischeck) => {
     if (
       ischeck.length < 1 ||
@@ -149,6 +162,7 @@ export default class Loose extends React.Component {
 
     LooseObj.number = Loose.number;
     LooseObj.dealPrice = Loose.dealPrice;
+    LooseObj.cntDesc = Loose.cntDesc;
     if (Loose.selectValue == "请选择类型") {
       tag = "";
     } else {
@@ -164,13 +178,18 @@ export default class Loose extends React.Component {
       }
     }
 
-    if (!priceReg.test(LooseObj.dealPrice)|| Number(LooseObj.dealPrice) <= 0) {
+    if (!priceReg.test(LooseObj.dealPrice) || Number(LooseObj.dealPrice) <= 0) {
       Toast.info("请输入散张求购正确的单价", 2);
       return;
     }
 
     if (!this.setBuyingNumber(LooseObj.number)) {
       Toast.info("请输入散张求购正确求购号码", 2);
+      return;
+    }
+    
+    if (!this.isPositiveInteger(LooseObj.cntDesc)) {
+      Toast.info("请输入散张求购正确求购数量", 2);
       return;
     }
 
@@ -242,6 +261,7 @@ export default class Loose extends React.Component {
       dealPrice: "",
       // selectValue: "请选择类型",
       selectValue: "尾号",
+      cntDesc: "1", //求购数量
       Myplaceholder: "请输入您需要的尾号",
     });
     this.setState({
@@ -299,6 +319,19 @@ export default class Loose extends React.Component {
     //     key == index ? { ...item, number: ev.target.value } : item
     //   ),
     // });
+  };
+  hancntDescChange = (ev, index) => {
+    const LooseArr = [...this.state.LooseArr]; //浅拷贝一下
+
+    LooseArr.map((item, key) => {
+      if (key == index) {
+        item.cntDesc = ev.target.value;
+      }
+    });
+    this.setState({
+      LooseArr: LooseArr,
+    });
+    sessionStorage.setItem("SANZHANG_ARR", JSON.stringify(LooseArr));
   };
   delte = (item, key) => {
     console.log(key);
@@ -361,6 +394,15 @@ export default class Loose extends React.Component {
                   value={item.number}
                   onChange={(ev) => this.hanNumChange(ev, key)}
                   placeholder={item.Myplaceholder}
+                />
+              </li>
+              <li>
+                <div>求购数量</div>
+                <input
+                  type="tel"
+                  value={item.cntDesc}
+                  onChange={(ev) => this.hancntDescChange(ev, key)}
+                  placeholder="请输入您需要的数量"
                 />
               </li>
               <li>

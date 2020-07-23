@@ -28,14 +28,41 @@ export default class SaleDetails extends React.Component {
     };
   }
   state = {};
+
   componentDidMount() {
     // funcitonName 是原生回调使用的方法名
     window["IOSPhotoImageUpload"] = this.IOSPhotoImageUpload.bind(this);
-     window.addEventListener("resize", this.onWindowResize);
-  };
+    window.addEventListener("resize", this.onWindowResize);
+    let myArray = this.props.history.location.state;
+    if (myArray.goodsId) {
+      axios
+        .post("subject/json/getGoodsInfor", {
+          goodsId: myArray.goodsId,
+          userId: myArray.pubUserid,
+        })
+        .then((response) => {
+          if (response.data.code == "10000") {
+            this.setState({
+              desc: response.data.resultObject.desc,
+              imageArray: response.data.resultObject.picUrls?response.data.resultObject.picUrls.split(","):[],
+              ExpirationValue: response.data.resultObject.validDay,
+            });
+          } else {
+            Toast.info(response.data.message, 1);
+          }
+        })
+        .catch((error) => {});
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+  }
+  componentDidUpdate(newProps, newState) {
+    console.log(newProps, newState);
+  }
   componentWillUnmount() {
     window.removeEventListener("resize", this.onWindowResize);
-  };
+  }
   onWindowResize = () => {
     // Toast.info(document.body.clientHeight, 2);
     // Toast.info(`默认高度${this.state.docmHeight}`, 2);
@@ -150,54 +177,79 @@ export default class SaleDetails extends React.Component {
       return;
     }
 
-    // if (
-    //   this.state.ExpirationValue == "" ||
-    //   this.state.ExpirationValue == undefined ||
-    //   this.state.ExpirationValue == null
-    // ) {
-    //   Toast.info("请输入有效天数", 1);
-    //   return;
-    // }
-    axios
-      .post("subject/json/saveGoods", {
-        pubUserid: myArray.pubUserid,
-        type: myArray.type,
-        categoryName: myArray.categoryName,
-        dealPattern: myArray.dealPattern,
-        name: myArray.name,
-        isPostage: myArray.isPostage,
-        scatteredJson: myArray.scatteredJson,
-        standardConsecutiveJson: myArray.standardConsecutiveJson,
-        otherConsecutiveJson: myArray.otherConsecutiveJson,
-        desc: this.state.desc,
-        picUrls: this.state.imageArray.join(","),
-        validDay: this.state.ExpirationValue,
-        address: myArray.address,
-        personPhone: myArray.personPhone,
-        personName: myArray.personName,
-        assureAddress: myArray.address,
-        assurePersonPhone: myArray.personPhone,
-        assurePersonName: myArray.personName,
-        dealWay: myArray.dealWay,
-      })
-      .then((response) => {
-        if (response.data.code == "10000") {
-          //成功到库存页面
-          // http://198.166.1.196:3000/#/myStock?userId=xx&name=**&type=**   配号编辑   参数必传
-          Toast.info("成功", 1);
+    if (myArray.goodsId) {
+      axios
+        .post("subject/json/addNumberFormat", {
+          goodsId: myArray.goodsId,
+          scatteredJson: myArray.scatteredJson,
+          standardConsecutiveJson: myArray.standardConsecutiveJson,
+          otherConsecutiveJson: myArray.otherConsecutiveJson,
+          desc: this.state.desc,
+          picUrls: this.state.imageArray.join(","),
+          validDay: this.state.ExpirationValue,
+          // scatteredJson: JSON.stringify(this.state.scatteredJson),
+          // standardConsecutiveJson: JSON.stringify(
+          //   this.state.standardConsecutiveJson
+          // ),
+          // otherConsecutiveJson: JSON.stringify(this.state.otherConsecutiveJson),
+        })
+        .then((response) => {
+          if (response.data.code == "10000") {
+            //成功到库存页面
+            Toast.info("发布成功", 2);
+            this.props.history.push({
+              pathname: "/myStock",
+              search: `userId=${
+                JSON.parse(sessionStorage.getItem("userInfo")).userId
+              }&name=${myArray.name}&type=${myArray.type}`,
+            });
+          } else {
+            Toast.info(response.data.message, 1);
+          }
+        })
+        .catch((error) => {});
+    } else {
+      axios
+        .post("subject/json/saveGoods", {
+          pubUserid: myArray.pubUserid,
+          type: myArray.type,
+          categoryName: myArray.categoryName,
+          dealPattern: myArray.dealPattern,
+          name: myArray.name,
+          isPostage: myArray.isPostage,
+          scatteredJson: myArray.scatteredJson,
+          standardConsecutiveJson: myArray.standardConsecutiveJson,
+          otherConsecutiveJson: myArray.otherConsecutiveJson,
+          desc: this.state.desc,
+          picUrls: this.state.imageArray.join(","),
+          validDay: this.state.ExpirationValue,
+          address: myArray.address,
+          personPhone: myArray.personPhone,
+          personName: myArray.personName,
+          assureAddress: myArray.address,
+          assurePersonPhone: myArray.personPhone,
+          assurePersonName: myArray.personName,
+          dealWay: myArray.dealWay,
+        })
+        .then((response) => {
+          if (response.data.code == "10000") {
+            //成功到库存页面
+            // http://198.166.1.196:3000/#/myStock?userId=xx&name=**&type=**   配号编辑   参数必传
+            Toast.info("发布成功", 1);
 
-          this.props.history.push({
-            pathname: "/myStock",
-            search: `userId=${myArray.pubUserid}&name=${myArray.name}&type=${myArray.type}`,
-          });
-          this.setState({
-            releaseDisabled: false,
-          });
-        } else {
-          Toast.info(response.data.message, 1);
-        }
-      })
-      .catch((error) => {});
+            this.props.history.push({
+              pathname: "/myStock",
+              search: `userId=${myArray.pubUserid}&name=${myArray.name}&type=${myArray.type}`,
+            });
+            this.setState({
+              releaseDisabled: false,
+            });
+          } else {
+            Toast.info(response.data.message, 1);
+          }
+        })
+        .catch((error) => {});
+    }
   }
   imageDelte = (item, key) => {
     const imageArray = [...this.state.imageArray]; //浅拷贝一下
@@ -270,13 +322,13 @@ export default class SaleDetails extends React.Component {
           </div>
         </div>
         <div className="zhanwei"> </div> <div className="zhanwei"> </div>
-          <button
-            className="adddelte dinbu"
-            onClick={() => this.release()}
-            disabled={this.state.releaseDisabled}
-          >
-            点击发布
-          </button>
+        <button
+          className="adddelte dinbu"
+          onClick={() => this.release()}
+          disabled={this.state.releaseDisabled}
+        >
+          点击发布
+        </button>
         <div className="zhanwei"> </div>
       </div>
     );
