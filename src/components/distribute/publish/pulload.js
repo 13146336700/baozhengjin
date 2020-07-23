@@ -291,7 +291,7 @@ export default class Pulload extends React.Component {
         this.setState({
           hasMore: true
         });
-        // setTimeout(()=>{
+        setTimeout(()=>{
           if(this.state.index === 0){
             this.setState({
               action: STATS.reset,
@@ -301,12 +301,12 @@ export default class Pulload extends React.Component {
             
             this.getdataList();
           }
-        // }, 1000)
+        }, 1000)
       }
   
       //DO NOT modify below code
       this.setState({
-        action: STATS.reset
+        action: action
       })
     }
   
