@@ -93,7 +93,9 @@ export default class MyStock extends React.Component {
         }else {
             this.setState({
                 showShadeFlag: true,
-                dealType: 'delete',
+                dealType: 'updata',
+                changeItem: item,
+                changePrice: item.dealPrice
             });
         }
     }
