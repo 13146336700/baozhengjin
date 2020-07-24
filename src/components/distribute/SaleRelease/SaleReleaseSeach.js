@@ -17,7 +17,8 @@ export default class SaleReleaseSeach extends React.Component {
       showElems: "none",
       sname: "", //搜索内容
     };
-  }
+      this.backClick = this.backClick.bind(this);
+  };
   state = {
     list: [
       {
@@ -33,6 +34,7 @@ export default class SaleReleaseSeach extends React.Component {
     open: true,
   };
   componentDidMount() {
+    window["androidPhysicalBack"] = this.backClick;
     this.tabClick();
     console.log(this.props);
     sessionStorage.setItem(
@@ -40,6 +42,9 @@ export default class SaleReleaseSeach extends React.Component {
       this.props.location.search
     );
   }
+  backClick = () => {
+    this.props.history.go(-1);
+  };
   tabClick = (num = 1, messa = "coin") => {
     // console.log(num);
     this.setState({
@@ -149,7 +154,7 @@ export default class SaleReleaseSeach extends React.Component {
       return false;
     }
     this.snameChange(this.state.sname);
-  };
+  }
 
   setSelfState = (val) => {
     console.log(val);
@@ -240,9 +245,7 @@ export default class SaleReleaseSeach extends React.Component {
             src={require("../../assets/Goreturn.png")}
             alt=""
             className="Goreturn"
-            onClick={() => {
-              this.props.history.go(-1);
-            }}
+            onClick={() => this.backClick()}
           />
 
           <div className="Useachhome">

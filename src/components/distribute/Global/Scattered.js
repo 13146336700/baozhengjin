@@ -327,9 +327,9 @@ export default class Serial extends React.Component {
         return;
       }
       if (!this.isPositiveInteger(obj.dealCnt)) {
-        Toast.info("请输入散连求购正确求购数量", 2);
+        Toast.info("请输入散连求购正确散连数量", 2);
         return;
-      };
+      }
       if (!this.isPositiveInteger(obj.cntDesc)) {
         Toast.info("请输入散连求购正确求购数量", 2);
         return;
@@ -542,7 +542,9 @@ export default class Serial extends React.Component {
                 ) : null}
               </div>
               <li>
-                <div>{this.state.StatusName}数量</div>
+                <div>
+                  {this.state.StatusName == "求购" ? "散连数量" : "出售数量"}
+                </div>
                 <input
                   type="text"
                   value={item.dealCnt}

@@ -29,6 +29,7 @@ export default class SaleRelease extends React.Component {
         { name: "散连求购" },
       ],
       Ontable: "tab-0",
+      buuttonShow: true,
     };
   }
 
@@ -43,10 +44,31 @@ export default class SaleRelease extends React.Component {
         Ontable: sessionStorage.getItem("BIAOLIAN_Ontable"),
       });
     }
+
+    let _this = this;
+
+    var originalHeight =
+      document.documentElement.clientHeight || document.body.clientHeight;
+    window.onresize = function () {
+      //键盘弹起与隐藏都会引起窗口的高度发生变化
+      var resizeHeight =
+        document.documentElement.clientHeight || document.body.clientHeight;
+      if (resizeHeight - 0 < originalHeight - 0) {
+        //当软键盘弹起，在此处操作
+        _this.setState({
+          buuttonShow: false,
+        });
+      } else {
+        //当软键盘收起，在此处操作
+        _this.setState({
+          buuttonShow: true,
+        });
+      }
+    };
   }
   componentWillMount() {
     console.log(this.getUrlParam("name"));
-  };
+  }
   // onWindowResize = () => {
   //   Toast.info(document.body.clientHeight, 2);
   // };
@@ -441,7 +463,6 @@ export default class SaleRelease extends React.Component {
     }
 
     if (Numbers.C == "1" || Numbers.C == "2") {
-      
       for (let i = 0; i < otherConsecutiveJson.length; i++) {
         if (
           !priceReg.test(otherConsecutiveJson[i].dealPrice) ||
@@ -451,14 +472,14 @@ export default class SaleRelease extends React.Component {
           return;
         }
         if (!_this.setBuyingNumber(otherConsecutiveJson[i].number)) {
-          Toast.info("请输入散连求购正确求购号码", 1);
+          Toast.info("请输入散连求购正确求购号码", 2);
           return;
         }
         if (
           !_this.isPositiveInteger(otherConsecutiveJson[i].dealCnt) ||
           Number(otherConsecutiveJson[i].dealCnt) <= 0
         ) {
-          Toast.info("请输入散连求购正确求购数量", 1);
+          Toast.info("请输入散连求购正确散连数量", 2);
           return;
         }
         if (!_this.isPositiveInteger(otherConsecutiveJson[i].cntDesc)) {
@@ -507,38 +528,36 @@ export default class SaleRelease extends React.Component {
     //     })
     //     .catch((error) => {});
     // } else {
-      sessionStorage.setItem("ReturnGo", "1");
-      this.props.history.push({
-        pathname: "/SaleDetails",
-        state: {
-          goodsId: this.getUrlParam("goodsId"),
-          pubUserid: JSON.parse(sessionStorage.getItem("userInfo")).userId, //用户id
-          type: "1", //1 求购，2 出售
-          categoryName: this.getUrlParam("category"), //商品分类
-          name: this.getUrlParam("name"), //搜索框的名字
-          dealPattern: dealPattern, //担保 2，线下 3 全部5
-          isPostage: "N", //默认N 不包邮，Y 包邮。买没有包邮，固定填N
-          scatteredJson:
-            Numbers.A == "3"
-              ? JSON.stringify([])
-              : JSON.stringify(scatteredJson),
-          standardConsecutiveJson:
-            Numbers.B == "3"
-              ? JSON.stringify([])
-              : JSON.stringify(standardConsecutiveJson),
-          otherConsecutiveJson:
-            Numbers.C == "3"
-              ? JSON.stringify([])
-              : JSON.stringify(otherConsecutiveJson),
-          address: MyuserAddress_.address,
-          personPhone: MyuserAddress_.phone,
-          personName: MyuserAddress_.name,
-          assureAddress: MyuserAddress_.address,
-          assurePersonPhone: MyuserAddress_.phone,
-          assurePersonName: MyuserAddress_.name,
-          dealWay: MyuserAddress_.dealWayCode,
-        },
-      });
+    sessionStorage.setItem("ReturnGo", "1");
+    this.props.history.push({
+      pathname: "/SaleDetails",
+      state: {
+        goodsId: this.getUrlParam("goodsId"),
+        pubUserid: JSON.parse(sessionStorage.getItem("userInfo")).userId, //用户id
+        type: "1", //1 求购，2 出售
+        categoryName: this.getUrlParam("category"), //商品分类
+        name: this.getUrlParam("name"), //搜索框的名字
+        dealPattern: dealPattern, //担保 2，线下 3 全部5
+        isPostage: "N", //默认N 不包邮，Y 包邮。买没有包邮，固定填N
+        scatteredJson:
+          Numbers.A == "3" ? JSON.stringify([]) : JSON.stringify(scatteredJson),
+        standardConsecutiveJson:
+          Numbers.B == "3"
+            ? JSON.stringify([])
+            : JSON.stringify(standardConsecutiveJson),
+        otherConsecutiveJson:
+          Numbers.C == "3"
+            ? JSON.stringify([])
+            : JSON.stringify(otherConsecutiveJson),
+        address: MyuserAddress_.address,
+        personPhone: MyuserAddress_.phone,
+        personName: MyuserAddress_.name,
+        assureAddress: MyuserAddress_.address,
+        assurePersonPhone: MyuserAddress_.phone,
+        assurePersonName: MyuserAddress_.name,
+        dealWay: MyuserAddress_.dealWayCode,
+      },
+    });
     // }
   };
   render() {
@@ -616,10 +635,12 @@ export default class SaleRelease extends React.Component {
         <div className="zhanwei"></div>
         <div className="zhanwei"></div>
         <div className="Footer_zhanwei"></div>
-        <button className="adddelte" onClick={() => this.PhotoImageUpload()}>
-          {/* {this.getUrlParam("goodsId") ? "发布" : "增加详情"} */}
-          增加详情
-        </button>
+        {this.state.buuttonShow ? (
+          <button className="adddelte" onClick={() => this.PhotoImageUpload()}>
+            增加详情
+          </button>
+        ) : null}
+
         <div className="zhanwei"></div>
       </div>
     );

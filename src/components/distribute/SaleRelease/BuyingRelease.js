@@ -24,6 +24,7 @@ export default class BuyingRelease extends React.Component {
         { name: "散连出售" },
       ],
       Ontable: "tab-0",
+      buuttonShow: true,
     };
   }
   componentDidMount() {
@@ -33,6 +34,26 @@ export default class BuyingRelease extends React.Component {
         Ontable: sessionStorage.getItem("BIAOLIAN_Ontable"),
       });
     }
+    let _this = this;
+
+    var originalHeight =
+      document.documentElement.clientHeight || document.body.clientHeight;
+    window.onresize = function () {
+      //键盘弹起与隐藏都会引起窗口的高度发生变化
+      var resizeHeight =
+        document.documentElement.clientHeight || document.body.clientHeight;
+      if (resizeHeight - 0 < originalHeight - 0) {
+        //当软键盘弹起，在此处操作
+        _this.setState({
+          buuttonShow: false,
+        });
+      } else {
+        //当软键盘收起，在此处操作
+        _this.setState({
+          buuttonShow: true,
+        });
+      }
+    };
   }
 
   SETNUmber = (value, addNumber, num, obj) => {
@@ -627,6 +648,12 @@ export default class BuyingRelease extends React.Component {
       for (var i = 0; i < otherConsecutiveJson.length; i++) {
         //整售 单售
         if (
+          otherConsecutiveJson[i].AllpriceShow == false &&
+          otherConsecutiveJson[i].priceShow == false
+        ) {
+          Toast.info("请在散连出售中选择整售或者单售", 3);
+          return;
+        } else if (
           otherConsecutiveJson[i].priceShow == true &&
           otherConsecutiveJson[i].AllpriceShow == true
         ) {
@@ -655,12 +682,11 @@ export default class BuyingRelease extends React.Component {
           //   Toast.info("请输入散连出售正确的价格:整数或者保留两位小数", 2);
           //   return;
           // }
-        }
-        //单售
-        if (
+        } else if (
           otherConsecutiveJson[i].priceShow ||
           otherConsecutiveJson[i].AllpriceShow == false
         ) {
+          //单售
           if (Number(otherConsecutiveJson[i].dealCnt) > 18) {
             Toast.info("散连出售选择单售时,出售数量不能大于18", 3);
             return;
@@ -680,10 +706,7 @@ export default class BuyingRelease extends React.Component {
           //   Toast.info("请输入散连出售正确的单价:整数或者保留两位小数", 2);
           //   return;
           // }
-        }
-
-        //整售
-        if (
+        } else if (
           otherConsecutiveJson[i].AllpriceShow ||
           otherConsecutiveJson[i].priceShow == false
         ) {
@@ -874,9 +897,12 @@ export default class BuyingRelease extends React.Component {
         <div className="zhanwei"></div>
         <div className="zhanwei"></div>
         <div className="Footer_zhanwei"></div>
-        <button className="adddelte" onClick={() => this.setexamination()}>
-          预览检查
-        </button>
+        {this.state.buuttonShow ? (
+          <button className="adddelte" onClick={() => this.setexamination()}>
+            预览检查
+          </button>
+        ) : null}
+
         <div className="zhanwei"></div>
       </div>
     );

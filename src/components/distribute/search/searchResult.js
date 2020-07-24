@@ -7,7 +7,13 @@ import Pulload from "../publish/pulload";
 import PublishBtn from "../Global/publishBtn";
 
 export default class SearchResult extends React.Component {
-
+    constructor(props) {
+        super(props);
+        // this.state = {
+        //   selectValue:'startup'
+        // };
+        this.backClick = this.backClick.bind(this);
+      };
     componentWillMount() {
         document.title = "配号分类";
         sessionStorage.setItem(`${this.props.match.path}Url`, this.props.location.search);
@@ -15,7 +21,10 @@ export default class SearchResult extends React.Component {
     state = {
         checked: true
     };
-
+    componentDidMount() {
+        // funcitonName 是原生回调使用的方法名
+        window["androidPhysicalBack"] = this.backClick;
+      }
     /**获取网址参数 */
     getUrlParam = (name) => {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
@@ -27,17 +36,16 @@ export default class SearchResult extends React.Component {
     };
 
     /**返回搜索页面 */
-    goSearch() {
+     backClick() {
         this.props.history.push(`/searchNumber?name=${this.getUrlParam('name')}&unitName=${this.getUrlParam('unitName')}&category=${this.getUrlParam('category')}&url=${this.getUrlParam("url")}`);
-    }
-
+    };
     render() {
         let searchInfo = JSON.parse(sessionStorage.getItem('searchInfo'));
         return (
             <div className="mydistribute" style={{background: '#ffffff', minHeight:'100%'}}>
                 <div className="Resultheader">
                     <p className="back" onClick={()=>{
-                        this.goSearch()
+                        this. backClick()
                     }}> <Icon type="left" size="sm" /></p>
                     <p className="title">
                         <SearchBar
@@ -46,7 +54,7 @@ export default class SearchResult extends React.Component {
                             cancelText=" "
                             onSubmit={value => console.log(value, 'onSubmit')}
                             onClear={value => console.log(value, 'onClear')}
-                            onFocus={() => this.goSearch()}
+                            onFocus={() => this. backClick()}
                             onBlur={() => console.log('onBlur')}
                             onChange={this.onChange}
                         />

@@ -12,6 +12,10 @@ export default class Uheaders extends React.Component {
     //   selectValue:'startup'
     // };
     this.backClick = this.backClick.bind(this);
+  };
+  componentDidMount() {
+    // funcitonName 是原生回调使用的方法名
+    window["androidPhysicalBack"] = this.backClick;
   }
   componentWillMount() {
 
