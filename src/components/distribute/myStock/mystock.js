@@ -43,7 +43,7 @@ export default class MyStock extends React.Component {
         showShadeFlag: false,    //修改弹窗显示
         changeItem: {}, //要修改的数据
         changePrice:'', //修改的价格
-        addShow: true,  //增加库存按钮是否显示
+        addShow: 'delete',  //增加库存按钮是否显示
         data:[],        //列表数据
         goodsType: '2',     //商品分类，2卖，1买
         category:'',
@@ -56,7 +56,7 @@ export default class MyStock extends React.Component {
     cancel() {
         this.setState({
             showShadeFlag: false,
-            dealType: '',
+            dealType: 'delete',
             changeItem: '',
             changePrice: ''
         })
@@ -135,9 +135,16 @@ export default class MyStock extends React.Component {
         this.getdataList(index,status);
     }
 
+    /**搜索输入内容改变事件 */
+    snameChange(e) {
+        this.setState({
+            sname: e.target.value
+        })
+    }
+
     /**商品号码搜索 */
     searchNumber() {
-
+        console.log('ssssssssss')
         this.getdataList(this.state.goodsType, this.state.status, this.state.sname);
     }
 
@@ -166,11 +173,11 @@ export default class MyStock extends React.Component {
     checkAddShow(item) {
         if (item.length > 0) {
             this.setState({
-                addShow: true
+                addShow: 'list'
             })
         } else {
             this.setState({
-                addShow: false
+                addShow: 'none'
             })
         }
     }
@@ -253,8 +260,11 @@ export default class MyStock extends React.Component {
         const operation = Modal.operation;
         return (
             <div className="mystock" style={{background: '#FFFFFF',height:'100%'}}>
-                <Uheader {...this.props} utitle="库存管理"></Uheader>
+                <Uheader {...this.props} utitle="库存管理" ></Uheader>
                 <div className="goodsName">{this.getUrlParam('name')}</div>
+                <div className="serchBox">
+                    <input type="search" name="" value={this.sname} id="" placeholder="请输入要搜索的号码" onChange={this.snameChange.bind(this)}/><span onClick={this.searchNumber.bind(this)}>搜索</span>
+                </div>
                 {/* <Demo {...this.props} page="stock" showShade={this.showShade.bind(this)} showAdd={this.checkAddShow.bind(this)} onRef={(ref) => { this.demo = ref; }}></Demo> */}
                 <div className="tabBar">
                     <span className={this.state.goodsType==='2'?'active tab':'tab'} onClick={() => this.tabChange('2','0')}>出售</span>
@@ -298,11 +308,16 @@ export default class MyStock extends React.Component {
                 }
                 
                 {
-                    this.state.addShow?(
+                    this.state.addShow === 'list' ? (
                         <div className="addStock" onClick={() => this.goodsAdd()}>
                             增加库存
                         </div>
-                    ):null
+                    ) : this.state.addShow === 'delete' ? (
+                        <div className="deleteNumber" onClick={() => this.goodsAdd()}>
+                            <p className="number">已选<span>12</span>个</p>
+                            <button className="btn">一键下架</button>
+                        </div>
+                    ) : null
                 }
                 
                 {
@@ -322,6 +337,15 @@ export default class MyStock extends React.Component {
                                         <div className="div_changeList">
                                             <button onClick={() =>this.updateFormat('3')}>确认下架</button>
                                             <button onClick={() =>this.cancel()}>取消</button>
+                                        </div>
+                                    </div>
+                                ):this.state.dealType === 'delete'?(
+                                    <div className="delete cont">
+                                        <div className="delTitle">温馨提示</div>
+                                        <div className="delCon">确认将这<span>12</span>个号码规格下架</div>
+                                        <div className="delChangeList">
+                                            <p onClick={() =>this.cancel()}>取消</p>
+                                            <p onClick={() =>this.updateFormat('3')}>确认下架</p>
                                         </div>
                                     </div>
                                 ):(

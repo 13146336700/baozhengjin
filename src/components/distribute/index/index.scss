@@ -302,6 +302,37 @@
         line-height:80px;
         border-bottom: 2px solid #f2f2f2;
     }
+    /*搜索*/
+    .serchBox{
+        padding: 0px 30px;
+        display: flex;
+        height: 64px;
+        margin: 18px 0px;
+        input{
+            display: inline-block;
+            flex: 1;
+            height:64px;
+            background:rgba(242,242,242,1);
+            border-radius:11px;
+            padding-left: 20px;
+            box-sizing: border-box;
+            border: transparent;
+        }
+        span{
+            display: block;
+            width:72px;
+            height:64px;
+            font-size:36px;
+            font-family:PingFangSC-Medium,PingFang SC;
+            font-weight:500;
+            color:rgba(235,51,24,1);
+            line-height:64px;
+            margin-left: 30px;
+        }
+
+    }
+
+    /*tab切换*/
     .tabBar{
         height: 90px;
         line-height: 90px;
@@ -319,6 +350,7 @@
             border-bottom: 1px solid #EB3318;
         }
     }
+    /*增加库存*/
     .addStock{
         position: fixed;
         width:690px;
@@ -336,6 +368,43 @@
         letter-spacing:2px;
         text-align: center;
     }
+    /*下架*/
+    .deleteNumber{
+        position: fixed;
+        bottom: 0px;
+        display: flex;
+        width: 100%;
+        height:100px;
+        padding: 12px 30px 12px 0px;
+        background:rgba(242,242,242,1);
+        box-sizing: border-box;
+        .number{
+            flex: 1;
+            text-align: right;
+            line-height: 76px;
+            font-size:24px;
+            font-family:PingFangSC-Regular,PingFang SC;
+            font-weight:400;
+            color:rgba(102,102,102,1);
+            span{
+                color: #EB3318;
+            }
+        }
+        .btn{
+            width: 217px;
+            height:76px;
+            font-size:28px;
+            font-family:PingFangSC-Regular,PingFang SC;
+            font-weight:400;
+            color:rgba(255,255,255,1);
+            line-height:76px;
+            background:rgba(235,51,24,1);
+            border-radius:38px;
+            margin-left: 16px;
+            border: transparent;
+        }
+    }
+    /*弹窗*/
     .shade{
         position: fixed;
         top: 0;
@@ -418,6 +487,53 @@
                 }
             }
             
+        }
+        .delete{
+            padding-bottom: 0px;
+            top: 32%;
+            .delTitle{
+                padding: 42px 0px 18px;
+                height:36px;
+                font-size:36px;
+                font-family:PingFangSC-Regular,PingFang SC;
+                font-weight:400;
+                color:rgba(0,0,0,1);
+                line-height:36px;
+                text-align: center;
+            }
+            .delCon{
+                height:45px;
+                font-size:30px;
+                font-family:PingFangSC-Regular,PingFang SC;
+                font-weight:400;
+                color:rgba(136,136,136,1);
+                line-height:45px;
+                text-align: center;
+                margin-bottom: 30px;
+                span{
+                    color: #EB3318;
+                }
+            }
+            .delChangeList{
+                display: flex;
+                border-top: 1px solid #DDDDDD;
+                p{
+                    flex: 1;
+                    height:100px;
+                    font-size:36px;
+                    font-family:PingFangSC-Regular,PingFang SC;
+                    font-weight:400;
+                    color:rgba(0,0,0,1);
+                    line-height:100px;
+                    text-align: center;
+                    border: none;
+                    box-sizing: border-box;
+                }
+                p:nth-child(2){
+                    border-left: 2px solid #DDDDDD;
+                    color: #108EE9;
+                }
+            }
         }
     }
     .stocklistBox{
