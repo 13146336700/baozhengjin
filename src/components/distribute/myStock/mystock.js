@@ -44,10 +44,12 @@ export default class MyStock extends React.Component {
         changeItem: {}, //要修改的数据
         changePrice:'', //修改的价格
         addShow: true,  //增加库存按钮是否显示
-        data:[],
-        goodsType: '2',
+        data:[],        //列表数据
+        goodsType: '2',     //商品分类，2卖，1买
         category:'',
-        unitName:''
+        unitName:'',
+        sname:'',   //搜索字段
+        status:'0',  //商品状态，失效1，正常0
     };
 
     /**取消修改弹窗 */
@@ -77,10 +79,17 @@ export default class MyStock extends React.Component {
                 changeItem: item,
                 changePrice: item.dealPrice
             });
-        } else {
+        } else if(type === 'change') {
             this.setState({
                 showShadeFlag: true,
                 dealType: 'change',
+                changeItem: item,
+                changePrice: item.dealPrice
+            });
+        }else {
+            this.setState({
+                showShadeFlag: true,
+                dealType: 'updata',
                 changeItem: item,
                 changePrice: item.dealPrice
             });
@@ -88,37 +97,60 @@ export default class MyStock extends React.Component {
     }
 
     /**tab切换 */
-  tabChange(index) {
-    switch (index) {
-      case '2':
-          this.setState({
-              goodsType: '2',
-              pageIndex: 1
-          });
-          break;
-      case '1':
-          this.setState({
-              goodsType: '1',
-              pageIndex: 1
-          });
-          break;
-      default:
-          this.setState({
-              goodsType: '2'
-          });
-          break;
-    };
-    this.getdataList(index);
-  }
+    tabChange(index,status) {
+        switch (index) {
+        case '3':
+            this.setState({
+                goodsType: '3',
+                pageIndex: 1,
+                status:status,
+                sname:''
+            });
+            break;
+        case '2':
+            this.setState({
+                goodsType: '2',
+                pageIndex: 1,
+                status:status,
+                sname:''
+            });
+            break;
+        case '1':
+            this.setState({
+                goodsType: '1',
+                pageIndex: 1,
+                status:status,
+                sname:''
+            });
+            break;
+        default:
+            this.setState({
+                goodsType: '2',
+                pageIndex: 1,
+                status:status,
+                sname:''
+            });
+            break;
+        };
+        this.getdataList(index,status);
+    }
+
+    /**商品号码搜索 */
+    searchNumber() {
+
+        this.getdataList(this.state.goodsType, this.state.status, this.state.sname);
+    }
 
     /**获取列表 */
-    getdataList(index) {
-        console.log(this,'sssssss');
+    getdataList(index,status,sname) {
+        // console.log(this,'sssssss');
         let _this = this;
         axios.post('subject/json/goodsNumber',{
             userId:_this.getUrlParam('userId'),
             name: _this.getUrlParam('name'),
-            type: index || _this.getUrlParam('type'),
+            type: index === '3'? '':index || _this.getUrlParam('type'),
+            status:status || _this.state.status,
+            sname: sname || _this.state.sname || ''
         }).then(res =>{
             _this.setState({
                 data: res.data.resultObject.dataList,
@@ -130,7 +162,6 @@ export default class MyStock extends React.Component {
             Toast.info(err.message, 2);
         })
     }
-
 
     checkAddShow(item) {
         if (item.length > 0) {
@@ -144,7 +175,7 @@ export default class MyStock extends React.Component {
         }
     }
 
-    /**价格修改 */
+    /**价格修改操作 */
     changePriceFn = (en) => {
         // if (en.target.value === '') {
         //     Toast.info("价格不能为空",2);
@@ -183,10 +214,9 @@ export default class MyStock extends React.Component {
         } else {
           window.app.purchaseGoods(id)
         }
-      }
-        
+    }
     
-    /**商品下架 */
+    /**商品下架,修改价格 */
     updateFormat(type) {
         if (this.state.changePrice === '') {
             Toast.info("价格不能为空",2);
@@ -219,7 +249,6 @@ export default class MyStock extends React.Component {
         });
     }
 
-
     render() {
         const operation = Modal.operation;
         return (
@@ -228,8 +257,9 @@ export default class MyStock extends React.Component {
                 <div className="goodsName">{this.getUrlParam('name')}</div>
                 {/* <Demo {...this.props} page="stock" showShade={this.showShade.bind(this)} showAdd={this.checkAddShow.bind(this)} onRef={(ref) => { this.demo = ref; }}></Demo> */}
                 <div className="tabBar">
-                    <span className={this.state.goodsType==='2'?'active tab':'tab'} onClick={() => this.tabChange('2')}>出售</span>
-                    <span className={this.state.goodsType==='1'?'active tab':'tab'} onClick={() => this.tabChange('1')}>求购</span>
+                    <span className={this.state.goodsType==='2'?'active tab':'tab'} onClick={() => this.tabChange('2','0')}>出售</span>
+                    <span className={this.state.goodsType==='1'?'active tab':'tab'} onClick={() => this.tabChange('1','0')}>求购</span>
+                    <span className={this.state.goodsType==='3'?'active tab':'tab'} onClick={() => this.tabChange('3','1')}>失效</span>
                 </div>
                 {
                     this.state.data.length > 0 ? (
@@ -237,8 +267,8 @@ export default class MyStock extends React.Component {
                             {this.state.data.map((item,index) => (
                                 <li className={item.status !== '0'?'list stockList':'list'} key= {index} >
                                     <div className="nameBox" onClick={() => this.goodsDetail(item.goodsId)}>
-                                    <p className="number">{item.format}</p>
-                                    <p  className="unit">{item.tag}&nbsp;&nbsp;共<span>{item.dealCnt}</span>{item.unitName}</p>
+                                        <p className="number">{item.format}</p>
+                                        <p  className="unit">{item.tag}&nbsp;&nbsp;共<span>{item.dealCnt}</span>{item.unitName}</p>
                                     </div>
                                     <span className="price" onClick={() => this.goodsDetail(item.goodsId)}>￥{item.dealPrice}元</span>
                                     {
@@ -248,8 +278,13 @@ export default class MyStock extends React.Component {
                                                 { text: '修改价格', onPress: () => this.showShade(item,'change') },
                                             ])}
                                             >操作</Button>
+                                        ):item.status === '3'?(
+                                            <Button className="deal updata" onClick={() => operation([
+                                                { text: '商品上架', onPress: () => this.showShade(item,'updata') },
+                                            ])}
+                                            >操作</Button>
                                         ):(<div className="deal">
-                                            <img src={item.status === '3'?require("../../assets/ic_manual dismounting.png"):item.status === '2'?require("../../assets/ic_sell out.png"):require("../../assets/ic_invalid.png")} alt=""/>
+                                            <img src={item.status === '2'?require("../../assets/ic_sell out.png"):require("../../assets/ic_invalid.png")} alt=""/>
                                         </div>)
                                     }
                                 </li>
@@ -300,7 +335,7 @@ export default class MyStock extends React.Component {
                                             <input type="text" value={this.state.changePrice} onChange={this.changePriceFn.bind(this)}/>
                                         </p>
                                         <div className="div_changeList">
-                                            <button onClick={() =>this.updateFormat('0')}>确认修改</button>
+                                            <button onClick={() =>this.updateFormat('0')}>{this.state.goodsType === '3'?'确认上架':'确认修改'}</button>
                                             <button onClick={() =>this.cancel()}>取消</button>
                                         </div>
                                         
