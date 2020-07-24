@@ -100,9 +100,10 @@ export default class MyStock extends React.Component {
 
     /**tab切换 */
     tabChange(index,status) {
+        let _this = this;
         switch (index) {
         case '3':
-            this.setState({
+            _this.setState({
                 goodsType: '3',
                 pageIndex: 1,
                 status:status,
@@ -110,7 +111,7 @@ export default class MyStock extends React.Component {
             });
             break;
         case '2':
-            this.setState({
+            _this.setState({
                 goodsType: '2',
                 pageIndex: 1,
                 status:status,
@@ -118,7 +119,7 @@ export default class MyStock extends React.Component {
             });
             break;
         case '1':
-            this.setState({
+            _this.setState({
                 goodsType: '1',
                 pageIndex: 1,
                 status:status,
@@ -126,7 +127,7 @@ export default class MyStock extends React.Component {
             });
             break;
         default:
-            this.setState({
+            _this.setState({
                 goodsType: '2',
                 pageIndex: 1,
                 status:status,
@@ -134,7 +135,9 @@ export default class MyStock extends React.Component {
             });
             break;
         };
-        this.getdataList(index,status);
+        setTimeout(() =>{
+            _this.getdataList(index,status);
+        },10)
     }
 
     /**搜索输入内容改变事件 */
