@@ -311,7 +311,7 @@ export default class MyStock extends React.Component {
                                     <div className="nameBox" onClick={() => this.goodsDetail(item.goodsId)}>
                                         <p className="number">
                                             {
-                                                item.status === '3'?(
+                                                item.status === '3' || item.status === '2'?(
                                                     <img src={item.type === '2'?require("../../assets/mai.png"):require("../../assets/mai_.png")} alt=""/>
                                                 ):null
                                             }{item.format}</p>
