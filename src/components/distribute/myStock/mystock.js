@@ -13,12 +13,12 @@ export default class MyStock extends React.Component {
     componentWillMount() {
         document.title = "配号库存管理";
         //删除缓存数据
-          sessionStorage.removeItem("SANZNANG_ARR");
-          sessionStorage.removeItem("BIAOLIAN_ARR");
-          sessionStorage.removeItem("SANLIAN_ARR");
-          sessionStorage.removeItem("SANZHANG_ARR");
-          sessionStorage.removeItem("BIAOLIAN_Ontable");
-    sessionStorage.removeItem("newlistARR");
+        sessionStorage.removeItem("SANZNANG_ARR");
+        sessionStorage.removeItem("BIAOLIAN_ARR");
+        sessionStorage.removeItem("SANLIAN_ARR");
+        sessionStorage.removeItem("SANZHANG_ARR");
+        sessionStorage.removeItem("BIAOLIAN_Ontable");
+        sessionStorage.removeItem("newlistARR");
         
         this.getdataList();
         if (this.getUrlParam('type')) {
@@ -50,18 +50,21 @@ export default class MyStock extends React.Component {
         unitName:'',
         sname:'',   //搜索字段
         status:'0',  //商品状态，失效1，正常0
+        idArr:[], //批量下架选择号码列表
+        checkBtnShow: false,       //批量选择按钮显示
     };
 
     /**取消修改弹窗 */
     cancel() {
         this.setState({
             showShadeFlag: false,
-            dealType: 'delete',
+            dealType: '',
             changeItem: '',
             changePrice: ''
         })
     }
 
+    /**点击增加库存按钮操作 */
     goodsAdd() {
         // console.log(this.demo.state.data[0].goodsId);
         if (this.state.goodsType === '1') {
@@ -71,6 +74,7 @@ export default class MyStock extends React.Component {
         }
     }
 
+    /**操作弹窗显示 */
     showShade(item, type) {
         if (type === 'sign') {
             this.setState({
@@ -89,9 +93,7 @@ export default class MyStock extends React.Component {
         }else {
             this.setState({
                 showShadeFlag: true,
-                dealType: 'updata',
-                changeItem: item,
-                changePrice: item.dealPrice
+                dealType: 'delete',
             });
         }
     }
@@ -142,9 +144,25 @@ export default class MyStock extends React.Component {
         })
     }
 
+    /**点击批量编辑按钮操作 */
+    // batchDelete() {
+    //     this.setState({
+    //         addShow: 'delete'
+    //     });
+    // }
+
+    /**批量下架选中号码操作 */
+    // checkNumber() {
+
+    // }
+
+    /**批量下架 */
+    // batchProcese() {
+    //     this.updateFormat('3');
+    // }
+
     /**商品号码搜索 */
     searchNumber() {
-        console.log('ssssssssss')
         this.getdataList(this.state.goodsType, this.state.status, this.state.sname);
     }
 
@@ -159,18 +177,29 @@ export default class MyStock extends React.Component {
             status:status || _this.state.status,
             sname: sname || _this.state.sname || ''
         }).then(res =>{
+            let resData = res.data.resultObject;
             _this.setState({
-                data: res.data.resultObject.dataList,
-                category:res.data.resultObject.category,
-                unitName:res.data.resultObject.unitName
+                data: resData.dataList,
+                category: resData.category,
+                unitName: resData.unitName
             });
+            
             _this.checkAddShow(res.data.resultObject.dataList);
         }).catch(err => {
             Toast.info(err.message, 2);
         })
     }
 
+
+
+    /**增加库存按钮是否显示 */
     checkAddShow(item) {
+        if (this.state.status === '1') {
+            this.setState({
+                addShow: 'none'
+            });
+            return false
+        }
         if (item.length > 0) {
             this.setState({
                 addShow: 'list'
@@ -224,7 +253,7 @@ export default class MyStock extends React.Component {
     }
     
     /**商品下架,修改价格 */
-    updateFormat(type) {
+    updateFormat(type,id) {
         if (this.state.changePrice === '') {
             Toast.info("价格不能为空",2);
             return false
@@ -235,7 +264,7 @@ export default class MyStock extends React.Component {
            return false 
         }
         axios.post('subject/json/updateFormat',{
-            id: this.state.changeItem.id,
+            id: id || this.state.changeItem.id,
             status:type,
             price: this.state.changePrice
         }).then(res => {
@@ -260,10 +289,10 @@ export default class MyStock extends React.Component {
         const operation = Modal.operation;
         return (
             <div className="mystock" style={{background: '#FFFFFF',height:'100%'}}>
-                <Uheader {...this.props} utitle="库存管理" ></Uheader>
+                <Uheader {...this.props} utitle="库存管理" onRef={(ref) => { this.demo = ref; }}></Uheader>
                 <div className="goodsName">{this.getUrlParam('name')}</div>
                 <div className="serchBox">
-                    <input type="search" name="" value={this.sname} id="" placeholder="请输入要搜索的号码" onChange={this.snameChange.bind(this)}/><span onClick={this.searchNumber.bind(this)}>搜索</span>
+                    <input type="search" name="" value={this.state.sname} id="" placeholder="请输入要搜索的号码" onChange={this.snameChange.bind(this)}/><span onClick={this.searchNumber.bind(this)}>搜索</span>
                 </div>
                 {/* <Demo {...this.props} page="stock" showShade={this.showShade.bind(this)} showAdd={this.checkAddShow.bind(this)} onRef={(ref) => { this.demo = ref; }}></Demo> */}
                 <div className="tabBar">
@@ -277,7 +306,12 @@ export default class MyStock extends React.Component {
                             {this.state.data.map((item,index) => (
                                 <li className={item.status !== '0'?'list stockList':'list'} key= {index} >
                                     <div className="nameBox" onClick={() => this.goodsDetail(item.goodsId)}>
-                                        <p className="number">{item.format}</p>
+                                        <p className="number">
+                                            {
+                                                item.status === '3'?(
+                                                    <img src={item.type === '2'?require("../../assets/mai.png"):require("../../assets/mai_.png")} alt=""/>
+                                                ):null
+                                            }{item.format}</p>
                                         <p  className="unit">{item.tag}&nbsp;&nbsp;共<span>{item.dealCnt}</span>{item.unitName}</p>
                                     </div>
                                     <span className="price" onClick={() => this.goodsDetail(item.goodsId)}>￥{item.dealPrice}元</span>
@@ -312,12 +346,13 @@ export default class MyStock extends React.Component {
                         <div className="addStock" onClick={() => this.goodsAdd()}>
                             增加库存
                         </div>
-                    ) : this.state.addShow === 'delete' ? (
-                        <div className="deleteNumber" onClick={() => this.goodsAdd()}>
-                            <p className="number">已选<span>12</span>个</p>
-                            <button className="btn">一键下架</button>
-                        </div>
                     ) : null
+                    // ) : this.state.addShow === 'delete' ? (
+                    //     <div className="deleteNumber" onClick={() => this.goodsAdd()}>
+                    //         <p className="number">已选<span>{this.state.idArr.length}</span>个</p>
+                    //         <button className="btn" onClick={() => this.showShade(null,'delete')}>一键下架</button>
+                    //     </div>
+                    // ) : null
                 }
                 
                 {
@@ -339,15 +374,6 @@ export default class MyStock extends React.Component {
                                             <button onClick={() =>this.cancel()}>取消</button>
                                         </div>
                                     </div>
-                                ):this.state.dealType === 'delete'?(
-                                    <div className="delete cont">
-                                        <div className="delTitle">温馨提示</div>
-                                        <div className="delCon">确认将这<span>12</span>个号码规格下架</div>
-                                        <div className="delChangeList">
-                                            <p onClick={() =>this.cancel()}>取消</p>
-                                            <p onClick={() =>this.updateFormat('3')}>确认下架</p>
-                                        </div>
-                                    </div>
                                 ):(
                                     <div className="cont">
                                         <p>
@@ -365,6 +391,16 @@ export default class MyStock extends React.Component {
                                         
                                     </div>
                                 )
+                                // :this.state.dealType === 'delete'?(
+                                //     <div className="delete cont">
+                                //         <div className="delTitle">温馨提示</div>
+                                //         <div className="delCon">确认将这<span>12</span>个号码规格下架</div>
+                                //         <div className="delChangeList">
+                                //             <p onClick={() =>this.cancel()}>取消</p>
+                                //             <p onClick={() =>this.batchProcese()}>确认下架</p>
+                                //         </div>
+                                //     </div>
+                                // )
                             }
                         </div>
                     ):null

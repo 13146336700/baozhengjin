@@ -556,7 +556,17 @@
                 }
             }
             .number{
+                width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
                 color: #333333;
+                img{
+                    display: inline-block;
+                    height: 30px;
+                    width: 30px;
+                    margin-right: 6px;
+                }
             }
         }
         .price{
