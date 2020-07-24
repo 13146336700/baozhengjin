@@ -9,6 +9,7 @@ export default class Serial extends React.Component {
     //   selectValue:'startup'
     // };
     // this.selectChange = this.selectChange.bind(this);
+    this.MyLoose_body = React.createRef();
   }
   state = {
     StatusName: "求购",
@@ -140,6 +141,11 @@ export default class Serial extends React.Component {
           break;
       }
     }
+  };
+  inputOnFocus = () => {
+    setTimeout(() => {
+      window.scrollTo(0, this.MyLoose_body.current.offsetHeight);
+    }, 300);
   };
   isPositiveInteger = (s) => {
     //是否为正整数
@@ -434,6 +440,10 @@ export default class Serial extends React.Component {
     this.setState({
       LooseArr: LooseArr,
     });
+
+    setTimeout(() => {
+      window.scrollTo(0, this.MyLoose_body.current.offsetHeight);
+    }, 300);
   }
   render() {
     return (
@@ -441,7 +451,7 @@ export default class Serial extends React.Component {
         <div className="Loose_title">
           {/* <p>散连{this.state.StatusName}</p> */}
         </div>
-        <div className="Loose_body">
+        <div className="Loose_body" ref={this.MyLoose_body}>
           {this.state.LooseArr.map((item, key, array) => (
             <ul key={key}>
               <div className="title_num_del">
@@ -537,6 +547,7 @@ export default class Serial extends React.Component {
                   type="text"
                   value={item.dealCnt}
                   onChange={(ev) => this.hansheetsChange(ev, key)}
+                  onFocus={() => this.inputOnFocus()}
                   placeholder="请输入散连张数"
                 />
               </li>

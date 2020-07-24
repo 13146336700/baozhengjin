@@ -14,10 +14,12 @@ import "./SaleRelease.scss";
 var u = navigator.userAgent;
 var isAndroid = u.indexOf("Android") > -1;
 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
 export default class SaleDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      buuttonShow:true,
       ExpirationValue: "90",
       desc: "", //文本框
       imageArray: [],
@@ -26,6 +28,7 @@ export default class SaleDetails extends React.Component {
       docmHeight: document.documentElement.clientHeight, //默认屏幕高度
       showHeight: document.body.clientHeight, //实时屏幕高度
     };
+    this.MyLoose_body = React.createRef();
   }
   state = {};
 
@@ -44,7 +47,9 @@ export default class SaleDetails extends React.Component {
           if (response.data.code == "10000") {
             this.setState({
               desc: response.data.resultObject.desc,
-              imageArray: response.data.resultObject.picUrls?response.data.resultObject.picUrls.split(","):[],
+              imageArray: response.data.resultObject.picUrls
+                ? response.data.resultObject.picUrls.split(",")
+                : [],
               ExpirationValue: response.data.resultObject.validDay,
             });
           } else {
@@ -53,6 +58,27 @@ export default class SaleDetails extends React.Component {
         })
         .catch((error) => {});
     }
+    let _this = this;
+
+    var originalHeight =
+      document.documentElement.clientHeight || document.body.clientHeight;
+    window.onresize = function () {
+      //键盘弹起与隐藏都会引起窗口的高度发生变化
+      var resizeHeight =
+        document.documentElement.clientHeight || document.body.clientHeight;
+      if (resizeHeight - 0 < originalHeight - 0) {
+        //当软键盘弹起，在此处操作
+        _this.setState({
+          buuttonShow:false
+        })
+        
+      } else {
+        //当软键盘收起，在此处操作
+         _this.setState({
+          buuttonShow:true
+        })
+      }
+    };
   }
   componentWillReceiveProps(nextProps) {
     console.log(nextProps);
@@ -251,6 +277,11 @@ export default class SaleDetails extends React.Component {
         .catch((error) => {});
     }
   }
+  inputOnFocus = () => {
+    setTimeout(() => {
+      window.scrollTo(0, 3000);
+    }, 300);
+  };
   imageDelte = (item, key) => {
     const imageArray = [...this.state.imageArray]; //浅拷贝一下
     imageArray.splice(key, 1);
@@ -315,6 +346,7 @@ export default class SaleDetails extends React.Component {
             <input
               type="tel"
               value={this.state.ExpirationValue}
+              onFocus={() => this.inputOnFocus()}
               onChange={(ev) => this.haninpiychange(ev)}
               pattern="[0-9]*"
             />
@@ -322,13 +354,15 @@ export default class SaleDetails extends React.Component {
           </div>
         </div>
         <div className="zhanwei"> </div> <div className="zhanwei"> </div>
-        <button
-          className="adddelte dinbu"
-          onClick={() => this.release()}
-          disabled={this.state.releaseDisabled}
-        >
-          点击发布
-        </button>
+        {this.state.buuttonShow ? (
+          <button
+            className="adddelte dinbu"
+            onClick={() => this.release()}
+            disabled={this.state.releaseDisabled}
+          >
+            点击发布
+          </button>
+        ) : null}
         <div className="zhanwei"> </div>
       </div>
     );

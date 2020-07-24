@@ -9,6 +9,7 @@ export default class Loose extends React.Component {
     //   selectValue:'startup'
     // };
     this.selectChange = this.selectChange.bind(this);
+    this.MyLoose_body = React.createRef();
   }
   state = {
     LooseArr: [
@@ -95,6 +96,11 @@ export default class Loose extends React.Component {
       });
     }
   }
+  inputOnFocus = () => {
+    setTimeout(() => {
+      window.scrollTo(0, this.MyLoose_body.current.offsetHeight);
+    }, 300);
+  };
   isPositiveInteger = (s) => {
     //是否为正整数
     if (s.length > 18) {
@@ -187,7 +193,7 @@ export default class Loose extends React.Component {
       Toast.info("请输入散张求购正确求购号码", 2);
       return;
     }
-    
+
     if (!this.isPositiveInteger(LooseObj.cntDesc)) {
       Toast.info("请输入散张求购正确求购数量", 2);
       return;
@@ -267,6 +273,10 @@ export default class Loose extends React.Component {
     this.setState({
       LooseArr: LooseArr,
     });
+
+    setTimeout(() => {
+      window.scrollTo(0, this.MyLoose_body.current.offsetHeight);
+    }, 300);
   }
   ActivityVerificationDownload = (val) => {
     Toast.success(`${val}`, 1);
@@ -300,6 +310,7 @@ export default class Loose extends React.Component {
     // });
 
     sessionStorage.setItem("SANZHANG_ARR", JSON.stringify(LooseArr));
+    
   };
   hanNumChange = (ev, index) => {
     const LooseArr = [...this.state.LooseArr]; //浅拷贝一下
@@ -355,7 +366,7 @@ export default class Loose extends React.Component {
     return (
       <div className="Loose">
         <div className="Loose_title">{/* <p>{this.props.uname}</p> */}</div>
-        <div className="Loose_body">
+        <div className="Loose_body" ref={this.MyLoose_body}>
           {this.state.LooseArr.map((item, key) => (
             <ul key={key}>
               <div className="title_num_del">
@@ -392,6 +403,7 @@ export default class Loose extends React.Component {
                 <input
                   type="text"
                   value={item.number}
+                  onFocus={() => this.inputOnFocus()}
                   onChange={(ev) => this.hanNumChange(ev, key)}
                   placeholder={item.Myplaceholder}
                 />

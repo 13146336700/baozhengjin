@@ -83,6 +83,7 @@ export default class Standard extends React.Component {
       ],
     };
     this.selectChange = this.selectChange.bind(this);
+    this.MyLoose_body = React.createRef();
   }
   state = {};
   componentDidMount() {
@@ -93,6 +94,11 @@ export default class Standard extends React.Component {
       });
     }
   }
+  inputOnFocus = () => {
+    setTimeout(() => {
+      window.scrollTo(0, this.MyLoose_body.current.offsetHeight);
+    }, 300);
+  };
   isPositiveInteger = (s) => {
     //是否为正整数
     if (s.length > 18) {
@@ -410,7 +416,10 @@ export default class Standard extends React.Component {
     });
     this.setState({
       LooseArr: LooseArr,
-    });
+    }); 
+    setTimeout(() => {
+      window.scrollTo(0, this.MyLoose_body.current.offsetHeight);
+    }, 300);
   }
 
   render() {
@@ -419,7 +428,7 @@ export default class Standard extends React.Component {
         <div className="Loose_title">
           {/* <p>标连{this.props.utitle}</p> */}
         </div>
-        <div className="Loose_body">
+        <div className="Loose_body" ref={this.MyLoose_body}>
           {this.state.LooseArr.map((item, key) => (
             <ul key={key}>
               <div className="title_num_del">
@@ -463,6 +472,7 @@ export default class Standard extends React.Component {
                   <input
                     type="text"
                     value={item.number}
+                    onFocus={() => this.inputOnFocus()}
                     onChange={(ev) => this.hanChange(ev, key, item)}
                     placeholder="请输入起始的号码"
                   />

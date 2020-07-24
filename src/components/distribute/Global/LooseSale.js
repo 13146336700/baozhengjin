@@ -4,6 +4,7 @@ import "./index.scss";
 export default class LooseSale extends React.Component {
   constructor(props) {
     super(props);
+    this.MyLoose_body = React.createRef();
     // this.state = {
     //   selectValue:'startup'
     // };
@@ -72,6 +73,9 @@ export default class LooseSale extends React.Component {
     this.setState({
       LooseArr: LooseArr,
     });
+    setTimeout(() => {
+      window.scrollTo(0, this.MyLoose_body.current.offsetHeight);
+    }, 300);
   }
 
   hanChange = (ev, index) => {
@@ -98,6 +102,12 @@ export default class LooseSale extends React.Component {
     //   ),
     // });
     sessionStorage.setItem("SANZNANG_ARR", JSON.stringify(LooseArr));
+  };
+  inputOnFocus = () => {
+
+    setTimeout(() => {
+      window.scrollTo(0, this.MyLoose_body.current.offsetHeight); 
+    }, 300);
   };
   hanNumChange = (ev, index) => {
     console.log(ev.target.value);
@@ -130,7 +140,7 @@ export default class LooseSale extends React.Component {
     return (
       <div className="Loose">
         <div className="Loose_title">{/* <p> {this.props.uname} </p> */}</div>
-        <div className="Loose_body">
+        <div className="Loose_body" ref={this.MyLoose_body}>
           {this.state.LooseArr.map((item, key) => (
             <ul key={key}>
               <div className="title_num_del">
@@ -149,18 +159,18 @@ export default class LooseSale extends React.Component {
                   value={item.number}
                   type="text"
                   pattern="\d"
+                  onFocus={() => this.inputOnFocus()}
                   onChange={(ev) => this.hanNumChange(ev, key)}
                   placeholder="请输入出售的号码"
                 />
               </li>
               <li>
                 <div>
-                   
-                  单价（ 元 / 
+                  单价（ 元 /
                   {this.getUrlParam("unitName")
                     ? this.getUrlParam("unitName")
                     : "张"}
-                  ） 
+                  ）
                 </div>
                 <input
                   type="text"

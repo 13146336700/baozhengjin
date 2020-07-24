@@ -2,6 +2,8 @@ import React, { Component } from "react";
 var u = navigator.userAgent;
 var isAndroid = u.indexOf("Android") > -1;
 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+// import {
+//   Toast} from "antd-mobile";
 
 export default class Uheaders extends React.Component {
   constructor(props) {
@@ -12,26 +14,22 @@ export default class Uheaders extends React.Component {
     this.backClick = this.backClick.bind(this);
   }
   componentWillMount() {
-    //  var str= navigator.userAgent.toLowerCase(); 
-    // console.log(plus.os.name);
-    // Toast.info(window.plus, 2000);
-    // alert(u)
-    // alert( "IMSI: " + window.plus);  
-
-    //     var ver=str.match(/cpu iphone os (.*?) like mac os/);
-    //     if(isiOS){
-    //         alert("请在Ios系统中打开");
-    //     }else{
-    //         alert("你当前的Ios系统版本为："+ver[1].replace(/_/g,"."));
-    //     }
 
     console.log(this.props);
     if (this.props.match.path == "/goodsDistribute") {
-      sessionStorage.setItem(`${this.props.match.path}Url`, this.props.location.search);
+      sessionStorage.setItem(
+        `${this.props.match.path}Url`,
+        this.props.location.search
+      );
       // sessionStorage.setItem("/goodsDistributeUrl", this.props.location.search);
-    }else if(this.props.match.path == "/distribute"){
-      sessionStorage.setItem(`${this.props.match.path}Url`, this.props.location.search);
+    } else if (this.props.match.path == "/distribute") {
+      sessionStorage.setItem(
+        `${this.props.match.path}Url`,
+        this.props.location.search
+      );
     }
+    let _this = this;
+
   }
   static defaultProps = {
     useach: false,
@@ -123,17 +121,13 @@ export default class Uheaders extends React.Component {
         return false;
       }
       if (this.getUrlParam("url")) {
-        this.props.history.push(
-          `${this.getUrlParam("url")}${urls}`
-        );
+        this.props.history.push(`${this.getUrlParam("url")}${urls}`);
       }
     } else if (this.props.match.path == "/searchNumber") {
       //配号搜索页面
       let urls = sessionStorage.getItem(`/${this.getUrlParam("url")}Url`);
       console.log(urls);
-      this.props.history.push(
-        `/${this.getUrlParam("url")}${urls}`
-      );
+      this.props.history.push(`/${this.getUrlParam("url")}${urls}`);
     } else if (this.props.match.path == "/goodsDistribute") {
       //首页 列表
       this.props.history.push(
@@ -162,23 +156,24 @@ export default class Uheaders extends React.Component {
   };
   render() {
     return (
-      <div className={isiOS?'Uheaders IOSUheaders':'Uheaders'}>
+      <div className={isiOS ? "Uheaders IOSUheaders" : "Uheaders"}>
         <div className="Uheadershome">
           <ul className={isiOS ? "iosHeader" : null}>
             <li onClick={() => this.backClick()}>
-              <img src={require("../assets/Goreturn.png")} />
-            </li>
-            <li> {this.props.utitle} </li>
+              <img src={require("../assets/Goreturn.png")} /> 
+            </li> 
+            <li> {this.props.utitle} </li> 
             <li>
+               
               {this.props.useach ? (
                 <div onClick={() => this.Jonp()}>
                   <img src={require("../assets/distrsearch.png")} />
-                  搜索
+                  搜索 
                 </div>
-              ) : null}
-            </li>
-          </ul>
-        </div>
+              ) : null} 
+            </li> 
+          </ul> 
+        </div> 
       </div>
     );
   }
