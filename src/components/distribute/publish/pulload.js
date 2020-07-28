@@ -45,34 +45,8 @@ export default class Pulload extends React.Component {
     };
   
     componentDidMount() {
-      
       this.getdataList();
     }
-
-
-    getList() {
-      axios.post('subject/json/getMatchProductList',{
-        pageSize: this.state.pageSize,
-        pageIndex: this.state.pageIndex,
-      }).then(res => {
-          this.setState({
-              data: res.data.resultObject.dataList
-          });
-      })
-    }
-
-    getListss() {
-      axios.post('subject/json/getMatchProductList',{
-        pageSize: this.state.pageSize,
-        pageIndex: this.state.pageIndex,
-      }).then(res => {
-          this.setState({
-            daad: res.data.resultObject.dataList
-          });
-      })
-    }
-
-    
 
     getdataList(goodsType) {
       let page = this.props.page;

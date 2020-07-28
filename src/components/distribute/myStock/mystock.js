@@ -150,21 +150,21 @@ export default class MyStock extends React.Component {
     }
 
     /**点击批量编辑按钮操作 */
-    // batchDelete() {
-    //     this.setState({
-    //         addShow: 'delete'
-    //     });
-    // }
+    batchDelete() {
+        this.setState({
+            addShow: 'delete'
+        });
+    }
 
     /**批量下架选中号码操作 */
-    // checkNumber() {
+    checkNumber() {
 
-    // }
+    }
 
     /**批量下架 */
-    // batchProcese() {
-    //     this.updateFormat('3');
-    // }
+    batchProcese() {
+        this.updateFormat('3');
+    }
 
     /**商品号码搜索 */
     searchNumber() {
@@ -317,7 +317,7 @@ export default class MyStock extends React.Component {
         }
         sessionStorage.removeItem('sellGid');
         sessionStorage.removeItem('buyGid');
-        
+
         this.props.history.push({
             pathname: "/SaleDetails",
               state: {
@@ -325,7 +325,9 @@ export default class MyStock extends React.Component {
                 scatteredJson: null,
                 standardConsecutiveJson: null,
                 otherConsecutiveJson: null,
-                userId:this.getUrlParam('userId')
+                userId:this.getUrlParam('userId'),
+                name:this.getUrlParam('name'),
+                type:this.state.goodsType
             },
         });
     }
@@ -335,7 +337,9 @@ export default class MyStock extends React.Component {
         return (
             <div className="mystock" style={{background: '#FFFFFF',height:'100%'}}>
                 <Uheader {...this.props} utitle="库存管理" onRef={(ref) => { this.demo = ref; }}></Uheader>
-                <div className="goodsName">{this.getUrlParam('name')}</div>
+                <div className="goodsName">{this.getUrlParam('name')}
+                    {/* <span onClick={() =>{this.batchDelete()}}>批量编辑</span> */}
+                </div>
                 <div className="serchBox">
                     <input type="search" name="" value={this.state.sname} id="" placeholder="请输入要搜索的号码" onChange={this.snameChange.bind(this)}/><span onClick={this.searchNumber.bind(this)}>搜索</span>
                 </div>
@@ -350,6 +354,11 @@ export default class MyStock extends React.Component {
                         <ul className="listBox stocklistBox" style={{paddingBottom:'70px'}}>
                             {this.state.data.map((item,index) => (
                                 <li className={item.status !== '0'?'list stockList':'list'} key= {index} >
+                                    {
+                                        this.state.addShow === 'delete'?(
+                                            <img src={item.type === '2'?require("../../assets/mai.png"):require("../../assets/mai_.png")} alt="" onClick={()=>{}}/>
+                                        ):null
+                                    }
                                     <div className="nameBox" onClick={() => this.goodsDetail(item.goodsId)}>
                                         <p className="number">
                                             {
@@ -392,13 +401,13 @@ export default class MyStock extends React.Component {
                             <button className="addStock" onClick={() => this.goodsAdd()}>增加库存</button>
                             <button className="aDescribe" onClick={() => this.goodsDescribe()}>描述编辑</button>
                         </div>
-                    ) : null
-                    // ) : this.state.addShow === 'delete' ? (
-                    //     <div className="deleteNumber" onClick={() => this.goodsAdd()}>
-                    //         <p className="number">已选<span>{this.state.idArr.length}</span>个</p>
-                    //         <button className="btn" onClick={() => this.showShade(null,'delete')}>一键下架</button>
-                    //     </div>
                     // ) : null
+                    ) : this.state.addShow === 'delete' ? (
+                        <div className="deleteNumber" onClick={() => this.goodsAdd()}>
+                            <p className="number">已选<span>{this.state.idArr.length}</span>个</p>
+                            <button className="btn" onClick={() => this.showShade(null,'delete')}>一键下架</button>
+                        </div>
+                    ) : null
                 }
                 
                 {
@@ -420,7 +429,16 @@ export default class MyStock extends React.Component {
                                             <button onClick={() =>this.cancel()}>取消</button>
                                         </div>
                                     </div>
-                                ):(
+                                ):this.state.dealType === 'delete'?(
+                                        <div className="delete cont">
+                                            <div className="delTitle">温馨提示</div>
+                                            <div className="delCon">确认将这<span>12</span>个号码规格下架</div>
+                                            <div className="delChangeList">
+                                                <p onClick={() =>this.cancel()}>取消</p>
+                                                <p onClick={() =>this.batchProcese()}>确认下架</p>
+                                            </div>
+                                        </div>
+                                    ):(
                                     <div className="cont">
                                         <p>
                                             <label htmlFor="">号码</label>
@@ -437,16 +455,7 @@ export default class MyStock extends React.Component {
                                         
                                     </div>
                                 )
-                                // :this.state.dealType === 'delete'?(
-                                //     <div className="delete cont">
-                                //         <div className="delTitle">温馨提示</div>
-                                //         <div className="delCon">确认将这<span>12</span>个号码规格下架</div>
-                                //         <div className="delChangeList">
-                                //             <p onClick={() =>this.cancel()}>取消</p>
-                                //             <p onClick={() =>this.batchProcese()}>确认下架</p>
-                                //         </div>
-                                //     </div>
-                                // )
+                                
                             }
                         </div>
                     ):null
