@@ -322,9 +322,9 @@ export default class MyStock extends React.Component {
             pathname: "/SaleDetails",
               state: {
                 goodsId: gid,
-                scatteredJson: null,
-                standardConsecutiveJson: null,
-                otherConsecutiveJson: null,
+                scatteredJson:JSON.stringify([]),
+                standardConsecutiveJson:JSON.stringify([]),
+                otherConsecutiveJson:JSON.stringify([]),
                 pubUserid:this.getUrlParam('userId'),
                 name:this.getUrlParam('name'),
                 type:this.state.goodsType
