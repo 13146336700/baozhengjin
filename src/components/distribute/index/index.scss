@@ -390,6 +390,17 @@
         padding: 12px 30px 12px 0px;
         background:rgba(242,242,242,1);
         box-sizing: border-box;
+        .checkAll{
+            padding-left: 30px;
+            line-height: 76px;
+            img{
+                display: inline-block;
+                width: 34px;
+                height: 34px;
+                margin: 21px 20px 0px 0px;
+                float: left;
+            }
+        }
         .number{
             flex: 1;
             text-align: right;
@@ -556,6 +567,13 @@
         padding: 26px 0px;
         .deal{
             margin-right: 40px;
+        }
+        .checkIcon{
+            display: inline-block;
+            height: 34px;
+            width: 34px;
+            margin: auto 0px;
+            margin-right: 20px;
         }
     }
     .stockList{

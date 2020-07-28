@@ -175,6 +175,15 @@ export default class Uheaders extends React.Component {
                   搜索 
                 </div>
               ) : null} 
+              {this.props.isBatch === 'delete' ? (
+                <div onClick={() => this.props.batchDelete()}>
+                  批量编辑 
+                </div>
+              ) : this.props.isBatch === 'cancel' ? (
+                <div onClick={() => this.props.deleteCancel()}>
+                  取消 
+                </div>
+              ) :null}
             </li> 
           </ul> 
         </div> 
