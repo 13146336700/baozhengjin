@@ -173,14 +173,23 @@ export default class MyStock extends React.Component {
 
     /**获取列表 */
     getdataList(index,status,sname) {
-        // console.log(this,'sssssss');
+        // console.log(this.state.isFirst,'sssssss');
         let _this = this;
+        let isfrist = 'Y';      //是否为第一次请求
+        if (index === '1' && sessionStorage.getItem("buyGid")) {
+            isfrist = 'N';
+        }
+        if (index === '2' && sessionStorage.getItem("sellGid")) {
+            isfrist = 'N';
+        }
+        
         axios.post('subject/json/goodsNumber',{
             userId:_this.getUrlParam('userId'),
             name: _this.getUrlParam('name'),
             type: index === '3'? '':index || _this.getUrlParam('type'),
             status:status || _this.state.status,
-            sname: sname || _this.state.sname || ''
+            sname: sname || _this.state.sname || '',
+            isFirst: isfrist
         }).then(res =>{
             let resData = res.data.resultObject;
             _this.setState({
@@ -188,6 +197,12 @@ export default class MyStock extends React.Component {
                 category: resData.category,
                 unitName: resData.unitName
             });
+            if ((index === '1' || _this.getUrlParam('type') === '1') && resData.gid !== null) {
+                sessionStorage.setItem('buyGid',resData.gid);
+            }
+            if ((index === '2' || _this.getUrlParam('type') === '2') && resData.gid !== null) {
+                sessionStorage.setItem('sellGid',resData.gid);
+            }
             
             _this.checkAddShow(res.data.resultObject.dataList);
         }).catch(err => {
@@ -237,7 +252,7 @@ export default class MyStock extends React.Component {
 
     /**获取网址参数 */
     getUrlParam = (name) => {
-        console.log(name);
+        // console.log(name);
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
         var r = this.props.location.search.substr(1).match(reg);
         if (r != null) {
@@ -288,6 +303,31 @@ export default class MyStock extends React.Component {
         }).catch(err => {
             Toast.info(err.message, 2);
         });
+    }
+
+    /**商品描述编辑 */
+    goodsDescribe() {
+        sessionStorage.setItem("ReturnGo","1");
+        let gid = '';
+        if (this.state.goodsType === '1') {
+            gid = sessionStorage.getItem('buyGid');
+        }
+        if (this.state.goodsType === '2') {
+            gid = sessionStorage.getItem('sellGid');
+        }
+        sessionStorage.removeItem('sellGid');
+        sessionStorage.removeItem('buyGid');
+        
+        this.props.history.push({
+            pathname: "/SaleDetails",
+              state: {
+                goodsId: gid,
+                scatteredJson: null,
+                standardConsecutiveJson: null,
+                otherConsecutiveJson: null,
+                userId:this.getUrlParam('userId')
+            },
+        });
     }
 
     render() {
@@ -348,8 +388,9 @@ export default class MyStock extends React.Component {
                 
                 {
                     this.state.addShow === 'list' ? (
-                        <div className="addStock" onClick={() => this.goodsAdd()}>
-                            增加库存
+                        <div className="addBtn">
+                            <button className="addStock" onClick={() => this.goodsAdd()}>增加库存</button>
+                            <button className="aDescribe" onClick={() => this.goodsDescribe()}>描述编辑</button>
                         </div>
                     ) : null
                     // ) : this.state.addShow === 'delete' ? (
