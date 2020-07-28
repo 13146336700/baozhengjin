@@ -325,7 +325,7 @@ export default class MyStock extends React.Component {
                 scatteredJson: null,
                 standardConsecutiveJson: null,
                 otherConsecutiveJson: null,
-                userId:this.getUrlParam('userId'),
+                pubUserid:this.getUrlParam('userId'),
                 name:this.getUrlParam('name'),
                 type:this.state.goodsType
             },
