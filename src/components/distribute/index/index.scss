@@ -351,23 +351,35 @@
         }
     }
     /*增加库存*/
-    .addStock{
+    .addBtn{
         position: fixed;
-        width:690px;
-        height:96px;
-        background:rgba(215,48,45,1);
-        border-radius:26px;
+        width:100%;
+        display: flex;
+        height:146px;
+        background:rgba(242,242,242,1);
         bottom: 0px;
-        left: 50%;
-        transform: translateX(-345px);
         font-size:34px;
         font-family:PingFangSC-Medium,PingFang SC;
         font-weight:500;
-        color:rgba(255,255,255,1);
-        line-height:96px;
         letter-spacing:2px;
         text-align: center;
+        padding: 0 20px;
+        box-sizing: border-box;
+        button{
+            background:rgba(215,48,45,1);
+            border-radius:26px;
+            border: transparent;
+            flex: 1;
+            color:rgba(255,255,255,1);
+            margin: auto 10px;
+            height:96px;
+            line-height:96px;
+        }
+        .aDescribe{
+            background-color: #2D72D8;
+        }
     }
+    
     /*下架*/
     .deleteNumber{
         position: fixed;
