@@ -49,8 +49,10 @@ export default class Pulload extends React.Component {
     }
 
     getdataList(goodsType) {
-      let page = this.props.page;
-      let arr = this.state.data;
+      let page = this.props.page; //页面区分用
+      let arr = this.state.data;  //分页功能用于存放原始数据
+      let goodsInfo = JSON.parse(sessionStorage.getItem("goodsInfo"));
+
       switch (page) {
         case 'index':
           url= 'subject/json/getMatchProductList';  //币票配号列表
@@ -63,15 +65,15 @@ export default class Pulload extends React.Component {
           if (goodsType === "transaction") {
             url= 'subject/json/dealNumberList';  //某某商品配号列表
             getData= {
-              name: this.getUrlParam('name'), //	String	是	类型	商品名称
+              name: this.getUrlParam('name') || goodsInfo.name, //	String	是	类型	商品名称
               pageSize: this.state.pageSize,  //	String	必填	每页数量	
               pageIndex: this.state.pageIndex, //	String	必填	页码
             }
           }else {
             url= 'subject/json/goodsNumberList';  //某某商品配号列表
             getData= {
-              name: this.getUrlParam('name'), //	String	是	类型	商品名称
-              type: goodsType || this.getUrlParam('type'), //	String	否	类型	购买类型
+              name: this.getUrlParam('name') || goodsInfo.name, //	String	是	类型	商品名称
+              type: goodsType || this.getUrlParam('type') || '', //	String	否	类型	购买类型
               pageSize: this.state.pageSize, //	String	必填	每页数量	
               pageIndex: this.state.pageIndex, //	String	必填	页码
             }

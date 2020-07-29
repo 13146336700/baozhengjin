@@ -9,7 +9,24 @@ import PublishBtn from "../Global/publishBtn";
 
 export default class Goods extends React.Component {
     componentWillMount() {
-        document.title = this.getUrlParam('name');
+        if (this.getUrlParam('appInfo')) {
+            let appInfo = JSON.parse(this.getUrlParam('appInfo'));
+            document.title = appInfo.name;
+            let goodsInfo = {
+                name: appInfo.name,
+                unitName: appInfo.unitName,
+                categoryName: appInfo.categoryName,
+            }
+            let market = {
+                code: appInfo.code,
+                oid: appInfo.sid,
+                tag: appInfo.tag
+            }
+            sessionStorage.setItem('goodsInfo', JSON.stringify(goodsInfo));
+            sessionStorage.setItem('market', JSON.stringify(market));
+        }else {
+            document.title = this.getUrlParam('name');
+        }
     };
     state = {
         goodsType: '2'        
