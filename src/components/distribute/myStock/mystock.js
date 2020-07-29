@@ -385,7 +385,8 @@ export default class MyStock extends React.Component {
             showShadeFlag: false,
             dealType: '',
             changeItem: {},
-            changePrice:''
+            changePrice:'',
+            isCancel: "delete",
         });
         this.updateFormat('3', id, 'pl');
     }
@@ -409,12 +410,19 @@ export default class MyStock extends React.Component {
     /**批量编辑全部选中 */
     checkAll() {
         let len = this.state.data.length;
-        for (let i = 0; i < listData.length; i++) {
-            listData[i].check = '1';
+        if (this.state.checkedLength === len ) {
+            for (let i = 0; i < listData.length; i++) {
+                listData[i].check = '0';
+            }
+        }else{
+            for (let i = 0; i < listData.length; i++) {
+                listData[i].check = '1';
+            }
         }
+        
         this.setState({
             data: listData,
-            checkedLength: len
+            checkedLength: this.state.checkedLength === len?0:len
         });
     }
 
@@ -423,10 +431,15 @@ export default class MyStock extends React.Component {
         const operation = Modal.operation;
         return (
             <div className="mystock" style={{background: '#FFFFFF',height:'100%'}}>
-                <Uheader {...this.props} utitle="库存管理" ref="Uheader" onRef={this.onRef} isBatch={this.state.isCancel} batchDelete={this.batchDelete}  deleteCancel={this.deleteCancel}></Uheader>
-                <div className="goodsName">{this.getUrlParam('name')}
-                    <span onClick={() =>{this.batchDelete()}}>批量编辑</span>
-                </div>
+                {
+                    this.state.goodsType === '3'?(
+                        <Uheader {...this.props} utitle="库存管理" ></Uheader>
+                    ):(
+                        <Uheader {...this.props} utitle="库存管理" ref="Uheader" onRef={this.onRef} isBatch={this.state.isCancel} batchDelete={this.batchDelete}  deleteCancel={this.deleteCancel}></Uheader>
+                    )
+                }
+                
+                <div className="goodsName">{this.getUrlParam('name')}</div>
                 <div className="serchBox">
                     <input type="search" name="" value={this.state.sname} id="" placeholder="请输入要搜索的号码" onChange={this.snameChange.bind(this)}/><span onClick={this.searchNumber.bind(this)}>搜索</span>
                 </div>
@@ -457,20 +470,26 @@ export default class MyStock extends React.Component {
                                     </div>
                                     <span className="price" onClick={() => this.goodsDetail(item.goodsId)}>￥{item.dealPrice}元</span>
                                     {
-                                        item.status === '0'?(
-                                            <Button className="deal" onClick={() => operation([
-                                                { text: '商品下架', onPress: () => this.showShade(item,'sign') },
-                                                { text: '修改价格', onPress: () => this.showShade(item,'change') },
-                                            ])}
-                                            >操作</Button>
-                                        ):item.status === '3'?(
-                                            <Button className="deal updata" onClick={() => operation([
-                                                { text: '商品上架', onPress: () => this.showShade(item,'updata') },
-                                            ])}
-                                            >操作</Button>
-                                        ):(<div className="deal">
-                                            <img src={item.status === '2'?require("../../assets/ic_sell out.png"):require("../../assets/ic_invalid.png")} alt=""/>
-                                        </div>)
+                                        this.state.addShow !== 'delete'?(
+                                            <nav>
+                                                {
+                                                    item.status === '0'?(
+                                                        <Button className="deal" onClick={() => operation([
+                                                            { text: '商品下架', onPress: () => this.showShade(item,'sign') },
+                                                            { text: '修改价格', onPress: () => this.showShade(item,'change') },
+                                                        ])}
+                                                        >操作</Button>
+                                                    ):item.status === '3'?(
+                                                        <Button className="deal updata" onClick={() => operation([
+                                                            { text: '商品上架', onPress: () => this.showShade(item,'updata') },
+                                                        ])}
+                                                        >操作</Button>
+                                                    ):(<div className="deal">
+                                                        <img src={item.status === '2'?require("../../assets/ic_sell out.png"):require("../../assets/ic_invalid.png")} alt=""/>
+                                                    </div>)
+                                                }
+                                            </nav>
+                                        ):null
                                     }
                                 </li>
                             ))}
