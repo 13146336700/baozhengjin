@@ -119,6 +119,11 @@ export default class MyStock extends React.Component {
     /**tab切换 */
     tabChange(index,status) {
         let _this = this;
+        _this.setState({
+            addShow: 'list',
+            isCancel: "delete",
+            checkedLength: 0
+        });
         switch (index) {
         case '3':
             _this.setState({
@@ -271,21 +276,31 @@ export default class MyStock extends React.Component {
     }
     
     /**商品下架,修改价格 */
-    updateFormat(type,id) {
-        if (this.state.changePrice === '') {
+    updateFormat(status,id,type) {
+        if (type !== 'pl' && this.state.changePrice === '') {
             Toast.info("价格不能为空",2);
             return false
         }
         let Reg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;
-        if (!Reg.test(this.state.changePrice)) {
+        if (type !== 'pl' && !Reg.test(this.state.changePrice)) {
            Toast.info("请输入整数或者保留两位小数",2);
            return false 
         }
-        axios.post('subject/json/updateFormat',{
-            id: id || this.state.changeItem.id,
-            status:type,
-            price: this.state.changePrice
-        }).then(res => {
+        let mydata = {};
+        if (type === 'pl') {
+            mydata = {
+                ids: id || this.state.changeItem.id,
+                status:status,
+                price: this.state.changePrice
+            }
+        } else {
+            mydata = {
+                id: id || this.state.changeItem.id,
+                status:status,
+                price: this.state.changePrice
+            }
+        }
+        axios.post('subject/json/updateFormat',mydata).then(res => {
             if (res.data.message === '成功') {
                 this.setState({
                     showShadeFlag: false,
@@ -293,6 +308,7 @@ export default class MyStock extends React.Component {
                     changeItem: {},
                     changePrice:''
                 });
+                Toast.info(res.data.message, 2);
                 this.getdataList(this.state.goodsType);
             }
             if (res.data.code === 30000) {
@@ -332,9 +348,13 @@ export default class MyStock extends React.Component {
 
     /**点击批量编辑按钮操作 */
     batchDelete() {
+        if (this.state.data.length < 1) {
+            Toast.info('当前无数据无法编辑');
+            return false;
+        }
         this.setState({
             addShow: 'delete',
-            isCancel: "delete"
+            isCancel: "cancel"
         });
     }
 
@@ -342,13 +362,32 @@ export default class MyStock extends React.Component {
     deleteCancel() {
         this.setState({
             addShow: 'list',
-            isCancel: "cancel"
-        })
+            isCancel: "delete",
+            checkedLength: 0
+        });
+        listData = this.state.data;
+
     }
 
     /**批量下架确认按钮事件 */
     batchProcese() {
-        // this.updateFormat('3');
+        let idArr = [];
+        let data = this.state.data;
+        for (let i = 0; i < data.length; i++) {
+            if(data[i].check && data[i].check === '1'){
+                idArr.push(data[i].id);
+            } ;
+        }
+        let id = idArr.join(',');
+        // console.log(id,'sssss商品ID');
+        this.setState({
+            addShow: 'list',
+            showShadeFlag: false,
+            dealType: '',
+            changeItem: {},
+            changePrice:''
+        });
+        this.updateFormat('3', id, 'pl');
     }
 
     /**批量编辑选中商品号码 */
