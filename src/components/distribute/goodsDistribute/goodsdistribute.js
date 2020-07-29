@@ -22,6 +22,11 @@ export default class Goods extends React.Component {
                 oid: appInfo.sid,
                 tag: appInfo.tag
             }
+            let userInfo = {
+                userId: appInfo.userId,
+                userType: appInfo.userType
+            };
+            sessionStorage.setItem("userInfo",JSON.stringify(userInfo));
             sessionStorage.setItem('goodsInfo', JSON.stringify(goodsInfo));
             sessionStorage.setItem('market', JSON.stringify(market));
         }else {
