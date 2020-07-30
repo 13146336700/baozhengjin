@@ -196,7 +196,7 @@ export default class MyStock extends React.Component {
             isFirst: isfrist
         }).then(res =>{
             let resData = res.data.resultObject;
-            if (_this.state.unitName !== '') {
+            if (!_this.state.unitName) {
                 _this.setState({
                     data: resData.dataList,
                 });
