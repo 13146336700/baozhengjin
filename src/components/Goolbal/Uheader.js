@@ -133,6 +133,23 @@ export default class Uheaders extends React.Component {
       console.log(urls);
       this.props.history.push(`/${this.getUrlParam("url")}${urls}`);
     } else if (this.props.match.path == "/goodsDistribute") {
+      //返回APP
+      if (this.getUrlParam("appInfo")) {
+        if (isiOS) {
+          try {
+            window.webkit.messageHandlers.IOSNativeGotoBack.postMessage("");
+          } catch (e) {
+            console.log(e);
+          }
+        } else {
+          try {
+            window.app.androidNativeGotoBack();
+          } catch (e) {
+            console.log(e);
+          }
+        }
+        return false;
+      }
       //首页 列表
       this.props.history.push(
         `/distribute?userId=${

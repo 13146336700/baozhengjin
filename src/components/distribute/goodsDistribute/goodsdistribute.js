@@ -1,5 +1,5 @@
 import React from 'react';
-// import { Tabs,  Badge } from 'antd-mobile';
+import { Toast} from 'antd-mobile';
 import "../index/index.scss";
 // import Demo from "../pullRefresh/pullRefresh";
 import Pulload from "../publish/pulload";
@@ -11,6 +11,7 @@ export default class Goods extends React.Component {
     componentWillMount() {
         if (this.getUrlParam('appInfo')) {
             let appInfo = JSON.parse(this.getUrlParam('appInfo'));
+            // Toast.info(appInfo.name,3)
             document.title = appInfo.name;
             let goodsInfo = {
                 name: appInfo.name,
@@ -19,7 +20,7 @@ export default class Goods extends React.Component {
             }
             let market = {
                 code: appInfo.code,
-                oid: appInfo.sid,
+                oid: appInfo.oid,
                 tag: appInfo.tag
             }
             let userInfo = {
@@ -28,11 +29,16 @@ export default class Goods extends React.Component {
             };
             sessionStorage.setItem("userInfo",JSON.stringify(userInfo));
             sessionStorage.setItem('goodsInfo', JSON.stringify(goodsInfo));
-            sessionStorage.setItem('market', JSON.stringify(market));
+            if (appInfo.oid !== '') {
+                sessionStorage.setItem('market', JSON.stringify(market));
+            }
         }else {
             document.title = this.getUrlParam('name');
         }
     };
+    componentDidMount(){
+       
+    }
     state = {
         goodsType: '2'        
     };
@@ -50,7 +56,7 @@ export default class Goods extends React.Component {
         let goodsInfo = JSON.parse(sessionStorage.getItem('goodsInfo'));
         return (
             <div className="mydistribute goodsdistribute" style={{background: '#ffffff',minHeight:'100%'}}>
-                <Uheader {...this.props} utitle={this.getUrlParam('name')} useach="true"></Uheader>
+                <Uheader {...this.props} utitle={goodsInfo.name} useach="true"></Uheader>
                 <Banner {...this.props} rpType="flBanner"/>
                 <Pulload {...this.props} page="goods" type={this.state.goodsType} onRef={(ref) => { this.child = ref; }}/>
                 <PublishBtn {...this.props} url='goodsDistribute' category={this.getUrlParam('categoryName') || goodsInfo.categoryName} name={this.getUrlParam('name') || goodsInfo.name} unitName={this.getUrlParam('unitName') || goodsInfo.unitName}></PublishBtn>
