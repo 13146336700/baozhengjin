@@ -120,7 +120,7 @@ export default class MyStock extends React.Component {
     tabChange(index,status) {
         let _this = this;
         _this.setState({
-            addShow: 'list',
+            addShow: '',
             isCancel: "delete",
             checkedLength: 0
         });
@@ -196,11 +196,18 @@ export default class MyStock extends React.Component {
             isFirst: isfrist
         }).then(res =>{
             let resData = res.data.resultObject;
-            _this.setState({
-                data: resData.dataList,
-                category: resData.category,
-                unitName: resData.unitName
-            });
+            if (_this.state.unitName !== '') {
+                _this.setState({
+                    data: resData.dataList,
+                });
+            } else {
+                _this.setState({
+                    data: resData.dataList,
+                    category: resData.category,
+                    unitName: resData.unitName
+                });
+            }
+            
             listData = resData.dataList;
             if ((index === '1' || _this.getUrlParam('type') === '1') && resData.gid !== null) {
                 sessionStorage.setItem('buyGid',resData.gid);
