@@ -8,7 +8,6 @@ import PublishBtn from "../Global/publishBtn";
 
 
 export default class distribute extends React.Component {
-    
     componentWillMount() {
         // Toast.info(this.getUrlParam('userId'), 100);
         document.title = "币票配号";

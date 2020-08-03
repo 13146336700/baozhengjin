@@ -16,6 +16,7 @@ const loadMoreLimitNum = 2;
 export default class Pulload extends React.Component {
     constructor(){
       super();
+      this.MyLoose_body = React.createRef();
       this.state ={
         hasMore: true,
         action: STATS.init,
@@ -45,8 +46,23 @@ export default class Pulload extends React.Component {
     };
   
     componentDidMount() {
-      this.getdataList();
+      let sessionData = JSON.parse(sessionStorage.getItem('indexData'));
+      if (this.props.page === 'index' && sessionData && sessionData.data) {
+        this.setState({
+          data: sessionData.data,
+          pageIndex: sessionData.pageIndex,
+          pageStatus:true
+        })
+      }else {
+        this.getdataList();
+      }
+      if (sessionStorage.getItem("scrollTop")) {
+        setTimeout(() => {
+          window.scrollTo(0, sessionStorage.getItem("scrollTop"));
+        }, 10);
+      }
     }
+    
 
     getdataList(goodsType) {
       let page = this.props.page; //页面区分用
@@ -218,6 +234,14 @@ export default class Pulload extends React.Component {
     }
   
     goodsDistribute(item) {
+      let scrollTop = document.documentElement.scrollTop||document.body.scrollTop;
+      sessionStorage.setItem("scrollTop",scrollTop);
+
+      let indexData = {
+        data: this.state.data,
+        pageIndex: this.state.pageIndex
+      }
+      sessionStorage.setItem("indexData",JSON.stringify(indexData));
       if (item.sellCnt === '0' && item.buyCnt === '0') {
         Toast.info('该产品暂无需求,您可点击下面的发布按钮发布该商品', 3);
       } else {
@@ -295,8 +319,9 @@ export default class Pulload extends React.Component {
           
               <ReactPullLoad
               downEnough={500}
-              ref="reactpullload"
+              // ref="reactpullload"
               className="block"
+             
               isBlockContainer={false}
               action={this.state.action}
               handleAction={this.handleAction}
@@ -313,7 +338,7 @@ export default class Pulload extends React.Component {
                               this.state.data.length > 0 ?(
                                 <ul className="listBox" >
                                   {this.state.data.map((item,index) => (
-                                      <li className="list" key= {index} onClick={() => this.goodsDistribute(item)}>
+                                      <li className="list" key= {index} ref={this.MyLoose_body} onClick={() => this.goodsDistribute(item)}>
                                           <div className="imgBox">
                                             <img src={item.showImg || require('../../assets/logo.png')} alt=""/>
                                           </div>
