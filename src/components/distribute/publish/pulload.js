@@ -43,16 +43,23 @@ export default class Pulload extends React.Component {
           goodsType: ''
         })
       }
-    };
+    // };
   
-    componentDidMount() {
+    // componentDidMount() {
       let sessionData = JSON.parse(sessionStorage.getItem('indexData'));
+      let localData = JSON.parse(localStorage.getItem('localData'));
       if (this.props.page === 'index' && sessionData && sessionData.data) {
         this.setState({
           data: sessionData.data,
           pageIndex: sessionData.pageIndex,
           pageStatus:true
         })
+      }else if(this.props.page === 'index' && localData) {
+        this.setState({
+          data: localData,
+          pageStatus:true
+        });
+        this.getdataList();
       }else {
         this.getdataList();
       }
@@ -140,6 +147,9 @@ export default class Pulload extends React.Component {
             index: 0,
             pageStatus: true
           });
+        };
+        if (page === 'index' && Number(this.state.pageIndex) === 1) {
+          localStorage.setItem('localData',JSON.stringify(res.data.resultObject.dataList))
         }
          
       }).catch((err) =>{
