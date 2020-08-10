@@ -3,6 +3,9 @@ import React,{Component} from 'react';
 import ceshi from './components/ceshi';
 import Page from './components/Page';
 import rule from './components/rule/rule';
+//用户隐私规则
+import privacyRule from './components/rule/privacyRule';
+import Bulletprivacy from './components/rule/Bulletprivacy';
 import help from './components/help/help';
 import Violation from './components/Violation/Violation';
 import Punishment from './components/Margin/Punishment/Punishment';
@@ -42,6 +45,7 @@ const hashHistory = createHashHistory();
 /* 
 Page 总页面入口文件
  rule 规则
+ 
  Violation 列表
  penaltiesDetails 列表详情 需要跟?satus 刷新消失
  Punishment 处罚展示 /跟用户id  系统自动扣费
@@ -87,6 +91,9 @@ searchResult      配号搜索结果页
 publishBtn           发布弹窗页，选择发布类型
 Catalogue         配号邮币卡目录
 CatalogueList         配号邮币卡目录列表
+------------------------------------------------------------------
+privacyRule 用户隐私权限
+Bulletprivacy 用户隐私权限 弹框
 
 
 
@@ -97,6 +104,8 @@ function App() {
          <Route path="/ceshi" exact component={ceshi}/>
          <Route path="/Page/:userId" exact component={Page}/>
          <Route path="/rule" exact component={rule}/>
+         <Route path="/privacyRule" exact component={privacyRule}/>
+         <Route path="/Bulletprivacy" exact component={Bulletprivacy}/>
          <Route path="/help/:type" exact component={help}/>
          <Route path="/Violation/:userId" exact component={Violation}/>
          <Route path="/Punishment/:userId" exact component={Punishment}/>

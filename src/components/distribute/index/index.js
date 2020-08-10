@@ -46,7 +46,7 @@ export default class distribute extends React.Component {
     render() {
         return (
             <div className="distribute" style={{minHeight:'100%',backgroundColor:'#ffffff'}}>
-                <Uheader {...this.props} utitle="币票配号" useach="true"></Uheader>
+                {/* <Uheader {...this.props} utitle="币票配号" useach="true"></Uheader> */}
                 <Banner {...this.props} rpType="ybBanner"/>
                 <Pulload {...this.props} page="index" onRef={(ref) => { this.child = ref; }}/>
                 <PublishBtn {...this.props} url='distribute' category='' name='' unitName=''></PublishBtn>

@@ -85,6 +85,8 @@ button:disabled {
 
 .SaleDetails {
   width: 100%;
+  position: relative;
+  overflow-y: scroll;
   min-height: 100%;
 
   .SaleDetails_title {
@@ -159,6 +161,7 @@ button:disabled {
   }
   .Expiration {
     width: 90%;
+    height: 80px; /*px*/
     margin: auto;
     margin-top: 30px; /*px*/
     display: flex;
@@ -176,6 +179,10 @@ button:disabled {
         width: 50px;
       }
     }
+  }
+  .annou{
+    width: 100%;
+    height: 170px;/*px*/
   }
   .dinbu {
     position: absolute;

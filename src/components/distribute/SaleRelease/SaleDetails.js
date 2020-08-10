@@ -37,6 +37,7 @@ export default class SaleDetails extends React.Component {
     window["IOSPhotoImageUpload"] = this.IOSPhotoImageUpload.bind(this);
     window.addEventListener("resize", this.onWindowResize);
     let myArray = this.props.history.location.state;
+    console.log(myArray);
     if (myArray.goodsId) {
       axios
         .post("subject/json/getGoodsInfor", {
@@ -179,7 +180,6 @@ export default class SaleDetails extends React.Component {
     // })
     // console.log(str);
     // this.state.imageArray.join(',')
-    console.log(this.isRealNum(this.state.ExpirationValue));
     let myArray = this.props.history.location.state;
     if (!this.isRealNum(this.state.ExpirationValue)) {
       Toast.info("请输入有效天数", 2);
@@ -202,6 +202,8 @@ export default class SaleDetails extends React.Component {
       });
       return;
     }
+    console.log(typeof myArray.scatteredJson);
+    console.log(myArray.scatteredJson);
 
     if (myArray.goodsId) {
       axios
@@ -354,9 +356,10 @@ export default class SaleDetails extends React.Component {
           </div>
         </div>
         <div className="zhanwei"> </div> <div className="zhanwei"> </div>
+        <div className="annou"></div>
         {this.state.buuttonShow ? (
           <button
-            className="adddelte dinbu"
+            className="adddelte"
             onClick={() => this.release()}
             disabled={this.state.releaseDisabled}
           >
