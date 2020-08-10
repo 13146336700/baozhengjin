@@ -202,8 +202,7 @@ export default class SaleDetails extends React.Component {
       });
       return;
     }
-    console.log(typeof myArray.scatteredJson);
-    console.log(myArray.scatteredJson);
+    let market = JSON.parse(sessionStorage.getItem("market"));
 
     if (myArray.goodsId) {
       axios
@@ -258,6 +257,8 @@ export default class SaleDetails extends React.Component {
           assurePersonPhone: myArray.personPhone,
           assurePersonName: myArray.personName,
           dealWay: myArray.dealWay,
+          sid: market.oid,
+          tag: market.tag
         })
         .then((response) => {
           if (response.data.code == "10000") {

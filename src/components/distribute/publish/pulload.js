@@ -16,6 +16,7 @@ const loadMoreLimitNum = 2;
 export default class Pulload extends React.Component {
     constructor(){
       super();
+      this.MyLoose_body = React.createRef();
       this.state ={
         hasMore: true,
         action: STATS.init,
@@ -42,15 +43,39 @@ export default class Pulload extends React.Component {
           goodsType: ''
         })
       }
-    };
+    // };
   
-    componentDidMount() {
-      this.getdataList();
+    // componentDidMount() {
+      let sessionData = JSON.parse(sessionStorage.getItem('indexData'));
+      let localData = JSON.parse(localStorage.getItem('localData'));
+      if (this.props.page === 'index' && sessionData && sessionData.data) {
+        this.setState({
+          data: sessionData.data,
+          pageIndex: sessionData.pageIndex,
+          pageStatus:true
+        })
+      }else if(this.props.page === 'index' && localData) {
+        this.setState({
+          data: localData,
+          pageStatus:true
+        });
+        this.getdataList();
+      }else {
+        this.getdataList();
+      }
+      if (sessionStorage.getItem("scrollTop")) {
+        setTimeout(() => {
+          window.scrollTo(0, sessionStorage.getItem("scrollTop"));
+        }, 10);
+      }
     }
+    
 
     getdataList(goodsType) {
-      let page = this.props.page;
-      let arr = this.state.data;
+      let page = this.props.page; //页面区分用
+      let arr = this.state.data;  //分页功能用于存放原始数据
+      let goodsInfo = JSON.parse(sessionStorage.getItem("goodsInfo"));
+
       switch (page) {
         case 'index':
           url= 'subject/json/getMatchProductList';  //币票配号列表
@@ -63,15 +88,15 @@ export default class Pulload extends React.Component {
           if (goodsType === "transaction") {
             url= 'subject/json/dealNumberList';  //某某商品配号列表
             getData= {
-              name: this.getUrlParam('name'), //	String	是	类型	商品名称
+              name: this.getUrlParam('name') || goodsInfo.name, //	String	是	类型	商品名称
               pageSize: this.state.pageSize,  //	String	必填	每页数量	
               pageIndex: this.state.pageIndex, //	String	必填	页码
             }
           }else {
             url= 'subject/json/goodsNumberList';  //某某商品配号列表
             getData= {
-              name: this.getUrlParam('name'), //	String	是	类型	商品名称
-              type: goodsType || this.getUrlParam('type'), //	String	否	类型	购买类型
+              name: this.getUrlParam('name') || goodsInfo.name, //	String	是	类型	商品名称
+              type: goodsType || this.getUrlParam('type') || '', //	String	否	类型	购买类型
               pageSize: this.state.pageSize, //	String	必填	每页数量	
               pageIndex: this.state.pageIndex, //	String	必填	页码
             }
@@ -122,6 +147,9 @@ export default class Pulload extends React.Component {
             index: 0,
             pageStatus: true
           });
+        };
+        if (page === 'index' && Number(this.state.pageIndex) === 1) {
+          localStorage.setItem('localData',JSON.stringify(res.data.resultObject.dataList))
         }
          
       }).catch((err) =>{
@@ -216,6 +244,14 @@ export default class Pulload extends React.Component {
     }
   
     goodsDistribute(item) {
+      let scrollTop = document.documentElement.scrollTop||document.body.scrollTop;
+      sessionStorage.setItem("scrollTop",scrollTop);
+
+      let indexData = {
+        data: this.state.data,
+        pageIndex: this.state.pageIndex
+      }
+      sessionStorage.setItem("indexData",JSON.stringify(indexData));
       if (item.sellCnt === '0' && item.buyCnt === '0') {
         Toast.info('该产品暂无需求,您可点击下面的发布按钮发布该商品', 3);
       } else {
@@ -293,8 +329,9 @@ export default class Pulload extends React.Component {
           
               <ReactPullLoad
               downEnough={500}
-              ref="reactpullload"
+              // ref="reactpullload"
               className="block"
+             
               isBlockContainer={false}
               action={this.state.action}
               handleAction={this.handleAction}
@@ -311,7 +348,7 @@ export default class Pulload extends React.Component {
                               this.state.data.length > 0 ?(
                                 <ul className="listBox" >
                                   {this.state.data.map((item,index) => (
-                                      <li className="list" key= {index} onClick={() => this.goodsDistribute(item)}>
+                                      <li className="list" key= {index} ref={this.MyLoose_body} onClick={() => this.goodsDistribute(item)}>
                                           <div className="imgBox">
                                             <img src={item.showImg || require('../../assets/logo.png')} alt=""/>
                                           </div>

@@ -57,8 +57,8 @@ import md5 from "md5";
 const service = axios.create({
 	
 	// baseURL: "http://198.166.1.168:8080/YBAppDev/ybws/", // api的base_url 线下正式
-	baseURL: "http://app.youbaoapp.com:8080/YBApp/ybws/", // api的base_url 线下正式 测试服务
-	// baseURL: "https://api.youbao360.com/YBApp/ybws/", // api的base_url 线上 正式地址 正式服务
+	// baseURL: "http://app.youbaoapp.com:8080/YBApp/ybws/", // api的base_url 线下正式 测试服务
+	baseURL: "https://api.youbao360.com/YBApp/ybws/", // api的base_url 线上 正式地址 正式服务
 	timeout: 10000 // 请求超时时间 5秒
 });
 var dialogTimes = 1;

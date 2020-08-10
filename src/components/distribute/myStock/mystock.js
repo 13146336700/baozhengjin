@@ -7,6 +7,7 @@ import { Modal, Button, Toast} from 'antd-mobile';
 var u = navigator.userAgent;
 // var isAndroid = u.indexOf("Android") > -1;
 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+var listData = [];
 
 export default class MyStock extends React.Component {
 
@@ -37,13 +38,19 @@ export default class MyStock extends React.Component {
         sessionStorage.setItem("userInfo",JSON.stringify(userInfo));
     };
 
+    constructor(props){
+        super(props);
+        this.batchDelete=this.batchDelete.bind(this);
+        this.deleteCancel=this.deleteCancel.bind(this);
+    }
+
     state = {
         dealType: '',
         publishType: 'buy', //跳转发布页面时，判断是卖还是买 
         showShadeFlag: false,    //修改弹窗显示
         changeItem: {}, //要修改的数据
         changePrice:'', //修改的价格
-        addShow: 'delete',  //增加库存按钮是否显示
+        addShow: '',  //增加库存按钮是否显示
         data:[],        //列表数据
         goodsType: '2',     //商品分类，2卖，1买
         category:'',
@@ -52,6 +59,8 @@ export default class MyStock extends React.Component {
         status:'0',  //商品状态，失效1，正常0
         idArr:[], //批量下架选择号码列表
         checkBtnShow: false,       //批量选择按钮显示
+        checkedLength: 0,   //批量下架选中数量
+        isCancel: "delete", //批量编辑取消按钮状态
     };
 
     /**取消修改弹窗 */
@@ -60,7 +69,7 @@ export default class MyStock extends React.Component {
             showShadeFlag: false,
             dealType: '',
             changeItem: '',
-            changePrice: ''
+            changePrice: '',
         })
     }
 
@@ -90,6 +99,13 @@ export default class MyStock extends React.Component {
                 changeItem: item,
                 changePrice: item.dealPrice
             });
+        }else if(type === 'delete') {
+            this.setState({
+                showShadeFlag: true,
+                dealType: 'delete',
+                changeItem: '',
+                changePrice: ''
+            });
         }else {
             this.setState({
                 showShadeFlag: true,
@@ -103,6 +119,11 @@ export default class MyStock extends React.Component {
     /**tab切换 */
     tabChange(index,status) {
         let _this = this;
+        _this.setState({
+            addShow: '',
+            isCancel: "delete",
+            checkedLength: 0
+        });
         switch (index) {
         case '3':
             _this.setState({
@@ -149,23 +170,6 @@ export default class MyStock extends React.Component {
         })
     }
 
-    /**点击批量编辑按钮操作 */
-    batchDelete() {
-        this.setState({
-            addShow: 'delete'
-        });
-    }
-
-    /**批量下架选中号码操作 */
-    checkNumber() {
-
-    }
-
-    /**批量下架 */
-    batchProcese() {
-        this.updateFormat('3');
-    }
-
     /**商品号码搜索 */
     searchNumber() {
         this.getdataList(this.state.goodsType, this.state.status, this.state.sname);
@@ -192,11 +196,19 @@ export default class MyStock extends React.Component {
             isFirst: isfrist
         }).then(res =>{
             let resData = res.data.resultObject;
-            _this.setState({
-                data: resData.dataList,
-                category: resData.category,
-                unitName: resData.unitName
-            });
+            if (!_this.state.unitName) {
+                _this.setState({
+                    data: resData.dataList,
+                });
+            } else {
+                _this.setState({
+                    data: resData.dataList,
+                    category: resData.category,
+                    unitName: resData.unitName
+                });
+            }
+            
+            listData = resData.dataList;
             if ((index === '1' || _this.getUrlParam('type') === '1') && resData.gid !== null) {
                 sessionStorage.setItem('buyGid',resData.gid);
             }
@@ -209,8 +221,6 @@ export default class MyStock extends React.Component {
             Toast.info(err.message, 2);
         })
     }
-
-
 
     /**增加库存按钮是否显示 */
     checkAddShow(item) {
@@ -273,21 +283,31 @@ export default class MyStock extends React.Component {
     }
     
     /**商品下架,修改价格 */
-    updateFormat(type,id) {
-        if (this.state.changePrice === '') {
+    updateFormat(status,id,type) {
+        if (type !== 'pl' && this.state.changePrice === '') {
             Toast.info("价格不能为空",2);
             return false
         }
         let Reg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;
-        if (!Reg.test(this.state.changePrice)) {
+        if (type !== 'pl' && !Reg.test(this.state.changePrice)) {
            Toast.info("请输入整数或者保留两位小数",2);
            return false 
         }
-        axios.post('subject/json/updateFormat',{
-            id: id || this.state.changeItem.id,
-            status:type,
-            price: this.state.changePrice
-        }).then(res => {
+        let mydata = {};
+        if (type === 'pl') {
+            mydata = {
+                ids: id || this.state.changeItem.id,
+                status:status,
+                price: this.state.changePrice
+            }
+        } else {
+            mydata = {
+                id: id || this.state.changeItem.id,
+                status:status,
+                price: this.state.changePrice
+            }
+        }
+        axios.post('subject/json/updateFormat',mydata).then(res => {
             if (res.data.message === '成功') {
                 this.setState({
                     showShadeFlag: false,
@@ -295,6 +315,7 @@ export default class MyStock extends React.Component {
                     changeItem: {},
                     changePrice:''
                 });
+                Toast.info(res.data.message, 2);
                 this.getdataList(this.state.goodsType);
             }
             if (res.data.code === 30000) {
@@ -332,14 +353,100 @@ export default class MyStock extends React.Component {
         });
     }
 
+    /**点击批量编辑按钮操作 */
+    batchDelete() {
+        if (this.state.data.length < 1) {
+            Toast.info('当前无数据无法编辑');
+            return false;
+        }
+        this.setState({
+            addShow: 'delete',
+            isCancel: "cancel"
+        });
+    }
+
+    /**头部取消批量编辑 */
+    deleteCancel() {
+        this.setState({
+            addShow: 'list',
+            isCancel: "delete",
+            checkedLength: 0
+        });
+        listData = this.state.data;
+
+    }
+
+    /**批量下架确认按钮事件 */
+    batchProcese() {
+        let idArr = [];
+        let data = this.state.data;
+        for (let i = 0; i < data.length; i++) {
+            if(data[i].check && data[i].check === '1'){
+                idArr.push(data[i].id);
+            } ;
+        }
+        let id = idArr.join(',');
+        // console.log(id,'sssss商品ID');
+        this.setState({
+            addShow: 'list',
+            showShadeFlag: false,
+            dealType: '',
+            changeItem: {},
+            changePrice:'',
+            isCancel: "delete",
+        });
+        this.updateFormat('3', id, 'pl');
+    }
+
+    /**批量编辑选中商品号码 */
+    checkNumber(index) {
+        let len = this.state.checkedLength;
+        if (listData[index].check === '1') {
+            listData[index].check = '0';
+            len--;
+        } else {
+            listData[index].check = '1';
+            len++
+        }
+        this.setState({
+            data: listData,
+            checkedLength: len
+        })
+    }
+
+    /**批量编辑全部选中 */
+    checkAll() {
+        let len = this.state.data.length;
+        if (this.state.checkedLength === len ) {
+            for (let i = 0; i < listData.length; i++) {
+                listData[i].check = '0';
+            }
+        }else{
+            for (let i = 0; i < listData.length; i++) {
+                listData[i].check = '1';
+            }
+        }
+        
+        this.setState({
+            data: listData,
+            checkedLength: this.state.checkedLength === len?0:len
+        });
+    }
+
+
     render() {
         const operation = Modal.operation;
         return (
             <div className="mystock" style={{background: '#FFFFFF',height:'100%'}}>
-                <Uheader {...this.props} utitle="库存管理" onRef={(ref) => { this.demo = ref; }}></Uheader>
-                <div className="goodsName">{this.getUrlParam('name')}
-                    {/* <span onClick={() =>{this.batchDelete()}}>批量编辑</span> */}
-                </div>
+                {
+                    this.state.goodsType === '3'?(
+                        <Uheader {...this.props} utitle="库存管理" ></Uheader>
+                    ):(
+                        <Uheader {...this.props} utitle="库存管理" ref="Uheader" onRef={this.onRef} isBatch={this.state.isCancel} batchDelete={this.batchDelete}  deleteCancel={this.deleteCancel}></Uheader>
+                    )
+                }
+                
+                <div className="goodsName">{this.getUrlParam('name')}</div>
                 <div className="serchBox">
                     <input type="search" name="" value={this.state.sname} id="" placeholder="请输入要搜索的号码" onChange={this.snameChange.bind(this)}/><span onClick={this.searchNumber.bind(this)}>搜索</span>
                 </div>
@@ -356,7 +463,7 @@ export default class MyStock extends React.Component {
                                 <li className={item.status !== '0'?'list stockList':'list'} key= {index} >
                                     {
                                         this.state.addShow === 'delete'?(
-                                            <img src={item.type === '2'?require("../../assets/mai.png"):require("../../assets/mai_.png")} alt="" onClick={()=>{}}/>
+                                            <img className="checkIcon" src={item.check === '1'?require("../../assets/Selected.png"):require("../../assets/Unselected.png")} alt="" onClick={()=>{this.checkNumber(index)}}/>
                                         ):null
                                     }
                                     <div className="nameBox" onClick={() => this.goodsDetail(item.goodsId)}>
@@ -370,20 +477,26 @@ export default class MyStock extends React.Component {
                                     </div>
                                     <span className="price" onClick={() => this.goodsDetail(item.goodsId)}>￥{item.dealPrice}元</span>
                                     {
-                                        item.status === '0'?(
-                                            <Button className="deal" onClick={() => operation([
-                                                { text: '商品下架', onPress: () => this.showShade(item,'sign') },
-                                                { text: '修改价格', onPress: () => this.showShade(item,'change') },
-                                            ])}
-                                            >操作</Button>
-                                        ):item.status === '3'?(
-                                            <Button className="deal updata" onClick={() => operation([
-                                                { text: '商品上架', onPress: () => this.showShade(item,'updata') },
-                                            ])}
-                                            >操作</Button>
-                                        ):(<div className="deal">
-                                            <img src={item.status === '2'?require("../../assets/ic_sell out.png"):require("../../assets/ic_invalid.png")} alt=""/>
-                                        </div>)
+                                        this.state.addShow !== 'delete'?(
+                                            <nav>
+                                                {
+                                                    item.status === '0'?(
+                                                        <Button className="deal" onClick={() => operation([
+                                                            { text: '商品下架', onPress: () => this.showShade(item,'sign') },
+                                                            { text: '修改价格', onPress: () => this.showShade(item,'change') },
+                                                        ])}
+                                                        >操作</Button>
+                                                    ):item.status === '3'?(
+                                                        <Button className="deal updata" onClick={() => operation([
+                                                            { text: '商品上架', onPress: () => this.showShade(item,'updata') },
+                                                        ])}
+                                                        >操作</Button>
+                                                    ):(<div className="deal">
+                                                        <img src={item.status === '2'?require("../../assets/ic_sell out.png"):require("../../assets/ic_invalid.png")} alt=""/>
+                                                    </div>)
+                                                }
+                                            </nav>
+                                        ):null
                                     }
                                 </li>
                             ))}
@@ -403,8 +516,11 @@ export default class MyStock extends React.Component {
                         </div>
                     // ) : null
                     ) : this.state.addShow === 'delete' ? (
-                        <div className="deleteNumber" onClick={() => this.goodsAdd()}>
-                            <p className="number">已选<span>{this.state.idArr.length}</span>个</p>
+                        <div className="deleteNumber">
+                            <div className="checkAll" onClick={this.checkAll.bind(this)}>
+                                <img src={this.state.checkedLength === this.state.data.length?require("../../assets/Selected.png"):require("../../assets/Unselected.png")} alt=""/> 全选
+                            </div>
+                            <p className="number">已选<span>{this.state.checkedLength}</span>个</p>
                             <button className="btn" onClick={() => this.showShade(null,'delete')}>一键下架</button>
                         </div>
                     ) : null
@@ -432,7 +548,7 @@ export default class MyStock extends React.Component {
                                 ):this.state.dealType === 'delete'?(
                                         <div className="delete cont">
                                             <div className="delTitle">温馨提示</div>
-                                            <div className="delCon">确认将这<span>12</span>个号码规格下架</div>
+                                            <div className="delCon">确认将这<span>{this.state.checkedLength}</span>个号码规格下架</div>
                                             <div className="delChangeList">
                                                 <p onClick={() =>this.cancel()}>取消</p>
                                                 <p onClick={() =>this.batchProcese()}>确认下架</p>
