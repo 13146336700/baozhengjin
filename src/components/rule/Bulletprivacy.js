@@ -6,7 +6,7 @@ var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 export default class Bulletprivacy extends React.Component {
     Bullet = ()=>{
       let obj = {
-        url:"http://app.youbaoapp.com/app/webcs/#/privacyRule",
+        url:"http://app.youbaoapp.com/app/web/#/privacyRule",
         title:'隐私权政策'
       };
         if (isiOS) {
@@ -25,7 +25,7 @@ export default class Bulletprivacy extends React.Component {
     };
   render() {
     return (
-      <div className="BulletprivacyHome">
+      <div className={isiOS?'IOSBulletprivacyHome BulletprivacyHome':'BulletprivacyHome'}>
         <div className="Bulletprivacy">
           亲，感谢您对邮宝平台一直以来的信任!我们依据最新的监管要求更新了邮宝
           <span className="yinsi" onClick={()=>this.Bullet()}> 《隐私权政策》</span>，特向您说明如下 <br />
