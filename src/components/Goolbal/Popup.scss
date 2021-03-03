@@ -73,3 +73,25 @@
     }
   }
 }
+.Futures{
+	.Popup_content{
+		padding-bottom: 20px;
+		h2{
+			color: #232323!important;
+		}
+		.protocol{
+			text-indent: 2em;
+			height: auto!important;
+			font-size: 14px;
+			line-height: 46px!important;
+			color: #666666;
+		}
+	}
+}
+.earnestMoney{
+	.Popup_content{
+		.protocol{
+			text-indent: 0em;
+		}
+	}
+}

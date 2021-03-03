@@ -447,3 +447,35 @@
     }
   }
 }
+
+.contract{
+	padding: 20px;
+	h1{
+		text-align: center;
+		font-weight: 500;
+	}
+	.title{
+		font-weight: 600;
+		margin: 30px 0px;
+	}
+	.detail,span, label{
+		font-size: 30px;
+		line-height: 60px;
+		text-indent: 2em;
+	}
+	.top{
+		// display: flex;
+		label{
+			display: inline-block;
+			width: 160px;
+			text-indent: 0em;
+		}
+	}
+	.currentTime{
+		font-size: 32px;
+		text-align: right;
+		padding-bottom: 60px;
+		padding-top: 60px;
+	}
+	
+}

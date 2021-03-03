@@ -5,6 +5,10 @@ import Page from './components/Page';
 import rule from './components/rule/rule';
 //用户隐私规则
 import privacyRule from './components/rule/privacyRule';
+import Futures from './components/Goolbal/futures';
+import spotGoods from './components/Goolbal/spotGoods';
+import shipments from './components/Goolbal/shipments';
+import earnestMoney from './components/Goolbal/earnestMoney';
 import Bulletprivacy from './components/rule/Bulletprivacy';
 import help from './components/help/help';
 import Violation from './components/Violation/Violation';
@@ -19,6 +23,7 @@ import good from './components/Margin/good/good';
 import releasecontent from './components/releasecontent/releasecontent'; 
 import member from './components/member/member';
 import menberExplanation from './components/member/menberExplanation';
+import contract from './components/member/contract';
 import SaleRelease from './components/distribute/SaleRelease/SaleRelease';
 import SaleReleaseSeach from './components/distribute/SaleRelease/SaleReleaseSeach';
 import BuyingRelease from './components/distribute/SaleRelease/BuyingRelease';
@@ -133,6 +138,11 @@ function App() {
          <Route path="/preview" exact component={Preview}/>    
          <Route path="/catalogue" exact component={Catalogue}/>    
          <Route path="/catalogueList" exact component={CatalogueList}/>    
+         <Route path="/contract" exact component={contract}/>    
+         <Route path="/futures" exact component={Futures}/>    
+         <Route path="/spotGoods" exact component={spotGoods}/>    
+         <Route path="/shipments" exact component={shipments}/>   
+         <Route path="/earnestMoney" exact component={earnestMoney}/>   
 
       </Router>
   );
