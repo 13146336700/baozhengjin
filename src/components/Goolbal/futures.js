@@ -27,8 +27,8 @@ class Futures extends React.Component {
   render() {
 	  document.title = '期货发货说明';
     return (
-      <div className="Futures Popup">
-        <div className="Popup_home">
+      // <div className="Futures Popup">
+        <div className="Futures Popup_home">
           <nav className="Popup_content">
             <h2>期货发货说明</h2>
             <div className="protocol">
@@ -39,7 +39,7 @@ class Futures extends React.Component {
 			</div>
           </nav>
         </div>
-      </div>
+      // </div>
     );
   }
 }

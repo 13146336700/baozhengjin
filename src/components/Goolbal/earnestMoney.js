@@ -27,8 +27,8 @@ class earnestMoney extends React.Component {
   render() {
 	  document.title = '保证金规则';
     return (
-      <div className="Futures Popup earnestMoney">
-        <div className="Popup_home">
+      // <div className="Futures Popup earnestMoney">
+        <div className="Futures Popup_home">
           <nav className="Popup_content">
             <h2>保证金规则</h2>
             <div className="protocol">
@@ -41,7 +41,7 @@ class earnestMoney extends React.Component {
 			
           </nav>
         </div>
-      </div>
+      // </div>
     );
   }
 }

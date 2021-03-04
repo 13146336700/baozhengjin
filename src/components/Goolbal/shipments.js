@@ -27,8 +27,8 @@ class shipments extends React.Component {
   render() {
 	  document.title = '发货说明';
     return (
-      <div className="Futures Popup">
-        <div className="Popup_home">
+      // <div className="Futures Popup">
+        <div className="Futures Popup_home">
           <nav className="Popup_content">
             <h2>现货发货说明</h2>
             <div className="protocol">
@@ -43,7 +43,7 @@ class shipments extends React.Component {
 			</div>
           </nav>
         </div>
-      </div>
+      // </div>
     );
   }
 }
