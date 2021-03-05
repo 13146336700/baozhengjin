@@ -1,14 +1,14 @@
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 // import ReactDOM from 'react-dom';
 import ceshi from './components/ceshi';
 import Page from './components/Page';
 import rule from './components/rule/rule';
 //用户隐私规则
 import privacyRule from './components/rule/privacyRule';
-import Futures from './components/Goolbal/futures';
-import spotGoods from './components/Goolbal/spotGoods';
-import shipments from './components/Goolbal/shipments';
-import earnestMoney from './components/Goolbal/earnestMoney';
+import Futures from './components/rule/futures';
+import spotGoods from './components/rule/spotGoods';
+import shipments from './components/rule/shipments';
+import earnestMoney from './components/rule/earnestMoney';
 import Bulletprivacy from './components/rule/Bulletprivacy';
 import help from './components/help/help';
 import Violation from './components/Violation/Violation';
@@ -19,8 +19,8 @@ import permanent from './components/Margin/band_paid/permanent';
 import penaltiesDetails from './components/Margin/penaltiesDetails/penaltiesDetails';
 import Pay_band from './components/Margin/Pay_band/Pay_band';
 import advisory from './components/advisory/advisory';
-import good from './components/Margin/good/good'; 
-import releasecontent from './components/releasecontent/releasecontent'; 
+import good from './components/Margin/good/good';
+import releasecontent from './components/releasecontent/releasecontent';
 import member from './components/member/member';
 import menberExplanation from './components/member/menberExplanation';
 import contract from './components/member/contract';
@@ -33,17 +33,17 @@ import SaleDetails from './components/distribute/SaleRelease/SaleDetails';
 // 配号功能部分
 import distribute from "./components/distribute/index/index";
 import MyDistribute from "./components/distribute/myDistribute/mydistribute"
-import Goods from "./components/distribute/goodsDistribute/goodsdistribute" 
-import MyStock from "./components/distribute/myStock/mystock" 
-import SearchNumber from "./components/distribute/search/search" 
-import SearchResult from "./components/distribute/search/searchResult" 
-import Preview from "./components/distribute/preview/preview" 
-import Catalogue from "./components/distribute/catalogue/catalogue" 
-import CatalogueList from "./components/distribute/catalogue/catalogueList" 
+import Goods from "./components/distribute/goodsDistribute/goodsdistribute"
+import MyStock from "./components/distribute/myStock/mystock"
+import SearchNumber from "./components/distribute/search/search"
+import SearchResult from "./components/distribute/search/searchResult"
+import Preview from "./components/distribute/preview/preview"
+import Catalogue from "./components/distribute/catalogue/catalogue"
+import CatalogueList from "./components/distribute/catalogue/catalogueList"
 
 import './App.css';
 
-import {Router,Route,} from 'react-router-dom';
+import { Router, Route, } from 'react-router-dom';
 import { createHashHistory } from "history";
 const hashHistory = createHashHistory();
 
@@ -104,48 +104,124 @@ Bulletprivacy 用户隐私权限 弹框
 
  */
 function App() {
-  return (
-      <Router history={hashHistory}>
-         <Route path="/ceshi" exact component={ceshi}/>
-         <Route path="/Page/:userId" exact component={Page}/>
-         <Route path="/rule" exact component={rule}/>
-         <Route path="/privacyRule" exact component={privacyRule}/>
-         <Route path="/Bulletprivacy" exact component={Bulletprivacy}/>
-         <Route path="/help/:type" exact component={help}/>
-         <Route path="/Violation/:userId" exact component={Violation}/>
-         <Route path="/Punishment/:userId" exact component={Punishment}/>
-         <Route path="/Already_paid/:userId" exact component={Already_paid}/>
-         <Route path="/band_paid/:userId" exact component={band_paid}/>
-         <Route path="/permanent/:userId" exact component={permanent}/>
-         <Route path="/penaltiesDetails" exact component={penaltiesDetails}/>
-         <Route path="/advisory" exact component={advisory}/>
-         <Route path="/good" exact component={good}/>
-         <Route path="/Pay_band/:userId" exact component={Pay_band}/>
-         <Route path="/member/:userId" exact component={member}/>
-         <Route path="/menberExplanation" exact component={menberExplanation}/>
-         <Route path="/releasecontent/:num" exact component={releasecontent}/>    
-         <Route path="/SaleRelease" exact component={SaleRelease}/>   
-         <Route path="/SaleReleaseSeach/:ustate" exact component={SaleReleaseSeach}/>   
-         <Route path="/BuyingRelease" exact component={BuyingRelease}/>   
-         <Route path="/Increase" exact component={Increase}/>   
-         <Route path="/SaleDetails" exact component={SaleDetails}/>   
-         <Route path="/distribute" exact component={distribute}/>    
-         <Route path="/myDistribute" exact component={MyDistribute}/>    
-         <Route path="/goodsDistribute" exact component={Goods}/>    
-         <Route path="/myStock" exact component={MyStock}/>    
-         <Route path="/searchNumber" exact component={SearchNumber}/>    
-         <Route path="/searchResult" exact component={SearchResult}/>    
-         <Route path="/preview" exact component={Preview}/>    
-         <Route path="/catalogue" exact component={Catalogue}/>    
-         <Route path="/catalogueList" exact component={CatalogueList}/>    
-         <Route path="/contract" exact component={contract}/>    
-         <Route path="/futures" exact component={Futures}/>    
-         <Route path="/spotGoods" exact component={spotGoods}/>    
-         <Route path="/shipments" exact component={shipments}/>   
-         <Route path="/earnestMoney" exact component={earnestMoney}/>   
+    return ( <
+        Router history = { hashHistory } >
+        <
+        Route path = "/ceshi"
+        exact component = { ceshi }
+        /> <
+        Route path = "/Page/:userId"
+        exact component = { Page }
+        /> <
+        Route path = "/rule"
+        exact component = { rule }
+        /> <
+        Route path = "/privacyRule"
+        exact component = { privacyRule }
+        /> <
+        Route path = "/Bulletprivacy"
+        exact component = { Bulletprivacy }
+        /> <
+        Route path = "/help/:type"
+        exact component = { help }
+        /> <
+        Route path = "/Violation/:userId"
+        exact component = { Violation }
+        /> <
+        Route path = "/Punishment/:userId"
+        exact component = { Punishment }
+        /> <
+        Route path = "/Already_paid/:userId"
+        exact component = { Already_paid }
+        /> <
+        Route path = "/band_paid/:userId"
+        exact component = { band_paid }
+        /> <
+        Route path = "/permanent/:userId"
+        exact component = { permanent }
+        /> <
+        Route path = "/penaltiesDetails"
+        exact component = { penaltiesDetails }
+        /> <
+        Route path = "/advisory"
+        exact component = { advisory }
+        /> <
+        Route path = "/good"
+        exact component = { good }
+        /> <
+        Route path = "/Pay_band/:userId"
+        exact component = { Pay_band }
+        /> <
+        Route path = "/member/:userId"
+        exact component = { member }
+        /> <
+        Route path = "/menberExplanation"
+        exact component = { menberExplanation }
+        /> <
+        Route path = "/releasecontent/:num"
+        exact component = { releasecontent }
+        />     <
+        Route path = "/SaleRelease"
+        exact component = { SaleRelease }
+        />    <
+        Route path = "/SaleReleaseSeach/:ustate"
+        exact component = { SaleReleaseSeach }
+        />    <
+        Route path = "/BuyingRelease"
+        exact component = { BuyingRelease }
+        />    <
+        Route path = "/Increase"
+        exact component = { Increase }
+        />    <
+        Route path = "/SaleDetails"
+        exact component = { SaleDetails }
+        />    <
+        Route path = "/distribute"
+        exact component = { distribute }
+        />     <
+        Route path = "/myDistribute"
+        exact component = { MyDistribute }
+        />     <
+        Route path = "/goodsDistribute"
+        exact component = { Goods }
+        />     <
+        Route path = "/myStock"
+        exact component = { MyStock }
+        />     <
+        Route path = "/searchNumber"
+        exact component = { SearchNumber }
+        />     <
+        Route path = "/searchResult"
+        exact component = { SearchResult }
+        />     <
+        Route path = "/preview"
+        exact component = { Preview }
+        />     <
+        Route path = "/catalogue"
+        exact component = { Catalogue }
+        />     <
+        Route path = "/catalogueList"
+        exact component = { CatalogueList }
+        />     <
+        Route path = "/contract"
+        exact component = { contract }
+        />     <
+        Route path = "/futures"
+        exact component = { Futures }
+        />     <
+        Route path = "/spotGoods"
+        exact component = { spotGoods }
+        />     <
+        Route path = "/shipments"
+        exact component = { shipments }
+        />    <
+        Route path = "/earnestMoney"
+        exact component = { earnestMoney }
+        />   
 
-      </Router>
-  );
+        <
+        /Router>
+    );
 }
 
 export default App;
