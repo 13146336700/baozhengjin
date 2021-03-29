@@ -9,6 +9,7 @@ import Futures from './components/rule/futures';
 import spotGoods from './components/rule/spotGoods';
 import shipments from './components/rule/shipments';
 import earnestMoney from './components/rule/earnestMoney';
+import nonEarnest from './components/rule/nonEarnest';
 import Bulletprivacy from './components/rule/Bulletprivacy';
 import help from './components/help/help';
 import Violation from './components/Violation/Violation';
@@ -217,10 +218,12 @@ function App() {
         />    <
         Route path = "/earnestMoney"
         exact component = { earnestMoney }
+        />   <
+        Route path = "/nonEarnest"
+        exact component = { nonEarnest }
         />   
 
-        <
-        /Router>
+        </Router>
     );
 }
 

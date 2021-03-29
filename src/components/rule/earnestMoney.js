@@ -8,14 +8,21 @@ export default class earnestMoney extends React.Component {
     render() {
         return ( 
 		<div className = { isiOS ? 'IOSBulletprivacyHome BulletprivacyHome' : 'BulletprivacyHome' } >
-            <div className = "Bulletprivacy" >
-				<h2 > 保证金规则 < /h2>
-				1、 定义： 保证金为商品交易保证金， 发布方设置后， 参与商品交易方就需要缴纳对应的保证金； < br / >
-				2、 页面给出的保证金金额为最小确认数量的单倍保金， < br / > （如： 保证金您选择5 元， 交易方去购买商品， 购买的商品个数只能为最小购买量的倍数， 对应保证金为最小购买的倍数X 单倍保金） < br / >
-				3、 如一方违约， 那么违约方的保证金将要赔付给对方， 支付的订单金额原路退回； < br / >
-				4、 商品交易完成后保证金原路退回. <br / >
+            <div className = "Bulletprivacy earnestMoney" >
+				<h2 > 保证金说明 < /h2>
+				1、定义：保证金为商品交易保证金，发布方设置交易保证金后，交易方成交后需缴纳对应保证金； < br / >
+				2、页面给出的保证金金额为单份保证金； < br / > 
+				3、交易方下单完成后，发布方因在规定时间内去待支付保证金列表支付对应保证金金额, < br / >
+				<p>规定时间如下:</p>
+				<p><span>9:00-21:00</span> 下单2小时内支付</p>
+				<p>其他时间下单 在<span>11:00</span>前支付;</p>
+				4、未在约定时间内交割，如一方违约，违约方的保证金将赔付给另一方，商品货款原路退回；<br / >
+				5、约定时间内双方无违约，交易完成后保证金原路退回；<br / >
+				6、详细交易规则，请去“我的”页面-帮助中心 <a href="#/rule">《邮宝交易规则》</a>查看。 <br / >
             </div> 
 		</div>
         );
     }
 }
+
+

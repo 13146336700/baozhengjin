@@ -88,6 +88,46 @@
 .IOSBulletprivacyHome{
   font-size: 32px; /*px*/
 }
-h2{
-	text-align: center;
+
+.earnestMoney{
+	h2{
+		text-align: center;
+		font-size: 46px; /*px*/
+		line-height: 50px;
+		margin-bottom: 34px;
+	}
+	font-size: 42px; /*px*/
+	color: #666666;
+	line-height: 48px;
+	a{
+		color: #1890FF;
+	}
+	p{
+		text-indent: 2em;
+		span{
+			color: #333333;
+			font-weight: 600;
+		}
+	}
+	.hint{
+		color: #D92F2D;
+		margin-top: 22px;
+	}
+}
+.futures{
+	font-size: 44px; /*px*/
+	color: #333333;
+	p{
+		color: #666666;
+	}
+}
+.shipments{
+	h2{
+		margin-bottom: 14px;
+	}
+}
+.IOSBulletprivacyHome{
+	.earnestMoney{
+		font-size: 32px; /*px*/
+	}
 }
